@@ -1,0 +1,10 @@
+@charset "utf-8";
+/*--------------------------
+ reset
+---------------------------*/
+.st_order_info li{border-top: 1px dotted #ccc;width: 50%;float: left;padding: 5px}
+.st_order_info li span{margin-left: 10px;}
+.orderTopinfoBox h3{color: #000;font-weight: 300;line-height: 1.2em;}
+.st_order_bg{width: 100%;height: 200px;text-align:-webkit-center;background: #3E3E3E;padding-top: 30px;}
+.st_order_bg div{width: 130px;background-color: white;padding-top: 5px;border-radius: 5px;}
+.st_order_pay{width: 100%;background: #55ba61;color: #fff;border-radius: 5px;line-height: 40px;}

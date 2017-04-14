@@ -1,0 +1,13 @@
+.dateDailog{position:relative;}
+.dateDailog abbr{position:absolute;left:0;top:0;}
+.dateDailog abbr input{opacity:0;width:100px;cursor:pinter;}
+.icon-renzheng-list {
+	border:1px solid #e85308;
+	text-align:center;
+	overflow:hidden;
+	margin-left:5px;
+	min-width:80px;
+	font-size:10px;
+	color:#e85308;
+	height:20px;
+}

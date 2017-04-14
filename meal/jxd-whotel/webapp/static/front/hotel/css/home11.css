@@ -1,0 +1,37 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+	margin: 0;
+	padding: 0;
+	font-family: "微软雅黑";
+	background: #585658; height:100%;
+}
+ul, p {
+	margin: 0;
+	padding: 0;
+}
+li {
+	list-style: none;
+}
+.logo {
+	margin:10px auto 0;
+}
+.logo-1 img{width:40%;}
+.logo-3 img {width:26%;}
+.logo-4 img {width:16%;}
+.logo-5 img {width:10%;}
+.logo-6 img {width:13%;}
+.logo-7 img {width:26%;}
+.logo p {
+	padding:10px 0;
+}
+.logo p {
+	text-align: center;
+	color: #BCBAAB;
+	font-size: 16px;
+	line-height:28px;letter-spacing:1px;
+}
+@media all and (max-device-width:320px) and (max-device-height:480px) {.logo p {padding:8px 0;font-size: 14px;line-height:22px;}}
+@media all and (min-device-width:375px) and (max-device-width:400px) {.logo p {padding:17px 0;}}
+@media all and (min-device-width:401px) {.logo p {padding:20px 0;}}
+@media all and (min-device-height:500px) and (max-device-height:640px) {.logo p {padding:14px 0;}}

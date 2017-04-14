@@ -1,0 +1,197 @@
+@charset "utf-8";
+/* CSS Document */
+.bgnone{ background:none}
+body,html{ font-size:14px; padding-bottom:26px}
+h1,h2,h3,h4{ font-weight:300}
+h1{ font-size:18px}
+h2{ font-size:16px}
+h3{ font-size:14px}
+h4{ font-size:14px}
+.lodingtxet{display: block;text-align: center;color: #999;float: left;width: 100%;font-size: 14px;position: relative;padding: 5px 5px;border-top: 1px solid #fff;}
+.lodingtxet img {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    margin-top: -3px;
+}
+
+/****按钮****/
+.butstyleD{background:#ff7112; height:45px; color:#fff; text-align:center; line-height:45px; border:none;border-radius:2px; width:100%}
+.butstyleD_sm{background:#ff7112; color:#fff; text-align:center;  border:none;width:100%}
+.butstyleE_sm{ background:#FFF; border:1px solid #ff7112; color:#ff7112}
+
+/****文字颜色****/
+.clorshowY{color:#ff9c00}
+.clorshowH{ color:#7e7e7e}
+.clorshowHs{color:#b9b9b9}
+
+
+/****区域块****/
+.block_pdbr{ background:#fff;padding:10px; border-bottom:1px solid #dadada}
+.txtblcok{ font-size:13px;}
+
+/****icon****/
+.bfae_icon_20{ display:block; width:20px; height:20px; display:inline-block; vertical-align:text-bottom; background:url(../images/ct_bf_icon_1.png) no-repeat; background-size:20px 20px; background-position:center center }
+.shopda_icon_20{display:block; width:20px; height:20px; display:inline-block; vertical-align:text-bottom; background:url(../images/ct_sp_icon_1.png) no-repeat; background-size:20px 20px; background-position:center center}
+
+/****表单****/
+.selectstylin{ border:none; line-height:20px; display:block; padding-right:15px; background-color:#fff; background-image:url(../images/moreae_iocn2.png) ; background-repeat:no-repeat; background-position: right; background-size:12px 14px}
+
+
+
+/****酒店搜索****/
+.searchhotel{ padding-bottom:20px}
+.searchhotel h2{ padding-bottom:10px}
+.searchhotel ul li{ padding:10px 0}
+.selelistbox{ border-bottom:1px solid #E3E3E3}
+.selelistbox .selectstyleA{ width:92%; margin-left:8%;background-color:#fff; background-image:url(../images/moreae_iocn2.png); background-position:right center; background-size: 12px 12px; background-repeat:no-repeat}
+.selelistbox.locationicon{ background-image:url(../../hotel/images/line_lo.png); background-position: left center; background-repeat:no-repeat; background-size:auto 45% } 
+.selelistbox.hotelicon{ background-image:url(../../hotel/images/line_ho.png); background-position: left center; background-repeat:no-repeat; background-size:auto 45% }
+
+
+/****头部****/
+.header_cy{ background:#fff; height:45px; border-bottom:1px solid #E4E4E4; padding:0 5px}
+.header_cy h1{ font-size:16px; text-align:center; line-height:40px;}
+.header_cy [class*="header_icon_"]{ width:25px; height:25px; display:inline-block; position:absolute; top:10px;background-size:25px 25px}
+.header_cy .header_icon_back{ background-image:url(../images/header_back.png) ; background-repeat:no-repeat ; }
+.header_cy .header_title{}
+.hotseld{ width:110px}
+.ctiyseld{font-size:14px; color:#787878; }
+.ctiyseld option{text-align:right}
+.hotseld,.ctiyseld{background-image:url(../../hotel/images/moreae_iocn2.png); background-color:#fff; background-position:right center; background-size: 12px 12px; background-repeat:no-repeat; padding-right:15px}
+.header_right_block{ position:absolute;top:10px; right:5px;}
+
+.header_cy_fh{ position:absolute; top:0;left:0; height:45px; background:none;}
+.header_icon_back{width:25px; height:25px; background-image:url(../images/l.png) ; position:absolute; top:10px;background-size:25px 25px ;background-repeat:no-repeat ; z-index:111 }
+
+/****图文列表****/
+.ImgTxtlistboxA{ margin-top:10px}
+.ImgTxtlistboxA .item_cy{ background:#fff; position:relative; padding:10px; border-bottom:1px solid #d4d4d4}
+.ImgTxtlistboxA .item_cy:after{ content:""; clear:both; display:table}
+.item_cy_dal .pic_L{ float:left; margin-right:10px;width: 26%;position: relative;}
+.item_cy_dal .pic_L img{position: absolute; width: 100%;height: 100%;border-radius: 3px;}
+.item_cy_dal p.pic_L:after {display: block;content: "";height: 0;clear: both;padding-bottom: 80%;}
+.item_cy_dal h2{ font-weight:300}
+.item_cy_dal .fx,.item_cy_dal .ctstyle{ margin-bottom:3px}
+.item_cy_dal .fx{font-size:13px}
+.item_cy_dal .fx .bl{color:#bfbfbf;}
+.item_cy_dal .ctZ,.item_cy_dal .ctX,.item_cy_dal .ctT{ background:#fff;padding:0 5px; display:inline-block; line-height:15px;font-size:8px; border-radius:10px}
+.item_cy_dal .ctZ{color:#4daeff; border:1px solid #4daeff; }
+.item_cy_dal .ctX{color:#3d960d; border:1px solid #3d960d; }
+.item_cy_dal .ctT{color:#61187c; border:1px solid #61187c; }
+.ImgTxtlistboxA .But_sel{ height:76px; width:60px; position:absolute; margin-top:-30px; top:50%; right:10px}
+.ImgTxtlistboxA .But_sel button{ width:100%; height:26px; font-size:14px; border-radius:20px;  display:block; margin-bottom:8px}
+.ImgTxtlistboxA .price{ font-size:16px; margin-top:10px}
+.ImgTxtlistboxA .But_yd{ width:60px; height:26px; margin-top:-13px; position:absolute; top:50%;right:10px; }
+.ImgTxtlistboxA .But_yd button{ width:100%;height:26px; font-size:14px; border-radius:20px;  display:block;}
+.ImgTxtlistboxA .price{ font-size:16px; margin-top:10px}
+
+/****菜单****/
+.cdconten{ height:100%;margin-bottom: 40px;}
+.dcdatabox{ background:#fff; margin-top:10px;padding:10px; border-bottom:1px solid #e7e7e7}
+.dcdatabox:after{ content:""; clear:both; display:table; }
+.dcdatabox .title{ font-size:8px;}
+.dcdatabox_data{ width:40%; float:left;margin-left:10%; border-right:1px solid #e7e7e7 }
+.dcdatabox_sd{ width:30%; float:left;margin-left:20%}
+.dcdatabox_data .inputdata{ font-size:14px; line-height:24px; display:block; font-family:Arial; width:75%; border:none; background-image:url(../images/date_iconjl.png); background-repeat:no-repeat; background-position:right; background-size:15px 15px; }
+.dcdatabox_sd .selsd{ border:none; line-height:20px; display:block;padding-right:18px; background-color:#fff; background-image:url(../images/moreae_iocn2.png); background-position:right; background-repeat:no-repeat; background-size:12px 12px ; font-size:14px}
+
+
+
+.cdcont_menu{  width:70px; float:left;}
+.cdcont_menu ul{ margin-top:15px; text-align:right; font-size:14px;margin-bottom: 80px;}
+.cdcont_menu li a{ display:block; line-height:46px; color:#7B7B7B; padding-right:5px}
+.cdcont_menu .hover{ background:#fff; color:#000; border-left:3px solid #ff7112}
+.cdcont_list:after,.cdcont_list_itme:after{ content:""; display:table ;clear:both}
+.cdcont_list{ margin-left:70px; height:100%;padding-bottom:40px; background:#fff; border-left:1px solid #dddddd;}
+.cdcont_list_itme{ display:block; float:left; width:100%;font-size:14px; position:relative; padding:15px 10px; border-bottom:1px solid #e7e7e7}
+.cdcont_list_itme .pic_L{ float:left; margin-right:10px}
+.cdcont_list_itme .title{ font-size:14px; }
+.cdcont_list_itme .title span{ display:block; font-size:12px}
+.cdcont_list_itme .pic_L img{ width:110px; height:86px}
+/* .cdcont_list_itme .price{ margin-top:20px} */
+.cdcont_list_itme .price b{ font-size:18px}
+.cdcont_list_itme .vCount{ position:absolute; right:10px; bottom:15px}
+.cdcont_list_itme .vCount .reduce,.cdcont_list_itme .vCount .add{ display:inline-block; width:26px; height:26px; border-radius:20px; border:1px solid #e7e7e7; color:#ff7112; font-size:22px; line-height:20px; text-align:center;}
+.cdcont_list_itme .vCount .nb{ display:inline-block; padding:0 5px; font-size:16px; font-family:Arial;}
+
+@media all and (min-device-width:321px) {
+	.cdcont_menu{  width:90px; float:left}
+	.cdcont_list{ margin-left:90px; }
+	}
+
+
+
+.footer_spcartbox{ width:100%; height:45px; background:#fff; position:fixed; bottom:0; border-top:1px solid #dadada;z-index: 2222;}
+.footer_spcart{ padding:10px; float:left;}
+.footer_spcart .Ic{ width:30px; height:30px; background:url(../images/buy_icon.png) no-repeat; background-size:100%; display:inline-block; position:relative}
+.footer_spcart .nb{ position:absolute;top:-5px;right:-5px;font-size:10px; height:16px; width:16px; border-radius:10px; background:#ff7112; color:#fff; text-align:center; font-family:Arial; line-height:1.3em; border:1px solid #fff}
+.footer_spcartbox .total{ display:inline-block; padding-top:3px; padding-left:10px}
+.footer_spcartbox .total span{ display:block}
+.footer_spcartbox .total .price{color:#ff7112; font-size:14px;}
+.footer_spcartbox .total .price b{ font-size:16px; padding-left:5px; line-height:1.1em;}
+.footer_spcartbox .total .dalmx{ font-size:10px; line-height:1em}
+.footer_spcartbox .none{ padding-top:10px;}
+
+.footer_spcartbut{ border:none; color:#fff; padding:0 36px; background:#ff7112; height:45px;}
+
+/****菜品详情****/
+.cpmaininfo{}
+.cpmaininfo .title { font-size:16px}
+.cpmaininfo .title span{display:block; font-size:12px}
+.cpmaininfo .price{ font-size:12px}.cpmaininfo .price b{ font-size:18px}
+.cartbutbox{ float:right; text-align:center; margin-top:-3px}
+.cartbutbox button{ font-size:12px; height:30px;border-radius:15px; padding:0 10px;}
+
+
+/****餐厅详情****/
+.canting_cont .butfr{ float: right; margin-top:10px}
+.canting_cont .butfr a{ display:block; background: url(../images/cd_icon.png) no-repeat; background-size:100%; width:60px; height:40px; color:#ff7112 ; font-size:14px; text-align:center; line-height:40px;}
+.canting_cont .title{ font-size:16px;}
+.canting_cont .jyifno{ font-size:12px;}
+.canting_cont .address{  background:url(../images/line_lo.png) no-repeat; background-size:12px 12px;}
+.canting_cont .hours{  background:url(../images/line_ck.png) no-repeat;background-size:10px 10px;}
+.canting_cont .address,.canting_cont .hours{background-position:left; padding-left:16px}
+
+.serviceMark{ text-align:center}
+.serviceMark:after{ content:""; clear:both; display:table}
+.serviceMark li{ display:inline-table; margin:0 5px; text-align:center}
+.serviceMark li a.Navgt{ background:url(../images/ct_wz_icon.png) no-repeat; background-size:30px 30px}
+.serviceMark li a.tel{ background:url(../images/ct_tel_icon.png) no-repeat;background-size:30px 30px }
+.serviceMark li a.bf{ background:url(../images/ct_bf_icon.png) no-repeat;background-size:30px 30px }
+.serviceMark li a.wifi{ background:url(../images/ct_wf_icon.png) no-repeat; background-size:30px 30px}
+.serviceMark li a{ width:30px; height:30px; font-size:8px;display:block; padding-top:30px; color:#C1C1C1;}
+.footerblcok{ width:100%; height:45px; text-align:center;position:fixed; bottom:0;  background:#fff; border-top:1px solid #dadada}
+.footerblcok .dwbut{ display:inline-table; width:90px;height:30px; border-radius:15px; text-align:center; padding:0 20px; margin-top:8px} 
+
+/****包房****/
+.bfmtbox{ position:relative; }
+.bfmtbox .am-modal-actions{ width:80%; left:10%;top: 10%;text-align:left; padding:0;}
+.bfmtbox .am-modal-actions-group{ margin:5px;border-radius:0 0 10px 10px;margin-bottom:30px;background-color:#ededed;}
+.bfmtbox .am-btn{ font-size:14px;}
+.bfmtbox_close_but{ display:block; position:absolute;right:10px;top:10px; width:35px; height:35px; border-radius:20px; border:2px solid # DBDBDB; background:url(../images/closeBut.png) no-repeat; background-size:20px 20px; background-position:center center; text-indent:-11111px}
+
+/****订单列表填写****/
+.seltopMenu{ background:#fff;}
+.seltopMenu:after{ content:""; display:table; clear:both}
+.seltopMenu li{ float:left; width:50%;}
+.seltopMenu li:last-child{ border-left:1px solid #e7e7e7}
+.seltopMenu li a{ display:block; text-align:center; line-height:40px; border-bottom:2px solid #CDCDCD}
+.seltopMenu li a.hover{ border-bottom:2px solid #ff7112; color:#ff7112}
+
+.infowrite_list{}
+.infowrite_list li{ background:#fff; border-bottom:1px solid #e7e7e7; padding:5px 10px; line-height:30px; }
+.infowrite_list li .fr{ margin-top:1px}
+.infowrite_list li .ct{ margin-top:6px}
+.cd_selshow{display:inline-block; color:#fff; font-size:12px; line-height:22px; border-radius:15px; background:#51c2f1; height:22px; padding:0px 10px;}
+
+
+.ordcdmxlist{ border-bottom:1px dotted #e7e7e7}
+.ordcdmxlist span{ display:inline-block}
+.ordcdmxlist span.name{ width:60%;}
+.ordcdmxlist span.nb{ width:10%;}
+.ordcdmxlist span.price{ width:30%; text-align:right;}/* color:#000*/
+
+.total_j { text-align:left; padding-left:10px; line-height:40px;}
+.total_j .price{ font-size:20px; text-align:left}
+.total_j small{ padding-left:10px}

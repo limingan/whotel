@@ -1,0 +1,52 @@
+.checkboxCss{
+	width: 18px;
+	height: 18px;
+	background-color: #fff;
+	border: 1px solid #999;
+	box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
+}
+.icon-renzheng{
+	border:1px solid #e85308;
+	border-radius:2px;
+	text-align:center;
+	overflow:hidden;
+	margin-left:5px;
+	min-width:80px;
+	font-size:5px;
+	color:#e85308;
+	padding:1px;
+	height:20px;
+}
+	
+.buttonCss{    width: 45px;
+    height: 21px;
+    position: relative;
+    background: #d6d6d6;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    display: inline-block;
+    margin-bottom: -5px;
+}
+.buttonCss::before{
+	content: "";
+    width: 21px;
+    height: 20px;
+    background: #fff;
+    position: absolute;
+    transition: 0.3s;
+    left: 0px;
+    border-radius: 10px;
+    display: block;
+    border: 1px solid #CCC;
+    text-shadow: 1px 1px 1px #FFF;
+}
+#js_incamountCheck:checked + .buttonCss::before {
+    background: #fff;
+    left: 24px;
+    transition: 0.3s;
+    border: 1px solid #277010;
+}
+#js_incamountCheck:checked + .buttonCss {
+    background: #41a423;
+    border: 1px solid #277010;
+}

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-lazy-init="true">
+	<description>Spring Quartz配置文件</description>
+	<!-- 使用quartz定时执行数据加载 -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="autoCancelHotelOrderCronQuartzClock" />
+				<ref bean="checkInHotelOrderCronQuartzClock" />
+				<ref bean="autoCancelShopOrderCronQuartzClock" />
+				<ref bean="autoSendUseRemindCronQuartzClock" />
+			</list>
+		</property>
+		
+		<!-- 启动时延期2秒开始任务 -->
+		<property name="startupDelay" value="60" />
+		<!-- 保存Job数据到数据库所需的数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- Job接受applicationContext的成员变量名 -->
+		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
+		<!-- quartz配置文件路径 -->
+		<property name="configLocation" value="classpath:quartz.properties" />
+	</bean>
+	
+	<!-- 自动取消已过期订单 start -->
+	<bean id="autoCancelHotelOrderJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.whotel.ext.quartz.CustomerDetailQuartzJobBean"></property>
+		<property name="jobDataMap">
+			<map>
+			<entry key="targetObject" value="orderHandleJob"/>
+			<entry key="targetMethod" value="autoCancelHotelOrder"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="autoCancelHotelOrderCronQuartzClock" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="autoCancelHotelOrderJobDetail"></ref>
+		</property>
+		<property name="cronExpression">
+			<value>0 0 1 * * ?</value>
+		</property>
+	</bean>
+	<!-- 自动取消已过期订单   end -->
+	
+	<!-- 入住订单执行营销政策 start -->
+	<bean id="checkInHotelOrderJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.whotel.ext.quartz.CustomerDetailQuartzJobBean"></property>
+		<property name="jobDataMap">
+			<map>
+			<entry key="targetObject" value="orderHandleJob"/>
+			<entry key="targetMethod" value="checkInHotelOrder"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="checkInHotelOrderCronQuartzClock" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="autoCancelHotelOrderJobDetail"></ref>
+		</property>
+		<property name="cronExpression">
+			<value>0 0 1 * * ?</value>
+		</property>
+	</bean>
+	<!-- 入住订单执行营销政策   end -->
+	
+	<!-- 自动取消商城抢购活动商品订单 start -->
+	<bean id="autoCancelShopOrderJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.whotel.ext.quartz.CustomerDetailQuartzJobBean"></property>
+		<property name="jobDataMap">
+			<map>
+			<entry key="targetObject" value="orderHandleJob"/>
+			<entry key="targetMethod" value="autoCancelShopOrder"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="autoCancelShopOrderCronQuartzClock" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="autoCancelShopOrderJobDetail"></ref>
+		</property>
+		<property name="cronExpression">
+			<value>0 0/3 * * * ?</value>
+		</property>
+	</bean>
+	<!-- 自动取消商城抢购活动商品订单   end -->
+	
+	<!-- 预订订单使用提醒 start -->
+	<bean id="autoSendUseRemindJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.whotel.ext.quartz.CustomerDetailQuartzJobBean"></property>
+		<property name="jobDataMap">
+			<map>
+			<entry key="targetObject" value="orderHandleJob"/>
+			<entry key="targetMethod" value="autoSendUseRemind"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="autoSendUseRemindCronQuartzClock" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="autoSendUseRemindJobDetail"></ref>
+		</property>
+		<property name="cronExpression">
+			<value>0 0/30 * * * ?</value>
+		</property>
+	</bean>
+	<!-- 预订订单使用提醒   end -->
+	
+	<bean id="timeZone" class="java.util.TimeZone" factory-method="getTimeZone">
+		<constructor-arg value="Asia/Shanghai" />
+	</bean>
+</beans>

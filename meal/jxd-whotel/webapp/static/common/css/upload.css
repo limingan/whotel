@@ -1,0 +1,11 @@
+.del-icon{position:relative;display:inline-block;height:75px;width:75px;border:1px solid #efefef;text-align:center;line-height:75px;}
+.del-icon img{max-height:75px;max-width:75px;}
+.del-icon i{position:absolute;right:0;top:0;display:inline-block;width:20px;height:20px;background:url("/static/common/images/del_icon.png") no-repeat;cursor:pointer;}
+
+.fm-uploadPic{position:relative;width:80px;height:28px;display:inline-block;vertical-align:middle; margin-top:2px;}
+.fm-uploadPic>*{position:absolute;width:100%;height:100%;display:block;}
+.fm-uploadPic>input{z-index:100;opacity:0;}
+.fm-uploadPic>b{background-color:#60a2c1;color:#fff;font-weight:lighter;text-align:center;line-height:28px;cursor:pointer;}
+.form-delete{padding-left:28%;}
+.form-delete a{margin-left:8px;background-color:#999;color:#fff;padding:3px 15px;border-radius:2px !important;text-decoration:none;}
+.form-delete a:hover,.form-delete a:active{background-color:#777;}

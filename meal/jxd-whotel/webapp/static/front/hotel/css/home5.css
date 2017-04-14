@@ -1,0 +1,26 @@
+@charset "utf-8";
+/* CSS Document */
+body{ background:#074477 url(../images/common/demobodybg.gif); height:100%;}
+.Telbox{ padding:10px 0; margin:0 10px; background:url(../images/home_icon_4_b.png) no-repeat left;font-size:14px; background-size:20px 20px; padding-left:25px;}
+.Telbox i{ display:block;margin-top:12px;}
+.Telbox a{ display:block; line-height:40px; color:#fff;}
+.homeh_Nav{ padding:10px 0; margin-top:10px}
+.homeh_Nav { width:70%; margin:0 auto}
+.homeh_Nav li{   margin-bottom:20px}.homeh_Nav li a{ display:block;height:36px;background:#fff; border-radius:30px; font-size:14px; text-align:center; line-height:36px; }
+.homeh_Nav .hicon{ display:inline-block; float:left; width:24px; height:24px; margin-top:-2px; margin-left:5px}.homeh_Nav .hicon img{ width:100%;}
+.homeh_Nav span{ display:block; width:80%; float:left; text-align:center; text-indent:-0.3em;}
+
+.copytextinfo{color:rgba(255,255,255,.3); font-size:12px; padding-top:10px; text-align:center;}
+
+@media all and (max-device-width: 320px) and (max-device-height: 480px){
+	
+	.homeAD-h .am-viewport{ height:180px;}
+	.Telbox{padding:0;padding-left:25px;}
+	.homeh_Nav li{margin-bottom:10px}
+	.homeh_Nav li a{ display:block;height:32px;background:#fff; border-radius:30px; font-size:14px; text-align:center;line-height:32px;}
+	}
+	
+	@media all and (mix-device-width: 375px){
+	.Telbox{ margin-bottom:15px}
+	.homeh_Nav li{ margin-bottom:15px}
+		}

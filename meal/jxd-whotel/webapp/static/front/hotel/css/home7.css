@@ -1,0 +1,13 @@
+@charset "utf-8";
+/* CSS Document */
+body{ background:#000; height:100%;}
+.demobgf{  width:100%; height:100%; display: block;background-image:url(../images/ad/home_bodybg-f.png);background-size:100% 100% ;
+-webkit-filter:;}
+.Navlistbox_f{width:60%; padding:10px; float:left}
+.Navlistbox_f li{ background:rgba()0,0,0,0.5;width:46%;margin:2%;float:left; position:relative}
+.Navlistbox_f li a{display:block; width:100%; color:#fff;font-size:12px;text-align:center;}
+.Navlistbox_f li a span{ display:block; width:100%; margin:0 auto; position:absolute;top:20%;}
+.Navlistbox_f li a:after{content:""; clear:both;display:block;padding-top:100%; margin-top:;background:rgba(0,0,0,.5);}
+.Navlistbox_f .icon{display:block;margin:0 auto; margin-bottom:5px}
+.Navlistbox_f .icon img{width:40%;text-align:center;}
+

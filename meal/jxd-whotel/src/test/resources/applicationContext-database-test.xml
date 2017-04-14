@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+	default-lazy-init="true">
+
+	<description>Spring数据库配置 </description>
+
+	<!-- 数据源定义,使用proxool连接池 -->
+	<bean id="dataSourceTarget" class="org.logicalcobwebs.proxool.ProxoolDataSource">
+		<property name="driver" value="${jdbc.driverClassName}" />
+		<property name="driverUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="alias" value="site_ds" />
+		<!-- 最少保持的空闲连接数 -->
+		<property name="prototypeCount" value="${proxool.prototypeCount}" />
+		<!-- 允许最大连接数,超过了这个连接，再有请求时，就排在队列中等候，最大的等待请求数由simultaneousBuildThrottle决定 -->
+		<property name="maximumConnectionCount" value="${proxool.maximumConnectionCount}" />
+		<!-- 最小连接数 -->
+		<property name="minimumConnectionCount" value="${proxool.minimumConnectionCount}" />
+		<!-- 一个线程持有一个连接的最长时间，而不管这个连接是否处于 active 状态, 并且如果线程的持有时间超过这个时间的之后会自动清除掉这个连接. 
+			但是很多时候5分钟并不够用, 所以需要在配置文件中进行设置, 其单位为毫秒(ms). -->
+		<property name="maximumActiveTime" value="86400000" />
+		<!-- 指因未有空闲连接可以分配而在队列中等候的最大请求数,超过这个请求数的用户连接就不会被接受 -->
+		<property name="simultaneousBuildThrottle" value="50" />
+		<property name="houseKeepingTestSql" value="select CURRENT_DATE" />
+	</bean>
+
+	<!--Spring官方推荐使用LazyConnectionDataSourceProxy(http://static.springsource.org/spring/docs/2.5.6/api/org/springframework/jdbc/datasource/LazyConnectionDataSourceProxy.html)。 
+		目的： 1).解决Hiberante命中cache时，会对数据库发起SET autocommit=0,commit,SET autocommit=0操作问题； 
+		2).解决read_only事务对性能的影响问题 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
+		<property name="targetDataSource">
+			<ref bean="dataSourceTarget"/>
+		</property>
+	</bean>
+
+</beans>

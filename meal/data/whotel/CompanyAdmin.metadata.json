@@ -1,0 +1,1 @@
+{ "indexes" : [ { "v" : 1, "name" : "_id_", "key" : { "_id" : 1 }, "ns" : "whotel.CompanyAdmin" }, { "v" : 1, "name" : "companyId_1_account_1", "key" : { "companyId" : 1, "account" : 1 }, "unique" : true, "ns" : "whotel.CompanyAdmin" } ] }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-lazy-init="true">
+	<description>Spring qianxian-counter配置文件</description>
+
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxActive" value="${redis.maxActive}" />
+		<property name="maxIdle" value="${redis.maxIdle}" />
+		<property name="maxWait" value="${redis.maxWait}" />
+		<property name="testOnBorrow" value="true" />
+	</bean>
+
+	<!-- jedis shard pool配置 ,用于存放需持久化的数据 -->
+	<bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+		<constructor-arg index="0" ref="jedisPoolConfig" />
+		<constructor-arg index="1" value="${redis.ip}" />
+		<constructor-arg index="2" value="${redis.port}" />
+	</bean>
+	
+	<bean id="redisStorage" class="com.whotel.ext.redis.RedisStorage">
+		<property name="jedisPool" ref="jedisPool"></property>
+		<property name="dbIndex" value="${redis.session.dbIndex}"></property>
+	</bean>
+	
+	<!-- 声明cacheManager -->
+	<bean id="redisCache" class="com.whotel.ext.redis.RedisCache">
+		<property name="jedisPool" ref="jedisPool" />
+		<property name="dbIndex" value="${redis.default.dbIndex}" />
+	</bean>
+	
+	<bean id="sessionManager" class="com.whotel.ext.session.RedisSessionManager">
+		<property name="jedisPool" ref="jedisPool" />
+		<property name="dbIndex" value="${redis.session.dbIndex}" />
+	</bean>
+</beans>

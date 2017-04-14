@@ -1,0 +1,13 @@
+html{    background-color: #fff;}
+.navbar-brand{font-family: "Microsoft Yahei","宋体","Tahoma",Arial;color: #595959 !important;font-weight: inherit !important;font-size: 22px !important;}
+.header{    height: 60px;    min-height: 60px;    background-color: #f3f3f3 !important;border-bottom: 1px solid #c3c3c3;}
+.header .navbar-brand{    width: 255px;height: 60px;line-height: 40px;}
+
+.page-content-wrapper{background-color: #F3F3F3;}
+.page-sidebar-wrapper .page-sidebar{background-color: #F3F3F3;border-color: #d3d3d3;margin-top: 20px;}
+.page-sidebar-menu span,.page-sidebar-menu a{color:#333 !important;}
+
+.footer{
+position: fixed;
+    width: 100%;
+    bottom: 0px;}

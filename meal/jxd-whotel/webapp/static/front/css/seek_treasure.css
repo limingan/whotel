@@ -1,0 +1,37 @@
+body{background: url('/static/front/hotel/images/seekTreasure_bj.jpg') no-repeat fixed;background-size: 100% 100%;height: 100%;width: 100%;margin: 0px;}
+.content{margin-left: 5%;margin-right: 5%;color: #ffe09d;}
+.st_top{width: 100%;height: 10px;background-color: #535353;border-radius: 10px;}
+.st_center{margin-left: 3%;margin-right: 3%;height: 150px;background: #f99352;text-align: center;}
+.st_center label{line-height:148px;font-size: 20px;}
+.st_center:after {content: "";display: table;clear: both;background: url(/static/front/hotel/images/meibgbottom2.png) repeat-x bottom;background-size: 12px 9px;background-position: 0 1px;height: 9px;width: 100%;}
+.remark{margin: 8% 8% 50% 8%;background-color: #9cd7d2;padding: 10px;border-radius: 6px;}
+.remark label{font-size: 20px}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,16 @@
+@charset "utf-8";
+/* CSS Document */
+.homeAD{ position:relative}
+.homeNav li{ border-bottom:1px solid #d8d8d8; padding:0 15px}
+.homeNav li a{ display:block; background:url(/static/front/hotel/images/moreae_iocn1.png) no-repeat right center; background-size:15px 15px; padding:15px 0}
+.homeNav li i{ display:inline-block; width:30px; height:30px; overflow:hidden; vertical-align:top;}
+.homeNav li i img{ width:30px; height:30px;}
+.homeNav li:hover{ background:#fff}
+
+@media all and (max-device-width: 320px){
+	.homeNav li a{padding:8px 0}	
+	.am-slider-a1 .am-viewport{ height:44vh;}	
+}
+@media all and (device-height:667px){
+	.homeNav li a{padding:19px 0}
+}

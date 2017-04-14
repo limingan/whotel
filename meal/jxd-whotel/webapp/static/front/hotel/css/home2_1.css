@@ -1,0 +1,144 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+	background: #000
+}
+
+.homeAD {
+	position: relative
+}
+
+.homeNav:after, .homeNavbk_hbig:after, .homeNavbk_hsmall::after {
+	content: "";
+	display: table;
+	clear: both
+}
+
+.homeNav {
+	background: #000;
+	padding-top: 2px
+}
+
+.homeNav li {
+	float: left;
+}
+
+.homeNavbk_box li:first-child {
+	border-left: 2px solid #000;
+}
+
+.homeNav li.wh1 {
+	width: 33.3333333%
+}
+
+.homeNav li.wh2 {
+	width: 66.6666666%
+}
+
+.homeNav li.wh3 {
+	width: 99.99999999%
+}
+
+.homeNavbk_box li {
+	border: 2px solid #000;
+	border-left: none;
+	border-top: none;
+	text-align: center;
+	background: #99783a;
+}
+
+.homeNavbk_box li {
+	height: 106px
+}
+
+.homeNav .piclink {
+	position: relative
+}
+
+.homeNav .piclink a {
+	display: block;
+	width: 100%;
+	height: 100%
+}
+
+.homeNav .piclink img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.homeNav li a {
+	display: block;
+	color: #fff;
+	padding-top: 0.1px
+}
+
+.homeNav li i {
+	display: block;
+	width: 30px;
+	height: 30px;
+	margin: 0 auto;
+	margin-top: 30px
+}
+
+.homeAD .am-slides li img {
+	height: 100%
+}
+
+@media all and (max-device-width:320px) and (max-device-height:480px) {
+	.homeAD .am-slides li {
+		height: auto !important;
+	}
+	.homeNavbk_box li {
+		height: 80px
+	}
+}
+
+@media all and (min-device-height:480px) and (max-device-height:568px) {
+	.homeAD .am-slides li {
+		height: auto !important;
+	}
+	.homeNavbk_box li {
+		height: 90px
+	}
+}
+
+@media all and (device-width:360px) and (device-height:640px) {
+	.homeAD .am-slides li {
+		height: auto !important;
+	}
+	.homeNavbk_box li {
+		height: 126x
+	}
+}
+
+@media screen and (min-device-height:640px) and
+	(max-device-height:667px) {
+	.homeNavbk_box li {
+		height: 116px
+	}
+}
+
+@media screen and (min-device-height:481px) and
+	(max-device-height:640px) {
+	.homeNavbk_box li {
+		height: 96px
+	}
+}
+
+@media screen and (min-device-width:414px) and (max-device-height:736px)
+	{
+	.homeNavbk_box li {
+		height: 130px
+	}
+}
+/*	
+@media all and (device-width:375px) and (device-height:667px){
+
+
+.homeAD .am-slides li{ height:auto !important; }
+.homeNavbk_box li{height:116x}
+	
+	}	*/

@@ -1,0 +1,11 @@
+.rankingList{width:100%;margin:0 auto; background-color: #fff;}
+    
+ .ranking_line{margin-top: 5px;display:block;overflow:hidden; margin: 0 auto; width:92%;line-height:20px;border-top: 1px solid #cdcdcd;padding-top: 5px;padding-bottom: 5px;}
+ .ranking_one{display:inline-block; float:left; width:55px;line-height:50px; height:50px;text-align: center;}
+ .ranking_name{display:inline-block; float:left;width:36%;line-height:50px;text-overflow:clip;}
+ .ranking_num{display:inline-block; float:right;width:18%;line-height:50px;text-overflow:clip;}
+ 
+ .current_body{width:100%;overflow:hidden;line-height: 90px;padding-top: 10px;padding-bottom: 10px;background-color: #fff;}
+ .current_voteNum{display:inline-block; line-height:90px;width:32%;text-align:center;font-size: 20px;font-weight: bold;text-align:center;}
+ .current_img{display:inline-block; line-height:90px;width:33%;text-align:center;}
+ .current_name{display:inline-block; line-height:90px;width:32%;text-align:center;font-size: 20px;font-weight: bold;text-align: center;}

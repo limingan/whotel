@@ -1,0 +1,173 @@
+*html{margin:0; padding:0;}
+body{ margin:0; padding:0; font-family:"Microsoft YaHei",Arial, Helvetica, sans-serif; font-size:14px; color:#333; line-height:20px; word-wrap:break-word;}
+.fleft{ float:left;}
+.fright{ float:right;}
+i,em{ font-style:normal;}
+p{ margin:0; padding:0;}
+ul,li{ list-style:none; padding:0; margin:0;}
+input,select,button{ border:0 none; padding:0; margin:0;line-height:20px; color:#7d7d7d;}
+a{ text-decoration:none;color:#333;}
+
+.colorking{ color:#936c3e}
+
+.align_R{ text-align: right}
+
+.padd-left-10{ padding-left:10px;}
+.clearfix:before,.clearfix:after{ content:"."; display:block; height:0; clear:both; visibility:hidden;}
+/*妞佹劕宸烘０鍕吂閻ｅ矂娼板锟芥慨锟�*/
+/* .header{ height:45px; background:#26b3ee;position:relative;}
+.header_icon_back{background:url(../images/header_back_wh.png) no-repeat; width:25px; height:25px; display:inline-block; margin:10px 0 0 10px;} */
+.header{ height:45px;background:#26b3ee; color:#fff; position:relative}
+.header_title{ line-height:45px; text-align:center; font-size:16px; font-weight:300;margin: 0px 0px;}
+.header_left{ float:left;} 
+.header_right{ float:right; color:#fff0}
+[class*="header_icon_"]{ width:25px; height:25px; display:inline-block; position:absolute; top:10px;}
+.header_icon_but{ right:10px}
+.header_icon_back{ background:url(../../hotel/images/header_back_wh.png) no-repeat center center; background-size:25px 25px;left:10px;}
+
+.theme{ width:100%; line-height:45px; height:45px;color:#fff;font-size:18px; text-align:center;position:absolute; top:-10px;font-weight:normal;}
+.bg-co-white{ background:#fff;}
+.select-stores{ margin:10px 10px 0;}
+.select-time-box{width:39%; font-size:14px; border:1px solid #e1e1e1; height:36px; line-height:36px; margin-left:4px; padding-left:6px;background:#fff url(../images/moreae_iocn2.png) no-repeat; background-size:10% 40%; background-position:95% center;border-radius:0;-webkit-appearance:none;vertical-align: middle;}
+@media screen and (min-device-width:320px) and (max-device-width:374px) {.select-time-box{ width:37%;}.select-date-box{ width:37%;}}
+@media screen and (min-device-width:414px) {.select-time-box{ width:40%;}.select-date-box{ width:40%;}}
+.restaurant-list{ border-top:1px solid #e1e1e1; margin:10px 0;}
+.restaurant-list ul,.room-list ul{ padding:10px 0;border-bottom:1px solid #e1e1e1; margin-left:10px;}
+.restaurant-list .stores-img,.room-list .room-img{ width:30%; float:left;height: 75px;}
+.restaurant-list img,.room-list img{width:100%; height:100%; }
+.restaurant-list .stores-info{float:left;width:46%; margin-left:2%;}
+.restaurant-list .stores-info span{ display:block;color:#7d7d7d;}
+@media screen and (min-device-width:320px) and (max-device-width:374px){.restaurant-list .stores-info span,.room-list .room-info span{ font-size:12px;}}
+.restaurant-list .stores-info .cuisine{ color:#7d7d7d;}
+.restaurant-list .stores-info .name,.room-list .room-info .name{  display:block;font-size:16px;}
+.restaurant-list .stores-info .btn-o{ padding-top:4px;}
+.restaurant-list .stores-info .navigation{ background:url(../images/navigation.png) no-repeat;background-size:14px 14px; display:inline-block; width:14px; height:14px; vertical-align:middle;}
+.restaurant-list .stores-btn,.room-list .room-btn{float:right; padding:34px 10px 0 0;}
+.restaurant-list .btn-book{float:right;background:#ff8400; border-radius:2px; padding:4px 15px;text-align:center; color:#fff;}
+/*闂傘劌绨甸柅澶嬪瀵拷婵拷*/
+.restaurant-list .telephone,.restaurant-list .address{ padding-top:0px;}
+.restaurant-list .icon-tel,.restaurant-list .icon-address{width:14px; height:14px;display:inline-block; vertical-align:middle;}
+.restaurant-list .icon-tel{background:url(../images/tel_2_icon.png) no-repeat;background-size:14px 14px;}
+.restaurant-list .icon-address{ background:url(../images/daar_2_icon.png) no-repeat;background-size:14px 14px;}
+/*妫板嫯顓归崠鍛煣瀵拷婵拷*/
+.bg-co-gray{ background:#f3f3f3;}
+.content{ margin-top:10px;}
+.orderlist .date-w{position:relative; margin-left:6px;}
+.book-about-a .dining-time,.orderlist .dining-time{ line-height:36px;}
+.book-about-a .select-date-box,.orderlist .select-date-box{width:39%;border:1px solid #e1e1e1; border-radius:0; height:34px; line-height:34px; background:#fff;-webkit-appearance:none;}
+.book-about-a .select-date-box111{width:39%;border:1px solid #e1e1e1; border-radius:0; height:34px; line-height:34px;-webkit-appearance:none;background: url(../../hotel/images/date_iconjl2.png) no-repeat;background-size: 20px 20px;background-position: 95% center;background-origin: padding-box;}
+.book-about-a .icon-date,.orderlist .icon-date{ position:absolute; background:url(../../hotel/images/date_iconjl2.png) no-repeat; background-size:20px 20px; width:20px; height:20px;z-index:5; top:0px; right:8px;}
+.book-about-a,.orderlist{border-width:1px 0; border-style:solid; border-color:#e1e1e1;  background:#fff;}
+.book-about-a li,.orderlist li{ padding:5px 10px 5px 0; margin-left:10px;line-height: 32px;}
+.book-about-a input{ line-height:32px;}
+.book-about-a .select-date,.book-about-a .place,.orderlist .select-date,.orderlist .place{ border-bottom:1px solid #e1e1e1; margin-left:10px;}
+.book-about-a .arrive-time-box{float:right; width:39%;line-height:32px;height:32px;background:#fff url(../../hotel/images/moreae_iocn2.png) no-repeat; background-size:10% 40%; background-position:95% center;border-radius:0;-webkit-appearance:none;}
+.book-about-b{ border-width:1px 0; border-style:solid; border-color:#e1e1e1; background:#fff; margin-top:10px; padding:10px 0;}
+.book-about-b li{ padding:8px 10px 8px 0; margin-left:10px;}
+.book-about-b .select-rooms-btn{background:#ff8400; color:#fff; text-align:center; padding:6px 20px; border-radius:8px;}
+.select-food-btn{background:#ff8400; color:#fff; text-align:center; font-size:16px; width:98%; margin:20px auto; display:block; line-height:45px; border-radius:8px;}
+.select-food-btn1{background:#c0bdb8; color:#fff; text-align:center; font-size:16px; width:98%; margin:20px auto; display:block; line-height:45px; border-radius:8px;}
+/*閸栧懏鍩ч崚妤勩�冩い闈涚磻婵拷*/
+.con-room{ margin-top:10px;}
+.room-list .room-info{float:left;margin-left:10px;}
+.room-list .people{color:#7d7d7d; display:block;}
+.room-list .price{display:block; color:#7d7d7d;}
+.font-color{color:#ff8400;}
+.room-list .btn-book{float:right;background:#ff8400; border-radius:2px; padding:4px 15px;text-align:center; color:#fff;}
+/*閸栧懏鍩х粻锟芥禒瀣�夊锟芥慨锟�*/
+
+/*妞佹劕宸烘禒瀣矝瀵拷婵拷*/
+.tab{ border:1px solid #26b3ee; border-radius:8px; height:30px; line-height:30px; margin:10px;}
+.tab a{ width:49%; display:inline-block; text-align:center;}
+.prof{ border-right:1px solid #26b3ee;}
+.active{ color:#26b3ee;}
+
+/*閼挎粏鍋炵粻锟芥禒瀣磻婵拷*/
+.small-banner{ position:relative;}
+.small-banner img{width:100%; height:100%;}
+.small-banner .transparent-bg{ position:absolute; width:100%; background:#000; height:40px; bottom:0; left:0; opacity:0.7;  }
+.small-banner .text{position:absolute;line-height:40px; color:#fff;left:10px; bottom:0px; width:65%; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;}
+.small-banner .book-btn{ position:absolute; right:10px;bottom:6px;background:#26b3ee; border-radius:8px;padding:4px 10px;color:#fff;}
+.notes{border-width:1px 0; border-style:solid; border-color:#e1e1e1;  background:#fff; margin-top:10px; padding-bottom:30px;}
+.notes h2{ font-size:14px; margin-left:10px;border-bottom:1px solid #e1e1e1; padding-bottom:10px;}
+.notes p{padding:0 10px; color:#7d7d7d; line-height:26px;}
+.notes .icon-point{ width:4px; height:4px; border-radius:2px; background:#7d7d7d; display:inline-block; vertical-align:middle; margin-right:6px;}
+/*妫板嫯顓归懣婊嗗仦瀵拷婵拷*/
+.container-food{ margin:10px 0 55px; border-top:1px solid #e1e1e1;}
+.sidebar{ float:left; width:28%;overflow-y:auto; position:fixed; top:56px; bottom:55px; left:0;}
+.sidebar a{ border-bottom:1px solid #e1e1e1; width:100%; padding:15px 0;text-align:center;display:inline-block;}
+.sidebar .current{ background:#fff;color:#ff8400;}
+.food-list{width:71%;background:#fff;overflow-y:auto; position:fixed; top:56px;bottom:55px; right:0;}
+.food-list .color-num-add{color:#ff8400;}
+.food-pic{ margin-left:10px;padding:10px 10px 10px 0;border-bottom:1px solid #e1e1e1;}
+.food-pic .link-img{ display:block; float:left; width:40%;}
+.food-pic img{width:100%; height:100%;}
+.food-js{float:right; width:55%;}
+.food-pic .icon-bookdishes{ position:absolute; top:5px; right:5px; z-index:5;background:url(../images/bookdishes_icon_default.png) no-repeat;display:inline-block; width:28px; height:28px; vertical-align:middle;}
+.food-pic .transparent-bg{ position:absolute; width:100%; background:#000; height:44px; bottom:0; left:0; opacity:0.7; z-index:2;}
+.food-pic .text{width:100%; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;}
+.food-list .price{color:#ff8400;}
+.food-list .icon-add-to{ width:20px; height:20px; display:inline-block; background-size:20px 20px; vertical-align:middle; margin-left:5px;}
+.food-list .icon-cut-back{width:20px; height:20px; display:inline-block; background-size:20px 20px; vertical-align:middle; margin-right:5px;}
+.icon-add-to{background:url(../../hotel/images/reduceadd-icon-hover1.png) no-repeat;}
+.icon-cut-back{background:url(../../hotel/images/reduceadd-icon1.png) no-repeat;}
+.bill-btn{background:#ff8400; line-height:45px;width:100%;text-align:center; font-size:16px; color:#fff; position:fixed; right:0;bottom:0px; z-index:9;}
+
+.priceDetailsbox{ border-top:1px solid #CCC; background:#fff; padding:10px}
+.block_pd{ background:#fff; padding:10px}
+.priceDetails dt{ line-height:1em;color:#cc8032; border-left:5px solid #cc8032; padding-left:5px; margin-bottom:10px; font-weight:300}
+.priceDetails dd{margin-left:0px; padding:10px;border:1px solid #E6E6E6; border-top:2px solid #E6E6E6;margin-bottom:5px;}
+.priceDetails p.mx_li{ font-size:12px; color:#666}
+.priceDetails .dishesItem{height: 20px;}
+
+.TotalOrders{ width:100%; height:45px; background:#ff8400; position:fixed; bottom:0; left:0;z-index:1120;}
+.TotalOrders_r { float:right;}
+.TotalOrders_r .TotalDetails{ padding:0 10px; color:#fff; font-size:12px}
+.TotalOrders_r_but{width:120px; height:50px;text-align:center; background:#efae00; color:#fff; border:none}
+.TotalOrders_price { color:#fff; font-size:22px; font-weight:600; text-indent:1em; line-height:50px;}
+
+/*鐠併垹宕熼崚妤勩�冩い闈涚磻婵拷*/
+table{border-width:1px 0; border-style:solid; border-color:#e1e1e1;background:#fff;}
+table th{padding: 12px 0; text-align:left;}
+table td{ border-top:1px solid #e1e1e1;padding: 12px 0;}
+.orderlist{ margin:10px 0 55px;}
+.orderlist .place .color-gray{ color:#7d7d7d;margin-left:10px;}
+.orderlist .place input{float:right;line-height:32px;}
+.coupon-radio,.cash-back-radio{ border:1px solid #e1e1e1;}
+footer{ width:100%; position:fixed; bottom:0; background:#fff;margin-top:20px; height:45px; line-height:45px; border-top:1px solid #e1e1e1; }
+footer .money{  padding-left:10px;}
+footer .money .font-blue{color:#26b3ee; font-size:16px;}
+.submit-btn{ float:right; background:#ff8400;height:45px; line-height:45px; padding:0 20px; color:#fff; font-size:16px;}
+.order-details-btn{float:right; background:#ff9000;height:45px; line-height:45px; padding:0 25px; color:#fff;font-size:16px;}
+.pop-coupon{ background:#fff; position:fixed; bottom:0; width:100%; z-index:10; display:none;}
+.pop-coupon .title{ height:45px; line-height:45px; display:block; text-align:center; font-size:16px;border-bottom:1px solid #e1e1e1;}
+.pop-coupon .close{ font-size:24px; color:#999; margin-right:10px;}
+.pop-coupon .vouchers{ margin:10px;}
+.vouchers-t{border-width:0px 0; border-style:solid; border-color:#e1e1e1; background:#d94b4b;color:#fff;border-radius:8px 8px 0 0; height:50px; padding:10px;}
+.vouchers-t .face-value{ padding-top:10px; display:block;}
+.vouchers-t .face-value b{font-size:16px;}
+.vouchers-t .btn-use{ border:1px solid #fff; border-radius:8px; padding:2px 18px; margin-top:20px;color:#fff;}
+.text-explanation{ font-size: 12px;border-width:0px 1px 1px; border-style:solid; border-color:#e1e1e1;border-radius:0 0 8px 8px;background:#fff; height:60px;padding:10px;}
+.text-explanation span{ }
+.text-explanation .color-gray{ color:#7d7d7d;}
+.text-explanation .img-code{ padding-right:10px;}
+
+.lodingtxet{ color:#868686; text-align:center; font-size:14px; padding:15px 0; clear:both;text-shadow: 1px 1px 2px #fff;}
+
+.food-order-details{padding-left:0; width:50%; display:inline-block;}
+.personal-info{ width:40%; float:right;}
+.orderdetailstxt li span{color:#999;}
+
+/*.roll{height:260px;position:relative;overflow:hidden;}
+.conbox {}
+.roll li {height:260px;overflow:hidden;}
+.roll li img{width:100%; overflow:hidden;}
+.roll .switcher {position:absolute;bottom:6px; width:100%; text-align:center;z-index:2;}
+roll .switcher a {background:#999; color:#999;margin:0 2px;height:12px;width:12px; line-height:12px; border-radius:6px; filter:alpha(opacity=70);-moz-opacity:0.7;opacity:0.7; font-size:0; display:inline-block;}
+.roll .switcher a.cur,.part1-center .roll .switcher a:hover {background:#26b3ee;}*/
+
+
+.mealbranch-btn-book{float:right;background:#ff8400; border-radius:2px; padding:4px 15px;text-align:center; color:#fff;}
+.GroupHotelslist .stores-btn{float:right; padding:34px 10px 0 0;}
+
+.crossOut{font-size: 12px;color: #999;text-decoration: line-through;}

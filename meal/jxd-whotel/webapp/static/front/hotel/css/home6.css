@@ -1,0 +1,100 @@
+@charset "utf-8";
+/* CSS Document */
+body{ background:#000; height:100%;}
+.demobge{  width:100%; height:100%; display: block;background-size:100% 100% ;
+-webkit-filter:;}
+
+
+.demo_zee {
+	width: 80%;
+	margin: 0 auto;
+	padding-top: 30%; font-size:14px;
+}
+.demo_zee ul:after {
+	content: "";
+	display: table;
+	clear: both
+}
+.demo_zee li {
+	float: left;
+	width: 47%;
+	margin: 1.5%;
+	background: rgba(0,0,0,.6);
+	position: relative;
+}
+.demo_zee li.r1 {
+	border-radius: 50% 50% 0 50%
+}
+.demo_zee li.r2 {
+	border-radius: 50% 50% 50% 0;
+}
+.demo_zee li.r3 {
+	border-radius: 50% 0 50% 50%
+}
+.demo_zee li.r4 {
+	border-radius: 0 50% 50% 50%
+}
+.demo_zee li:before {
+	content: "";
+	display: block;
+	margin-top: 100%;
+}
+.demo_zee li a {
+	color: #fff;
+	display: block;
+	height: 90px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+.demo_zee li a img {
+	display: block;  width:50%;
+	margin: 0 auto;
+	margin-top: 20%
+}
+.demo_zee li a span {
+	display: block;
+	text-align: center
+}
+.ciNav {
+	width: 80%;
+	margin: 0 auto;
+	clear: both;
+	background: rgba(0,0,0,.6);
+	
+	border-radius: 30px;
+	margin-top: 30px
+}
+.ciNav:after{ clear:both; display:table; content:""}
+.ciNav li {
+	float: left;
+	font-size: 14px;
+	width: 33.3333%; margin:5px 0;height: 35px;
+	text-align: center;border-left: 1px solid rgba(220,220,220,.3);
+}
+.ciNav li a {
+	color: #fff;
+	display: block;
+	line-height: 35px;
+	}
+.ciNav li:first-child{ border:none;}
+
+
+
+@media all and (max-device-height: 480px)
+{
+	.demo_zee {
+	width: 70%;
+	margin: 0 auto;
+	padding-top: 20%; font-size:14px;
+}.demo_zee li {
+	float:left;
+	width:46%;
+	margin:2%;
+	background: rgba(0,0,0,.6);
+	position: relative;
+}
+}
+

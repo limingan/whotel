@@ -1,0 +1,40 @@
+body{ margin:0; padding:0; font-family: "Microsoft YaHei","ËÎÌו",Arial, Helvetica, sans-serif; font-size:0.875em; line-height:1.5em;}
+p,ul,li,a{ padding:0; margin:0;}
+li{ list-style:none;}
+a{ text-decoration:none;}
+em,i{ font-style:normal;}
+.banner{ position:relative;}
+.banner img{ width:100%;}
+.banner .icon-left,.banner .icon-right{ width:44px; height:44px; display:inline-block; position:absolute;}
+.banner .icon-left{ background:url(../images/icon_left.png) no-repeat; left:0px; top:48%;}
+.banner .icon-right{background:url(../images/icon_right.png) no-repeat; right:0px;top:48%; }
+.content{ margin:0px 10px;}
+.content ul{ display:box; display:-webkit-box; }
+.content li{box-flex:1.0; -webkit-box-flex:1.0; margin:20px 0;}
+
+.banner .am-slider-default .am-direction-nav a.am-prev:before{content:"\f053";}
+
+.banner .am-slider-default .am-direction-nav a.am-next:before {
+    content: "\f054";
+}
+.banner .am-slider-default .am-direction-nav a:before {
+    color: #fff;
+    font-size: 30px !important;
+    text-shadow: 0 0 8px #000;
+}
+
+/*.icon-book,.icon-sale,.icon-intro,.icon-member,.icon-tel,.icon-navigation,.icon-order,.icon-activity{width:44px; height:44px; display:inline-block; padding-bottom:10px;}
+
+.icon-book{ background:url(../images/icon_book.png) no-repeat;}
+.icon-sale{ background:url(../images/icon_sale.png) no-repeat;}
+.icon-intro{ background:url(../images/icon_intro.png) no-repeat;}
+.icon-member{ background:url(../images/icon_member.png) no-repeat;}
+.icon-tel{ background:url(../images/icon_tel.png) no-repeat;}
+.icon-navigation{ background:url(../images/icon_navigation.png) no-repeat;}
+.icon-order{ background:url(../images/icon_order.png) no-repeat;}
+.icon-activity{ background:url(../images/icon_activity.png) no-repeat;}*/
+
+.icon{width:44px; height:44px; display:inline-block; padding-bottom:10px;}
+
+.content li a{ color:#fe7153; text-align:center; display:block;}
+@media all and (max-device-width:320px){.icon-book,.icon-sale,.icon-intro,.icon-member,.icon-tel,.icon-navigation,.icon-order,.icon-activity{width:40px; height:40px; background-size:40px 40px;}}

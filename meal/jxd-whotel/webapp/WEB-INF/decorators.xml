@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/layout/">
+	
+	<!-- admin 运营后台模板-->
+	<decorator name="admin" page="admin_main.jsp">
+		<pattern>/admin/*</pattern>
+	</decorator>
+	
+	<!-- company 商户后台模板-->
+	<decorator name="company" page="company_main.jsp">
+		<pattern>/company/*</pattern>
+	</decorator>
+
+	<!-- 在excludes下指定的元素将不会被sitemesh装饰 -->
+	<excludes>
+		<pattern>/admin/login.jsp*</pattern>
+		<pattern>/admin/login.do*</pattern>
+		<pattern>/admin/toLogin.do*</pattern>
+		<pattern>/admin/logout.do*</pattern>
+		
+		<pattern>/company/login.jsp*</pattern>
+		<pattern>/company/login.do*</pattern>
+		<pattern>/company/toLogin.do*</pattern>
+		<pattern>/company/logout.do*</pattern>
+		<pattern>/company/register.jsp*</pattern>
+		<pattern>/company/toRegister.do*</pattern>
+		<pattern>/company/register.do*</pattern>
+		
+		<!-- 密码找回 -->
+		<pattern>/company/toPwdRetrieve.do*</pattern>
+		<pattern>/company/pwdRetrieve.do*</pattern>
+		
+		<!-- 重置密码 -->
+		<pattern>/company/toResetPwd.do*</pattern>
+		<pattern>/company/resetPwd.do*</pattern>
+	</excludes>
+	
+</decorators>

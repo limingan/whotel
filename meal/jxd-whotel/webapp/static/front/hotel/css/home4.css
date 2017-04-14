@@ -1,0 +1,29 @@
+@charset "utf-8";
+/* CSS Document */
+.bodybghui{ background:#f2f2f2}
+.homeAD{ position:relative}
+.homeNav:after,.homeNavbk_hbig:after,.homeNavbk_hsmall::after{ content:""; display:table; clear:both}
+.homeNav_demo4{ padding:0 10px}
+.homeNav_demo4 .homeNav{ padding-top:40px; }
+.homeNav_demo4 .homeNav li{ float:left; width:33.3333%; margin-bottom:30px}
+.homeNav_demo4 .homeNav li span{ width:70px; height:70px; border-radius:40px; margin:0 auto; display:block; background:#F90;}
+.homeNav_demo4 .homeNav li.bgcolor1 span{ background:#e16565}
+.homeNav_demo4 .homeNav li.bgcolor2 span{ background:#d6b952}
+.homeNav_demo4 .homeNav li.bgcolor3 span{ background:#5fc396}
+.homeNav_demo4 .homeNav li.bgcolor4 span{ background:#b557a8}
+.homeNav_demo4 .homeNav li.bgcolor5 span{ background:#4c73d6}
+.homeNav_demo4 .homeNav li.bgcolor6 span{ background:#68ba64}
+.homeNav li a{ display:block;text-align:center; font-size:14px}
+.homeNav li span img{ width:40px; height:40px; margin-top:15px}
+
+@media all and (max-device-width: 320px){
+.homeNav_demo4 .homeNav li span{ width:55px; height:55px; border-radius:40px; margin:0 auto; display:block; background:#F90;}
+.homeNav_demo4 .homeNav{ padding-top:13px}
+.homeNav_demo4 .homeNav li{ margin-bottom:13px}
+.homeNav li span img{ width:30px; height:30px; margin-top:12px}
+}
+
+@media all and (device-height:667px){
+.homeNav_demo4 .homeNav {padding-top: 60px;}
+.homeNav_demo4 .homeNav li {margin-bottom: 45px;}
+}

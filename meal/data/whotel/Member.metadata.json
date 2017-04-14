@@ -1,0 +1,1 @@
+{ "indexes" : [ { "v" : 1, "name" : "_id_", "key" : { "_id" : 1 }, "ns" : "whotel.Member" }, { "v" : 1, "name" : "openId_1", "key" : { "openId" : 1 }, "unique" : true, "ns" : "whotel.Member" } ] }

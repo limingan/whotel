@@ -1,0 +1,98 @@
+@charset "utf-8";
+/*----------------------------------------------------
+ 元素：reset
+-----------------------------------------------------*/
+html {
+  color: #000;
+  background: #FFF;
+}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input,select, button, textarea, p, blockquote, th, td {
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: rgba(0,174,255,0.4);
+  -webkit-appearance: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0
+}
+fieldset, img {
+  border: 0
+}
+address, caption, cite, code, dfn, em, strong, th, var {
+  font-style: normal;
+  font-weight: normal
+}
+ol, ul {
+  list-style: none
+}
+caption, th {
+  text-align: left
+}
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+  font-weight: normal
+}
+q:before, q:after {
+  content: ''
+}
+abbr, acronym {
+  border: 0;
+  font-variant: normal
+}
+sup {
+  vertical-align: text-top
+}
+sub {
+  vertical-align: text-bottom
+}
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit
+}
+input, textarea, select {
+ *font-size:100%
+}
+/*----------------------------------------------------
+ 元素：基本样式
+-----------------------------------------------------*/
+html,body {
+  width: 100%;
+  font-family: "Microsoft YaHei";
+  background:url(../images/bg.jpg) no-repeat center top;
+  background-size: 100% 100%;
+  color: #8d8d8d;
+  line-height: 24px;
+  height:100%;
+  overflow: hidden;
+}
+a:link, a:visited, a:hover, a:active {
+  color: #8d8d8d;
+  text-decoration: none;
+}
+.page{height:100%}
+.ewm-box{
+	padding: 30px 0;
+	height:100%;
+}
+.ewm-inner-title{
+	margin-top:10%;
+	font-size: 24px;
+	color: #fff;
+	letter-spacing:0.3em;
+	text-align: center;
+}
+.ewm-inner-summary{
+	width: 230px;
+	height: 230px;
+	margin:20% auto 0;
+	padding: 20px 20px 47px;
+	background: url(../images/ewmbg.png) no-repeat;
+	background-size:100% 100%;
+}
+.ewm-inner-summary img{
+	width: 230px;
+	height: 230px;
+	display: block;
+}

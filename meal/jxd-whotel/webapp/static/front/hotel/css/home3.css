@@ -1,0 +1,22 @@
+@charset "utf-8";
+/* CSS Document */
+body{ background:#000}
+.demobg{ background:url(../images/ad/home_bodybg.png) no-repeat; background-size:100% 100%;}
+.homeNav:after,.homeNavbk_hbig:after,.homeNavbk_hsmall::after{ content:""; display:table; clear:both}
+.homeNav{  width:200px; margin:0 auto; }
+.homeNav .homeNav_top{width:200px;background:rgba(0,0,0,0.6); border:3px solid  rgba(255,255,255,0.2);border-top:none;border-radius:0 0 150px 150px;padding:0 20px;padding-top:10px;padding-bottom:20px}
+.homeNav li{text-align:center;border-top:1px dotted rgba(255,255,255,0.2);margin:0 auto}
+.homeNav li:first-child{border-top:none}
+
+.homeNav .homeNav_top li a{ line-height:2.6em;color:#fff; text-align:center;}
+.homeNav_footer{ width:200px; border:3px solid  rgba(255,255,255,0.2); border-bottom:none;position:fixed; bottom:0; background:rgba(0,0,0,0.6); border-radius:180px 180px 0 0;  text-align:center;padding:0 20px; padding-top:30px ; padding-bottom:10px }
+.homeNav_footer li{ line-height:2em;}
+.homeNav_footer a{ color:#fff; line-height:2.6em;}
+
+@media all and (max-device-width: 320px){
+	.homeNav{  width:160px; margin:0 auto; }
+	.homeNav .homeNav_top{width:160px;background:rgba(0,0,0,0.6);border-radius:0 0 150px 150px;padding:0 20px;padding-top:10px;padding-bottom:20px}
+	.homeNav_footer{ width:160px; height:100px; position:fixed; bottom:0; background:rgba(0,0,0,0.6); border-radius:180px 180px 0 0;}
+.homeNav_footer ul { width:160px;  text-align:center;padding:0 20px; padding-top:30px ; padding-bottom:20px}
+}
+

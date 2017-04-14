@@ -1,0 +1,843 @@
+.header{ height:45px;background-image:linear-gradient(to bottom,#f5e5c5,#e7c39f);background:-webkit-gradient(linear, 0 0, 0 bottom, from(#f5e5c5), to(#e7c39f));border-bottom:1px solid #cc9866; color:#482900; position:relative}
+.header_title{ line-height:45px; text-align:center; font-size:16px;}
+.header_left{ float:left;} 
+[class*="header_icon_"]{ width:25px; height:25px; display:inline-block; position:absolute; top:10px;}
+.header_icon_back{ background:url(../images/header_back.png) no-repeat center center; background-size:25px 25px;left:10px;}
+.header_icon_bar{ background:url(../images/header_more.png) no-repeat center center; background-size:25px 25px;right:10px}
+.ht_Cdselec{  background:#fff; font-size:14px; margin-top:10px}
+.ht_Cdselec:after{ content:""; clear:both; display:table}
+.dateSelection{width:55%; padding:10px; padding-top:10px;line-height:1.5em; background:url(../images/date_iconjl.png) no-repeat 10px center; background-size:20px 20px;  padding-left:40px;}
+.dateSelection a{ display:block; }
+.dateSelection p.date span{ display:block ; text-align:left}
+.dateSelection p.date em{ font-size:16px; font-weight:600}
+.dateSelection .more_icon{ margin-top:15px;}
+
+.branchDateSelection{ background:url(../images/date_iconjl.png) no-repeat 10px center; background-size:20px 20px;width:100%;}
+.branchDateSelection:after{clear: both;content: '';display: table}
+.branchDateSelection .more_icon{ float:right; margin-top:4px}
+
+.roomvcount,.citypinbox{ width:45% ;min-width:130px; float:right; padding:10px; border-left:1px solid #E7E7E7}
+.citypin{ float:left;background:url(../images/line_lo_2.png) no-repeat 10px center; background-size:20px 20px; padding:10px; padding-left:40px;}
+.gzshum{ padding:10px; background:#fff; margin-top:20px; color:#666; line-height:1.6em; font-size:14px}
+.gzshum p{ padding:0 20px}
+.vCount { height:30px; border-radius:2px}
+.vCount .add{background:url(../images/reduceadd-icon-hover.png) no-repeat;}
+.addbut .add_icon{ background:url(../images/reduceadd-icon-hover.png) no-repeat;}
+.vCount .reduce{background:url(../images/reduceadd-icon.png) no-repeat;margin-right:5px}
+.vCount .nb{ display:inline-block; height:35px; vertical-align:top; padding:0 10px; font-weight:600; font-family:Arial, Helvetica, sans-serif; font-size:18px}
+.vCount .add,.vCount .reduce,.addbut .add_icon{ display:inline-block; text-indent:-9999px;  margin:5px 0 0 5px; background-size:20px 20px;width:20px; height:20px;}
+.roomvcount .roomvcount_c{ width:90px; margin:0 auto }
+.roomvcount{ padding:8px 0 5px 0}
+
+
+.Hotelslist_L{background-image:linear-gradient(to bottom,#fff,#eee);background:-webkit-gradient(linear, 0 0, 0 bottom, from(#fff), to(#eee));
+ border-bottom:1px solid #ccc ; border-top:5px solid #fff; position:relative}
+.Hotelslist_L .pic_L{ width:70px; height:70px; overflow:hidden;float:left;}
+.Hotelslist_L .pic_L img{width:70px; height:70px; }
+.Hotelslist_L .content_title{width:170px;}
+.Hotelslist:after{ content:""; display:table; clear:both}
+.Hotelslist_L .content{ margin-left:80px; height:70px;}
+.sitems{ display:inline-block; vertical-align:middle; margin-top:0 !important}
+.sitems_icon_wifi{ background:url(../images/wifi.png) no-repeat;}
+.sitems_icon_windows{background:url(../images/windows.png) no-repeat;}
+.sitems_icon_p{ background:url(../images/P.png) no-repeat;}
+.sitems_icon_food{ background:url(../images/food.png) no-repeat}
+[class*="sitems_icon"]{width:16px;height:16px;display:inline-block;margin:0 2px;background-size:16px 16px; text-indent:-9999px}
+.content_title{ font-size:16px;font-weight:300;}
+.Hotelslist_L .viewmore { text-align:right;position:absolute;top:0px;right:10px;}
+.Hotelslist_L .viewmore a{ display:block;height:66px; padding-top:30px;}
+.Hotelslist .Price,.itmecontetn_r .Price{ padding-right:5px;color:#a06201 ; padding-top:10px; vertical-align:middle; }.Hotelslist .Price b,.itmecontetn_r .Price b{font-size:22px;color:#a06201;}.roomlist .Price small{font-size:16px;}
+.itmecontetn_r .butstylea{margin-left:5px}
+.Hotelslistmoer{ background:#fff; position:relative; border-top:1px solid #fff;}
+.Hotelslistmoer li{ position:relative; border-bottom:1px solid #ccc; padding:5px 0}
+.Hotelslistmoer_L{ width:73%;}
+.Hotelslistmoer_R{
+	position: absolute;
+	top: 0;
+	right: 10px;
+	padding: 10px 0; 
+	text-align: right;
+}
+.HotelsDetailbg{ width:100%; height:100vh;background:rgba(0,0,0,0.6); position:fixed;top:0;left:0; z-index:5;}
+.HotelsDetail{width:85%; height:70vh; overflow:auto;margin:0 auto; background:#fff; position:relative;}
+.HotelsDetail_top{ width:85%; margin:0 auto; height:30px; background:#fff; margin-top:15vh; position:relative;}
+.HotelsDetail_title{ font-size:16px; line-height:1.8em ; line-height:30px; text-indent:10px;}
+.HotelslistDetail_txt [data-am-widget="tabs"]{ margin:0 !important}
+.HotelslistDetail_txt .am-tabs-nav li a{ font-size:14px}
+.closebox{ position:absolute;top:6px;right:10px;}
+
+.roomicon:after{ content:""; clear:both; display:table}
+.roomicon li{ float:left; text-align:center; width:50px; font-size:12px !important; color:#999}
+[class*="room_icon"]{ display:block; width:30px; height:30px; margin:0 auto;background:url(../images/pf.png) no-repeat;}
+.room_icon_pm{ background-position:-30px 0;}
+.room_icon_rs{ background-position:-90px 0}
+.room_icon_wf{ background-position:-120px 0}
+.room_icon_ch{ background-position:0 0}
+.room_icon_tc{background-position:-60px 0}
+.room_icon_zc{ background-position:-150px 0}
+.HotelslistDetail_info{ padding:10px 0}
+.HotelslistDetail_info .title{ border-left:6px solid #8f6838; line-height:18px; margin-top:5px; padding-left:10px}
+.HotelslistDetail_info dd{ padding-left:1em; color:#666; margin-top:0; line-height:1.4em}
+
+.GroupHotelslistbox{padding:10px; margin-left:-3%}
+.GroupHotelslistbox:after{ content:""; clear:both; display:table}
+.GroupHotelslist{ float:left; width:47%; margin-left:3%; margin-bottom:3%}
+.GroupHotelslist ul{ width:100%;background:#fff; padding-bottom:5px}
+.GroupHotelslist li{ padding:0 5px;}
+.GroupHotelslist .GroupHotelslist_pic{ margin-bottom:5px; padding-top:5px}
+.GroupHotelslist_pic img{width:100%; height:100%;}
+.GroupHotelslist .GroupHotelslist_info{ padding-bottom:5px}
+.GroupHotelslist_info span{ display:block; line-height:1.5em; color:#999; font-size:12px}
+.GroupHotelslist_but{  float:right; position:absolute;right:5px;}
+.GroupHotelslist .Price {color:#81693f ; font-size:12px}
+.GroupHotelslist .Price em{ font-weight:600;  font-size:20px; }
+.GroupHotelslist .Price .zdjg_icon_20{margin-right:5px}
+.Groupotelslist_eia{ position:relative}
+
+@media all and (min-device-width:321px) {
+.GroupHotelslist_but {width:74px;}
+.GroupHotelslist_but .butstyleD{ height:28px;}
+}
+@media all and (max-device-width:320px) {
+.GroupHotelslist_but {width:52px; margin-top: 3px; }
+}
+
+/***预定信息填写***/
+.listinfofill:first-child{ border-top:1px solid #dadada;}
+.listinfofill li{  border-bottom:1px solid #dadada; padding:10px; line-height:35px;}
+.inputfill{ width:40%;}
+.listinfofill li:after{ content:""; display:block; clear:both}
+.listinfofill .inputinfofillstyle_A{ width:100%;color:#999; text-align:left}
+.listinfofill .sm12_icon_notice{width: 20px;height: 20px;text-indent: -9999px;background-size: 18px 18px;margin-bottom: -3px;margin-right: 10px;vertical-align: middle;}
+.listinfofill .cb{width: 20px;}
+.linkselect{ width:100%; display:inline-block; vertical-align:middle}
+.linkselect .more_icon{ margin-bottom:-3px}
+.TotalOrders{ width:100%; height:50px; background:#84704d; position:fixed; bottom:0; left:0 ; }
+.TotalOrders_price { color:#fff368; font-size:22px; font-weight:600; text-indent:1em; line-height:50px;}
+.TotalOrders_r { float:right;}
+.TotalOrders_r .TotalDetails{ padding:0 10px; color:#fff368; font-size:12px}
+.TotalOrders_r_but{width:120px; height:50px;text-align:center; background:#b1873d; color:#fff; border:none}
+.listinfotitle{ font-weight:300;}
+.listinfotitle .Dmore_icon{ margin-bottom:-5px; margin-left:20px}
+.listinfotitle .Umore_icon{ margin-bottom:-5px; margin-left:20px}
+.listinfotitle a{ display:block;color:#cc8032; }
+.ydPolicy{ padding:10px ; font-size:12px; line-height:35px;}
+.ydPolicy a{ color:#cc8032; padding:0 20px; text-decoration:underline}
+.ydPolicy_txt{ line-height:1.5em; color:#999; padding-left:25px;}
+.payselectsbox h3{font-weight:300;}
+.tipInfobox{text-align:center}
+.tipInfobox h2 span{ display:block; padding-top:10px}
+.cge_icon{background:#389011 url(../images/zeoe-icon.png) no-repeat; background-size:70%;display:block; background-position:center center; width:80px; height:80px; border-radius:80px;}
+.orderTopinfoBox{ background:#fffaf2; color:#999}
+.orderTopinfo_tbox{ border-bottom:1px solid #d8cbb4; font-size:14px}
+.orderTopinfo_tbox:after,.payfettle:after,.orderdetailstxt:after,.orderdetailstxt li:after,.user_list li:after{ content:""; display:table; clear:both}
+.orderTopinfo_l{ padding-bottom:5px;}
+.orderTopinfo_l .zticon{width:35px; height:60px; margin-top:15px; float:left;margin-right: 5px;}
+.orderTopinfo_ma{ width:50px; height:50px; overflow:hidden;}
+.ordl_contentbox h3{ font-weight:300; line-height:1.2em; color:#000}
+.ordl_contentbox{color:#999}
+.ordl_contentbox li span{ color:#000; padding-left:10px}
+.ordl_contentbox li { width:100%}
+.listfl_alink{ background:}
+.form_cr_style_D{ margin-left:20px}
+.diyhcont{ border-top:1px solid #ccc}
+.diyhcont em{  font-weight:}
+.txtwny{width:70%;float:left; font-size:14px; line-height:1.4em; padding:5px 0; display:inline-table;}
+.txtwny i{ margin:5px 10px 10px 0}
+.txtwny span{color:#000 !important}
+.txtwny span{ padding:0  !important; display:table-cell; vertical-align:middle;text-align:left !important; padding-left:0; margin:0; width:100%;}
+
+.payfettle { width:100%; padding-top:10px;border-top:1px dotted #ccc;}
+.payfettle li{ width:50%; float:left; padding-right:1px solid #ccc;}
+.orderdetailstxt{ line-height:2.2em;}
+.orderdetailstxt li{ border-top:1px solid #EEE}
+.orderdetailstxt li:first-child{ border:none}
+.orderdetailstxt span{ color:#999}
+.orderdetailstxt a{ display:block;}
+
+.myorderlist li{ padding:15px 10px; border-bottom:1px solid #ccc}
+.myorderlist .indate{ font-size:14px; color:#999; line-height:1.2em;}
+.myorderlist a{ display:block}
+.myorderlist_fettle{ font-size:14px;text-align:center; }
+.myorderlist_fettle .zt{ display:inline-block;vertical-align:middle; width:45px; margin-left:10px; margin-top:5px; font-size:12px; color:#666}
+.myorderlist_fettle .pe{ font-size:18px; line-height:60px;}
+.RoomStatus_icon_wait{ background:url(../images/looding-icon.png) no-repeat;}
+.RoomStatus_icon_confirm{ background:url(../images/yqueren_icon.png) no-repeat}
+.RoomStatus_icon_used{background:url(../images/yruzhu_icon.png) no-repeat}
+.RoomStatus_icon_cancel{ background:url(../images/yquxiao_icon.png) no-repeat}
+.RoomStatus_icon_wpay{ background:url(../images/yzhifu_icon.png) no-repeat;}
+.verification_dhx{ background:url(../images/dhx.png) no-repeat;display:block;width:100px; height:80px; background-size:100px 80px; margin:0 auto}
+.verification_yhx{ background:url(../images/yhx.png) no-repeat;display:block;width:75px; height:75px; background-size:75px 75px; margin:0 auto}
+.orderTopinfo_l_veri{ padding-bottom:5px;  background-size:50px 50px;}
+.orderTopinfo_l_veri .zticon_veri{width:100px; height:95px; margin-top:15px; float:left;margin-right: 8px;}
+.orderTopinfo_l_veri li:not(:first-child){margin: 20px;}
+[class*="RoomStatus_icon_"]{ display:block;width:35px; height:35px; background-size:35px 35px; margin:0 auto}
+
+
+.sidemenu{ display:none; position:absolute;top:45px;left:0; width:100%;}
+.sidemenu ul{background:#87633e; }
+.sidemenu li {border-bottom:1px solid #755433}
+.sidemenu li a{ display:block; line-height:40px; color:#fff; font-size:14px; text-indent:2em}
+.sidemenu li a:hover{ background:#755433}
+.roomtime_nbifno{ margin:10px 0; padding:10px ; background:#fff; border:1px solid #ccc; border-left:none; border-right:none; line-height:30px}
+.roomtime_nbifno [class*="roomtime_nbifno_"] b{ padding:0 3px;}
+.roomtime_nbifno_time,.roomtime_nbifno_room { border-bottom:1px dotted #ccc;}
+.commission_sv .vCount{ margin-top:3px}
+
+/***分隔线********************************************************************/
+
+.user_topbox{ height:90px; padding:15px 10px; position:relative; background:#9f5034  ; }
+.user_topbox .Wmore_icon{ margin-bottom:-3px;}
+.user_avatar_box{ color:#fff; text-align:left;line-height:2em;}.user_avatar_box a{display:block; width:60%; color:#fff;}
+.user_avatar{ display:inline-block; overflow:hidden;width:60px; height:60px;margin-right:10px; border:2px solid #fff;border-radius:40px; vertical-align:middle}
+.user_avatar a{ width:60%; display:block;}
+.user_topbox i{ margin-left:5px}
+.user_avatar img{ width:60px; height:60px;border-radius:40px;}
+.user_topbox .erm{ display:block; float:right; width:30px; height:30px; margin-top:15px}
+.user_topbox .erm img{width:30px; height:30px;}
+.user_infobox{ width:100%; background:#fff; margin:10px 0; font-size:12px; border-bottom:1px solid #E8E8E8;border-top:1px solid #E8E8E8}
+.user_info:after{ content:""; clear:both; display:table}
+.user_info li{ width:50%; float:left; height:60px; border-left:1px solid #E8E8E8; border-bottom:1px solid #E8E8E8}
+.user_info li a{ display:block; height:60px; padding-left:20%; padding-top:8px;}
+.user_info li p{ padding-top:3px; color:#666}.user_info li p b{ display:block;font-family:Arial, Helvetica, sans-serif;  font-weight:300; font-size:18px; color:#9f5034 ;}
+.user_info [class*="user_icon_"]{ display:block; width:35px; height:35px; float:left; margin-right:8px; margin-top: 3px}
+.user_icon_ye{ background:url(../images/grzx_icon_2.png) no-repeat; }
+.user_icon_fx{ background:url(../images/fx_icon_2.png) no-repeat;}
+.user_icon_jf{ background:url(../images/ye_icon_2.png) no-repeat;}
+.user_icon_yh{ background:url(../images/yh_icon_2.png) no-repeat;}
+.user_info [class*="user_icon_"]{ background-size:35px 35px}
+.user_info li b{ line-height:1em;}
+.i_notice{ width:100%; clear:both; color:#7992b3; padding:5px 10px; font-size:14px; line-height:25px; background:#fff; border-bottom:1px solid #E8E8E8;}
+.i_notice a{ color:#7992b3}
+.i_notice .more_icon_12{ margin-top:5px}
+
+.memberID{background:#fff; padding:10px; line-height:1.2em; font-size:14px}
+.memberID .hf{ margin-left:50px; margin-top:5px}
+.memberID .bg40_icon_card{ float:left}
+.memberID b{ display:block; font-size:16px;}
+.member_djbox{ background:#fff;} 
+.member_djbox .more_icon_12{ float:right; margin-top:10px}
+
+.user_Nav ul{ padding:20px 45px;}
+.user_Nav li{  width:50%; float:left; }
+.user_Nav li{ width:50%; float:left;}
+.user_Nav li span{ display:block;background:#fff; height:120px; width:120px;margin:0 auto; border-radius:3px;margin-bottom:30px; }
+.user_Nav li a{ display:block;text-align:center; line-height:2em;padding-top:15px;}
+.user_Nav [class*="user_icon_"]{ display:block;width:70px; height:70px; margin:0 auto;border-radius:3px;}
+
+.user_list{ background:#fff; border-bottom:1px solid #E8E8E8; border-top:1px solid #E8E8E8}
+.user_list_box h4{ font-weight:300}
+.user_list li{margin-left:10px;}
+.user_list li [class*="sm20_icon_"]{float:left; margin-top:15px}
+.user_list a .more_icon_12{ margin-top:12px;}
+.user_list li i{}
+.user_list li a{ margin-left:25px; padding:5px 0; line-height:2.5em;display:block; border-bottom:1px solid #EEE;padding-right:10px}
+.user_list li span{ display:block; width:100%; }
+
+.zh_card_bg{height:200px;background:url(../images/gr_bg.png) no-repeat; background-size:100% 100%; color:#fff; padding:20px;}
+.zh_card{width:100%; height:160px; background:rgba(255,255,255,0.4); border-radius:10px; padding:15px 20px; margin:0 auto}
+.zh_card .erm{ width:70px; height:70px; border:3px solid #fff; overflow:hidden;}
+.zh_card .erm img{ width:70px; height:70px;}
+.zh_card_lx{ width:100px;float:right}
+.zh_card_lx h1{ font-size:26px;}
+.zh_card_en{ padding-top:10px}
+
+.zh_infobox{ font-weight:300}
+.zh_info li { background:#fff; border-bottom:1px solid #ccc; padding:0 20px}
+.zh_infobox [class*="user_icon_"]{ display:block; width:40px; height:40px;float:left; margin-right:10px;}
+.zh_info .user_icon_ye{ background:url(../images/grzx_icon_2.png) no-repeat;opacity:0.5;filter:alpha(opacity=50); }
+.zh_info .user_icon_fx{ background:url(../images/fx_icon_2.png) no-repeat;opacity:0.5;filter:alpha(opacity=50); }
+.zh_info .user_icon_jf{ background:url(../images/ye_icon_2.png) no-repeat;opacity:0.5;filter:alpha(opacity=50);}
+.zh_info .user_icon_yh{ background:url(../images/yh_icon_2.png) no-repeat;opacity:0.5;filter:alpha(opacity=50);}
+.zh_info [class*="user_icon_"]{ background-size:40px 40px}
+.zh_info li a{ display:block; padding:15px 0}
+.zh_info li:hover{ background:#fff6ec;}
+.zh_info .more_icon{ margin-top:6px}
+
+.uesrtop_box{ background:#9f5034; height:160px;}
+.uesrtop_ye{ color:#fff; padding-top:15px;}
+.uesrtop_ye:after,.transactionDL_title:after,.coupon_cont:after{ content:""; clear:both; display:table;}
+.uesrtop_ye_info { float:left;}
+.uesrtop_ye h1{ font-size:36px; font-weight:600}
+.uesrtop_ye h1 em{ font-size:26px}
+.uesrtop_link { display:block; height:30px;float:right; color:#fff; vertical-align:top; margin-top:20px}
+.uesrtop_link i{ margin-bottom:-3px}
+.transactionDL_list{ background:#fff}
+.transactionDL_list li{ padding:10px; border-bottom:1px solid #e1e1e1}
+.transactionDL{ position:relative;}
+.transactionDL_list>:first-child{border-top:1px solid #ccc}
+.transactionDL_title { width:60% ; padding:10px 0; margin:0 auto}
+.transactionDL_title p{ width:46%;float:left; margin:0 2%; }
+.transactionDL_title .am-selected{ width:95%}
+.transactionDL_title .am-btn{ padding:6px 0; padding-right:25px}
+.transactionDL_title .am-btn,.transactionDL_title .am-selected-list{font-size:16px !important; text-align:center}
+.transactionDL_title .am-selected-status { text-align:center}
+.transactionDL_title .am-btn-default,.transactionDL_title .am-btn-default:hover {border:none; }
+.transactionDL_title .am-btn-default{ border-radius:20px}
+.transactionDL_title .am-active .am-btn-default.am-dropdown-toggle,.transactionDL_title .am-btn-default.am-active,.transactionDL_title .am-btn-default:active  { background:#ccc !important; }
+.transactionDL_title .am-selected-list li{ padding:10px 0; border-top:1px dashed #ccc}
+.transactionDL_title .am-icon-caret-down::before{ content:""}
+.transactionDL_title .am-icon-caret-down{ display:inline-block; width:16px; height:16px; margin-top:2px; background:url(../images/moreae_iocn2.png) no-repeat right center; background-size:16px 16px}
+.transactionDL_title .am-selected-list .am-selected-text{ margin-right:0}
+.transactionDL_title p a{ display:block; width:100%; text-align:center; line-height:30px; height:32px;}
+.transactionDL_title .am-icon-check{ display:none}
+.transactionDL_title p .Dmore_icon_12{ margin-left:5px; }
+.transactionDL_title p.hover{ border-radius:16px; background:#fff; border:1px solid #ccc}
+.transactionDL_list .money { color:#999; font-size:12px; text-align:left}
+.transactionDL_list .money span{ font-size:16px; display:block; text-align:left;font-weight:600; color:#000}
+.transactionDL_list .money span.colorgreen{ color:green; }
+.transactionDL_list .money span.colored{ color:red; }
+.transactionDL_list_title span{ color:#999; font-size:12px;}
+.transactionDL_list_pic{ float:left; margin-right:10px}
+.transactionDL_list_pic img{width:35px; height:35px; border-radius:20px; vertical-align:top}
+.typeselect{width:100%; margin:0 auto; background:#fff; border:1px solid #ccc;}
+.typeselect{ position:absolute;}
+.typeselect li a{ display:block; background:#fff}
+
+
+
+.integral_list li{border-bottom:1px solid #e1e1e1; padding:15px 10px; margin-bottom:10px; background:#fff}
+.integral_list li:after{ display:table; clear:both; content:""}
+.integral_list .pic{ width:50px; height:50px; float:left; margin-right:10px}
+.integral_list .pic img{width:50px; height:50px; border-radius:30px}
+.integral_list a{ display:block }
+.integral_list a.link{ display:block; float:right; font-size:14px; margin-top:5px;}
+.integral_list .tips{ margin-top:15px; border-top:1px solid #e1e1e1; padding-top:5px; color:#999; font-size:14px;}
+
+.exchangetips{padding:20px; background:#fff; position:fixed;bottom:0; width:100%; border-top:1px solid #ccc}
+.exchangetips_info{ margin:10px 0;}
+.exchangetips_info i{ float:left;}
+.exchangetips_info p{margin-left:40px;}
+.exchangetips .closebut{position:absolute;top:20px;right:20px}
+.exchangetips_receive{border-top:1px solid #ccc; padding:10px 0;color:#666; font-size:14px}
+.exchangetips_receive .fs label{margin-right:20px; line-height:40px;}
+.exchangetips_butbox p,.footer_butbox p{ width:50%; float:left}
+.exchangetips_butbox input,.footer_butbox p input { width:90%; margin:0 5%}
+.footer_butbox{padding:10px; }
+.footer_butbox:after{ clear:both; content:"";  display:table}
+
+/***优惠券***/
+.coupon_cont{ margin-bottom:20px;}
+.coupon_cont .time{ font-size:14px; font-weight:300; padding:5px 10px;}
+.contdl .erm{ width:50px; height:50px; overflow:hidden}
+.contdl .erm img{width:50px; height:50px;}
+.contdl{padding:10px 20px}
+.contdl .pic{ position:relative;}
+.contdl .pic img{ max-width:100%; height:auto; border-radius:8px; margin-bottom:2px}
+.contdl .pic .Nb{ position:absolute; display:block; z-index:33; font-size:20px; top:10px; left:20px; color:#fff;text-shadow: 2px 1px 1px #333}
+.contdl .txt{ padding:10px 0; color:#666; font-size:14px;}
+.contdl .txt p b{font-size:26px; line-height:20px;}
+.contdl .pic .bottombg{ background:url(../images/yhebgbot.png) repeat-x bottom; width:100%; height:14px; z-index:333; position:absolute; bottom:0; left:0;border:none; margin:0; padding:0}
+.coupon_cont .explain{ border-top:1px solid #ccc; border-bottom:1px solid #ccc; font-weight:300; text-align:center; padding:5px 0; background:#FFFBD9}
+.coupon_cont .explain i{ margin-right:5px}
+.coupon_listsl li a{ display:block; padding:5px 0}
+.coupon_listsl li{ border-bottom:1px solid #ccc;}
+.coupon_listsl li span.fr{ margin-top:8px;}
+.coupon_listsl li:hover{ background:#FBF8DD}
+.coupon_listsl .date{ font-size:14px; line-height:1.3em; }
+.coupon_listsl .sum{ display:block; font-weight:600; margin-right:5px;float:left}
+.coupon_listsl .sum b{font-size:35px;line-height:1em;  }
+
+.belinkedform { background:#fff;}
+.belinkedform input{ height:40px; border:1px solid #ccc;padding:5px}
+.belinkedform li{ padding-bottom:10px;}
+.belinkedform .hm input{ }
+.belinkedform .hm .mobile_nb{width:64%; float:left;}
+.belinkedform .hm .butCode_hq{padding:0;width:34%; float:right;border:none; line-height:2em; font-size:12px; text-align:center; color:#fff;background:#d45151;}
+.belinkedform .hm .butCode_hq:hover{ background:#e56262}
+.belinkedform .min input{ width:100%;}
+.belinkedform .hm .mbrCardBind{width:100%;}
+
+.hotelsinfo_title{ padding:10px 20px;}
+.hotelsinfo_txt [data-am-widget="tabs"]{ margin:0}
+.hotelsinfo_txt .am-tabs-default .am-tabs-nav{ background:#d4c7aa; }
+.hotelsinfo_txt .am-tabs-default .am-tabs-nav > .am-active a { background:#fff; color:#000;}
+.hotelsinfo_txt .am-tabs-default .am-tabs-nav,.hotelsinfo_txt .am-tabs-default .am-tabs-nav a{ line-height:40px;}
+.hotelsinfo_txt .am-tabs-default .am-tabs-nav a{ border-right:1px solid #b99c5d}
+.hotelsinfo_txt .am-tabs-bd{ background:#fff; color:#666}
+.hotelsinfo_txt .am-tabs-bd .am-tab-panel{ padding:20px}
+.hotelsinfo_txt .am-tabs-bd .am-tab-panel img{max-width:100% !important}
+
+.plinfobox [class*="line_icon"]{ margin-bottom:-3px; margin-right:5px}
+.plinfobox select{ color:#999}
+
+.addressbox{ background:#fff; margin:10px; border:1px solid #CCC;}
+.addressbox .addbut {margin:10px}
+.addressbox .addbut a{ color:#666;}
+.addressbox .addbut i{ margin-top:10px !important}
+.addressbox .editbut { height:100%; margin:10px 10px} 
+.addressbox .editbut a{ display:block; width:60px; height:60px; border:1px solid #CCC; border-radius:2px; text-align:center;}
+.addressbox .editbut a:hover{ background:#FCFBE9}
+.addressbox .editbut a i{ margin:0 auto; display:block !important; margin-top:10px}
+
+.guestlist{ background:#fff;  border:1px solid  #E6E6E6}
+.guestlist li{border-top:1px solid  #E6E6E6;padding:10px;}
+
+
+.storedvalve_ch_box li{line-height:40px}
+.storedvalve_ch_box .form_cr_style_C label{ line-height:18px;}
+
+.priceDetailsbox{ border-top:1px solid #CCC; background:#fff; padding:10px}
+.priceDetails dt{ line-height:1em;color:#cc8032; border-left:5px solid #cc8032; padding-left:5px; margin-bottom:10px; font-weight:300}
+.priceDetails dd.listbox{ padding:10px;border:1px solid #E6E6E6; border-top:2px solid #E6E6E6;margin-bottom:5px;}
+.priceDetails p.mx_li{ font-size:12px; color:#666}
+
+.Navit_address{ background:rgba(0,0,0,.5); padding:10px; color:#fff; font-size:14px}
+.Navit_button{ background-color:rgba(0,0,0,.5) ; background-image:url(../images/Navbut_icon.png); background-repeat:no-repeat; background-position:center 5px; background-size:20px auto; width:60px; height:60px; border-radius:30px; padding-top:35px;color:#fff; font-size:14px; text-align:center; position:fixed;bottom:30px;right:30px}
+.cityselec{ background:#fff3; padding:10px; font-size:14px; margin-top:5%;}
+.cityselec input{ text-indent:0.5em;}
+.cityselect p{ padding:5px 0; font-size:14px;}
+.cityselec_date span{ display:block; float:left; width:45%; margin-left:10%;}
+.cityselec_date span:first-child{ margin-left:0}
+.cityselec_date input{ display:block; background:#fff url(../images/date_iconjl.png) no-repeat 95% center; background-size:20px 20px}
+.cityselec_date:after,.wxcontact_sb:after,.balancepay:after,.RechargeMoney dl:after,.RechargeMoney:after,.couponfilter:after{ content:""; clear:both; display:table}
+.cityselec p{ padding:5px}
+.cityselec .seach_icon_20{ vertical-align:middle; margin-right:10px} 
+.cityselec_ci .inputstyle_A{ text-indent: 0.2em; font-size:16px;
+	
+}
+.wxcontact{ height:100%; min-height:100%; background:#fff; padding-top:20px}
+.wxcontact_sb{ padding:20px 0}
+.wxcontact_sb li{ float:left; width:50%; text-align:center; font-size:14px}
+.wxcontact_sb .ewm_c,.wxcontact_sb .sbwbg{ width:140px; margin:0 auto;display:block}
+.wxcontact_sb .ewm_c{ float:right}
+.wxcontact_sb .ewm_c img{ width:100%;}
+.wxcontact_sb .sbwbg{ float:left;background:url(../images/term_zm.png) no-repeat center top; background-size:140px 140px; padding-top:140px;}
+.balancepaybox,.cardpassword_steupbox{ background:#fff; padding:20px; border-bottom:1px solid #ccc;}
+.cardpassword_steupbox .ydPolicy{ padding-left:0}
+.balancepaybox li,.cardpassword_steupbox li{ padding:10px 0;}
+.balancepaybox .jg{font-size:28px;}
+.balancepaybox .pad span{ display:inline-block;line-height:35px}
+.balancepaybox .pad input{ float:right;}
+.cardpassword_steup span{ display:inline-block; padding-right:5px; float:left; line-height:35px}
+.Bombbox{ width:90%; margin:0 auto; padding:10px; background:#EAEAEA; position:absolute; right:0; left:0}
+.Bombbox .title{ font-weight:300;border-bottom:1px solid #EAEAEA; color:#666;}
+.Bombbox .title i{ margin-right:5px; margin-bottom:-3px}
+.Bombbox .warning_content{ padding:20px 10px; text-align:center;}
+.Bombboxfooterbut{ padding-top:10px}
+.Bombboxfooterbut p{ float:left; width:50%; line-height:35xp; text-align:center;}
+.Bombboxfooterbut p:first-child{ border-right:1px solid #ccc;}
+
+
+.Recharge_over{ padding:10px 0 ; text-align:center; background:#fff; border-bottom:1px solid #ccc; margin-bottom:10px}
+.Recharge_over h3{ font-weight:300; font-size:18px}
+.RechargeMoney{ margin:0px 20px; border-bottom:1px dashed #666; padding-bottom:20px}
+.RechargeMoney dt{ padding:0 10px; font-weight:300}
+.RechargeMoney dd{ width:33.33333%;float:left;}
+.RechargeMoney dd a{display:block;height:60px;border:1px solid #ccc; margin:6px 10px; background:#fff; line-height:60px; text-align:center; vertical-align:bottom; font-size:20px;}
+.RechargeMoney dd a.active{border:5px solid #093; color:#093 ; font-weight:600;line-height:50px;}
+.RechargeMoney .Othermony{ padding:0 10px; clear:both }
+.RechargeMoney .Othermony i{ margin-left:10px}
+.Flighttime input{width:80px !important; height:30px; float:right; margin-top:3px; width:80px; margin-left:10px}
+
+.couponfilter ul{ width:90%; margin:0 auto;}
+.couponfilter li { width:29%; margin:0 2%; float:left ; text-align:center;font-size:12px;}
+.couponfilter li a{ display:block; width:100%;height:28px; background:#E1E1E1; border:1px solid #ccc;border-radius:30px; line-height:25px; }
+.couponfilter li a.hover,.couponfilter li a:hover{ background:#390; border:1px solid #060;color:#fff;}
+
+.news_list li:first-child{ border:none;}
+.news_listbox{ background:#fff; padding:10px;}
+.news_list{ color:#C60}
+.news_list li{ padding-left:30px;border-top:1px solid #EEE;}.news_list li:first-child{ border:none;}
+.news_list li a{  width:90%;overflow: hidden;white-space: nowrap;text-overflow:ellipsis;display:block; line-height:1.3em;padding:5px 0}.news_list li a span{display:block; font-size:12px}
+.news_list li.link{ background:url(../images/xinfn.png) no-repeat left center; background-size:16px 16px; font-weight:600}
+.news_list li.visited{background:url(../images/xinfn_2.png) no-repeat left center; background-size:16px 16px; }
+.news_list li.visited a{color:#666 !important}
+.news_list li i{ margin-top:15px}
+.news_Detailbox{ padding:10px;}
+.news_Detailcont{  padding:10px;  color:#666}
+.news_Detailcont h3{ color:#000; text-align:center; border-bottom:1px solid #ccc; margin-bottom:10px}
+.news_Detailcont h3 span{ display:block; font-weight:300; font-size:14px}
+.Hyewm{ width:80%; margin:0 auto;  background:#fff}
+.Hyewm_cont{ width:100%; padding:10%; overflow:hidden; text-align:center}
+.Hyewm_cont img{ width:100%;}
+
+.arrivetimebox{ background:#fff}
+.arrivetime_title{ border-bottom:1px solid #ccc; line-height:1.5em; color:#666; font-size:14px;padding:6px 10px }.arrivetime_title h3{ font-weight:300; color:#000}
+.arrivetime_list{padding:10px 0 10px 10px}
+.arrivetime_list dd{ padding:18px 0; border-bottom:1px solid #EFEFEF; margin-left:25px; position:relative}
+.arrivetime_list dd label{ width:100%; position:absolute; left:-20px;top:5px}
+.arrivetime_list .form_cr_style_C label::before{ background:none}
+
+.namelist{ position:relative;}
+.namelist .nameinfo{ display:block; width:80%;}
+.namelist i{ position:absolute; top:40%; right:0}
+.selectGI_add{ margin:10px 0;}
+.selectGI_add h4{ font-weight:300; padding-left:10px}
+.selectGI_add .inputinfofillstyle_A{ text-align:left}
+.guestlist .form_cr_style label::before{ margin-top:-3px}
+.guestlist{ background:#fff;  border:1px solid  #E6E6E6}
+.guestlist li{border-top:1px solid #EAEAEA;padding:10px;}
+.Roominfosv {padding:10px; font-size:14px;}
+.Roominfosv table{ background:#FFFCEE;border:1px solid #f4eabd !important }
+
+.graphiclistbox{ padding:10px}
+.graphiclist_h li{ background:#fff; border:1px solid #DFDFDF;padding:10px; margin-bottom:10px}
+.graphiclist_h a{ display:block}
+.graphiclist_h li:after{ content:""; display:block; clear:both}
+.graphiclist_h .pic_L{ float:left;width:120px; height:90px;margin-right:10px}
+
+.graphiclist_h .pic_L img{ width:120px; height:90px;}
+.graphiclist_h .title{overflow: hidden;white-space: nowrap;text-overflow:ellipsis;}
+.graphiclist_h .summary{ color:#666; height:42px; line-height:1.4em; overflow:hidden; font-size:14px}
+.graphiclist_h .time,.graphiclist_f .time{ color:#C5C5C5; font-size:14px;}
+
+.graphiclist_f li{float:left; width:29.3333%;  margin-bottom:10px;margin:2% 2%;}
+.graphiclist_f li a{background:#fff; width:100%;margin:0 auto;display:block;padding:5px;}
+.graphiclist_f li a:before {content:"";padding-bottom: 100%;width:.1px;vertical-align: middle;}
+.graphiclist_f .pic_L,.graphiclist_f .pic_L img{width:100%;height:90px;}
+.graphiclist_f .title{ line-height:1.3em; font-weight:300; height:40px; overflow:hidden}
+
+.transactionDL .am-tabs-bd .am-tab-panel {padding:0}
+.transactionDL .am-nav-tabs > li{ width:33.3333%;text-align:center}
+@media all and (max-device-width:320px) {
+.transactionDL .am-nav-tabs > li{ width:33.3333%;text-align:center}	
+.transactionDL_title { width:95% !important}} 
+.transactionDL .am-nav-tabs > li.am-active > a,.transactionDL .am-nav-tabs > li > a{border-radius:30px; margin:0; padding-left:0;padding-right:0; line-height:26px}
+.transactionDL .am-nav-tabs > li.am-active > a{border:1px solid #ddd ;}
+
+.balancepaydiinfo{ padding:10px}
+.balancepay { border-top:1px solid #ccc; border-bottom:1px solid #ccc; padding-bottom:20px}
+.fxpayinfo { padding:10px; margin-bottom:10px}
+.fxpayinfo p{padding:5px 0}
+.fxpayinfo p span{padding-left:10px}
+.fxpayinfo .Laes{ background:#FFFEF0}
+.fxpayinfo .Laes span{ width:50%; display:inline-block}
+.orth{ padding:10px; background:#fff; margin:10px 0}
+.orth a{ display:block}
+.orth i{ margin-left:10px}
+.orth textarea{ width:100%; border:1px solid #EBEBEB; margin:10px 0}
+.Kzsv {background:#fff;}
+.Kzsv .orderdetailstxt{  padding:10px; padding-top:0}
+.Kzsv .Roominfosv{ padding-bottom:0}
+.fxpayinfobox{ padding:20px 0}
+.fxpayinfobox h3{ margin:0 10px; font-weight:300; border-bottom:1px dashed #CCC; line-height:2em; margin-bottom:10px}
+.fxpayinfobox h3 b{ font-size:20px}
+
+.branchDateSelection .dateDailog{width: 50%; float: left; display:inline-block;text-align: left}
+.branchDateSelection .dateDailog abbr { width:100%;}
+.branchDateSelection .dateDailog abbr input{ width:100%;}
+.branchDateSelection .title{ display: inline-block; width: 50%; float: left; text-align: right;}
+
+.startbut{background:url(http://res.gshis.net/jxd-res:18wlBl0m93vVqx6fLtJi2K) no-repeat; background-size:100% 100%;width:70px; height:70px; position:absolute;top:25px;left:25px;}
+
+@media all and (max-device-width:320px){.choujimgbg{ width:310px; height:310px; margin:0 auto !important;
+}
+.choujimgbg [class*="j"]{ width:70px; text-align:center; border-radius:60px; color:#C60; line-height:1.2em; padding:2px; font-size:12px;}
+.choujimgbg .j1{ position:absolute;left:50px;top:110px;}
+.choujimgbg .j2{ position:absolute;left:50px;top:180px;}
+.choujimgbg .j3{ position:absolute;right:120px;top:220px;}
+.choujimgbg .j4{ position:absolute;top:65px; right:125px;}
+.choujimgbg .j5{ position:absolute;top:110px; right:60px;}
+.choujimgbg .j6{ position:absolute;top:180px; right:60px;}
+.operatingarea{width:120px; height:120px; position:absolute;top:95px;left:90px; z-index:200}
+.pointerimg,.pointerimg img{ width:120px;height:120px}
+}	
+@media all and (min-device-width:321px) {
+.choujimgbg{width:350px;height:350px;margin:0 auto !important;}
+.choujimgbg [class*="j"]{width:80px; text-align:center;border-radius:40px; color:#C60; line-height:1.2em; padding:2px; font-size:12px;}
+.choujimgbg .j1{ position:absolute;left:60px;top:125px;}
+.choujimgbg .j2{ position:absolute;left:60px;top:200px;}
+.choujimgbg .j3{ position:absolute;right:140px;top:240px;}
+.choujimgbg .j4{ position:absolute;top:70px; right:140px;}
+.choujimgbg .j5{ position:absolute;top:125px; right:70px;}
+.choujimgbg .j6{ position:absolute;top:200px; right:75px;}
+.operatingarea{width:120px; height:120px; position:absolute;top:110px;left:110px; z-index:200}
+.pointerimg,.pointerimg img{ width:120px;height:120px}
+}
+
+.choujcolorbg{ background:#c11e47; height:100%;}
+.choujtxt .txetlist span.name{ display:block;float:left; width:70px;overflow:hidden; white-space:nowrap;text-overflow : ellipsis ;margin-right:5px;height:28px;float:left;}
+.choujimgbg{background:url(http://res.gshis.net/jxd-res:03wG3FIMN1fbRg5RSj7uJK) no-repeat; background-size:100% 100%; position:relative;margin:20px 0;}
+
+.choujtxt{ background:#FF6251; padding:20px; margin-top:20px; color:#fff; font-size:14px; border-radius:10px; width:90%; margin:20px auto; border:3px solid #FC3;margin-bottom:35px;}
+.choujtxt .title{ width:80%; height:40px; background:url(../images/titlebg.png) no-repeat; background-size:100% 100%; color:#000; margin-left:auto; margin-right:auto; margin-top:-45px;margin-bottom:10px; text-align:center; line-height:45px; }
+.choujtxt .txetlist li{ border-bottom:1px dashed #FF9488; line-height:2.6em;}.choujtxt .txetlist li{ color:#F7C764}
+.choujtxt .txetlist li:after{ clear:both; content:""; display:table}
+.choujtxt .txetlist .time{ font-size:12px;}
+
+.mp_citysbox{background:#E4E4E4}
+.mp_citys{width:80%; margin:0 auto; padding-top:30px; height:212px}
+.mp_citysbox p{margin-bottom:15px}
+.mp_citysbox select,.mp_citysbox input{ height:45px; border:1px solid  #CCC; text-indent:0.5em; background:#fff;-webkit-appearance:normal}
+.mp_citysbox select{ background:#fff url(../images/moreae_iocn2.png) no-repeat; background-size:6% 40%; background-position:95% center }
+.mp_citysbox .F_seach_but{ height:45px; line-height:45px; background:#81693f url(../images/dd_icon.png) no-repeat center center; background-size:25px 25px; border:none}
+.cityTicketslist{width:100%;position:absolute;top:210px; bottom:0; background:#fff; padding:10px; border-top:1px solid #ccc}
+.cityTicketslist .wz{ width:70%; display:block; font-size:12px; color:#999; overflow:hidden; white-space:nowrap;text-overflow : ellipsis }
+.cityTicketslist .wz .more_icon_12{ margin-top:2px}
+.cityTicketslist .pic_L{ float:left; width:50px; height:50px; overflow:hidden; margin-right:5px;}
+.cityTicketslist .pic_L img{width:50px; height:50px;}
+.cityTicketslist .content{width:65%;}
+.cityTicketslist .Price{font-size:14px;font-family:Arial, Helvetica, sans-serif; float:right; margin-top:5px }
+.cityTicketslist .Price a{color:#a06201; }
+.cityTicketslist .Price b{ font-size:22px;}
+.cityTicketslist li{ border-bottom:1px solid #DBDBDB; padding:15px 0}
+.ticketlist_topad {height:220px; width:100%; overflow:hidden; position:relative}
+.ticketlist_topad  img{width:100%; height:100%;}
+.ticketlist_topad .title{ width:100%;  background:rgba(0,0,0,.5); position:absolute; bottom:0; left:0; padding:5px 10px; }
+.ticketlist_topad .title h1{ width:80%;font-size:16px;}
+.ticketlist_topad .title span{ font-size:14px}
+.ticketlist_topad .title .Wmore_icon{ margin-bottom:-4px;}
+.ticketlist_topad .title a{color:#fff;}
+.ticketlist .itme{margin:10px 0; background:#fff url(../images/meibgbottom.png) repeat-x bottom; background-size:9px 4px;padding-bottom:10px;  border-top:1px solid #E4E4E4}
+.ticketlist .itme:after{ clear:both; content:""; display:table}
+.ticketlist dd,.ticketlist dt{ padding:0 10px}
+.itmetitle span{ font-size:12px}
+.itmetitle span b{ font-size:18px}
+.ticketlist dt{ line-height:2.6em ; background:#fffcf1 ; border-bottom:1px solid #f3ebcc}
+.ticketlist .smallbutA{border:1px solid #F00; font-size:10px; border-radius:10px; color:#F00;padding:0 5px;}
+.ticketlist .beiz{ color:#999; font-size:14px}
+.itmecontetn_r{ position:absolute;right:5px;top:50%; margin-top:-33px; height:66px;}
+.itmecontetn{ position:relative; padding:15px 10px!important; border-top:1px dashed #DFDFDF}
+.itmecontetn p{ line-height:1.3em;}
+.itmecontetn:first-child{ border-top:none !important;}
+.itmecontetntitle { color:#333;width: 170px;}
+@media all and (max-device-width:320px){.itmecontetntitle { width:60%; }}
+.ticketlist .dailyprice{ font-size:12px; line-height:1.8em;margin-top: 8px;}
+.tickettopinfo { padding:15px 10px}
+.tickettopinfo h1{ width:70%; font-size:18px;}
+.tickettopinfo h1 span{ display:block; font-size:14px; color:#666}
+.tickettopinfo .Price{ font-size:14px; float:right; margin-top:6px}
+.tickettopinfo .Price b{ font-size:22px}
+.pictextjs img{ max-width:100%; display:block; padding:5px 0;}
+
+.GroupTicketslistbox{ margin-top:10px}
+.GroupTicketslistbox:after,.GroupTicketslist li:after{ content:""; clear:both; display:table}
+.GroupTicketslist{ border-bottom:1px solid #E8E8E8; position:relative}
+.GroupTicketslist ul{ width:100%;background:#fff; padding-bottom:5px}
+.GroupTicketslist ul:after{ display:table; content:""; clear:both}
+.GroupTicketslist .GroupTicketslist_pic{  width:26%;overflow:hidden;position:relative; float:left; margin-right:5px;}
+.GroupTicketslist .GroupTicketslist_pic:after{ display:block; content:"";height:0; clear:both; padding-bottom:100%;}
+.GroupTicketslist_pic img{ position:absolute;width:100%; height:100%}
+.GroupTicketslist_info {padding-top:10px;}
+.GroupTicketslist_info span{ display:block; width:60%; line-height:1.6em; color:#999; font-size:14px;white-space: nowrap;text-overflow: ellipsis; overflow:hidden; }
+.GroupTicketslist_info h3{ margin-bottom:3px; font-size:16px; font-weight:300}
+.GroupTicketslist_but{  float:right; position:absolute;right:5px;}
+.GroupTicketslist .Price {color:#ff8400 ; font-size:12px;}
+.GroupTicketslist .Price em{ font-weight:600;font-size:20px;}
+.GroupTicketslist .Price .zdjg_icon_20{margin-right:5px}
+.GroupoTicketBook{ position:absolute;right:5px; z-index:33; top:46%; margin-top:-16px;}
+
+@media all and (min-device-width:321px) {
+.GroupTicketslist_but {width:74px;}
++
+.GroupTicketslist_but .butstyleD{ height:28px;}
+}
+@media all and (max-device-width:320px) {
+.GroupTicketslist_but {width:52px; margin-top: 3px;}
+}
+
+@media all and (max-device-width:320px) {
+.GroupTicketslist_info h3{ margin-bottom:0px;}
+.GroupTicketslist_info span{ font-size:12px}
+}
+
+.chbdtipscontbox{ margin:20px; padding:15px 10px; background:#fff; border-radius:8px;color:#666}
+.chbdtipscontbox h1{ text-align:center; border-bottom:1px solid #DBDBDB; padding-bottom:15px; }
+.chbdtipscont{ padding-top:10px; }
+.chbdtipscont ul{padding:15px 0;color:#000;}
+.chbdtipscontbox .butbox{padding-bottom:20px}
+.chbdtipscontbox .butbox button{ width:40%; margin:0 5% ; height:40px; border:none; border-radius:2px; display:inline-block; font-size:14px}
+.chbdtipscontbox .butbox .colorfe{ background:#9B5F0D; color:#fff;}
+.chbdtipscontbox .butbox .colorwe{ background:#930; color:#fff;}
+.chbdtipscontbox .yhts{ padding-bottom:15px}
+
+.gojiang{ position:fixed; bottom:10px;right:10px; }
+.gojiang a{display: block;background:url(../images/go.png) no-repeat; width:80px; height:80px; background-size:80px 80px;}
+
+.lodingtxet{ color:#868686; text-align:center; font-size:14px; padding:15px 0; clear:both;text-shadow: 1px 1px 2px #fff;}
+
+.Ordertype { margin-bottom:10px;}
+.Ordertype ul{ height:45px; background:#fff;}
+.Ordertype ul:after{ content:""; display:table; clear:both}
+.Ordertype li{ float:left; width:33.3333333%;}
+.Ordertype li a{ text-align:center; display:block; width:100%; line-height:45px;border-bottom:2px solid #DDD }
+.Ordertype li a.hover{ border-bottom:2px solid #26b3ee}
+
+.votebody {
+	background:#fff url(../images/vote_bg.png) no-repeat top;
+	background-size: 100%;
+	padding-top: 33%;
+	height: 100%;
+	margin-bottom: 60px;
+}
+.votezt .voteexplanation {
+	padding: 0 20px;
+	margin-bottom: 15px;
+	color: #e27c3b;
+	position: relative
+}
+.votezt .votedetailbox {
+	padding: 0 20px;
+	margin-bottom:5px;
+}
+
+
+.votezt .voteexplanation .tie { width:130px; text-align:center;
+	padding: 0 15px;
+	font-size: 16px;
+	font-weight: 300;
+	text-align: center;margin-left:-65px;
+	position: absolute; 
+	top: 0;left:50%;
+	border-top: 1px solid #5b1a18; white-space: nowrap;
+}
+.votezt .voteexplanation .tie span{
+	position: relative;
+	top: -15px;
+	color: #d38c5b
+}
+.votezt .voteexplanation .cont {
+	margin-top: 50px;
+	border: 1px solid #7f563a;
+	font-size: 12px;
+	border-radius: 10px;
+	color: #c5692e;
+	padding: 15px 15px 10px;
+}
+.votezt .voteexplanation .cont .conttxtH {
+	height: 40px;
+	overflow : hidden;
+	text-overflow: ellipsis;
+}
+.votezt .voteexplanation .cont .conttxtD {
+	height: auto;
+}
+.votezt .voteexplanation .cont:after {
+	content: "";
+	display: table;
+	clear: both
+}
+.votezt .voteitmelist {
+	background: #eeeeee;
+	padding: 10px;
+	margin-left: 3%;
+	margin-bottom: 10px;
+}
+.votezt .voteitmelist .pic {
+	position: relative
+}
+.votezt .voteitmelist .pic a {
+	display: block
+}
+.votezt .voteitmelist .pic img {
+	width: 100%;
+}
+.votezt .Nb {
+	background: rgba(115,91,28,0.7);
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 2px 8px;
+	color: #fff;
+	font-size: 12px;
+	border-radius: 0 0 16px 0; min-width:50px; padding-left:20px;
+}.votezt .Nb img{ position:absolute;top:0;left:0; width:20px !important; height:auto}
+.votezt .BNb{ display:block; padding:2px 5px;line-height:18px; border-radius:0 0 0 5px ;position: absolute; background:rgba(0,0,0,.6); color:#fff; font-size:12px;
+	top: 0;
+	right: 0;;}
+.votezt .voteitmelistbox {
+	-webkit-column-count:2;-webkit-column-gap:10px;-webkit-column-rule:10px solid #fff;column-count:2;column-gap:10px;column-rule:10px solid #fff;margin-left: -5%;
+}
+.votezt .voteitmelistbox:after, .votebody:after {
+	display: table;
+	content: "";
+	clear: both
+}
+.votezt .but {
+	float: right;
+	width: 45%;
+	margin-top: 6px
+}
+.votezt .vnb span {
+	display: block;
+	font-size: 12px;
+}
+.votezt .vnb span b {
+	font-size: 20px;
+	font-family: Arial, Helvetica, sans-serif
+}
+.votezt .vnb {
+	font-size: 14px;
+	line-height: 1.5em;
+	margin-top: 5px;
+}
+.votezt .votebut {
+	border-radius: 2px;
+	height: 30px;
+	width: 100%;
+	background: #a22b2b;
+	border: none;
+	border-bottom: 3px solid #701919;
+	font-size: 12px;
+	color: #fff;
+}
+.votezt #tog{ display:block; width:20px; height:20px; background:#; position:absolute; bottom:-11px; margin-left:-10px; left:50%; text-indent:-3333px; border:none;}
+.votezt #tog.dn{ background:#521a19 url(../images/show_icon_dw.png) no-repeat; background-size:20px 20px; }
+.votezt #tog.up{ background:#521a19 url(../images/show_icon_up.png) no-repeat;background-size:20px 20px; }
+
+.Navfooter_vote{width: 100%;height: 50px;position: fixed;background-color: #282828;z-index: 33333;bottom: 0px;}
+.Navfooter_vote li{display: block;width: 50%;float: left;font-size: 18px;text-align: center;}
+.Navfooter_vote .nav_1{border-right: 1px solid white;}
+.Navfooter_vote li a{color: white;display: block;line-height: 50px;}
+.Navfooter_vote [class*="nav_"] a.hover{ color:#009fe8}
+
+.votezt .votedetailbox .votebut {
+	border-radius: 2px;
+	height: 45px;
+	width: 100%;
+	background: #27b3f0;
+	border: none;
+	border-bottom: 3px solid #1599d2;
+	font-size: 14px;
+	color: #fff;
+}
+.votezt .bottom:after,.votedetail:after{display:table; content:""; clear:both}
+.vote-detail-title{ color: #fff;font-size: 26px;font-weight: bold;text-align: center;white-space: nowrap;position: fixed;top: 50px;width: 100%;}
+.votezt .pic_L{ width:50%; float:left; margin-right:3%}.votezt .pic_L img{ width:100%; float:left}              
+.votezt .votedetailbox{ margin-top:35px;}
+.votezt .votedetail{ background:#eeeeee; padding:10px;}
+.votezt .votedetail .bottom{ width:100%}
+.votezt .votedetail .flbar{ width:47% ; float:left}
+.votezt .myhdong { position:fixed; right:0;bottom:0; z-index:33333;}
+.votezt .myhdong a{ width:80px; height:50px; display:block; background:url(../images/weialei.png) no-repeat; background-size:100% 100%;text-indent:-3333px;}
+
+@media all and (min-device-width: 321px){
+.votezt .myhdong {position:fixed; right:0;bottom:60px; z-index:33333;}
+.votezt .myhdong a{  width:95px; height:65px; display:block; background:url(../images/weialei.png) no-repeat; background-size:100% 100%;text-indent:-3333px;}
+}
+/*********投票END*********/
+
+.bactipsbox{  margin-top:20px;  border-radius:5px}
+.bactipsbox .title{margin:0px;padding:10px; line-height:35px; font-size:22px;}
+.bactipsbox .title i{ vertical-align:top; margin-right:5px}
+.bactipsbox .cont{ font-size:14px; background:#F4F4F4; padding:10px; border:1px solid #E5E5E5;margin-bottom:10px}
+
+.messageContent li{ padding:15px 10px;}
+/*********游戏*********/
+#game .countdown {
+    padding: 1em;
+    font-size: 1em;
+    display: -webkit-box;
+    color: #fff;
+}
+#game .countdown>div:last-child {
+    -webkit-box-flex: 1;
+    border: 3px solid #fff;
+    border-radius: 6px;
+    height: 12px;
+    margin-top: 5px;
+    box-shadow: inset 0px 0px 2px #000;
+    padding-right: 2px;
+}
+#game .countdown>div:last-child div {
+    background-color: #fff;
+    width: 0%;
+    height: 4px;
+    margin-top: 1px;
+    margin-left: 1px;
+    border-radius: 2px;
+}
+#gameContent td{border: 1px solid #fff;}
+
+.game-start{text-align: center;width: 100%;position: absolute;bottom: 15%;}
