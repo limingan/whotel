@@ -145,6 +145,10 @@
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
+	<servlet-mapping>
+		<servlet-name>springServlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
   <servlet-mapping>
     <servlet-name>springServlet</servlet-name>
     <url-pattern>*.do</url-pattern>
@@ -153,7 +157,9 @@
     <servlet-name>springServlet</servlet-name>
     <url-pattern>*.json</url-pattern>
   </servlet-mapping>
-	
+
+
+
 	<error-page>  
 	    <error-code>404</error-code>  
 	    <location>/404.html</location>  
