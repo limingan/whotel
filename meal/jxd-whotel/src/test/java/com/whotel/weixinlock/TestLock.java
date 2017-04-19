@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 
 import com.whotel.common.http.HttpHelper;
@@ -189,5 +190,10 @@ public class TestLock {
 		public void setVersion(String version) {
 			this.version = version;
 		}
+	}
+
+	@org.junit.Test
+	public void testMap(){
+			System.out.println(Math.floor(30.1001D));
 	}
 }

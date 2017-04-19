@@ -1,5 +1,6 @@
 package com.whotel.hotel.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
@@ -66,6 +67,28 @@ public class Hotel extends UnDeletedEntity {
 	private List<Facilitys> facilitys;
 	
 	private Boolean isAllChecked; // 是否全选
+
+	private Boolean isInner;//堂食
+
+	private Boolean isTakeOut;//是否外卖
+
+	private Integer openTime;//开市时间
+
+	private Integer closeTime;//关门时间
+
+	private Double lat;//纬度
+
+	private Double lng;//经度
+
+	private Boolean isClose;//是否关门
+
+	private String distance;//距离
+
+	private Integer startPrice;//起送价
+
+	private Integer deliverPrice;//配送费
+
+	private String deliverTime;//配送时间
 
 	public Boolean getIsAllChecked() {
 		return isAllChecked;
@@ -322,5 +345,93 @@ public class Hotel extends UnDeletedEntity {
 
 	public void setTicketTel(String ticketTel) {
 		this.ticketTel = ticketTel;
+	}
+
+	public Boolean getIsInner() {
+		return isInner;
+	}
+
+	public void setIsInner(Boolean isInner) {
+		this.isInner = isInner;
+	}
+
+	public Boolean getIsTakeOut() {
+		return isTakeOut;
+	}
+
+	public void setIsTakeOut(Boolean isTakeOut) {
+		this.isTakeOut = isTakeOut;
+	}
+
+	public Integer getOpenTime() {
+		return openTime;
+	}
+
+	public void setOpenTime(Integer openTime) {
+		this.openTime = openTime;
+	}
+
+	public Integer getCloseTime() {
+		return closeTime;
+	}
+
+	public void setCloseTime(Integer closeTime) {
+		this.closeTime = closeTime;
+	}
+
+	public Double getLat() {
+		return lat;
+	}
+
+	public void setLat(Double lat) {
+		this.lat = lat;
+	}
+
+	public Double getLng() {
+		return lng;
+	}
+
+	public void setLng(Double lng) {
+		this.lng = lng;
+	}
+
+	public Boolean getIsClose() {
+		return isClose;
+	}
+
+	public void setIsClose(Boolean isClose) {
+		this.isClose = isClose;
+	}
+
+	public String getDistance() {
+		return distance;
+	}
+
+	public void setDistance(String distance) {
+		this.distance = distance;
+	}
+
+	public Integer getStartPrice() {
+		return startPrice;
+	}
+
+	public void setStartPrice(Integer startPrice) {
+		this.startPrice = startPrice;
+	}
+
+	public Integer getDeliverPrice() {
+		return deliverPrice;
+	}
+
+	public void setDeliverPrice(Integer deliverPrice) {
+		this.deliverPrice = deliverPrice;
+	}
+
+	public String getDeliverTime() {
+		return deliverTime;
+	}
+
+	public void setDeliverTime(String deliverTime) {
+		this.deliverTime = deliverTime;
 	}
 }

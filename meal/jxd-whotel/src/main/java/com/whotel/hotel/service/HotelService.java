@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.whotel.meal.controller.req.ListHotelReq;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -317,6 +318,24 @@ public class HotelService {
                 return null;
             }
         });*/
+		return hotels;
+	}
+
+	public List<Hotel> findHotel(ListHotelReq param){
+		Map<String, Serializable> properties = new HashMap<>();
+		properties.put("companyId", param.getCompanyId());
+		if(StringUtils.isNotEmpty(param.getCity()) && !"0".equals(param.getCity())){
+			properties.put("city", param.getCity());
+		}
+		if(null != param.getType()){
+			if(1 == param.getType()){
+				properties.put("isTakeOut", true);
+			}
+//			if(2 == param.getType()){
+//				properties.put("isInner", true);
+//			}
+		}
+		List<Hotel> hotels = hotelDao.findByProperties(properties);
 		return hotels;
 	}
 }
