@@ -3,7 +3,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <meta name="format-detection" content="telephone=no">
 <title>全部商品</title>
-<link rel="stylesheet" type="text/css" href="http://tiantianwutuo.top/addons/weisrc_dish/template/css/1/wei_canyin_v1.8.4.css?v=1.1.1" media="all">
+<link data-turbolinks-track="true" href="http://tiantianwutuo.top/addons/weisrc_dish/template//mobile/style1/assets/diandanbao/weixin.css?v=1 " media="all" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="http://tiantianwutuo.top/webPage/assets/diandanbao/wei_canyin_v1.8.4.css?v=1.1.1" media="all">
 <link rel="stylesheet" type="text/css" href="http://tiantianwutuo.top/addons/weisrc_dish/template/css/1/wei_dialog_v1.2.1.css?v=1.1" media="all">
 <link data-turbolinks-track="true" href="http://tiantianwutuo.top/addons/weisrc_dish/template/mobile/style1/assets/diandanbao/font.css?v=1" media="all" rel="stylesheet">
 <style>
@@ -18,6 +19,7 @@
 </head>
 <body id="page_allMenu" style="background-color: #fff;">
 <style>
+
     .ddb-nav-header {
         opacity: 0.95;
         position: fixed;
@@ -120,6 +122,29 @@
         line-height: 20px;
         z-index: 1999
     }
+	.ddb-tab-bar .active{
+	padding-bottom:0px;
+	line-height:5px;
+	border-bottom:2px solid #ff0000
+	}
+	.dn{
+	display:none
+	}
+	.shopInfoList{
+	 line-height:30px
+	}
+	.shopInfoList img {
+	 width:13px;height:13px;margin-left:20px
+	}
+	.shopInfoList span{
+	 margin-left:20px
+	}
+	.shopInfoList i{
+	 margin-left:10px
+	}
+	.dishSecondTitle{
+	 line-height:8px;
+	}
 </style>
 <div class="ddb-nav-header ng-scope">
     <a class="nav-left-item" href="javascript:void(0)" onclick="history.go(-1)"><i class="fa fa-angle-left"></i></a>
@@ -132,18 +157,32 @@
        <img style="width:100%;height:200px" src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/>
     </div>
 </div>
-
-
-<div class="center" >
+         <div class="">
+         <div class="ddb-tab-bar ">
+            <div class="ddb-tab-item ng-scope active">
+                <a href="javascript:;" class="" id="store_classify">点餐</a>
+               
+            </div>
+            <div class="ddb-tab-item ng-scope">
+                <a href="javascript:;" class="ng-binding">评论</a>
+            </div>
+            <div class="ddb-tab-item ng-scope" ng-repeat="pane in panes" ng-class="{active:pane.selected}"
+                 ng-click="toggle(pane)">
+                <a href="javascript:;" class="ng-binding">商家</a>
+            </div>
+        </div>
+		</div>
+<div class="" >
     <nav id="navBar">
         <dl>
             
 
                 <dd categoryid="1" class="active">
-                    分类1                    
+                    <img style="width:15px;height:15px;border-top:10px" src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
+					分类11
                     <span style="display:inline-block;">1</span>
                 </dd>
-                <dd categoryid="1" >
+                <dd categoryid="2" >
                     分类2                    
                     <span style="display:none;"></span>
                 </dd>
@@ -154,37 +193,64 @@
     <section id="infoSection">
         <article style="border: 0px">
             <div id="pInfo">
-                {loop $list $row}
-                <dl dunitname="{$row['unitname']}" dsubcount="{$row['subcount']}" dishid="{$row['id']}" dname="{$row['title']}" dtaste="{$row['taste']}" ddescribe="{$row['description']}" dprice="{$row['productprice']}" dishot="{if $row['subcount']>20}2{else}0{/if}" dspecialprice="{if $row['isspecial']==2}{$row['marketprice']}{/if}" disspecial="{$row['isspecial']}" shopinfo="" {if empty($row['thumb'])}style="padding-left:0px;"{/if}>
-                    <dt><h3>{$row['title']}</h3></dt>
+              
+                <dl dunitname="元" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+                    <dt><h3>鱼鱼</h3></dt>
+					
                     <dd>
                         <a href="javascript:void(0)" class="dataIn">
-                            <img src="{if $row['thumb']}{php echo tomedia($row['thumb']);}{/if}" alt="" title="">
-                            {if $row['subcount']>20}
+                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
+                            
                             <span></span>
-                            {/if}
+                            
                         </a>
                     </dd>
+					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
                     <dd>
-                        <em class="sale">{$row['marketprice']}元/{$row['unitname']}
-                            {if !empty($row['productprice'])}
-                            <br><del>{$row['productprice']}元/{$row['unitname']}</del>
-                            {/if}
-                        </em>
+                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
                     </dd>
-                    <dd class="dpNum">{if $row['credit']>0}赠送<f style="color: #f00;">{$row['credit']}</f>积分{/if}</dd>
+                    <dd class="dpNum">赠送<f style="color: #f00;">123</f>积分</dd>
                     <dd class="btn">
                         <button class="minus" style="display:inline-block;"><strong></strong></button>
-                        <i style="display: inline-block;">{if !empty($dish_arr[$row['id']])}{$dish_arr[$row['id']]}{else}0{/if}</i>
+                        <i style="display: inline-block;">0</i>
                         <button class="add"><strong></strong></button>
                         <em class="fixBig fake"></em>
                     </dd>
                 </dl>
-                {/loop}
+              <dl dunitname="元" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+                    <dt><h3>鱼鱼</h3></dt>
+					
+                    <dd>
+                        <a href="javascript:void(0)" class="dataIn">
+                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
+                            
+                            <span></span>
+                            
+                        </a>
+                    </dd>
+					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
+                    <dd>
+                        <em class="sale">￥123</em><del>￥1239</del>
+                    </dd>
+                    <dd class="dpNum">赠送<f style="color: #f00;">123</f>积分</dd>
+                    <dd class="btn">
+                        <button class="minus" style="display:inline-block;"><strong></strong></button>
+                        <i style="display: inline-block;">0</i>
+                        <button class="add"><strong></strong></button>
+                        <em class="fixBig fake"></em>
+                    </dd>
+                </dl>
                 <div style="margin-top: 100px;"></div>
             </div>
         </article>
     </section>
+</div>
+
+<div class="shopInfoList dn">
+ <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >月售 811 份</span></div>
+ <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >09:30-21:00</span></div>
+ <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >深圳市南山区</span></div>
+ <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >0755-33331111</span><a href="javascript:void(0);"><i class="fa fa-angle-right"></i></a></div>
 </div>
 {php include $this->template($this->cur_tpl.'/_header');}
 <script type="text/javascript">
