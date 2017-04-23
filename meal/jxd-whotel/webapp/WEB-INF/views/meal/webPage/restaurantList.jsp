@@ -22,7 +22,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta content="telephone=no" name="format-detection">
-    <title>门店列表</title>
+    <title>分厅列表</title>
     <link data-turbolinks-track="true" href="http://tiantianwutuo.top/addons/weisrc_dish/template//mobile/style1/assets/diandanbao/weixin.css?v=1 " media="all" rel="stylesheet">
     <style type="text/css">
         @media screen {
@@ -51,7 +51,7 @@
        <c:forEach items="${restList}" var="rest">
            <div class="morelist branch-item ng-scope " >
                <input id="showlan" type="hidden" value="100,100"/>
-               <a class="branch-info " href="{php echo $this->createMobileUrl('detail', array('id' => $item['id']), true)}">
+               <a class="branch-info " href="/oauth/meal/dishCatList.do?restaurantId=${rest.id}">
                    <div class="branch-image">
                        <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg">
                    </div>
@@ -70,8 +70,7 @@
                             <span class="ng-binding ng-scope" style="display:inline-block;">营业时间 <span style="color:red">${rest.businessTime}</span>
 
 							</span>
-                            <span onclick="javascript:void(0)" class="ng-binding ng-scope"  style="text-align:center;float:right;margin-right:20px;background-color:red;color:white;border-radius:25px;width:50px;height:20px">订餐</apan>
-
+                            <span onclick="javascript:void(0)" class="ng-binding ng-scope"  style="text-align:center;float:right;margin-right:20px;background-color:red;color:white;border-radius:25px;width:50px;height:20px">订餐</span>
 
                            </div>
                            <div class="address ng-binding">${rest.cuisine}</div>
