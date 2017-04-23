@@ -3,13 +3,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <meta name="format-detection" content="telephone=no">
 <title>我的商品</title>
-<link rel="stylesheet" type="text/css" href="../addons/weisrc_dish/template/css/1/wei_canyin_v1.8.4.css?v=1.1.2" media="all">
+<link rel="stylesheet" type="text/css" href="./assets/diandanbao/wei_canyin_v1.8.4.css?v=1.1.2" media="all">
 <link rel="stylesheet" type="text/css" href="../addons/weisrc_dish/template/css/1/wei_dialog_v1.2.1.css?v=1.0" media="all">
 <script type="text/javascript" src="../addons/weisrc_dish/template/js/1/wei_webapp_v2_common_v1.9.4.js"></script>
 <script type="text/javascript" src="../addons/weisrc_dish/template/js/1/wei_dialog_v1.9.9.js?v=1"></script>
 <script type="text/javascript" src="../addons/weisrc_dish/template/js/2/jQuery.js"></script>
 <link rel="stylesheet" type="text/css" href="../addons/weisrc_dish/template/css/2/mobiscroll.custom-2.6.2.min.css" media="all">
-<link data-turbolinks-track="true" href="{RES}/mobile/{php echo $this->cur_tpl}/assets/diandanbao/font.css?v=1" media="all" rel="stylesheet">
+<link data-turbolinks-track="true" href="./assets/diandanbao/font.css?v=1" media="all" rel="stylesheet">
 <script type="text/javascript" src="../addons/weisrc_dish/template/js/2/mobiscroll.custom-2.6.2.min.js"></script>
 
 <style>abbr,article,aside,audio,canvas,datalist,details,dialog,eventsource,fieldset,figure,figcaption,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,small,time,video,legend{display:block;}</style>
@@ -274,12 +274,13 @@
         #page_intelOrder header, #page_intelOrder section {
             margin: 0px;
         }
+
     </style>
 </head>
 <body id="page_intelOrder" class="myOrderCon">
 <div class="ddb-nav-header ng-scope">
     <a class="nav-left-item" href="javascript:void(0)" onclick="history.go(-1)"><i class="fa fa-angle-left"></i></a>
-    <div class="header-title ng-binding">购物车</div>
+    <div class="header-title ng-binding">我的菜单</div>
     <a class="nav-right-item" href="#"></a>
 </div>
 <div class="center">
@@ -297,63 +298,141 @@
         <!--</span>-->
         <!--<label><i>商品共计：</i><b class="duiqi" id="total">0</b><b class="duiqi">元</b></label>-->
     <!--</header>-->
-    <section style="margin-bottom: 10px;margin-top: 40px;">
-        <article style="overflow: hidden;">
-            <a href="{php echo $this->createMobileurl('order', array(), true)}" class="btn_add btn_myorder" style="color:#fff;">我的订单</a>
-            <span style="float: right;">{$my_order_total}</span>
-        </article>
-    </section>
-    {if $flag != true}
-    <section style="margin-bottom: 10px;">
+    
+	<section style="margin-bottom: 10px;">
         <article>
-            <h2>商品列表
-                <button class="btn_add emptyIt" id="clearBtn">清空</button>
-                <button class="btn_add" onclick="location.href='{php echo $this->createMobileUrl('waplist', array('storeid' => $storeid, 'mode' => $mode, 'tablesid' => $tablesid), true)}'">+增加</button>
-            </h2>
-            <ul class="myorder" id="myorder">
-                {loop $cart $item}
-                <li>
-                    <span class="dishName">{$item['title']}</span>
-                    {if $item['isspecial']==1}
-                    <i>{$item['productprice']}元/{$item['unitname']}</i>
-                    {else}
-                    <i>{$item['marketprice']}元/{$item['unitname']}<span class="yuanjia">{$item['productprice']}元/{$item['unitname']}</span></i>
-                    {/if}
-                    <section class="bbox" dishid="{$item['id']}" dishname="{$item['title']}"> <input class="btn-reduce" type="button" value="-"><input class="numBox" name="numBox" type="text" value="{$item['total']}" price="{if $item['isspecial']==1}{$item['productprice']}{else}{$item['marketprice']}{/if}" disabled="disabled"><input type="button" class="btn-plus" value="+"></section>
+            <div>
+			 <ul class="myorder" id="myorder">
+           
+                <li style="height:55px;line-height:30px">
+				    <img src="./images/icon_add.png" style="margin-top:-5px;height:14px;width:12px"/>
+                    <span style="margin-left:5px;height:20px;font-size:16px">中心工业园二号岗 一栋六楼</span>
+                    <div style="margin-left:25px;color:#999">
+					  <span>XXX先生</span>
+					  <span>13312345678</span>
+					</div>
+					
+                   <a class="nav-right-item" href="javascript:void(0)" onclick=";"><i style="position:absolute;font-size:26px;right:5px;bottom:20px;color:#999"  class="fa fa-angle-right"></i></a>
+					
                 </li>
-                {/loop}
+				 <li style="height:55px;line-height:30px">
+				    <img src="./images/icon_timer.png" style="margin-top:-5px;height:14px;width:12px"/>
+                    <span style="margin-left:5px;height:20px;font-size:16px">立即配送</span><span style="margin-left:5px;color:red;font-size:14px">约10:53送达</span>
+                    <div style="margin-left:25px;color:#999">
+					  <span>商家自配送</span>
+					  
+					</div>
+                   
+					<a class="nav-right-item" href="javascript:void(0)" onclick=";"><i style="position:absolute;font-size:26px;right:5px;bottom:20px;color:#999"  class="fa fa-angle-right"></i></a>
+                </li>
+               
             </ul>
-        </article>
-    </section>
-    {/if}
-    {if $flag == true}
-    <section style="margin-bottom: 20px;">
-        <article>
-            <form id="form2" target="hide">
-                <input type="hidden" name="id" value="">
+			</div>
+            <div id="form_dish" target="hide" {if $mode == 1}style="border-top: 1px #e7eaeb solid;margin-top: 10px;"{/if}>
                 <table class="table_book">
                     <tbody>
                     <tr>
-                        <td width="80px" style="width: 80px;">手机号码：</td>
+                        <td style="width: 80px;">所需餐具：</td>
                         <td colspan="2">
-                            <input type="tel" name="entry_mobile" id="entry_mobile" placeholder="请输入手机号码" maxlength="15" class="input" style="width: 200px;"/>
+                            <input type="tel" id="counts" name="counts" value="" maxlength="3" style="width: 100px;" placeholder="请填写用餐人数">
                         </td>
                     </tr>
+                  
                     <tr>
-                        <td style="width: 80px;">验证码：</td>
+                        <td style="width: 80px; vertical-align: top; line-height: 25px;">备注说明：</td>
                         <td colspan="2">
-                            <input type="number" placeholder="验证码：" name="entry_checkcode" id="entry_checkcode" maxlength="10" class="input" style="width: 100px;"/>
-                            <input type="button" onclick="getReceiveMemberCardVCode(this, event,'form2', 'entry_mobile',2);" class="button vcode" value="获取验证码" style="width: 100px;height: 40px"/>
+                            <textarea name="remark" id="remark" style="height: 60px;" maxlength="100" placeholder="请输入备注(可不填)"></textarea>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-                <footer>
-                    <input type="button" value="提交" class="btn_2" id="submit_form2">
-                </footer>
-            </form>
+            </div>
         </article>
     </section>
+    
+    <section style="margin-bottom: 10px;">
+        <article>
+            <h2>菜单列表
+                <button class="btn_add emptyIt" id="clearBtn">清空</button>
+                <button class="btn_add" onclick="location.href='">+继续点菜</button>
+            </h2>
+            <ul class="myorder" id="myorder">
+           
+                <li>
+                    <span class="dishName">情侣套餐</span>
+                    
+                    <i>53元/份</i>
+                    <h2><button class="btn_add" style="position:absolute;left:50%;top:30%"onclick="location.href='">编辑</button></h2>
+                    <section class="bbox" dishid="1" dishname="情侣套餐"> 
+					
+					<input class="btn-reduce" type="button" value="-">
+					<input class="numBox" name="numBox" type="text" value="1" price="53" disabled="disabled">
+					<input type="button" class="btn-plus" value="+"></section>
+                </li>
+				<li>
+				    <section class="bbox" style="left:-40px;top:10px" dishid="1" dishname="糖醋里脊"> 
+				    <input class="btn-reduce" style="margin-top:5px" type="button" value="-">
+					<input class="numBox" name="numBox" type="hidden" value="1" price="10" disabled="disabled">
+                    <input type="hidden" class="btn-plus" value="+"> 		
+					</section>
+					<div style="display:inline;position:absolute;left:50px">
+                    <span class="dishName" >糖醋里脊</span>
+                    <div >
+                    <i>10元/份</i>
+                    </div>
+					</div>
+					<h2><button class="btn_add" style="position:absolute;left:70%;top:30%"onclick="location.href='">编辑</button></h2>
+
+                </li>
+               <li>
+				    <section class="bbox" style="left:-40px;top:10px" dishid="1" dishname="菜品1"> 
+				    <input class="btn-reduce" style="margin-top:5px" type="button" value="-">
+					<input class="numBox" name="numBox" type="hidden" value="1" price="10" disabled="disabled">
+                    <input type="hidden" class="btn-plus" value="+"> 		
+					</section>
+					<div style="display:inline;position:absolute;left:50px">
+                    <span class="dishName" >菜品1</span>
+                    <div >
+                    <i>10元/份</i>
+                    </div>
+					</div>
+					<h2><button class="btn_add" style="position:absolute;left:70%;top:30%"onclick="location.href='">编辑</button></h2>
+
+                </li>
+				<li>
+				    <section class="bbox" style="left:-40px;top:10px" dishid="1" dishname="菜品2"> 
+				    <input class="btn-reduce" style="margin-top:5px" type="button" value="-">
+					<input class="numBox" name="numBox" type="hidden" value="1" price="10" disabled="disabled">
+                    <input type="hidden" class="btn-plus" value="+"> 		
+					</section>
+					<div style="display:inline;position:absolute;left:50px">
+                    <span class="dishName" >菜品2</span>
+                    <div >
+                    <i>10元/份</i>
+                    </div>
+					</div>
+					<h2><button class="btn_add" style="position:absolute;left:70%;top:30%"onclick="location.href='">编辑</button></h2>
+
+                </li>
+				<li>
+				    <section class="bbox" style="left:-40px;top:10px" dishid="1" dishname="菜品3"> 
+				    <input class="btn-reduce" style="margin-top:5px" type="button" value="-">
+					<input class="numBox" name="numBox" type="hidden" value="1" price="10" disabled="disabled">
+                    <input type="hidden" class="btn-plus" value="+"> 		
+					</section>
+					<div style="display:inline;position:absolute;left:50px">
+                    <span class="dishName" >菜品3</span>
+                    <div >
+                    <i>10元/份</i>
+                    </div>
+					</div>
+					<h2><button class="btn_add" style="position:absolute;left:70%;top:30%"onclick="location.href='">编辑</button></h2>
+
+                </li>
+            </ul>
+        </article>
+    </section>
+
     <style>
         .input{
             display: inline-block;
@@ -384,91 +463,16 @@
             font-size: 12px;
         }
     </style>
-    {else}
+
     <input type="hidden" id="mode" value="{$mode}" name="mode">
     <input type="hidden" id="tables" value="{$tablesid}" name="tables">
-    <section style="margin-bottom: 20px;">
-        <article>
-            {if $mode == 1}
-            <h2 style="color:#f00;">{$table_title}</h2>
-            {/if}
-            <div id="form_dish" target="hide" {if $mode == 1}style="border-top: 1px #e7eaeb solid;margin-top: 10px;"{/if}>
-                <table class="table_book">
-                    <tbody>
-                    {if $mode == 2}
-                    {if $store['delivery_within_days'] != 0}
-                    <tr>
-                        <td style="width: 80px;">配送日期：</td>
-                        <td colspan="2">
-                            <select name="meal_date" id="meal_date" onclick="changeMealDate(this)">
-                                {$select_mealdate}
-                            </select>
-                        </td>
-                    </tr>
-                    {else}
-                    <input type="hidden" id="meal_date" value="" name="meal_date">
-                    {/if}
-                    <tr>
-                        <td style="width: 80px;">配送时间：</td>
-                        <td colspan="2">
-                            <select name="meal_time" id="meal_time">
-                                {$select_mealtime}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width: 80px;">配送费用：</td>
-                        <td colspan="2">
-                            {$store['dispatchprice']} {if $store['freeprice']!=0.00}(<font color="#f00">消费满{$store['freeprice']}免配送费用</font>){/if}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width: 80px;">配送范围：</td>
-                        <td colspan="2">
-                            {if $delivery_radius>0}{$delivery_radius}公里{/if}
-                        </td>
-                    </tr>
-                    {/if}
-                    <tr>
-                        <td width="80px" style="width: 80px;">手机号码：</td>
-                        <td colspan="2">
-                            <input type="tel" id="tel" name="tel" value="{if !empty($user['mobile'])}{$user['mobile']}{/if}" maxlength="13" style="width: 200px;" placeholder="请输入手机号码"></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 80px;">用户姓名：</td>
-                        <td style="width: 50%;">
-                            <input type="text" name="guest_name" id="name" value="{if !empty($user['username'])}{$user['username']}{/if}" maxlength="10" style="width: 100px;" placeholder="请输入您的姓名">
-                        </td>
-                        <td>
-                            <div class="group_checkbox" style="width: 70px; display: inline;">
-                                <input type="checkbox" value="1" name="sex" checked="checked">
-                            </div>
-                        </td>
-                    </tr>
-                    {if $mode == 2}
-                    <tr>
-                        <td width="80px" style="width: 80px;">地址：</td>
-                        <td colspan="2">
-                            <input type="text" id="address" name="address" value="{if !empty($order['address'])}{$order['address']}{/if}" style="width: 200px;" placeholder="请输入您的联系地址！">
-                        </td>
-                    </tr>
-                    {/if}
-                    {if $mode == 1}
-                    <tr>
-                        <td style="width: 80px;">用餐人数：</td>
-                        <td colspan="2">
-                            <input type="tel" id="counts" name="counts" value="" maxlength="3" style="width: 100px;" placeholder="请填写用餐人数">
-                        </td>
-                    </tr>
-                    {/if}
-                    <tr>
-                        <td style="width: 80px; vertical-align: top; line-height: 25px;">备注说明：</td>
-                        <td colspan="2">
-                            <textarea name="remark" id="remark" style="height: 60px;" maxlength="100" placeholder="请输入备注(可不填)"></textarea>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+    <section style="margin-bottom: 0px;">
+        <article style="height:44;font-size:14px;font-weight:bold;padding:3px 19px;line-height:22px">
+
+                        <div style="width: 120px;">打包费用:￥<span id="">5.3</span></span>元
+            </div>
+                        <div style="width: 120px;">优惠抵扣:￥<span id="">2.0</span></span>元
+
             </div>
         </article>
     </section>
@@ -559,19 +563,21 @@
         }
     </style>
     <div class="header">
+	    <input type="hidden" id="packprice" value="5.3" name="packprice">
+		<input type="hidden" id="discount" value="2.0" name="discount">
         <input type="hidden" id="totalprice" value="{$totalprice}" name="totalprice">
         <input type="hidden" id="totalcount" value="{$totalcount}" name="totalcount">
         <input type="hidden" id="limitprice" value="{$limitprice}" name="limitprice">
         <input type="hidden" id="over_radius" value="{$over_radius}" name="over_radius">
 
         <input type="hidden" id="btnstatus" value="0" name="btnstatus">
-        <div class="left">总计：￥<span id="totalpriceshow">{$totalprice}</span></span>元</div>
-        <div class="right"><a id="btnselect" class="xhlbtn disable" href="javascript:void(0)">立即下单</a></div>
+        <div class="left">还需支付：￥<span id="totalpriceshow">44</span></span>元</div>
+        <div class="right"><a id="btnselect" class="xhlbtn disable" href="javascript:void(0)">提交</a></div>
     </div>
-    {/if}
+
     <div style="padding-top: 20px;"></div>
 </div>
-{if $flag != true}
+
 <script>
     function changeMealDate(obj) {
         var time1 = '{$select_mealtime}';
@@ -606,7 +612,6 @@
         }
     }
 </script>
-{/if}
 <script>var pageName = 'menuFilled';</script>
 <script type="text/javascript">
 var reduce = _qAll('.btn-reduce');
@@ -617,10 +622,12 @@ var share = _qAll('.shareBtn');
 function tototal(){
     var total = 0;
     var nums = _qAll('.numBox');
+	var packprice = _qAll('#packprice')[0].value;
+	var discount = _qAll('#discount')[0].value;
     for( var j = 0; j < nums.length; j++){
         total = total + nums[j].value * nums[j].getAttribute('price');
     }
-    endTotal = parseFloat(total).toFixed(2) * 100/100;
+    endTotal = parseFloat(total).toFixed(2) * 100/100 + parseFloat(packprice - discount);
     // endTotal = endTotal == parseInt(endTotal) ? parseInt(endTotal) : endTotal;
     _q('#totalprice').value = endTotal;
     _q("#totalpriceshow").innerHTML = endTotal;
@@ -719,7 +726,7 @@ function doSelectBtn(){
                         }, null,
                         '取消', null, null,null, true, true
                     );
-                },500)
+                },200)
                 beforeRemoveDish = false;
             } else {
                 tototal();

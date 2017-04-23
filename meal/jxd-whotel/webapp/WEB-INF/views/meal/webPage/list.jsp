@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/common/taglibs.jsp"%>
 <html lang="zh-CN"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -154,7 +156,7 @@
 </style>
 <div class="ddb-nav-header ng-scope">
     <a class="nav-left-item" href="javascript:void(0)" onclick="history.go(-1)"><i class="fa fa-angle-left"></i></a>
-    <div class="header-title ng-binding">餐厅1</div>
+    <div class="header-title ng-binding">${rest.name}</div>
     
 </div>
 
