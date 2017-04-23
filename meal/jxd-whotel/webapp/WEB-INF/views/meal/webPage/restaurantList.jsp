@@ -23,7 +23,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta content="telephone=no" name="format-detection">
     <title>分厅列表</title>
-    <link data-turbolinks-track="true" href="http://tiantianwutuo.top/addons/weisrc_dish/template//mobile/style1/assets/diandanbao/weixin.css?v=1 " media="all" rel="stylesheet">
+    <link data-turbolinks-track="true" href="/static/meal/css/weixin.css?v=1" media="all" rel="stylesheet">
     <style type="text/css">
         @media screen {
         .smnoscreen {
@@ -35,9 +35,9 @@
             display: none
         }
     }</style>
-    <script type="text/javascript" src="http://tiantianwutuo.top/addons/weisrc_dish/template/js/2/jQuery.js"></script>
+    <script type="text/javascript" src="/static/meal/js/jQuery.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5PESLgvMcSbSUbPjmDKgvGZ3"></script>
-    <script type="text/javascript" src="http://tiantianwutuo.top/addons/weisrc_dish/template/js/postion.js?v=3"></script>
+    <script type="text/javascript" src="/static/meal/js/postion.js?v=3"></script>
 </head>
 <body>
 <div style="height: 100%;" class="ng-scope">
@@ -89,7 +89,7 @@
     <!--input type="hidden" id="cururl" name="cururl" value="{php echo $this->createMobileurl('waprestlist', array(), true)}" /-->
 </div>
 </div>
-<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="/static/meal/js/jquery-1.11.3.min.js"></script>
 <script language="javascript">
     $('.ddb-tab-bar .ddb-tab-item').click(function () {
         $(".filter-nav-menu > .ddb-nav-pane").addClass('ng-hide').eq($('.ddb-tab-bar .ddb-tab-item').index(this)).removeClass('ng-hide');

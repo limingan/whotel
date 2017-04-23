@@ -5,20 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <meta name="format-detection" content="telephone=no">
 <title>全部商品</title>
-<link data-turbolinks-track="true" href="http://tiantianwutuo.top/addons/weisrc_dish/template//mobile/style1/assets/diandanbao/weixin.css?v=1 " media="all" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="http://tiantianwutuo.top/webPage/assets/diandanbao/wei_canyin_v1.8.4.css?v=1.1.1" media="all">
-<link rel="stylesheet" type="text/css" href="http://tiantianwutuo.top/addons/weisrc_dish/template/css/1/wei_dialog_v1.2.1.css?v=1.1" media="all">
-<link data-turbolinks-track="true" href="http://tiantianwutuo.top/addons/weisrc_dish/template/mobile/style1/assets/diandanbao/font.css?v=1" media="all" rel="stylesheet">
-<style>
+<link data-turbolinks-track="true" href="/static/meal/css/weixin.css?v=1" media="all" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/static/meal/css/wei_canyin_v1.8.4.css?v=1.1.1" media="all">
+<link rel="stylesheet" type="text/css" href="/static/meal/css/wei_dialog_v1.2.1.css?v=1.1" media="all">
+<link data-turbolinks-track="true" href="/static/meal/css/font.css?v=1" media="all" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/static/meal/css/banner.css?v=1.1.1" media="all">
+
+    <style>
     /*解决右边背景总是为灰色的bug*/
     #page_allMenu section article, #pInfo {
         min-height: 100%;
     }
 </style>
 <style>abbr,article,aside,audio,canvas,datalist,details,dialog,eventsource,fieldset,figure,figcaption,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,small,time,video,legend{display:block;}</style>
-<script type="text/javascript" src="http://tiantianwutuo.top/addons/weisrc_dish/template/js/1/wei_webapp_v2_common_v1.9.4.js"></script>
-<script type="text/javascript" src="http://tiantianwutuo.top/addons/weisrc_dish/template/js/1/wei_dialog_v1.9.9.js"></script>
-<script type="text/javascript" src="http://tiantianwutuo.top/webpage/assets/diandanbao/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/static/meal/js/wei_webapp_v2_common_v1.9.4.js"></script>
+<script type="text/javascript" src="/static/meal/js/wei_dialog_v1.9.9.js"></script>
+<script type="text/javascript" src="/static/meal/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/static/meal/js/unslider.min.js"></script>
 </head>
 <body id="page_allMenu" style="background-color: #fff;height:100%">
 <style>
@@ -160,9 +164,14 @@
     
 </div>
 
+
 <div class="notification-section">
-    <div class="">
-       <img style="width:100%;height:200px" src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/>
+    <div class="banner">
+        <ul>
+            <c:forEach items="${bannerList}" var="baner">
+                <li><img style="width:100%;height:200px" src="${baner}"></li>
+            </c:forEach>
+        </ul>
     </div>
 </div>
          <div class="">
@@ -183,485 +192,65 @@
 <div class="main" >
     <nav id="navBar">
         <dl>
-            
 
-                <a class="navOption" href="#page1"><dd categoryid="1" class="active">
-                    <img style="width:15px;height:15px;border-top:10px" src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-					分类1
-                    <span style="display:inline-block;">1</span>
-                </dd>
-				</a>
-				<a class="navOption" href="#page2">
-                <dd categoryid="2" >
-                    分类2                    
-                    <span style="display:none;"></span>
-                </dd>
-				</a>
-				<a class="navOption" href="#page3">
-                <dd categoryid="3" >
-                    分类23                   
-                    <span style="display:none;"></span>
-                </dd>
-				</a>
-				<a class="navOption" href="#page4">
-                <dd categoryid="4" >
-                    套餐                   
-                    <span style="display:none;"></span>
-                </dd>
-				</a>
-				
 
+            <c:forEach items="${cateList}" var="cate" varStatus="status">
+
+                <c:if test="${status.index ==0}">
+                    <a class="navOption" href="#${cate.dishNo}">
+                        <dd categoryid="${cate.id}" class="active">
+                            <%--fixme limingan 分类无图--%>
+                            <%--<img style="width:15px;height:15px;border-top:10px" src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">--%>
+                            ${cate.dishName}
+                            <span style="display:inline-block;">1</span>
+                        </dd>
+                    </a>
+                </c:if>
+
+                <c:if test="${status.index !=0}">
+                    <a class="navOption" href="#${cate.dishNo}">
+                        <dd categoryid="3" >
+                                ${cate.dishName}
+                            <span style="display:none;"></span>
+                        </dd>
+                    </a>
+                </c:if>
+            </c:forEach>
         </dl>
         <div style="margin-top: 100px;"></div>
     </nav>
     <section id="infoSection">
         <article style="border: 0px">
             <div id="pInfo">
-                <div id="page1">分类1</div>
-                <dl dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述<br/>TEST<br/>TEST2" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                    <dt><h3>鱼鱼</h3></dt>
-					
-                    <dd>
-                        <a href="javascript:void(0)" class="dataIn">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-                            
-                            <span></span>
-                            
-                        </a>
-                    </dd>
-					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
-                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-						
-                    </dd>
-                    <dd class="dpNum">
-					<img src="images/icon_fullminus.png" style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-					<f style="color: #f00;">满一件 ，9.9</f>
-					</dd>
-                    <dd class="btn">
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                    </dd>
-                </dl>
-              <dl dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                    <dt><h3>鱼鱼</h3></dt>
-					
-                    <dd>
-                        <a href="javascript:void(0)" class="dataIn">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-                            
-                            <span></span>
-                            
-                        </a>
-                    </dd>
-					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
-                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-						
-                    </dd>
-                    <dd class="dpNum">
-					<img src="images/icon_fullminus.png"  style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-					<f style="color: #f00;">满一件 ，9.9</f>
-					</dd>
-                    <dd class="btn">
-					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                    </dd>
-                </dl>
-				<dl dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                    <dt><h3>鱼鱼</h3></dt>
-					
-                    <dd>
-                        <a href="javascript:void(0)" class="dataIn">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-                            
-                            <span></span>
-                            
-                        </a>
-                    </dd>
-					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
-                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-						
-                    </dd>
-                    <dd class="dpNum">
-					<img src="images/icon_fullminus.png"  style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-					<f style="color: #f00;">满一件 ，9.9</f>
-					</dd>
-                    <dd class="btn">
-					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                    </dd>
-                </dl>
-				<dl dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                    <dt><h3>鱼鱼</h3></dt>
-					
-                    <dd>
-                        <a href="javascript:void(0)" class="dataIn">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-                            
-                            <span></span>
-                            
-                        </a>
-                    </dd>
-					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
-                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-						
-                    </dd>
-                    <dd class="dpNum">
-					<img src="images/icon_fullminus.png"  style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-					<f style="color: #f00;">满一件 ，9.9</f>
-					</dd>
-                    <dd class="btn">
-					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                    </dd>
-                </dl>
-				<dl dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                    <dt><h3>鱼鱼</h3></dt>
-					
-                    <dd>
-                        <a href="javascript:void(0)" class="dataIn">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-                            
-                            <span></span>
-                            
-                        </a>
-                    </dd>
-					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
-                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-						
-                    </dd>
-                    <dd class="dpNum">
-					<img src="images/icon_fullminus.png"  style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-					<f style="color: #f00;">满一件 ，9.9</f>
-					</dd>
-                    <dd class="btn">
-					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                    </dd>
-                </dl>
-				<dl dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                    <dt><h3>鱼鱼</h3></dt>
-					
-                    <dd>
-                        <a href="javascript:void(0)" class="dataIn">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-                            
-                            <span></span>
-                            
-                        </a>
-                    </dd>
-					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
-                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-						
-                    </dd>
-                    <dd class="dpNum">
-					<img src="images/icon_fullminus.png"  style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-					<f style="color: #f00;">满一件 ，9.9</f>
-					</dd>
-                    <dd class="btn">
-					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                    </dd>
-                </dl>
-				<dl dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                    <dt><h3>鱼鱼</h3></dt>
-					
-                    <dd>
-                        <a href="javascript:void(0)" class="dataIn">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-                            
-                            <span></span>
-                            
-                        </a>
-                    </dd>
-					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
-                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-						
-                    </dd>
-                    <dd class="dpNum">
-					<img src="images/icon_fullminus.png"  style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-					<f style="color: #f00;">满一件 ，9.9</f>
-					</dd>
-                    <dd class="btn">
-					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                    </dd>
-                </dl>
-				<div id="page2">分类2</div>
-				<dl dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                    <dt><h3>鱼鱼</h3></dt>
-					
-                    <dd>
-                        <a href="javascript:void(0)" class="dataIn">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-                            
-                            <span></span>
-                            
-                        </a>
-                    </dd>
-					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
-                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-						
-                    </dd>
-                    <dd class="dpNum">
-					<img src="images/icon_fullminus.png"  style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-					<f style="color: #f00;">满一件 ，9.9</f>
-					</dd>
-                    <dd class="btn">
-					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                    </dd>
-                </dl>
-				<dl dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                    <dt><h3>鱼鱼</h3></dt>
-					
-                    <dd>
-                        <a href="javascript:void(0)" class="dataIn">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-                            
-                            <span></span>
-                            
-                        </a>
-                    </dd>
-					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
-                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-						
-                    </dd>
-                    <dd class="dpNum">
-					<img src="images/icon_fullminus.png"  style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-					<f style="color: #f00;">满一件 ，9.9</f>
-					</dd>
-                    <dd class="btn">
-					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                    </dd>
-                </dl>
-				<dl dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                    <dt><h3>鱼鱼</h3></dt>
-					
-                    <dd>
-                        <a href="javascript:void(0)" class="dataIn">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-                            
-                            <span></span>
-                            
-                        </a>
-                    </dd>
-					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
-                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-						
-                    </dd>
-                    <dd class="dpNum">
-					<img src="images/icon_fullminus.png"  style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-					<f style="color: #f00;">满一件 ，9.9</f>
-					</dd>
-                    <dd class="btn">
-					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                    </dd>
-                </dl>
-				<dl dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                    <dt><h3>鱼鱼</h3></dt>
-					
-                    <dd>
-                        <a href="javascript:void(0)" class="dataIn">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-                            
-                            <span></span>
-                            
-                        </a>
-                    </dd>
-					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
-                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-						
-                    </dd>
-                    <dd class="dpNum">
-					<img src="images/icon_fullminus.png"  style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-					<f style="color: #f00;">满一件 ，9.9</f>
-					</dd>
-                    <dd class="btn">
-					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                    </dd>
-                </dl>
-				<dl dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                    <dt><h3>鱼鱼</h3></dt>
-					
-                    <dd>
-                        <a href="javascript:void(0)" class="dataIn">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-                            
-                            <span></span>
-                            
-                        </a>
-                    </dd>
-					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
-                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-						
-                    </dd>
-                    <dd class="dpNum">
-					<img src="images/icon_fullminus.png"  style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-					<f style="color: #f00;">满一件 ，9.9</f>
-					</dd>
-                    <dd class="btn">
-					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                    </dd>
-                </dl>
-				<dl dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                    <dt><h3>鱼鱼</h3></dt>
-					
-                    <dd>
-                        <a href="javascript:void(0)" class="dataIn">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-                            
-                            <span></span>
-                            
-                        </a>
-                    </dd>
-					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
-                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-						
-                    </dd>
-                    <dd class="dpNum">
-					<img src="images/icon_fullminus.png"  style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-					<f style="color: #f00;">满一件 ，9.9</f>
-					</dd>
-                    <dd class="btn">
-					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                    </dd>
-                </dl>
-				<div id="page3">分类3</div>
-				<dl dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                    <dt><h3>鱼鱼</h3></dt>
-					
-                    <dd>
-                        <a href="javascript:void(0)" class="dataIn">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-                            
-                            <span></span>
-                            
-                        </a>
-                    </dd>
-					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
-                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-						
-                    </dd>
-                    <dd class="dpNum">
-					<img src="images/icon_fullminus.png"  style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-					<f style="color: #f00;">满一件 ，9.9</f>
-					</dd>
-                    <dd class="btn">
-					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                    </dd>
-                </dl>
-				<dl dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                    <dt><h3>鱼鱼</h3></dt>
-					
-                    <dd>
-                        <a href="javascript:void(0)" class="dataIn">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-                            
-                            <span></span>
-                            
-                        </a>
-                    </dd>
-					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
-                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-						
-                    </dd>
-                    <dd class="dpNum">
-					<img src="images/icon_fullminus.png"  style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-					<f style="color: #f00;">满一件 ，9.9</f>
-					</dd>
-                    <dd class="btn">
-					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                    </dd>
-                </dl>
-				<dl 
-				multiStyle="[{'id':1,'name':'规格',data:[{'id':1,'name':'小份'},{'id':2,'name':'大份'}] },
-				{'id':2,'name':'做法',data:[{'id':1,'name':'清蒸'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
-				                            ,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
-											,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
-											,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
-											] },
-                {'id':3,'name':'其它',data:[{'id':1,'name':'少辣'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
-				                            ,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
-											,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
-											,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
-											] }											
-				]" 
-				isMultiStyle=1 dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                    <dt><h3>鱼鱼</h3></dt>
-					
-                    <dd>
-                        <a href="javascript:void(0)" class="dataIn">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-                            
-                            <span></span>
-                            
-                        </a>
-                    </dd>
-					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
-                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-						
-                    </dd>
-                    <dd class="dpNum">
-					<img src="images/icon_fullminus.png"  style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-					<f style="color: #f00;">满一件 ，9.9</f>
-					</dd>
-                    <dd class="btn">
-					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                    </dd>
-                </dl>
-				<div id="page4">套餐</div>
-				<dl 
-				setData="[[{'id':1,'name':'菜菜菜菜1'},{'id':2,'name':'菜菜菜2'},{'id':3,'name':'菜菜菜菜3'}],
-				          [{'id':4,'name':'菜菜菜菜4'},{'id':5,'name':'菜菜菜5'},{'id':6,'name':'菜菜菜菜6'}],
-						  [{'id':7,'name':'菜菜菜菜7'},{'id':6,'name':'菜菜菜8'},{'id':9,'name':'菜菜菜菜9'}]]"
-				isSet=1 dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                    <dt><h3>套餐</h3></dt>
-					
-                    <dd>
-                        <a href="javascript:void(0)" class="dataIn">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">
-                            
-                            <span></span>
-                            
-                        </a>
-                    </dd>
-					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
-                        <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-						
-                    </dd>
-                    <dd class="dpNum">
-					<img src="images/icon_fullminus.png"  style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-					<f style="color: #f00;">满一件 ，9.9</f>
-					</dd>
-                    <dd class="btn">
-					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                    </dd>
-                </dl>
+                <c:forEach items="${cateList}" var="cate">
+                    <div id="${cate.dishNo}">${cate.dishName}</div>
+                    <c:forEach items="${cate.dishesList}" var="dish">
+                        <dl dunitname="${dish.unit}" dsubcount="123" dishid="${dish.id}" dname="${dishName}" dtaste="口味" ddescribe="${dish.brief}" dmarkNum="45" dprice="${dish.marketPrice}" dishot="2" dspecialprice="${dish.price}" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+                            <dt><h3>鱼鱼</h3></dt>
+
+                            <dd>
+                                <a href="javascript:void(0)" class="dataIn">
+                                    <img src="${dish.miniatureUrl}" alt="" title="">
+
+                                    <span></span>
+
+                                </a>
+                            </dd>
+                            <span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
+                            <dd>
+                                <em class="sale">￥${dish.price}</em><del>￥${dish.marketPrice}</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
+
+                            </dd>
+                            <dd class="dpNum">
+                                <img src="/static/meal/images/icon_fullminus.png" style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
+                                <f style="color: #f00;">满一件 ，9.9</f>
+                            </dd>
+                            <dd class="btn">
+                                <img src="/static/meal/images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                            </dd>
+                        </dl>
+                    </c:forEach>
+                </c:forEach>
                 <div style="margin-top: 100px;"></div>
             </div>
         </article>
@@ -821,7 +410,7 @@
 	 {
 	   var setData = eval('('+ parentDl.getAttribute('setData') + ')');
 	   var setDishLength = setData.length;
-	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="./images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="./images/right_right_arrow.png">{1}</div>';
+	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="/static/meal/images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="/static/meal/images/right_right_arrow.png">{1}</div>';
 	   
 	   $(setData).each(function(i,n){
 	      var baseHtml = '';
@@ -833,9 +422,9 @@
 		 
 		 html += setTemplate.format('第'+parseInt(i+1)+'道菜', baseHtml);
 	   });
-	   html += '<img class="bottom-rmb" src="./images/rmb.png"/>';
+	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button" src="./images/dish_addMenu.png"/>';
+	   html += '<img class="bottomright-button" src="/static/meal/images/dish_addMenu.png"/>';
 	   $('#popContent').html(html);
 	   $('.setStyle').addClass('dn');
 	   $('.setStyle').eq(0).removeClass('dn');
@@ -887,9 +476,9 @@
 		 
 		 html += multiStyleBaseTemplate.format(n.name, baseHtml);
 	   });
-	   html += '<img class="bottom-rmb" src="./images/rmb.png"/>';
+	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button" src="./images/dish_addMenu.png"/>';
+	   html += '<img class="bottomright-button" src="/static/meal/images/dish_addMenu.png"/>';
 	   $('#popContent').html(multiStyleTemplate.format(dishName,html))
 	   //TODO:addListener
 	   $('.mModal,.popupWindow').show();
