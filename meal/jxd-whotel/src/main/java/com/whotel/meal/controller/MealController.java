@@ -244,29 +244,16 @@ public class MealController extends FanBaseController {
     public String dishCatList(HttpServletRequest req, String restaurantId) {
         Restaurant restaurant = restaurantService.getById(restaurantId);
         List<DishesCategory> cateList = dishesCategoryService.getByRestaurant(restaurant);
+        for(DishesCategory category :cateList){
+            List<Dishes> list = dishesService.getByCate(category);
+            category.setDishesList(list);
+        }
 
         req.setAttribute("rest",restaurant);
         req.setAttribute("bannerList",restaurant.getBannerUrls());
         req.setAttribute("cateList", cateList);
         return "meal/webPage/list";
     }
-
-
-    @RequestMapping("/oauth/meal/dishList")
-    @ResponseBody
-    public ResultData dishList(HttpServletRequest req, String cateId) {
-        DishesCategory category = dishesCategoryService.getById(cateId);
-        List<Dishes> list = dishesService.getByCate(category);
-
-        ResultData resultData = new ResultData(Constants.MessageCode.RESULT_SUCCESS,"成功");
-        Map<String,Object> map  = Maps.newHashMap();
-        map.put("list",list);
-        map.put("categoryId",cateId);
-        resultData.setData(map);
-        return resultData;
-    }
-
-
 
     @RequestMapping("/oauth/meal/listCity")
     @ResponseBody

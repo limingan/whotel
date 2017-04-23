@@ -1,6 +1,7 @@
 package com.whotel.meal.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import org.mongodb.morphia.annotations.Entity;
 
@@ -31,6 +32,8 @@ public class DishesCategory extends UnDeletedEntity {
 	private Date createTime;//创建时间
 	
 	private Integer displayOrder;  //排序
+
+	private List<Dishes> dishesList;//该类下的菜品
 
 	public String getHotelCode() {
 		return hotelCode;
@@ -99,5 +102,12 @@ public class DishesCategory extends UnDeletedEntity {
 	public void setDisplayOrder(Integer displayOrder) {
 		this.displayOrder = displayOrder;
 	}
-	
+
+	public List<Dishes> getDishesList() {
+		return dishesList;
+	}
+
+	public void setDishesList(List<Dishes> dishesList) {
+		this.dishesList = dishesList;
+	}
 }
