@@ -18,7 +18,7 @@ import java.util.Map;
 @Service
 public class RestaurantService {
 
-    private static final Logger logger = Logger.getLogger(MealOrderService.class);
+    private static final Logger logger = Logger.getLogger(RestaurantService.class);
 
     @Autowired
     private RestaurantDao restaurantDao;
@@ -28,6 +28,12 @@ public class RestaurantService {
         properties.put("companyId", param.getCompanyId());
         properties.put("hotelCode",param.getHotelCode());
         return restaurantDao.findByProperties(properties);
+    }
+
+    public Restaurant getById(String id){
+        Map<String, Serializable> properties = new HashMap<>();
+        properties.put("id", id);
+        return restaurantDao.getByProperties(properties);
     }
 
 

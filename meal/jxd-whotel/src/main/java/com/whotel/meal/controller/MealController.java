@@ -2,21 +2,17 @@ package com.whotel.meal.controller;
 
 import java.net.URLDecoder;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.whotel.common.dto.ResultData;
 import com.whotel.meal.controller.req.ListHotelReq;
 import com.whotel.meal.controller.req.ListRestaurantReq;
-import com.whotel.meal.service.RestaurantService;
+import com.whotel.meal.service.*;
 import com.whotel.thirdparty.jxd.mode.HotelCityQuery;
 import com.whotel.thirdparty.jxd.mode.vo.HotelCityVO;
 import org.apache.commons.lang3.StringUtils;
@@ -37,7 +33,6 @@ import com.whotel.common.util.BeanUtil;
 import com.whotel.common.util.DateUtil;
 import com.whotel.company.entity.Company;
 import com.whotel.company.enums.ModuleType;
-import com.whotel.company.service.TemplateMessageService;
 import com.whotel.front.controller.FanBaseController;
 import com.whotel.front.entity.PayOrder;
 import com.whotel.front.entity.WeixinFan;
@@ -53,8 +48,6 @@ import com.whotel.meal.entity.Restaurant;
 import com.whotel.meal.entity.Shuffle;
 import com.whotel.meal.enums.MealOrderStatus;
 import com.whotel.meal.enums.MealType;
-import com.whotel.meal.service.MealOrderService;
-import com.whotel.meal.service.MealService;
 import com.whotel.thirdparty.jxd.mode.HotelBranchQuery;
 import com.whotel.thirdparty.jxd.mode.MealTabQuery;
 import com.whotel.thirdparty.jxd.mode.vo.HotelBranchVO;
@@ -85,6 +78,14 @@ public class MealController extends FanBaseController {
     @Autowired
     private RestaurantService restaurantService;
 
+    @Autowired
+    private DishesCategoryService dishesCategoryService;
+
+    @Autowired
+    private DishesService dishesService;
+
+
+
     /**
      * 分店列表
      *
@@ -101,7 +102,7 @@ public class MealController extends FanBaseController {
 
         param.setCompanyId(companyId);
         req.setAttribute("hotelList", this.getHotelList(param));
-        return "meal/webPage/branch";
+        return "meal/webPage/restlist";
     }
 
     private List<Hotel> getHotelList(ListHotelReq param) {
@@ -216,6 +217,12 @@ public class MealController extends FanBaseController {
         return d;
     }
 
+    /**
+     * 分厅列表
+     * @param req
+     * @param param
+     * @return
+     */
     @RequestMapping("/oauth/meal/restaurant")
     public String restlist(HttpServletRequest req, ListRestaurantReq param) {
         Company company = getCurrentCompany(req);
@@ -223,8 +230,42 @@ public class MealController extends FanBaseController {
         param.setCompanyId(companyId);
         List<Restaurant> list = restaurantService.getByParam(param);
         req.setAttribute("restList",list);
-        return "meal/webPage/restaurant";
+        return "meal/webPage/restaurantList";
     }
+
+
+    /**
+     * 菜品分类列表
+     * @param req
+     * @param restaurantId
+     * @return
+     */
+    @RequestMapping("/oauth/meal/dishCatList")
+    public String dishCatList(HttpServletRequest req, String restaurantId) {
+        Restaurant restaurant = restaurantService.getById(restaurantId);
+        List<DishesCategory> cateList = dishesCategoryService.getByRestaurant(restaurant);
+
+        req.setAttribute("rest",restaurant);
+        req.setAttribute("bannerList",restaurant.getBannerUrls());
+        req.setAttribute("cateList", cateList);
+        return "meal/webPage/list";
+    }
+
+
+    @RequestMapping("/oauth/meal/dishList")
+    @ResponseBody
+    public ResultData dishList(HttpServletRequest req, String cateId) {
+        DishesCategory category = dishesCategoryService.getById(cateId);
+        List<Dishes> list = dishesService.getByCate(category);
+
+        ResultData resultData = new ResultData(Constants.MessageCode.RESULT_SUCCESS,"成功");
+        Map<String,Object> map  = Maps.newHashMap();
+        map.put("list",list);
+        map.put("categoryId",cateId);
+        resultData.setData(map);
+        return resultData;
+    }
+
 
 
     @RequestMapping("/oauth/meal/listCity")
@@ -235,6 +276,10 @@ public class MealController extends FanBaseController {
         return hotelCitys;
     }
 
+
+
+
+    /**---------------------------------------------------*/
     /**
      * 分店查询
      *
