@@ -4,15 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <meta name="format-detection" content="telephone=no">
-<title>全部商品</title>
-<link data-turbolinks-track="true" href="/static/meal/css/weixin.css?v=1" media="all" rel="stylesheet">
+<title>商家详情</title>
+<link data-turbolinks-track="true" href="/static/meal/css/weixin.css?v=1 " media="all" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/static/meal/css/wei_canyin_v1.8.4.css?v=1.1.1" media="all">
 <link rel="stylesheet" type="text/css" href="/static/meal/css/wei_dialog_v1.2.1.css?v=1.1" media="all">
 <link data-turbolinks-track="true" href="/static/meal/css/font.css?v=1" media="all" rel="stylesheet">
-
-    <link rel="stylesheet" type="text/css" href="/static/meal/css/banner.css?v=1.1.1" media="all">
-
-    <style>
+<style>
     /*解决右边背景总是为灰色的bug*/
     #page_allMenu section article, #pInfo {
         min-height: 100%;
@@ -22,11 +19,10 @@
 <script type="text/javascript" src="/static/meal/js/wei_webapp_v2_common_v1.9.4.js"></script>
 <script type="text/javascript" src="/static/meal/js/wei_dialog_v1.9.9.js"></script>
 <script type="text/javascript" src="/static/meal/js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="/static/meal/js/unslider.min.js"></script>
 </head>
-<body id="page_allMenu" style="background-color: #fff;height:100%">
+<body id="page_allMenu" style="background-color: #fff;">
 <style>
- 
+
     .ddb-nav-header {
         opacity: 0.95;
         position: fixed;
@@ -138,7 +134,7 @@
 	display:none
 	}
 	.shopInfoList{
-     line-height:40px;
+	 line-height:40px;
 	 font-size:16px;
 	}
 	.shopInfoList img {
@@ -159,109 +155,24 @@
 	}
 </style>
 <div class="ddb-nav-header ng-scope">
-    <a class="nav-left-item" href="javascript:void(0)" onclick="history.go(-1)"><i class="fa fa-angle-left"></i></a>
-    <div class="header-title ng-binding">${rest.name}</div>
+    <a class="nav-left-item" href="javascript:void(0)" onclick="history.go(-1)"><i class="fa fa-angle-left"></i><span style="position:absolute;top:0px">返回</span></a>
+    <div class="header-title ng-binding">餐厅1</div>
     
 </div>
 
-
 <div class="notification-section">
-    <div class="banner">
-        <ul>
-            <c:forEach items="${bannerList}" var="baner">
-                <li><img style="width:100%;height:200px" src="${baner}"></li>
-            </c:forEach>
-        </ul>
+    <div class="">
+       <img style="width:100%;height:200px" src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/>
     </div>
 </div>
-         <div class="">
-         <div class="ddb-tab-bar ">
-            <div class="ddb-tab-item ng-scope active">
-                <a href="javascript:;" class="" id="store_classify">点餐</a>
-               
-            </div>
-            <div class="ddb-tab-item ng-scope">
-                <a href="javascript:;" class="ng-binding">评论</a>
-            </div>
-            <div class="ddb-tab-item ng-scope" ng-repeat="pane in panes" ng-class="{active:pane.selected}"
-                 ng-click="toggle(pane)">
-                <a href="javascript:;" class="ng-binding">商家</a>
-            </div>
-        </div>
-		</div>
-<div class="main" >
-    <nav id="navBar">
-        <dl>
+         
 
 
-            <c:forEach items="${cateList}" var="cate" varStatus="status">
-
-                <c:if test="${status.index ==0}">
-                    <a class="navOption" href="#${cate.dishNo}">
-                        <dd categoryid="${cate.id}" class="active">
-                            <%--fixme limingan 分类无图--%>
-                            <%--<img style="width:15px;height:15px;border-top:10px" src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">--%>
-                            ${cate.dishName}
-                            <span style="display:inline-block;">1</span>
-                        </dd>
-                    </a>
-                </c:if>
-
-                <c:if test="${status.index !=0}">
-                    <a class="navOption" href="#${cate.dishNo}">
-                        <dd categoryid="3" >
-                                ${cate.dishName}
-                            <span style="display:none;"></span>
-                        </dd>
-                    </a>
-                </c:if>
-            </c:forEach>
-        </dl>
-        <div style="margin-top: 100px;"></div>
-    </nav>
-    <section id="infoSection">
-        <article style="border: 0px">
-            <div id="pInfo">
-                <c:forEach items="${cateList}" var="cate">
-                    <div id="${cate.dishNo}">${cate.dishName}</div>
-                    <c:forEach items="${cate.dishesList}" var="dish">
-                        <dl dunitname="${dish.unit}" dsubcount="123" dishid="${dish.id}" dname="${dishName}" dtaste="口味" ddescribe="${dish.brief}" dmarkNum="45" dprice="${dish.marketPrice}" dishot="2" dspecialprice="${dish.price}" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                            <dt><h3>鱼鱼</h3></dt>
-
-                            <dd>
-                                <a href="javascript:void(0)" class="dataIn">
-                                    <img src="${dish.miniatureUrl}" alt="" title="">
-
-                                    <span></span>
-
-                                </a>
-                            </dd>
-                            <span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                            <dd>
-                                <em class="sale">￥${dish.price}</em><del>￥${dish.marketPrice}</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
-
-                            </dd>
-                            <dd class="dpNum">
-                                <img src="/static/meal/images/icon_fullminus.png" style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-                                <f style="color: #f00;">满一件 ，9.9</f>
-                            </dd>
-                            <dd class="btn">
-                                <img src="/static/meal/images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
-                            </dd>
-                        </dl>
-                    </c:forEach>
-                </c:forEach>
-                <div style="margin-top: 100px;"></div>
-            </div>
-        </article>
-    </section>
-</div>
-
-<div class="shopInfoList dn">
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >月售 8119999ßß 份</span></div>
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.businessTime}</span></div>
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.address}</span></div>
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.tel}</span><a href="javascript:void(0);"><i class="fa fa-angle-right"></i></a></div>
+<div class="shopInfoList ">
+ <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >月售 811 份</span></div>
+ <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >09:30-21:00</span></div>
+ <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >深圳市南山区</span></div>
+ <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >0755-33331111</span><a href="javascript:void(0);"><i class="fa fa-angle-right"></i></a></div>
 </div>
 <div class="mModal" style="z-index: 900;height:100%;display:none"><a href="javascript:void(0)" style="height: 736px;"></a></div>
 <div class="popupWindow" style="z-index:9999;display:none">
@@ -348,6 +259,7 @@
   left:65%;
  }
 </style>
+
 <script type="text/javascript">
         String.prototype.format = function (args) {
             var result = this;

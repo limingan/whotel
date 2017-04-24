@@ -35,8 +35,8 @@
             display: none
         }
     }</style>
-    <script type="text/javascript" src="/static/meal/js/postion.js?v=3"></script>
     <script type="text/javascript" src="/static/meal/js/jQuery.js"></script>
+    <script type="text/javascript" src="/static/meal/js/postion.js?v=3"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5PESLgvMcSbSUbPjmDKgvGZ3"></script>
 </head>
 <body>
@@ -44,7 +44,7 @@
     <div class="ddb-nav-header ng-scope">
         <a class="nav-left-item" href="javascript:history.back(-1);"><i class="fa fa-angle-left"></i></a>
         <div class="header-title ng-binding">门店列表</div>
-        <a class="nav-right-item" href="{php echo $this->createMobileUrl('search', array(), true)}">
+        <a class="nav-right-item" href="/oauth/meal/search.do">
             <div class="operation-button gray"><i class="fa fa-search"></i>
             </div>
         </a>
@@ -150,7 +150,7 @@
                     <input id="showlan" type="hidden" value="100,100"/>
                     <a class="branch-info " href="/oauth/meal/restaurant.do?hotelCode=${hotel.code}">
                         <div class="branch-image">
-                            <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg">
+                            <img src="${hotel.miniatureUrl}">
                         </div>
                         <div class="delivery-info">
                             <div class="first-line">

@@ -19,6 +19,16 @@ public class ListHotelReq {
 
     private Double lng;//经度
 
+    private String keyword;//查询关键字
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
     public String getCompanyId() {
         return companyId;
     }

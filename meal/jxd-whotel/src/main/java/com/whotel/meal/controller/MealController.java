@@ -1,5 +1,6 @@
 package com.whotel.meal.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -9,13 +10,13 @@ import javax.servlet.http.HttpSession;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.whotel.common.dto.ResultData;
 import com.whotel.meal.controller.req.ListHotelReq;
 import com.whotel.meal.controller.req.ListRestaurantReq;
 import com.whotel.meal.service.*;
 import com.whotel.thirdparty.jxd.mode.HotelCityQuery;
 import com.whotel.thirdparty.jxd.mode.vo.HotelCityVO;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,6 +60,8 @@ import com.whotel.weixin.service.WeixinMessageService;
 
 @Controller
 public class MealController extends FanBaseController {
+
+    private static final Logger logger = Logger.getLogger(MealController.class);
 
     @Autowired
     private MealService mealService;
@@ -107,12 +110,19 @@ public class MealController extends FanBaseController {
 
     private List<Hotel> getHotelList(ListHotelReq param) {
         String city = "";
+        String keyword = "";
         try {
-            city = URLDecoder.decode(param.getCity(), "UTF-8");
+            if(StringUtils.isNotEmpty(param.getCity())){
+                city = URLDecoder.decode(param.getCity(), "UTF-8");
+            }
+            if(StringUtils.isNotEmpty(param.getKeyword())){
+                keyword = URLDecoder.decode(param.getKeyword(), "UTF-8");
+            }
         } catch (Exception e) {
-
+            logger.error("MealController getHotelList", e);
         }
         param.setCity(city);
+        param.setKeyword(keyword);
         List<Hotel> result = Lists.newArrayList();
         List<Hotel> list = hotelService.findHotel(param);
         Date current = new Date();
@@ -249,18 +259,43 @@ public class MealController extends FanBaseController {
             category.setDishesList(list);
         }
 
-        req.setAttribute("rest",restaurant);
-        req.setAttribute("bannerList",restaurant.getBannerUrls());
+        req.setAttribute("rest", restaurant);
+        req.setAttribute("bannerList", restaurant.getBannerUrls());
         req.setAttribute("cateList", cateList);
         return "meal/webPage/list";
     }
 
-    @RequestMapping("/oauth/meal/listCity")
-    @ResponseBody
-    public List<HotelCityVO> listCity(HttpServletRequest req) {
+    /**
+     * 搜索
+     * @param req
+     * @return
+     */
+    @RequestMapping("oauth/meal/search")
+    public String search(HttpServletRequest req,String keyword){
+        List<String> list = Lists.newArrayList();
+        list.add("明月山");
+        list.add("捷信达");
+        list.add("华天");
+        list.add("厦门");
+        list.add("南昌");
+
         Company company = getCurrentCompany(req);
-        List<HotelCityVO> hotelCitys = hotelService.listHotelCityVO(company.getId(), new HotelCityQuery());
-        return hotelCitys;
+        String companyId = company.getId();
+        ListHotelReq param = new ListHotelReq();
+        String word = "";
+        if(StringUtils.isNotEmpty(keyword)){
+            try {
+                word = URLDecoder.decode(keyword, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                logger.error("MealController search",e);
+            }
+        }
+        param.setCompanyId(companyId);
+        param.setKeyword(word);
+        List<Hotel> hotels = hotelService.findHotel(param);
+        req.setAttribute("keywordList", list);
+        req.setAttribute("list",hotels);
+        return "meal/webPage/search";
     }
 
 

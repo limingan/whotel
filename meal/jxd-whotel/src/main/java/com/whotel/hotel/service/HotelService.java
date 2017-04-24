@@ -2,8 +2,6 @@ package com.whotel.hotel.service;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,10 +10,10 @@ import java.util.Map;
 import com.whotel.meal.controller.req.ListHotelReq;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.mongodb.morphia.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.stuxuhai.jpinyin.PinyinHelper;
 import com.whotel.common.dao.mongo.Order;
 import com.whotel.common.dao.mongo.Page;
 import com.whotel.company.entity.InterfaceConfig;
@@ -322,20 +320,20 @@ public class HotelService {
 	}
 
 	public List<Hotel> findHotel(ListHotelReq param){
-		Map<String, Serializable> properties = new HashMap<>();
-		properties.put("companyId", param.getCompanyId());
+		Query<Hotel> query = hotelDao.createQuery();
+		query.field("companyId").equal(param.getCompanyId());
 		if(StringUtils.isNotEmpty(param.getCity()) && !"0".equals(param.getCity())){
-			properties.put("city", param.getCity());
+			query.field("city").equal(param.getCity());
 		}
-		if(null != param.getType()){
-			if(1 == param.getType()){
-				properties.put("isTakeOut", true);
-			}
-//			if(2 == param.getType()){
-//				properties.put("isInner", true);
-//			}
+		if(null != param.getType() && 1== param.getType()){
+			query.field("isTakeOut").equal(true);
 		}
-		List<Hotel> hotels = hotelDao.findByProperties(properties);
+		if(StringUtils.isNotEmpty(param.getKeyword())){
+			String keyword = param.getKeyword();
+			query.or(query.criteria("name").contains(keyword),query.criteria("city").contains(keyword),query.criteria("address").contains(keyword));
+		}
+		List<Hotel> hotels = hotelDao.findByQuery(query).asList();
+
 		return hotels;
 	}
 }
