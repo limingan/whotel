@@ -2,23 +2,13 @@ package com.whotel.thirdparty.jxd.api;
 
 import java.util.List;
 
+import com.whotel.meal.entity.*;
+import com.whotel.thirdparty.jxd.mode.*;
 import org.apache.log4j.Logger;
 
 import com.whotel.common.http.HttpHelper;
 import com.whotel.common.http.HttpHelper.Response;
-import com.whotel.meal.entity.Dishes;
-import com.whotel.meal.entity.DishesCategory;
-import com.whotel.meal.entity.Shuffle;
-import com.whotel.meal.entity.MealBranch;
-import com.whotel.meal.entity.MealTab;
-import com.whotel.meal.entity.Restaurant;
 import com.whotel.thirdparty.jxd.JXDConstants;
-import com.whotel.thirdparty.jxd.mode.MealBranchQuery;
-import com.whotel.thirdparty.jxd.mode.MealDishesCategoryQuery;
-import com.whotel.thirdparty.jxd.mode.MealShuffleQuery;
-import com.whotel.thirdparty.jxd.mode.MealDishesQuery;
-import com.whotel.thirdparty.jxd.mode.MealTabQuery;
-import com.whotel.thirdparty.jxd.mode.MealRestaurantQuery;
 import com.whotel.thirdparty.jxd.util.ApiXmlVoParser;
 import com.whotel.thirdparty.jxd.util.JxdXmlUtils;
 
@@ -142,5 +132,26 @@ public class JXDMealService {
 		 ApiXmlVoParser.checkReturnContent(res);
 		 dishesCategoryList = ApiXmlVoParser.parseDishesCategoryList(res.html(), res.charset());
 		 return dishesCategoryList;
+	}
+
+	/**
+	 * 查询做法列表
+	 * @param query
+	 * @param mealUrl
+	 * @return
+	 * @throws Exception
+	 */
+	public List<DishesPractice> loadDishesPractice(MealDishesPracticeQuery query,String mealUrl) throws Exception{
+		String param = JxdXmlUtils.toXml(query);
+		if(log.isDebugEnabled()) {
+			log.debug("param: \n" + param);
+		}
+		// 请求接口并获得响应
+		List<DishesPractice> dishesCategoryList = null;
+		Response res = HttpHelper.connect(mealUrl).header("Content-Type",
+				"text/xml").timeout(JXDConstants.TIMEOUT).post(param);
+		ApiXmlVoParser.checkReturnContent(res);
+		dishesCategoryList = ApiXmlVoParser.parseDishesPracticeList(res.html(), res.charset());
+		return dishesCategoryList;
 	}
 }

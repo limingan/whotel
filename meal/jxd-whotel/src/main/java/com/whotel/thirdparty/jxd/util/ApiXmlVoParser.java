@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
+import com.whotel.meal.entity.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dom4j.DocumentException;
@@ -17,13 +19,6 @@ import com.whotel.common.enums.TradeType;
 import com.whotel.common.http.HttpHelper.Response;
 import com.whotel.common.util.DateUtil;
 import com.whotel.common.util.Dom4jHelper;
-import com.whotel.meal.entity.Dishes;
-import com.whotel.meal.entity.DishesCategory;
-import com.whotel.meal.entity.MealBranch;
-import com.whotel.meal.entity.MealOrder;
-import com.whotel.meal.entity.MealTab;
-import com.whotel.meal.entity.Restaurant;
-import com.whotel.meal.entity.Shuffle;
 import com.whotel.meal.enums.MealOrderStatus;
 import com.whotel.thirdparty.jxd.ApiException;
 import com.whotel.thirdparty.jxd.mode.vo.CategoryCodeVO;
@@ -61,6 +56,7 @@ import com.whotel.thirdparty.jxd.mode.vo.TicketOrderVO;
 import com.whotel.thirdparty.jxd.mode.vo.TicketPriceDateVO;
 import com.whotel.thirdparty.jxd.mode.vo.TicketPriceVO;
 import com.whotel.thirdparty.jxd.mode.vo.TicketServiceVO;
+import org.springframework.util.CollectionUtils;
 
 /**
  * 将接口返回的值转换成公共的VO对象
@@ -1850,6 +1846,29 @@ public class ApiXmlVoParser {
 				orders.add(vo);
 			}
 			return orders;
+		}
+		return null;
+	}
+
+	public static List<DishesPractice> parseDishesPracticeList(String xml, String charset)
+			throws UnsupportedEncodingException, DocumentException {
+		InputStream ins = new ByteArrayInputStream(xml.getBytes(charset));
+		Dom4jHelper dom4jHelper = new Dom4jHelper(ins, charset);
+		List<Map<String, String>> list = dom4jHelper.getListElements("Row");
+		return parseDishesPracticeList(list);
+	}
+
+	private static List<DishesPractice> parseDishesPracticeList(List<Map<String, String>> list) {
+		if (!CollectionUtils.isEmpty(list)) {
+			List<DishesPractice> dishesPracticeList = Lists.newArrayList();
+			for (Map<String, String> map : list) {
+				DishesPractice dishesPractice = new DishesPractice();
+				dishesPractice.setActionName(map.get("ActionName"));
+				dishesPractice.setActionNo(map.get("ActionNo"));
+				dishesPractice.setAddprice(Float.valueOf(map.get("Addprice")));
+				dishesPracticeList.add(dishesPractice);
+			}
+			return dishesPracticeList;
 		}
 		return null;
 	}

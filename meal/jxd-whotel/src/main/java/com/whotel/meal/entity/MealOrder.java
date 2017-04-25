@@ -3,6 +3,7 @@ package com.whotel.meal.entity;
 import java.util.Date;
 import java.util.List;
 
+import com.whotel.meal.enums.MealOrderType;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 
@@ -58,6 +59,16 @@ public class MealOrder extends BaseOrder {
 	private Float serviceFee;//服务费
 	
 	private Float dishesPrice;//菜价
+
+	private MealOrderType mealOrderType;//外卖还是堂食
+
+	public MealOrderType getMealOrderType() {
+		return mealOrderType;
+	}
+
+	public void setMealOrderType(MealOrderType mealOrderType) {
+		this.mealOrderType = mealOrderType;
+	}
 
 	public Float getServiceFee() {
 		return serviceFee;

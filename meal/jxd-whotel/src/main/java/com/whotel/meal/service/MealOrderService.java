@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.whotel.common.enums.FilterModel;
+import com.whotel.meal.controller.req.PageOrderReq;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.mongodb.morphia.query.Query;
@@ -291,5 +293,22 @@ public class MealOrderService {
 		}
 		return mealOrderList;
 	}
-	
+
+	public Page<MealOrder> pageQuery(PageOrderReq param) {
+		Page<MealOrder> page = new Page<>();
+		page.addFilter("companyId", FilterModel.EQ, param.getCompanyId());
+		page.addFilter("openId", FilterModel.EQ, param.getOpenId());
+		Integer pageNo = param.getPageNo();
+		Integer pageSize = param.getPageSize();
+		if(null == pageNo){
+			pageNo = 1;
+		}
+		if(null == pageSize){
+			pageSize = 20;
+		}
+		page.setPageNo(pageNo);
+		page.setPageSize(pageSize);
+		page.addOrder("createDate",false);
+		return mealOrderDao.find(page);
+	}
 }

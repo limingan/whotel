@@ -10,8 +10,11 @@ import javax.servlet.http.HttpSession;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.whotel.card.entity.Member;
 import com.whotel.meal.controller.req.ListHotelReq;
 import com.whotel.meal.controller.req.ListRestaurantReq;
+import com.whotel.meal.controller.req.PageOrderReq;
+import com.whotel.meal.entity.*;
 import com.whotel.meal.service.*;
 import com.whotel.thirdparty.jxd.mode.HotelCityQuery;
 import com.whotel.thirdparty.jxd.mode.vo.HotelCityVO;
@@ -39,14 +42,6 @@ import com.whotel.front.entity.PayOrder;
 import com.whotel.front.entity.WeixinFan;
 import com.whotel.hotel.entity.Hotel;
 import com.whotel.hotel.service.HotelService;
-import com.whotel.meal.entity.Dishes;
-import com.whotel.meal.entity.DishesCategory;
-import com.whotel.meal.entity.MealConfig;
-import com.whotel.meal.entity.MealOrder;
-import com.whotel.meal.entity.MealOrderItem;
-import com.whotel.meal.entity.MealTab;
-import com.whotel.meal.entity.Restaurant;
-import com.whotel.meal.entity.Shuffle;
 import com.whotel.meal.enums.MealOrderStatus;
 import com.whotel.meal.enums.MealType;
 import com.whotel.thirdparty.jxd.mode.HotelBranchQuery;
@@ -86,6 +81,9 @@ public class MealController extends FanBaseController {
 
     @Autowired
     private DishesService dishesService;
+
+    @Autowired
+    private DishesPracticeService dishesPracticeService;
 
 
 
@@ -298,6 +296,31 @@ public class MealController extends FanBaseController {
         return "meal/webPage/search";
     }
 
+
+    /**
+     * 订单列表查询
+     * @param req
+     * @param param
+     * @return
+     */
+    @RequestMapping("/oauth/meal/orderList")
+    public String orderList(HttpServletRequest req,PageOrderReq param){
+        Company company = getCurrentCompany(req);
+        Member member = getCurrentMember(req);
+        param.setCompanyId(company.getId());
+        param.setOpenId(member.getOpenId());
+        Page<MealOrder> orderPage = mealOrderService.pageQuery(param);
+        req.setAttribute("orderPage",orderPage);
+        return "meal/webPage/order";
+    }
+
+    @RequestMapping("/oauth/meal/orderDetail")
+    public String orderDetail(HttpServletRequest req,String orderId){
+        Company company = getCurrentCompany(req);
+        Member member = getCurrentMember(req);
+
+        return "meal/webPage/orderDetail";
+    }
 
 
 
