@@ -22,7 +22,7 @@
         
         <div class="space-12"></div>
         <c:forEach items="${orderPage.result}" var="order">
-            <div class="order-item section ng-scope" onclick="window.location.href=''">
+            <div class="order-item section ng-scope" onclick="window.location.href='/oauth/meal/orderDetail.do?orderId=${order.id}'">
                 <a class="list-item">
                     <div class="time ng-binding">下单时间：<fmt:formatDate value="${order.createDate}" pattern="yyyy-MM-dd HH:mm:ss" /></div>
                 </a>
@@ -58,7 +58,7 @@
     }
 
     function go_detail(id) {
-        window.location.href = "{php echo $this->createMobileUrl('orderdetail', array(), true)}" + "&orderid=" + id;
+        window.location.href = "/oauth/meal/orderDetail.do?orderId=" + id;
     }
 </script>
 

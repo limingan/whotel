@@ -1,31 +1,8 @@
 package com.whotel.meal.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.text.DecimalFormat;
-import java.util.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.whotel.card.entity.Member;
-import com.whotel.meal.controller.req.ListHotelReq;
-import com.whotel.meal.controller.req.ListRestaurantReq;
-import com.whotel.meal.controller.req.PageOrderReq;
-import com.whotel.meal.entity.*;
-import com.whotel.meal.service.*;
-import com.whotel.thirdparty.jxd.mode.HotelCityQuery;
-import com.whotel.thirdparty.jxd.mode.vo.HotelCityVO;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.whotel.card.service.MemberTradeService;
 import com.whotel.common.base.Constants;
 import com.whotel.common.dao.mongo.Page;
@@ -42,16 +19,37 @@ import com.whotel.front.entity.PayOrder;
 import com.whotel.front.entity.WeixinFan;
 import com.whotel.hotel.entity.Hotel;
 import com.whotel.hotel.service.HotelService;
+import com.whotel.meal.controller.req.ListHotelReq;
+import com.whotel.meal.controller.req.ListRestaurantReq;
+import com.whotel.meal.controller.req.PageOrderReq;
+import com.whotel.meal.entity.*;
 import com.whotel.meal.enums.MealOrderStatus;
 import com.whotel.meal.enums.MealType;
+import com.whotel.meal.service.*;
 import com.whotel.thirdparty.jxd.mode.HotelBranchQuery;
+import com.whotel.thirdparty.jxd.mode.HotelCityQuery;
 import com.whotel.thirdparty.jxd.mode.MealTabQuery;
 import com.whotel.thirdparty.jxd.mode.vo.HotelBranchVO;
+import com.whotel.thirdparty.jxd.mode.vo.HotelCityVO;
 import com.whotel.thirdparty.jxd.mode.vo.MemberCouponVO;
 import com.whotel.thirdparty.jxd.mode.vo.MemberVO;
 import com.whotel.weixin.bean.Location;
 import com.whotel.weixin.service.LocationService;
 import com.whotel.weixin.service.WeixinMessageService;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.text.DecimalFormat;
+import java.util.*;
 
 @Controller
 public class MealController extends FanBaseController {
@@ -316,10 +314,15 @@ public class MealController extends FanBaseController {
 
     @RequestMapping("/oauth/meal/orderDetail")
     public String orderDetail(HttpServletRequest req,String orderId){
-        Company company = getCurrentCompany(req);
-        Member member = getCurrentMember(req);
-
-        return "meal/webPage/orderDetail";
+        String companyId = getCurrentCompanyId(req);
+        String openId = getCurrentOpenId(req);
+        MealOrder mealOrder = mealOrderService.find(companyId,openId,orderId);
+        Restaurant restaurant = mealOrder.getRestaurant();
+        Hotel hotel = hotelService.getHotel(companyId,mealOrder.getHotelCode());
+        req.setAttribute("order",mealOrder);
+        req.setAttribute("rest",restaurant);
+        req.setAttribute("hotel",hotel);
+        return "meal/webPage/orderdetail";
     }
 
 

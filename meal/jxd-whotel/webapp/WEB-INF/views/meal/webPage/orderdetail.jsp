@@ -77,10 +77,10 @@
     <div class="main-view order-show ng-scope" id="delivery-order-show">
         <div class="section">
             <a class="list-item arrow-right ng-binding" href="{php echo $this->createMobileUrl('detail', array('id' => $store['id']), true)}">
-                <i class="fa fa-bookmark-o"></i> 甲乙丙丁
+                <i class="fa fa-bookmark-o"></i> ${order.name}
             </a>
             <a class="list-item arrow-right ng-binding" href="tel:{$store['tel']}">
-                <i class="fa fa-phone"></i> 商家客服：8698888
+                <i class="fa fa-phone"></i> 商家客服：${rest.tel}
             </a>
             <!--<a class="list-item ng-scope" ng-click="deliveryman_location()" ng-if="can_track_deliveryman()">-->
                 <!--<div class="service-button">-->
@@ -177,45 +177,39 @@
         <div class="space-8"></div>
         <div class="section no-bottom-border">
             <div class="list-item time">
-                <span class="ng-binding">类型：外卖</span>&nbsp;&nbsp;<span class="ng-binding">订单号：201231232222</span><br>
-                <span class="ng-binding">下单时间：2014-01-01 12:00:00</span>
+                <span class="ng-binding">类型：
+                    <c:choose>
+                        <c:when test="${order.mealOrderType eq 'OUT'}">外卖</c:when>
+                        <c:otherwise>堂食</c:otherwise>
+                    </c:choose>
+                </span>&nbsp;&nbsp;<span class="ng-binding">订单号：${order.orderSn}</span><br>
+                <span class="ng-binding">下单时间：<fmt:formatDate value="${order.createDate}" pattern="yyyy-MM-dd HH:mm:ss" /></span>
 
             </div>
-			<div class="list-item ng-scope">
-                <div class="name ng-binding">
-                    糖醋鱼
+            <c:forEach items="${order.items}" var="item">
+                <div class="list-item ng-scope">
+                    <div class="name ng-binding">
+                        ${item.name}
+                    </div>
+                    <div class="quantity-info">
+                        <span class="quantity ng-binding">${item.itemQuantity}${item.unit}</span>
+                        ×
+                        <span class="price ng-binding">￥${item.itemPrice}</span>
+                    </div>
+                    <div class="total-info">
+                        <button class="btn_add"  onclick="location.href=''">编辑</button>
+                    </div>
                 </div>
-                <div class="quantity-info">
-                    <span class="quantity ng-binding">1份</span>
-                    ×
-                    <span class="price ng-binding">￥23.5</span>
-                </div>
-                <div class="total-info">
-                    <button class="btn_add"  onclick="location.href=''">编辑</button>
-                </div>
-            </div>
-			<div class="list-item ng-scope">
-                <div class="name ng-binding">
-                    糖醋鱼
-                </div>
-                <div class="quantity-info">
-                    <span class="quantity ng-binding">1份</span>
-                    ×
-                    <span class="price ng-binding">￥23.5</span>
-                </div>
-                <div class="total-info">
-                    <button class="btn_add"  onclick="location.href='' ">编辑</button>
-                </div>
-            </div>
-            <div class="list-item">合计：<span class="red ng-binding">2份</span>，<strong
-                    class="red ng-binding">￥23.45</strong>
-            
-                    
-                    <span class="ng-scope">（含4元配送费）</span>
-              
-                  
+            </c:forEach>
 
-                   
+            <div class="list-item">合计：<span class="red ng-binding">${fn:length(order.items)}份</span>，<strong
+                    class="red ng-binding">￥${order.totalFee}</strong>
+                    <span class="ng-scope">
+                        （含
+                        <c:if test="${empty hotel.deliverPrice}">0</c:if>
+                        <c:if test="${!empty hotel.deliverPrice}">${hotel.deliverPrice}</c:if>
+                        元配送费）
+                    </span>
             </div>
      
             
@@ -228,19 +222,19 @@
            
                           
                 <div class="order-item ng-binding ng-scope">
-                    姓名: 张三
+                    姓名: ${order.contactName}
 
                 </div>
                 <div class="order-item ng-binding ng-scope">
-                    电话: 13322221111
+                    电话: ${order.contactMobile}
                 </div>
                 <div class="order-item ng-binding ng-scope">
-                    地址: XXXXXXXXXXXXX
+                    地址: ${order.addr}
                 </div>
              
 
                 <div class="order-item ng-binding ng-scope">
-                    备注: 备注备注备注备注
+                    备注: ${order.remark}
                 </div>
                
         </div>
@@ -248,7 +242,6 @@
         </div>
     </div>
 </div
-<jsp:include page="footer.jsp"/>
 <script src="/static/meal/js/jquery-1.11.3.min.js"></script>
 <script>
     function confirmorder() {

@@ -62,6 +62,16 @@ public class MealOrder extends BaseOrder {
 
 	private MealOrderType mealOrderType;//外卖还是堂食
 
+	private String addr;
+
+	public String getAddr() {
+		return addr;
+	}
+
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+
 	public MealOrderType getMealOrderType() {
 		return mealOrderType;
 	}
