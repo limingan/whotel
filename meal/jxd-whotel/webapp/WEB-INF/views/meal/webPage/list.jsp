@@ -268,6 +268,7 @@
  <img class="close" src="/static/meal/images/close.png" />
  <div id="popContent"></div>
 </div>
+<jsp:include page="footer.jsp"/>
 <style>
  .popupWindow{
   width:100%;

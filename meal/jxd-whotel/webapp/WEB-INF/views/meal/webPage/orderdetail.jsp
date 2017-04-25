@@ -1,5 +1,6 @@
-﻿<html ng-app="diandanbao" class="ng-scope">
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/common/taglibs.jsp"%>
+<html ng-app="diandanbao" class="ng-scope">
 <head>
     <meta charset="utf-8">
     <style type="text/css">@charset "UTF-8";
@@ -14,7 +15,7 @@
     <meta content="telephone=no" name="format-detection">
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
     <title>我的订单</title>
-    <link data-turbolinks-track="true" href="./assets/diandanbao/weixin.css?v=1" media="all"
+    <link data-turbolinks-track="true" href="/static/meal/css/weixin.css?v=1" media="all"
           rel="stylesheet">
     <style type="text/css">@media screen {
         .smnoscreen {
@@ -41,7 +42,6 @@
 	color: #fff
 }
 	</style>
-	
 </head>
 <body>
 <div ng-view="" style="height: 100%;" class="ng-scope">
@@ -79,7 +79,7 @@
             <a class="list-item arrow-right ng-binding" href="{php echo $this->createMobileUrl('detail', array('id' => $store['id']), true)}">
                 <i class="fa fa-bookmark-o"></i> 甲乙丙丁
             </a>
-            <a class="list-item arrow-right ng-binding" href="tel:88997788">
+            <a class="list-item arrow-right ng-binding" href="tel:{$store['tel']}">
                 <i class="fa fa-phone"></i> 商家客服：8698888
             </a>
             <!--<a class="list-item ng-scope" ng-click="deliveryman_location()" ng-if="can_track_deliveryman()">-->
@@ -191,7 +191,7 @@
                     <span class="price ng-binding">￥23.5</span>
                 </div>
                 <div class="total-info">
-                    <button class="btn_add"  onclick="location.href='">编辑</button>
+                    <button class="btn_add"  onclick="location.href=''">编辑</button>
                 </div>
             </div>
 			<div class="list-item ng-scope">
@@ -204,7 +204,7 @@
                     <span class="price ng-binding">￥23.5</span>
                 </div>
                 <div class="total-info">
-                    <button class="btn_add"  onclick="location.href='">编辑</button>
+                    <button class="btn_add"  onclick="location.href='' ">编辑</button>
                 </div>
             </div>
             <div class="list-item">合计：<span class="red ng-binding">2份</span>，<strong
@@ -247,8 +247,9 @@
         <div class="juchi"></div>
         </div>
     </div>
-</div>
-<script src="./assets/diandanbao/jquery-1.11.3.min.js"></script>
+</div
+<jsp:include page="footer.jsp"/>
+<script src="/static/meal/js/jquery-1.11.3.min.js"></script>
 <script>
     function confirmorder() {
             var url = "{php echo $this->createMobileUrl('pay', array('orderid' => $order['id']), true)}";
@@ -265,7 +266,7 @@
                 },
                 success: function (data) {
                     if (data.status == 1) {
-                        location.href='{php echo $this->createMobileUrl('order', array(), true)}';
+                        location.href='{php echo $this->createMobileUrl("order", array(), true)}';
                     } else {
                         alert(data.msg);
                     }

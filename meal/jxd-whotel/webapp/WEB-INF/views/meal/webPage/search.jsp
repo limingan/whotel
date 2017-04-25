@@ -82,6 +82,7 @@
         </div>
     </div>
 </div>
+<jsp:include page="footer.jsp"/>
 <script src="/static/meal/js/jquery-1.11.3.min.js"></script>
 <script>
     function searchword(search) {

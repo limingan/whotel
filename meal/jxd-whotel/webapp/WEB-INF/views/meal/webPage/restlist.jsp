@@ -135,7 +135,6 @@
         </div>
     </div>
     <!--footer-->
-    {php include $this->template($this->cur_tpl.'/_menu');} 
     <div id="ddb-delivery-branch-index" class="main-view ng-scope">
 
         <c:forEach items="${hotelList}" var="hotel">
@@ -219,9 +218,9 @@
     <input type="hidden" id="curlat" name="curlat" value="0"/>
     <input type="hidden" id="curlng" name="curlng" value="0"/>
 
-    <!--input type="hidden" id="cururl" name="cururl" value="{php echo $this->createMobileurl('waprestlist', array(), true)}" /-->
 </div>
 </div>
+<jsp:include page="footer.jsp"/>
 <script src="/static/meal/js/jquery-1.11.3.min.js"></script>
 <script language="javascript">
     $('.ddb-tab-bar .ddb-tab-item').click(function () {

@@ -37,7 +37,7 @@
 }
 
 .mDialog>figure.succ {
-    background-image: url('../../images/mdlg_icon_succ.png')
+    background-image: url('/static/meal/images/mdlg_icon_succ.png')
 }
 
 .mDialog>h1, .mDialog>h2, .mDialog>h3 {
@@ -111,7 +111,7 @@
     width: 27px;
     height: 27px;
     text-indent: -9999px;
-    background: url('../../images/mdlg_btn_x.png') no-repeat 0 0;
+    background: url('/static/meal/images/mdlg_btn_x.png') no-repeat 0 0;
     -webkit-background-size: 27px 27px;
     background-size: 27px 27px;
     position: absolute;
@@ -153,7 +153,7 @@
 }
 
 .mNotice>span.succ {
-    background-image: url('../../images/mntc_icon_succ.png')
+    background-image: url('/static/meal/images/mntc_icon_succ.png')
 }
 
 .mImgPopup, .mImgPopup * {
@@ -177,7 +177,7 @@
 }
 
 .mImgPopup>figure {
-    background: url('../../images/loading.gif') no-repeat 50% 50%;
+    background: url('/static/meal/images/loading.gif') no-repeat 50% 50%;
     -webkit-background-size: 50px 50px;
     background-size: 50px 50px
 }
@@ -187,7 +187,7 @@
     width: 27px;
     height: 27px;
     text-indent: -9999px;
-    background: url('../../images/mdlg_btn_x.png') no-repeat 0 0;
+    background: url('/static/meal/images/mdlg_btn_x.png') no-repeat 0 0;
     -webkit-background-size: 27px 27px;
     background-size: 27px 27px;
     position: absolute;
@@ -226,7 +226,7 @@
     margin-top: -146px;
     padding-top: 90px;
     height: 56px;
-    background: url('../../images/loading.gif') no-repeat 50% 50%;
+    background: url('/static/meal/images/loading.gif') no-repeat 50% 50%;
     -webkit-background-size: 35px 35px;
     background-size: 35px 35px
 }

@@ -802,7 +802,7 @@ figure[hidden] {
 	background-color: #fff;
 	-webkit-overflow-scrolling: touch;
 	-webkit-text-size-adjust: none;
-	height: 100%;
+	
 	position: relative
 }
 
