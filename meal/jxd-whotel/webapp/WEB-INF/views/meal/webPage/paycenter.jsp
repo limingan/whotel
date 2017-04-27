@@ -1,4 +1,6 @@
-<?php defined('IN_IA') or exit('Access Denied');?><!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/common/taglibs.jsp"%>
+<!DOCTYPE html>
 <html lang="zh-cn">
 <head>
 	<meta charset="utf-8">
@@ -12,13 +14,13 @@
 	<meta name="description" content="" />
 	<link rel="shortcut icon" href="" />
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
-	<script type="text/javascript" src="./assets/diandanbao/util.js"></script>
-	<script src="./assets/diandanbao/require.js"></script>
-	<script type="text/javascript" src="./assets/diandanbao/jquery-1.11.3.min.js?v=20160906"></script>
-	<script type="text/javascript" src="./assets/diandanbao/mui.min.js?v=20160906"></script>
-	<script type="text/javascript" src="./assets/diandanbao/common.js?v=20160906"></script>
-	<link href="./assets/diandanbao/bootstrap.min.css?v=20160906" rel="stylesheet">
-	<link href="./assets/diandanbao//common.min.css?v=20160906" rel="stylesheet">
+	<script type="text/javascript" src="/static/meal/js/util.js"></script>
+	<script src="/static/meal/js/require.js"></script>
+	<script type="text/javascript" src="/static/meal/js/jquery-1.11.3.min.js?v=20160906"></script>
+	<script type="text/javascript" src="/static/meal/js/mui.min.js?v=20160906"></script>
+	<script type="text/javascript" src="/static/meal/js/common.js?v=20160906"></script>
+	<link href="/static/meal/css/bootstrap.min.css?v=20160906" rel="stylesheet">
+	<link href="/static/meal/css/common.min.css?v=20160906" rel="stylesheet">
 	<script type="text/javascript">
 	if(navigator.appName == 'Microsoft Internet Explorer'){
 		if(navigator.userAgent.indexOf("MSIE 5.0")>0 || navigator.userAgent.indexOf("MSIE 6.0")>0 || navigator.userAgent.indexOf("MSIE 7.0")>0) {
@@ -39,14 +41,14 @@
 	<ul class="mui-table-view">
 
 		<li class="mui-table-view-cell">
-			订单编号<span class="mui-pull-right mui-text-muted">201155998879</span>
+			订单编号<span class="mui-pull-right mui-text-muted">${order.orderSn}</span>
 		</li>
 		<li class="mui-table-view-cell">
-			商家名称<span class="mui-pull-right mui-text-muted">小肥羊</span>
+			商家名称<span class="mui-pull-right mui-text-muted">${rest.name}</span>
 		</li>
 
 		<li class="mui-table-view-cell">
-			您需要支付<span class="mui-pull-right mui-text-success mui-big mui-rmb">40 元</span>
+			您需要支付<span class="mui-pull-right mui-text-success mui-big mui-rmb">${order.totalFee} 元</span>
 		</li>
 	</ul>
 	
@@ -60,7 +62,7 @@
 					<input type="hidden" name="code" value="" />
 					<input type="hidden" name="coupon_id" value="" />
 				</form>
-				<img src="./images/money.png" alt="" class="mui-media-object mui-pull-left"/>
+				<img src="/static/meal/images/money.png" alt="" class="mui-media-object mui-pull-left"/>
 				<span class="mui-media-body mui-block">
 					余额
 					<span class="mui-block mui-text-muted mui-rmb mui-mt5"> 30.00</span>
@@ -77,7 +79,7 @@
 					<input type="hidden" name="code" value="" />
 					<input type="hidden" name="coupon_id" value="" />
 				</form>
-				<img src="./images/wx-icon.png" alt="" class="mui-media-object mui-pull-left"/>
+				<img src="/static/meal/images/wx-icon.png" alt="" class="mui-media-object mui-pull-left"/>
 				<span class="mui-media-body mui-block">
 					<span id="wetitle">微信支付(必须使用微信内置浏览器)</span>
 					<span class="mui-block mui-text-muted mui-mt5">微信支付,安全快捷</span>
@@ -94,7 +96,7 @@
 					<input type="hidden" name="code" value="" />
 					<input type="hidden" name="coupon_id" value="" />
 				</form>
-				<img src="./images/icon_membercard.png" alt="" class="mui-media-object mui-pull-left"/>
+				<img src="/static/meal/images/icon_membercard.png" alt="" class="mui-media-object mui-pull-left"/>
 				<span class="mui-media-body mui-block">
 					会员支付
 					<span class="mui-block mui-text-muted mui-mt5">会员卡支付服务</span>

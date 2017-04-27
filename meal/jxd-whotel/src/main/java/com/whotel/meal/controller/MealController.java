@@ -312,17 +312,34 @@ public class MealController extends FanBaseController {
         return "meal/webPage/order";
     }
 
+    /**
+     * 订单详情
+     * @param req
+     * @param orderId
+     * @return
+     */
     @RequestMapping("/oauth/meal/orderDetail")
     public String orderDetail(HttpServletRequest req,String orderId){
         String companyId = getCurrentCompanyId(req);
         String openId = getCurrentOpenId(req);
         MealOrder mealOrder = mealOrderService.find(companyId,openId,orderId);
         Restaurant restaurant = mealOrder.getRestaurant();
-        Hotel hotel = hotelService.getHotel(companyId,mealOrder.getHotelCode());
-        req.setAttribute("order",mealOrder);
-        req.setAttribute("rest",restaurant);
+        Hotel hotel = hotelService.getHotel(companyId, mealOrder.getHotelCode());
+        req.setAttribute("order", mealOrder);
+        req.setAttribute("rest", restaurant);
         req.setAttribute("hotel",hotel);
         return "meal/webPage/orderdetail";
+    }
+
+    @RequestMapping("/oauth/meal/payCenter")
+    public String payCenter(HttpServletRequest req,String orderId){
+        String companyId = getCurrentCompanyId(req);
+        String openId = getCurrentOpenId(req);
+        MealOrder mealOrder = mealOrderService.find(companyId,openId,orderId);
+        Restaurant restaurant = mealOrder.getRestaurant();
+        req.setAttribute("order",mealOrder);
+        req.setAttribute("rest",restaurant);
+        return "meal/webPage/paycenter";
     }
 
 

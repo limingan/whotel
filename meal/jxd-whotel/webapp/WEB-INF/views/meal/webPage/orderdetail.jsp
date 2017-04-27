@@ -45,6 +45,7 @@
 </head>
 <body>
 <div ng-view="" style="height: 100%;" class="ng-scope">
+    <input type="hidden" id="curlat" name="orderId" value="${order.id}"/>
     <div class="ddb-nav-header ng-scope" common-header="">
         <div class="nav-left-item" onclick="javascript :history.back(-1);"><i class="fa fa-angle-left"></i></div>
         <div class="header-title ng-binding">我的订单</div>
@@ -241,11 +242,11 @@
         <div class="juchi"></div>
         </div>
     </div>
-</div
+</div>
 <script src="/static/meal/js/jquery-1.11.3.min.js"></script>
 <script>
     function confirmorder() {
-            var url = "{php echo $this->createMobileUrl('pay', array('orderid' => $order['id']), true)}";
+            var url = "/oauth/meal/payCenter.do?orderId=" + $('#orderId').val();
             window.location.href = url;
 
     }
