@@ -169,10 +169,10 @@
 
 
 <div class="shopInfoList ">
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >月售 811 份</span></div>
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >09:30-21:00</span></div>
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >深圳市南山区</span></div>
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >0755-33331111</span><a href="javascript:void(0);"><i class="fa fa-angle-right"></i></a></div>
+ <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >月售 ${monthSale} 份</span></div>
+ <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.businessTime}</span></div>
+ <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.address}</span></div>
+ <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.tel}</span><a href="javascript:void(0);"><i class="fa fa-angle-right"></i></a></div>
 </div>
 <div class="mModal" style="z-index: 900;height:100%;display:none"><a href="javascript:void(0)" style="height: 736px;"></a></div>
 <div class="popupWindow" style="z-index:9999;display:none">

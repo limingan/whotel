@@ -45,7 +45,7 @@
 </head>
 <body>
 <div ng-view="" style="height: 100%;" class="ng-scope">
-    <input type="hidden" id="curlat" name="orderId" value="${order.id}"/>
+    <input type="hidden" id="orderId" name="orderId" value="${order.id}"/>
     <div class="ddb-nav-header ng-scope" common-header="">
         <div class="nav-left-item" onclick="javascript :history.back(-1);"><i class="fa fa-angle-left"></i></div>
         <div class="header-title ng-binding">我的订单</div>
@@ -77,7 +77,7 @@
     </div>
     <div class="main-view order-show ng-scope" id="delivery-order-show">
         <div class="section">
-            <a class="list-item arrow-right ng-binding" href="{php echo $this->createMobileUrl('detail', array('id' => $store['id']), true)}">
+            <a class="list-item arrow-right ng-binding" href="/oauth/meal/dishCatList.do?restaurantId=${rest.id}">
                 <i class="fa fa-bookmark-o"></i> ${order.name}
             </a>
             <a class="list-item arrow-right ng-binding" href="tel:{$store['tel']}">

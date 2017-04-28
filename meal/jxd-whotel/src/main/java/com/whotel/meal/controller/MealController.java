@@ -6,6 +6,7 @@ import com.whotel.card.entity.Member;
 import com.whotel.card.service.MemberTradeService;
 import com.whotel.common.base.Constants;
 import com.whotel.common.dao.mongo.Page;
+import com.whotel.common.dto.ResultData;
 import com.whotel.common.enums.FilterModel;
 import com.whotel.common.enums.PayMent;
 import com.whotel.common.enums.PayMode;
@@ -255,6 +256,8 @@ public class MealController extends FanBaseController {
             category.setDishesList(list);
         }
 
+        long monthSale = restaurantService.countMonthSale(restaurant);
+        req.setAttribute("monthSale",monthSale);
         req.setAttribute("rest", restaurant);
         req.setAttribute("bannerList", restaurant.getBannerUrls());
         req.setAttribute("cateList", cateList);
@@ -322,7 +325,7 @@ public class MealController extends FanBaseController {
     public String orderDetail(HttpServletRequest req,String orderId){
         String companyId = getCurrentCompanyId(req);
         String openId = getCurrentOpenId(req);
-        MealOrder mealOrder = mealOrderService.find(companyId,openId,orderId);
+        MealOrder mealOrder = mealOrderService.find(companyId, openId, orderId);
         Restaurant restaurant = mealOrder.getRestaurant();
         Hotel hotel = hotelService.getHotel(companyId, mealOrder.getHotelCode());
         req.setAttribute("order", mealOrder);
@@ -331,17 +334,69 @@ public class MealController extends FanBaseController {
         return "meal/webPage/orderdetail";
     }
 
+    /**
+     * 支付中心
+     * @param req
+     * @param orderId
+     * @return
+     */
     @RequestMapping("/oauth/meal/payCenter")
     public String payCenter(HttpServletRequest req,String orderId){
         String companyId = getCurrentCompanyId(req);
         String openId = getCurrentOpenId(req);
-        MealOrder mealOrder = mealOrderService.find(companyId,openId,orderId);
+        MealOrder mealOrder = mealOrderService.find(companyId, openId, orderId);
         Restaurant restaurant = mealOrder.getRestaurant();
         req.setAttribute("order",mealOrder);
         req.setAttribute("rest",restaurant);
         return "meal/webPage/paycenter";
     }
 
+
+    /**
+     * 取消订单
+     * @param req
+     * @param orderId
+     * @return
+     */
+    @RequestMapping("/oauth/meal/cancelOrder")
+    @ResponseBody
+    public ResultData cancelOrder(HttpServletRequest req,String orderId){
+        ResultData resultData = new ResultData();
+        Company company = getCurrentCompany(req);
+        String openId = getCurrentOpenId(req);
+        MealOrder mealOrder = mealOrderService.find(company.getId(), openId, orderId);
+        if(null != mealOrder){
+            boolean flag = mealOrderService.cancelMealOrder(company,openId,mealOrder.getOrderSn(),"用户自己取消！");
+            if(flag){
+                resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
+                resultData.setMessage("操作成功");
+            }else{
+                resultData.setCode(Constants.MessageCode.RESULT_ERROR);
+                resultData.setMessage("取消失败!");
+            }
+        }else{
+            resultData.setCode(Constants.MessageCode.RESULT_ERROR);
+            resultData.setMessage("订单不存在!");
+        }
+        return resultData;
+
+    }
+
+    /**
+     * 餐馆详情
+     * @param req
+     * @param restaurantId
+     * @return
+     */
+    @RequestMapping("/oauth/meal/restaurantDetail")
+    public String restaurantDetail(HttpServletRequest req,String restaurantId){
+        Restaurant restaurant = restaurantService.getById(restaurantId);
+        long monthSale = restaurantService.countMonthSale(restaurant);
+        req.setAttribute("monthSale",monthSale);
+        req.setAttribute("rest", restaurant);
+        req.setAttribute("bannerList", restaurant.getBannerUrls());
+        return "/meal/webPage/restaurantDetail";
+    }
 
 
     /**---------------------------------------------------*/

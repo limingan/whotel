@@ -258,7 +258,7 @@
 </div>
 
 <div class="shopInfoList dn">
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >月售 8119999ßß 份</span></div>
+ <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >月售 ${monthSale} 单</span></div>
  <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.businessTime}</span></div>
  <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.address}</span></div>
  <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.tel}</span><a href="javascript:void(0);"><i class="fa fa-angle-right"></i></a></div>
