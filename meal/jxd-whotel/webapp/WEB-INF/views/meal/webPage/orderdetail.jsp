@@ -52,7 +52,7 @@
     </div>
     <!-- ngInclude:  -->
     <div class="ddb-nav-footer ng-scope" style="text-align:center;">
-        <span class="button border-green {if $order['paytype']!=0}ng-hide{/if}" onclick="confirmorder()">确认</span>
+        <span class="button border-green <c:if test="${ order.tradeStatus != 'WAIT_PAY'}">ng-hide</c:if>" onclick="confirmorder()">确认</span>
 
         <span class="button border-blue ng-hide" ng-show="can_complete()" ng-click="complete()">完成</span>
         <span class="button border-red ng-hide" ng-show="can_pay_online()" ng-click="pay_online()">支付</span>
@@ -94,71 +94,105 @@
                 <!--<i class="red fa fa-ticket"></i> 索要发票-->
             <!--</div>-->
         <!--</a>-->
-            
-            <a class="list-item ng-scope" onclick="cancelorder()">
-                <div class="service-button">
-                    <i class="red fa fa-bell"></i> 取消订单
-                </div>
-            </a>
-           
+            <c:if test="${ order.tradeStatus == 'WAIT_PAY'}">
+                <a class="list-item ng-scope" onclick="cancelorder()">
+                    <div class="service-button">
+                        <i class="red fa fa-bell"></i> 取消订单
+                    </div>
+                </a>
+            </c:if>
         </div>
         <div class="space-8"></div>
         
-        <div class="order-state-section ng-scope">
-            <div class="order-state ng-isolate-scope active">
-                <div class="order-state-header">
-                    <div class="square">
-                        <div class="line-through ng-hide" ng-hide="hide_left"></div>
-                    </div>
-                    <i class="fa fa-check-circle"></i>
+        <div class="order-state-section ng-scope <c:if test="${ order.tradeStatus == 'CLOSED' || order.tradeStatus == 'CANCELED'}">ng-hide</c:if>">
+            <%--外卖订单 支付——>等待处理——>已确认——>已完成--%>
+            <c:if test="${order.mealOrderType eq 'OUT'}">
+                <div class="order-state ng-isolate-scope <c:if test="${order.tradeStatus == 'FINISHED' || order.tradeStatus == 'CONFIRM' || order.tradeStatus == 'SUCCESS'}">active</c:if>">
+                    <div class="order-state-header">
+                        <div class="square">
+                            <div class="line-through ng-hide" ng-hide="hide_left"></div>
+                        </div>
+                        <i class="fa fa-check-circle"></i>
 
-                    <div class="square">
-                        <div class="line-through" ng-hide="hide_right"></div>
+                        <div class="square">
+                            <div class="line-through" ng-hide="hide_right"></div>
+                        </div>
                     </div>
+                    <div class="order-state-body ng-binding">等待处理</div>
                 </div>
-                <div class="order-state-body ng-binding">等待处理</div>
-            </div>
-            <div class="order-state ng-isolate-scope active ">
-                <div class="order-state-header">
-                    <div class="square">
-                        <div class="line-through" ng-hide="hide_left"></div>
-                    </div>
-                    <i class="fa fa-check-circle"></i>
+                <div class="order-state ng-isolate-scope <c:if test="${ order.tradeStatus == 'CONFIRM' || order.tradeStatus == 'SUCCESS'}">active</c:if> ">
+                    <div class="order-state-header">
+                        <div class="square">
+                            <div class="line-through" ng-hide="hide_left"></div>
+                        </div>
+                        <i class="fa fa-check-circle"></i>
 
-                    <div class="square">
-                        <div class="line-through" ng-hide="hide_right"></div>
+                        <div class="square">
+                            <div class="line-through" ng-hide="hide_right"></div>
+                        </div>
                     </div>
+                    <div class="order-state-body ng-binding">已确认</div>
                 </div>
-                <div class="order-state-body ng-binding">已确认</div>
-            </div>
-            <!--<div class="order-state ng-isolate-scope" >-->
-                <!--<div class="order-state-header">-->
-                    <!--<div class="square">-->
-                        <!--<div class="line-through" ng-hide="hide_left"></div>-->
-                    <!--</div>-->
-                    <!--<i class="fa fa-check-circle"></i>-->
+                <div class="order-state ng-isolate-scope <c:if test="${ order.tradeStatus == 'SUCCESS'}">active</c:if> ">
+                    <div class="order-state-header">
+                        <div class="square">
+                            <div class="line-through" ng-hide="hide_left"></div>
+                        </div>
+                        <i class="fa fa-check-circle"></i>
 
-                    <!--<div class="square">-->
-                        <!--<div class="line-through" ng-hide="hide_right"></div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="order-state-body ng-binding">配送中</div>-->
-            <!--</div>-->
-            <div class="order-state ng-isolate-scope active">
-                <div class="order-state-header">
-                    <div class="square">
-                        <div class="line-through" ng-hide="hide_left"></div>
+                        <div class="square">
+                            <div class="line-through ng-hide" ng-hide="hide_right"></div>
+                        </div>
                     </div>
-                    <i class="fa fa-check-circle"></i>
-
-                    <div class="square">
-                        <div class="line-through ng-hide" ng-hide="hide_right"></div>
-                    </div>
+                    <div class="order-state-body ng-binding">已完成</div>
                 </div>
-                <div class="order-state-body ng-binding">已完成</div>
-            </div>
+            </c:if>
+                <%--点餐状态为 等待处理——>已确认——>已完成——>支付--%>
+                <c:if test="${order.mealOrderType eq 'IN'}">
+                    <div class="order-state ng-isolate-scope <c:if test="${ order.tradeStatus == 'PENDING' || order.tradeStatus == 'CONFIRM' || order.tradeStatus == 'FINISHED' || order.tradeStatus == 'SUCCESS'}">active</c:if>">
+                        <div class="order-state-header">
+                            <div class="square">
+                                <div class="line-through ng-hide" ng-hide="hide_left"></div>
+                            </div>
+                            <i class="fa fa-check-circle"></i>
+
+                            <div class="square">
+                                <div class="line-through" ng-hide="hide_right"></div>
+                            </div>
+                        </div>
+                        <div class="order-state-body ng-binding">等待处理</div>
+                    </div>
+                    <div class="order-state ng-isolate-scope <c:if test="${ order.tradeStatus == 'CONFIRM' || order.tradeStatus == 'FINISHED' || order.tradeStatus == 'SUCCESS'}">active</c:if> ">
+                        <div class="order-state-header">
+                            <div class="square">
+                                <div class="line-through" ng-hide="hide_left"></div>
+                            </div>
+                            <i class="fa fa-check-circle"></i>
+
+                            <div class="square">
+                                <div class="line-through" ng-hide="hide_right"></div>
+                            </div>
+                        </div>
+                        <div class="order-state-body ng-binding">已确认</div>
+                    </div>
+                    <div class="order-state ng-isolate-scope <c:if test="${ order.tradeStatus == 'FINISHED' || order.tradeStatus == 'SUCCESS'}">active</c:if> ">
+                        <div class="order-state-header">
+                            <div class="square">
+                                <div class="line-through" ng-hide="hide_left"></div>
+                            </div>
+                            <i class="fa fa-check-circle"></i>
+
+                            <div class="square">
+                                <div class="line-through ng-hide" ng-hide="hide_right"></div>
+                            </div>
+                        </div>
+                        <div class="order-state-body ng-binding">已完成</div>
+                    </div>
+                </c:if>
+
         </div>
-        
+
+        <c:if test="${ order.tradeStatus == 'CLOSED' || order.tradeStatus == 'CANCELED'}">
         <div class="order-state-section ng-scope">
             <div class="order-state ng-isolate-scope active">
                 <div class="order-state-header">
@@ -174,6 +208,7 @@
                 <div class="order-state-body ng-binding">已取消</div>
             </div>
         </div>
+        </c:if>
         
         <div class="space-8"></div>
         <div class="section no-bottom-border">
@@ -218,7 +253,7 @@
             <div class="list-item">
                 
                 <div class="order-item ng-binding ng-scope">
-                    支付类型: 未选择
+                    支付类型: ${order.payMent.label}
                 </div>
            
                           
@@ -252,17 +287,17 @@
     }
 
     function cancelorder() {
-        var url = "{php echo $this->createMobileUrl('cancelorder', array('id' => $order['id']), true)}";
+        var url = "/oauth/meal/cancelOrder.do?orderId="+ $('#orderId').val();
         if (confirm("确认取消吗?")) {
             $.ajax({
                 url: url, type: "post", dataType: "json", timeout: "10000",
                 data: {
                 },
                 success: function (data) {
-                    if (data.status == 1) {
-                        location.href='{php echo $this->createMobileUrl("order", array(), true)}';
+                    if (data.status == 200) {
+                        location.href='/oauth/meal/orderList.do';
                     } else {
-                        alert(data.msg);
+                        alert(data.message);
                     }
                 },error: function () {
                     alert("网络不稳定，请重新尝试!");
