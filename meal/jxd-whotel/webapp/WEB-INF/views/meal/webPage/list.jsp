@@ -174,18 +174,18 @@
         </ul>
     </div>
 </div>
-         <div class="">
+        <div class="">
          <div class="ddb-tab-bar ">
             <div class="ddb-tab-item ng-scope active">
-                <a href="javascript:;" class="" id="store_classify">点餐</a>
+                <a style="font-size:18px" href="javascript:;" class="" id="store_classify">点餐</a>
                
             </div>
             <div class="ddb-tab-item ng-scope">
-                <a href="javascript:;" class="ng-binding">评论</a>
+                <a style="font-size:18px"  href="javascript:;" class="ng-binding">评论</a>
             </div>
             <div class="ddb-tab-item ng-scope" ng-repeat="pane in panes" ng-class="{active:pane.selected}"
                  ng-click="toggle(pane)">
-                <a href="javascript:;" class="ng-binding">商家</a>
+                <a  style="font-size:18px" href="javascript:;" class="ng-binding">商家</a>
             </div>
         </div>
 		</div>
@@ -202,14 +202,14 @@
                             <%--fixme limingan 分类无图--%>
                             <%--<img style="width:15px;height:15px;border-top:10px" src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">--%>
                             ${cate.dishName}
-                            <span style="display:inline-block;">1</span>
+                            <span style="display:none;"></span>
                         </dd>
                     </a>
                 </c:if>
 
                 <c:if test="${status.index !=0}">
                     <a class="navOption" href="#${cate.dishNo}">
-                        <dd categoryid="3" >
+                        <dd categoryid="${cate.id}" >
                                 ${cate.dishName}
                             <span style="display:none;"></span>
                         </dd>
@@ -258,16 +258,17 @@
 </div>
 
 <div class="shopInfoList dn">
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >月售 ${monthSale} 单</span></div>
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.businessTime}</span></div>
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.address}</span></div>
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.tel}</span><a href="javascript:void(0);"><i class="fa fa-angle-right"></i></a></div>
+ <div><img src="/static/meal/images/sales.png"/><span >月售 ${monthSale} 单</span></div>
+ <div><img src="/static/meal/images/timer.png"/><span >${rest.businessTime}</span></div>
+ <div><img src="/static/meal/images/position.png"/><span >${rest.address}</span></div>
+ <div><img src="/static/meal/images/tel.png"/><span >${rest.tel}</span><a href="tel://${rest.tel}"><i class="fa fa-angle-right"></i></a></div>
 </div>
-<div class="mModal" style="z-index: 900;height:100%;display:none"><a href="javascript:void(0)" style="height: 736px;"></a></div>
+<div class="mModal1" style="position:fixed;width:100%;z-index: 901;height:100%;display:none;top:0;background-color:rgba(0, 0, 0, .5)"><a href="javascript:void(0)" style="height: 736px;"></a></div>
 <div class="popupWindow" style="z-index:9999;display:none">
  <img class="close" src="/static/meal/images/close.png" />
  <div id="popContent"></div>
 </div>
+<jsp:include page="_header.jsp"/>
 <jsp:include page="footer.jsp"/>
 <style>
  .popupWindow{
@@ -308,8 +309,9 @@
  .setStyle>.settitle{
    position:absolute;
    top:10px;
-   font-size:16px;
-   left:43%;
+   text-align:center;
+   width:60%;
+   left:20%;
  }
  .multiStyle ul .redborder,.setStyle ul .redborder{
   border:1px solid #F00;
@@ -341,15 +343,20 @@
   height:20px;
   position:absolute;
   top:10px;  
+  z-index:10;
  }
  .leftArrow{
   left:35%;
  }
  .rightArrow{
-  left:65%;
+  left:62%;
  }
 </style>
-<script type="text/javascript">
+<script type="text/javascript"> 
+   var totalPrice=0;
+   var totalCount = 0;
+   var allDishObject = Array();
+   var allDishCategoryList = {};
         String.prototype.format = function (args) {
             var result = this;
             if (arguments.length > 0) {
@@ -405,6 +412,9 @@
 	 var isMultiStyle = parentDl.getAttribute('isMultiStyle'); //是否多规格
 	 var isSet = parentDl.getAttribute('isSet');               //是否套餐
 	 var dishName = parentDl.getAttribute('dname'); 
+	 var dishId = parentDl.getAttribute('dishid');
+	 var dishCategoryPage = $(this).parent().parent().prevAll('div').attr('id')
+	 var dishCategory = $('#navBar>dl').find('a[href="#'+dishCategoryPage+'"]').children('dd').attr('categoryId');
 	 var html='';
 	 if(1 == isSet)
 	 {
@@ -424,11 +434,44 @@
 	   });
 	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button" src="/static/meal/images/dish_addMenu.png"/>';
+	   html += '<img class="bottomright-button addToList" src="/static/meal/images/dish_addMenu.png"/>';
+	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
+	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(html);
+	   $('.addToList').click(function(){
+	      //alert('ok');
+		  var setDishList = Array();
+		  var ulLength = $(this).parent().children('.setStyle').length;
+		  var parentNode = $(this).parent();
+		  for(var i=0;i<ulLength ;i++)
+		  {
+		    if(parentNode.children('.setStyle').children('ul').eq(i).children('.redborder').length == 0)
+			 {
+			  var dishName = parentNode.children('.setStyle').children('.settitle').eq(i).text();
+			  alert(dishName + '未选择，请选择')
+			  return;
+			 }
+			else
+             {
+			  var subDishId = parentNode.children('.setStyle').children('ul').eq(i).children('.redborder').attr('attrid');
+			  setDishList.push(subDishId);
+			 }			
+		  }
+		  //save set id setdishes id
+		  var dishId = $(this).parent().children('#dishId').val();
+		  totalPrice += parseFloat(dPrice);
+		  totalCount += 1;
+		  allDishCategoryList[dishCategory] = undefined != allDishCategoryList[dishCategory]?allDishCategoryList[dishCategory]+1:1;
+		  var obj = {};
+		  obj[dishId] = setDishList;
+		  allDishObject.push(obj);
+		  refreshCategoryPrice(allDishCategoryList , allDishObject, totalCount ,totalPrice);
+		  $('.popupWindow .close').click();
+	   })
+	   
 	   $('.setStyle').addClass('dn');
 	   $('.setStyle').eq(0).removeClass('dn');
-	   $('.mModal,.popupWindow').show();
+	   $('.mModal1,.popupWindow').show();
 	   $('.setStyle ul li').click(function(){
 	    $(this).parent().children('li').removeClass('redborder');
 		$(this).addClass('redborder');
@@ -464,7 +507,7 @@
 	 else if(1 == isMultiStyle)
 	 {
 	   var multiStyleTemplate = '<div class="multiStyle"><div class="stitle"><span>{0}</span></div>{1}</div>';
-	   var multiStyleBaseTemplate = '<div class="subtitle">{0}</div>{1}';
+	   var multiStyleBaseTemplate = '<div class="subtitle" attrid="{2}">{0}</div>{1}';
 	   var multiStyle = eval('('+ parentDl.getAttribute('multiStyle') + ')');
 	   $(multiStyle).each(function(i,n){
 	      var baseHtml = '';
@@ -474,29 +517,89 @@
 		 });
 		 baseHtml = '<ul>{0}</ul>'.format(baseHtml);
 		 
-		 html += multiStyleBaseTemplate.format(n.name, baseHtml);
+		 html += multiStyleBaseTemplate.format(n.name, baseHtml,n.id);
 	   });
 	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button" src="/static/meal/images/dish_addMenu.png"/>';
+	   html += '<img class="bottomright-button addToList" src="/static/images/dish_addMenu.png"/>';
+	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
+	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(multiStyleTemplate.format(dishName,html))
+	    $('.addToList').click(function(){
+	       var ulLength = $(this).parent().children('ul').length;
+		   var parentNode = $(this).parent();
+		   var dishStyleList = {};
+		   for(var i=0;i<ulLength ;i++)
+		   {
+		    if(parentNode.children('ul').eq(i).children('.redborder').length == 0)
+			 {
+			  var dishName = parentNode.children('.subtitle').eq(i).text();
+			  alert(dishName + '未选择，请选择')
+			  return;
+			 }
+			 else
+			 {
+			  var subStyle = parentNode.children('ul').eq(i).children('.redborder').attr('attrid');
+			  var styleId = parentNode.children('.subtitle').eq(i).attr('attrid');
+			  dishStyleList[styleId] = subStyle;
+			 }
+		   }
+		   var dishId = $(this).parent().children('#dishId').val();
+		   totalCount += 1;
+		   totalPrice += parseFloat(dPrice);
+		   allDishCategoryList[dishCategory] = undefined != allDishCategoryList[dishCategory]?allDishCategoryList[dishCategory]+1:1;
+		   var obj = {};
+		   obj[dishId] = dishStyleList;
+		   allDishObject.push(obj);
+		   refreshCategoryPrice(allDishCategoryList , allDishObject,totalCount ,totalPrice);
+		   $('.popupWindow .close').click();
+	   })
 	   //TODO:addListener
-	   $('.mModal,.popupWindow').show();
+	   $('.mModal1,.popupWindow').show();
 	   $('.multiStyle ul li').click(function(){
 	    $(this).parent().children('li').removeClass('redborder');
 		$(this).addClass('redborder');
 	   });
 	   
 	 }
-	 else
+	 else //normal dish
 	 {
-	 
+	   totalPrice += parseFloat(dPrice);
+	   totalCount += 1;
+	   var obj = {};
+	   obj[dishId] = 1;
+	   allDishObject.push(obj);
+	   allDishCategoryList[dishCategory] = undefined != allDishCategoryList[dishCategory]?allDishCategoryList[dishCategory]+1:1;
+	   refreshCategoryPrice(allDishCategoryList , allDishObject,totalCount ,totalPrice);
 	 }
 	 
 	})
+	
+	function refreshCategoryPrice(categoryList,dishList,totalcount,totalprice)
+	{
+	 for(var i in categoryList) {
+	  $('.navOption').find('dd[categoryid='+i+']').children('span').css('display','inline-block').text(categoryList[i]);
+	 }
+	 // set cookies
+	 
+	 document.cookie = "categoryList="+JSON.stringify(categoryList);
+	 document.cookie = "dishList="+JSON.stringify(dishList);
+	 document.cookie = "totalCount="+totalcount;
+	 document.cookie = "totalPrice="+totalprice;
+
+     try{
+	 _q("#totalprice").value = totalprice;
+	 _q("#totalpriceshow").innerHTML = totalprice;
+	 _q("#totalcount").value = totalcount;
+	 _q("#totalcountshow").innerHTML = totalcount;
+	 }
+	 catch(e){;}
+	}
+	
+	
 	$('.popupWindow .close').click(function(){
 	 $('#popContent').html('');
-	 $('.mModal,.popupWindow').hide();
+	 $('.mModal1,.popupWindow').hide();
 	})
     var view_const_dish_SPECIAL_PRICE_YES = '2';
     var view_const_dish_SPECIAL_PRICE_VIP = '3';
@@ -504,7 +607,7 @@
     function setHeight(){
         var  cHeight;
         cHeight = document.documentElement.clientHeight;
-        cHeight = cHeight +"px"
+        cHeight = cHeight - $('#infoSection').offset().top +"px";
         document.getElementById("navBar").style.height =  cHeight;
         document.getElementById("infoSection").style.height =  cHeight;
     }
@@ -972,6 +1075,10 @@
             _q("#page_allMenu section article").style.minHeight ="85%";
             _q("#page_allMenu section article").style.marginBottom="15px";
         }
+		$('.banner').unslider({			
+				keys: true,
+				dots: true
+			});
     })
     window.addEventListener('orientationchange', function(){
         setHeight();

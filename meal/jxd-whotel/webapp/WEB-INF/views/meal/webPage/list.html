@@ -173,15 +173,15 @@
          <div class="">
          <div class="ddb-tab-bar ">
             <div class="ddb-tab-item ng-scope active">
-                <a href="javascript:;" class="" id="store_classify">点餐</a>
+                <a style="font-size:18px" href="javascript:;" class="" id="store_classify">点餐</a>
                
             </div>
             <div class="ddb-tab-item ng-scope">
-                <a href="javascript:;" class="ng-binding">评论</a>
+                <a style="font-size:18px"  href="javascript:;" class="ng-binding">评论</a>
             </div>
             <div class="ddb-tab-item ng-scope" ng-repeat="pane in panes" ng-class="{active:pane.selected}"
                  ng-click="toggle(pane)">
-                <a href="javascript:;" class="ng-binding">商家</a>
+                <a  style="font-size:18px" href="javascript:;" class="ng-binding">商家</a>
             </div>
         </div>
 		</div>
@@ -193,7 +193,7 @@
                 <a class="navOption" href="#page1"><dd categoryid="1" class="active">
                     <img style="width:15px;height:15px;border-top:10px" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1493566188&di=e7a64fe7aaeeb46b2c121c3a26956012&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.sxxdf.cn%2Fuploads%2Fallimg%2F120430%2F1-12043009344X31.jpg" alt="" title="">
 					分类1
-                    <span style="display:inline-block;">1</span>
+                    <span style="display:none;"></span>
                 </dd>
 				</a>
 				<a class="navOption" href="#page2">
@@ -674,14 +674,14 @@
 </div>
 
 <div class="shopInfoList dn">
- <div><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1493566188&di=e7a64fe7aaeeb46b2c121c3a26956012&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.sxxdf.cn%2Fuploads%2Fallimg%2F120430%2F1-12043009344X31.jpg"/><span >月售 811 份</span></div>
- <div><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1493566188&di=e7a64fe7aaeeb46b2c121c3a26956012&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.sxxdf.cn%2Fuploads%2Fallimg%2F120430%2F1-12043009344X31.jpg"/><span >09:30-21:00</span></div>
- <div><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1493566188&di=e7a64fe7aaeeb46b2c121c3a26956012&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.sxxdf.cn%2Fuploads%2Fallimg%2F120430%2F1-12043009344X31.jpg"/><span >深圳市南山区</span></div>
- <div><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1493566188&di=e7a64fe7aaeeb46b2c121c3a26956012&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.sxxdf.cn%2Fuploads%2Fallimg%2F120430%2F1-12043009344X31.jpg"/><span >0755-33331111</span><a href="javascript:void(0);"><i class="fa fa-angle-right"></i></a></div>
+ <div><img src="./images/sales.png"/><span >月售 811 份</span></div>
+ <div><img src="./images/timer.png"/><span >09:30-21:00</span></div>
+ <div><img src="./images/position.png"/><span >深圳市南山区</span></div>
+ <div><img src="./images/tel.png"/><span >0755-33331111</span><a href="tel://0755-33331111"><i class="fa fa-angle-right"></i></a></div>
 </div>
-<div class="mModal" style="z-index: 900;height:100%;display:none"><a href="javascript:void(0)" style="height: 736px;"></a></div>
+<div class="mModal1" style="position:fixed;width:100%;z-index: 901;height:100%;display:none;top:0;background-color:rgba(0, 0, 0, .5)"><a href="javascript:void(0)" style="height: 736px;"></a></div>
 <div class="popupWindow" style="z-index:9999;display:none">
- <img class="close" src="images/close.png" />
+ <img class="close" src="images/close.png" style="z-index:901"/>
  <div id="popContent"></div>
 </div>
 <style>
@@ -723,8 +723,9 @@
  .setStyle>.settitle{
    position:absolute;
    top:10px;
-   font-size:16px;
-   left:43%;
+   text-align:center;
+   width:60%;
+   left:20%;
  }
  .multiStyle ul .redborder,.setStyle ul .redborder{
   border:1px solid #F00;
@@ -756,16 +757,21 @@
   height:20px;
   position:absolute;
   top:10px;  
+  z-index:10;
  }
  .leftArrow{
   left:35%;
  }
  .rightArrow{
-  left:65%;
+  left:62%;
  }
 </style>
 {php include $this->template($this->cur_tpl.'/_header');}
-<script type="text/javascript">
+<script type="text/javascript"> 
+   var totalPrice=0;
+   var totalCount = 0;
+   var allDishObject = Array();
+   var allDishCategoryList = {};
         String.prototype.format = function (args) {
             var result = this;
             if (arguments.length > 0) {
@@ -821,6 +827,9 @@
 	 var isMultiStyle = parentDl.getAttribute('isMultiStyle'); //是否多规格
 	 var isSet = parentDl.getAttribute('isSet');               //是否套餐
 	 var dishName = parentDl.getAttribute('dname'); 
+	 var dishId = parentDl.getAttribute('dishid');
+	 var dishCategoryPage = $(this).parent().parent().prevAll('div').attr('id')
+	 var dishCategory = $('#navBar>dl').find('a[href="#'+dishCategoryPage+'"]').children('dd').attr('categoryId');
 	 var html='';
 	 if(1 == isSet)
 	 {
@@ -840,11 +849,44 @@
 	   });
 	   html += '<img class="bottom-rmb" src="./images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button" src="./images/dish_addMenu.png"/>';
+	   html += '<img class="bottomright-button addToList" src="./images/dish_addMenu.png"/>';
+	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
+	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(html);
+	   $('.addToList').click(function(){
+	      //alert('ok');
+		  var setDishList = Array();
+		  var ulLength = $(this).parent().children('.setStyle').length;
+		  var parentNode = $(this).parent();
+		  for(var i=0;i<ulLength ;i++)
+		  {
+		    if(parentNode.children('.setStyle').children('ul').eq(i).children('.redborder').length == 0)
+			 {
+			  var dishName = parentNode.children('.setStyle').children('.settitle').eq(i).text();
+			  alert(dishName + '未选择，请选择')
+			  return;
+			 }
+			else
+             {
+			  var subDishId = parentNode.children('.setStyle').children('ul').eq(i).children('.redborder').attr('attrid');
+			  setDishList.push(subDishId);
+			 }			
+		  }
+		  //save set id setdishes id
+		  var dishId = $(this).parent().children('#dishId').val();
+		  totalPrice += parseFloat(dPrice);
+		  totalCount += 1;
+		  allDishCategoryList[dishCategory] = undefined != allDishCategoryList[dishCategory]?allDishCategoryList[dishCategory]+1:1;
+		  var obj = {};
+		  obj[dishId] = setDishList;
+		  allDishObject.push(obj);
+		  refreshCategoryPrice(allDishCategoryList , allDishObject, totalCount ,totalPrice);
+		  $('.popupWindow .close').click();
+	   })
+	   
 	   $('.setStyle').addClass('dn');
 	   $('.setStyle').eq(0).removeClass('dn');
-	   $('.mModal,.popupWindow').show();
+	   $('.mModal1,.popupWindow').show();
 	   $('.setStyle ul li').click(function(){
 	    $(this).parent().children('li').removeClass('redborder');
 		$(this).addClass('redborder');
@@ -880,7 +922,7 @@
 	 else if(1 == isMultiStyle)
 	 {
 	   var multiStyleTemplate = '<div class="multiStyle"><div class="stitle"><span>{0}</span></div>{1}</div>';
-	   var multiStyleBaseTemplate = '<div class="subtitle">{0}</div>{1}';
+	   var multiStyleBaseTemplate = '<div class="subtitle" attrid="{2}">{0}</div>{1}';
 	   var multiStyle = eval('('+ parentDl.getAttribute('multiStyle') + ')');
 	   $(multiStyle).each(function(i,n){
 	      var baseHtml = '';
@@ -890,29 +932,89 @@
 		 });
 		 baseHtml = '<ul>{0}</ul>'.format(baseHtml);
 		 
-		 html += multiStyleBaseTemplate.format(n.name, baseHtml);
+		 html += multiStyleBaseTemplate.format(n.name, baseHtml,n.id);
 	   });
 	   html += '<img class="bottom-rmb" src="./images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button" src="./images/dish_addMenu.png"/>';
+	   html += '<img class="bottomright-button addToList" src="./images/dish_addMenu.png"/>';
+	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
+	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(multiStyleTemplate.format(dishName,html))
+	    $('.addToList').click(function(){
+	       var ulLength = $(this).parent().children('ul').length;
+		   var parentNode = $(this).parent();
+		   var dishStyleList = {};
+		   for(var i=0;i<ulLength ;i++)
+		   {
+		    if(parentNode.children('ul').eq(i).children('.redborder').length == 0)
+			 {
+			  var dishName = parentNode.children('.subtitle').eq(i).text();
+			  alert(dishName + '未选择，请选择')
+			  return;
+			 }
+			 else
+			 {
+			  var subStyle = parentNode.children('ul').eq(i).children('.redborder').attr('attrid');
+			  var styleId = parentNode.children('.subtitle').eq(i).attr('attrid');
+			  dishStyleList[styleId] = subStyle;
+			 }
+		   }
+		   var dishId = $(this).parent().children('#dishId').val();
+		   totalCount += 1;
+		   totalPrice += parseFloat(dPrice);
+		   allDishCategoryList[dishCategory] = undefined != allDishCategoryList[dishCategory]?allDishCategoryList[dishCategory]+1:1;
+		   var obj = {};
+		   obj[dishId] = dishStyleList;
+		   allDishObject.push(obj);
+		   refreshCategoryPrice(allDishCategoryList , allDishObject,totalCount ,totalPrice);
+		   $('.popupWindow .close').click();
+	   })
 	   //TODO:addListener
-	   $('.mModal,.popupWindow').show();
+	   $('.mModal1,.popupWindow').show();
 	   $('.multiStyle ul li').click(function(){
 	    $(this).parent().children('li').removeClass('redborder');
 		$(this).addClass('redborder');
 	   });
 	   
 	 }
-	 else
+	 else //normal dish
 	 {
-	 
+	   totalPrice += parseFloat(dPrice);
+	   totalCount += 1;
+	   var obj = {};
+	   obj[dishId] = 1;
+	   allDishObject.push(obj);
+	   allDishCategoryList[dishCategory] = undefined != allDishCategoryList[dishCategory]?allDishCategoryList[dishCategory]+1:1;
+	   refreshCategoryPrice(allDishCategoryList , allDishObject,totalCount ,totalPrice);
 	 }
 	 
 	})
+	
+	function refreshCategoryPrice(categoryList,dishList,totalcount,totalprice)
+	{
+	 for(var i in categoryList) {
+	  $('.navOption').find('dd[categoryid='+i+']').children('span').css('display','inline-block').text(categoryList[i]);
+	 }
+	 // set cookies
+	 
+	 document.cookie = "categoryList="+JSON.stringify(categoryList);
+	 document.cookie = "dishList="+JSON.stringify(dishList);
+	 document.cookie = "totalCount="+totalcount;
+	 document.cookie = "totalPrice="+totalprice;
+
+     try{
+	 _q("#totalprice").value = totalprice;
+	 _q("#totalpriceshow").innerHTML = totalprice;
+	 _q("#totalcount").value = totalcount;
+	 _q("#totalcountshow").innerHTML = totalcount;
+	 }
+	 catch(e){;}
+	}
+	
+	
 	$('.popupWindow .close').click(function(){
 	 $('#popContent').html('');
-	 $('.mModal,.popupWindow').hide();
+	 $('.mModal1,.popupWindow').hide();
 	})
     var view_const_dish_SPECIAL_PRICE_YES = '2';
     var view_const_dish_SPECIAL_PRICE_VIP = '3';
@@ -920,7 +1022,7 @@
     function setHeight(){
         var  cHeight;
         cHeight = document.documentElement.clientHeight;
-        cHeight = cHeight +"px"
+        cHeight = cHeight - $('#infoSection').offset().top +"px";
         document.getElementById("navBar").style.height =  cHeight;
         document.getElementById("infoSection").style.height =  cHeight;
     }

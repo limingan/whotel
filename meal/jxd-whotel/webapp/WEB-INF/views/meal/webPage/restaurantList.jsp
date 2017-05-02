@@ -53,7 +53,7 @@
                <input id="showlan" type="hidden" value="100,100"/>
                <a class="branch-info " href="/oauth/meal/dishCatList.do?restaurantId=${rest.id}">
                    <div class="branch-image">
-                       <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg">
+                       <img src="${rest.miniatureUrl}">
                    </div>
                    <div class="delivery-info">
                        <div class="first-line">

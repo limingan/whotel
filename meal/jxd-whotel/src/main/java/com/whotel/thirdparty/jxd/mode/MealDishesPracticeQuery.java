@@ -4,7 +4,7 @@ import com.whotel.thirdparty.jxd.util.AbstractInputParam;
 
 public class MealDishesPracticeQuery extends AbstractInputParam {
 	
-	private String opType = "餐饮作法查询";
+	private String opType = "餐饮食品作法查询";
 	
 	private String hotelCode;//酒店代码
 	

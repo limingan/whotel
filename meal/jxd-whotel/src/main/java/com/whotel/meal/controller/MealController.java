@@ -331,6 +331,8 @@ public class MealController extends FanBaseController {
         req.setAttribute("order", mealOrder);
         req.setAttribute("rest", restaurant);
         req.setAttribute("hotel",hotel);
+
+        List<DishesPractice> list = dishesPracticeService.getDishesPractices(hotel);
         return "meal/webPage/orderdetail";
     }
 
@@ -397,6 +399,9 @@ public class MealController extends FanBaseController {
         req.setAttribute("bannerList", restaurant.getBannerUrls());
         return "/meal/webPage/restaurantDetail";
     }
+
+
+
 
 
     /**---------------------------------------------------*/
