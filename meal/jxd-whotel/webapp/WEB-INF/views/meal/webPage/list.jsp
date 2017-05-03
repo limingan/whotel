@@ -169,7 +169,7 @@
     <div class="banner">
         <ul>
             <c:forEach items="${bannerList}" var="baner">
-                <li><img style="width:100%;height:200px" src="${baner}"></li>
+                <li><img style="width:100%;height:150px" src="${baner}"></li>
             </c:forEach>
         </ul>
     </div>
@@ -177,15 +177,15 @@
         <div class="">
          <div class="ddb-tab-bar ">
             <div class="ddb-tab-item ng-scope active">
-                <a style="font-size:18px" href="javascript:;" class="" id="store_classify">点餐</a>
+                <a style="font-size:16px;color:black;" href="javascript:;" class="" id="store_classify">点餐</a>
                
             </div>
             <div class="ddb-tab-item ng-scope">
-                <a style="font-size:18px"  href="javascript:;" class="ng-binding">评论</a>
+                <a style="font-size:16px;color:black;"  href="javascript:;" class="ng-binding">评论</a>
             </div>
             <div class="ddb-tab-item ng-scope" ng-repeat="pane in panes" ng-class="{active:pane.selected}"
                  ng-click="toggle(pane)">
-                <a  style="font-size:18px" href="javascript:;" class="ng-binding">商家</a>
+                <a  style="font-size:16px;color:black;" href="javascript:;" class="ng-binding">商家</a>
             </div>
         </div>
 		</div>
@@ -198,7 +198,7 @@
 
                 <c:if test="${status.index ==0}">
                     <a class="navOption" href="#${cate.dishNo}">
-                        <dd categoryid="${cate.id}" class="active">
+                        <dd categoryid="${cate.id}" class="active" style="color:black;">
                             <%--fixme limingan 分类无图--%>
                             <%--<img style="width:15px;height:15px;border-top:10px" src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">--%>
                             ${cate.dishName}

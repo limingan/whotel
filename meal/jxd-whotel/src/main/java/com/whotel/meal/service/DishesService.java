@@ -33,6 +33,10 @@ public class DishesService {
     @Autowired
     private HotelService hotelService;
 
+    public Dishes getDishesById(String id){
+        return dishesDao.get(id);
+    }
+
     public List<Dishes> getByCate(DishesCategory cat){
         Map<String, Serializable> properties = new HashMap<>();
         properties.put("companyId", cat.getCompanyId());

@@ -2,9 +2,9 @@ package com.whotel.meal.controller;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gson.JsonObject;
 import com.weixin.core.api.TokenManager;
 import com.weixin.core.common.AccessToken;
+import com.whotel.card.entity.Guest;
 import com.whotel.card.entity.Member;
 import com.whotel.card.service.MemberTradeService;
 import com.whotel.common.base.Constants;
@@ -21,7 +21,6 @@ import com.whotel.company.entity.PublicNo;
 import com.whotel.company.enums.ModuleType;
 import com.whotel.ext.json.JSONConvertFactory;
 import com.whotel.ext.json.JSONDataUtil;
-import com.whotel.ext.json.JSONDataUtilByJackson;
 import com.whotel.front.controller.FanBaseController;
 import com.whotel.front.entity.PayOrder;
 import com.whotel.front.entity.WeixinFan;
@@ -47,10 +46,10 @@ import com.whotel.webiste.service.ThemeService;
 import com.whotel.weixin.bean.Location;
 import com.whotel.weixin.service.LocationService;
 import com.whotel.weixin.service.WeixinMessageService;
-import net.sf.json.JSON;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import net.sf.json.util.JSONUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +101,9 @@ public class MealController extends FanBaseController {
     @Autowired
     private ThemeService themeService;
 
+    @Autowired
+    GuestService guestService;
+
 
     @RequestMapping("/oauth/meal/login")
     public String login(HttpServletRequest req, LoginParam param) {
@@ -123,7 +125,7 @@ public class MealController extends FanBaseController {
         session.setAttribute(Constants.Session.WEIXINFAN_LOGIN_OPENID, openId);
 
         Member member = memberService.getMemberByOpendId(openId);
-        if(null == member){
+        if (null == member) {
             member = new Member();
             member.setOpenId(openId);
             member.setCompanyId(companyId);
@@ -156,10 +158,10 @@ public class MealController extends FanBaseController {
         String city = "";
         String keyword = "";
         try {
-            if(StringUtils.isNotEmpty(param.getCity())){
+            if (StringUtils.isNotEmpty(param.getCity())) {
                 city = URLDecoder.decode(param.getCity(), "UTF-8");
             }
-            if(StringUtils.isNotEmpty(param.getKeyword())){
+            if (StringUtils.isNotEmpty(param.getKeyword())) {
                 keyword = URLDecoder.decode(param.getKeyword(), "UTF-8");
             }
         } catch (Exception e) {
@@ -273,6 +275,7 @@ public class MealController extends FanBaseController {
 
     /**
      * 分厅列表
+     *
      * @param req
      * @param param
      * @return
@@ -283,13 +286,14 @@ public class MealController extends FanBaseController {
         String companyId = company.getId();
         param.setCompanyId(companyId);
         List<Restaurant> list = restaurantService.getByParam(param);
-        req.setAttribute("restList",list);
+        req.setAttribute("restList", list);
         return "meal/webPage/restaurantList";
     }
 
 
     /**
      * 菜品分类列表
+     *
      * @param req
      * @param restaurantId
      * @return
@@ -298,20 +302,20 @@ public class MealController extends FanBaseController {
     public String dishCatList(HttpServletRequest req, String restaurantId) {
         Restaurant restaurant = restaurantService.getById(restaurantId);
         List<DishesCategory> cateList = dishesCategoryService.getByRestaurant(restaurant);
-        for(DishesCategory category :cateList){
+        for (DishesCategory category : cateList) {
             List<Dishes> list = dishesService.getByCate(category);
-            for(Dishes dishes:list){
-                List<Map<String,Object>> select = Lists.newArrayList();
+            for (Dishes dishes : list) {
+                List<Map<String, Object>> select = Lists.newArrayList();
                 List<DishesAction> actionList = dishesActionService.getByDishes(dishes);
-                if(CollectionUtils.isNotEmpty(actionList)){
-                    Map<String,Object> actionMap = Maps.newHashMap();
-                    actionMap.put("id","action");
-                    actionMap.put("name","做法");
-                    actionMap.put("data",actionList);
+                if (CollectionUtils.isNotEmpty(actionList)) {
+                    Map<String, Object> actionMap = Maps.newHashMap();
+                    actionMap.put("id", "action");
+                    actionMap.put("name", "做法");
+                    actionMap.put("data", actionList);
                     dishes.setIsMultiStyle(1);
 
                     select.add(actionMap);
-                }else{
+                } else {
                     dishes.setIsMultiStyle(0);
                 }
                 JSONDataUtil jacksonConverter = JSONConvertFactory.getJacksonConverter();
@@ -322,7 +326,7 @@ public class MealController extends FanBaseController {
         }
 
         long monthSale = restaurantService.countMonthSale(restaurant);
-        req.setAttribute("monthSale",monthSale);
+        req.setAttribute("monthSale", monthSale);
         req.setAttribute("rest", restaurant);
         req.setAttribute("bannerList", restaurant.getBannerUrls());
         req.setAttribute("cateList", cateList);
@@ -331,11 +335,12 @@ public class MealController extends FanBaseController {
 
     /**
      * 搜索
+     *
      * @param req
      * @return
      */
     @RequestMapping("oauth/meal/search")
-    public String search(HttpServletRequest req,String keyword){
+    public String search(HttpServletRequest req, String keyword) {
         List<String> list = Lists.newArrayList();
         list.add("明月山");
         list.add("捷信达");
@@ -347,47 +352,49 @@ public class MealController extends FanBaseController {
         String companyId = company.getId();
         ListHotelReq param = new ListHotelReq();
         String word = "";
-        if(StringUtils.isNotEmpty(keyword)){
+        if (StringUtils.isNotEmpty(keyword)) {
             try {
                 word = URLDecoder.decode(keyword, "UTF-8");
             } catch (UnsupportedEncodingException e) {
-                logger.error("MealController search",e);
+                logger.error("MealController search", e);
             }
         }
         param.setCompanyId(companyId);
         param.setKeyword(word);
         List<Hotel> hotels = hotelService.findHotel(param);
         req.setAttribute("keywordList", list);
-        req.setAttribute("list",hotels);
+        req.setAttribute("list", hotels);
         return "meal/webPage/search";
     }
 
 
     /**
      * 订单列表查询
+     *
      * @param req
      * @param param
      * @return
      */
     @RequestMapping("/oauth/meal/orderList")
-    public String orderList(HttpServletRequest req,PageOrderReq param){
+    public String orderList(HttpServletRequest req, PageOrderReq param) {
         Company company = getCurrentCompany(req);
         Member member = getCurrentMember(req);
         param.setCompanyId(company.getId());
         param.setOpenId(member.getOpenId());
         Page<MealOrder> orderPage = mealOrderService.pageQuery(param);
-        req.setAttribute("orderPage",orderPage);
+        req.setAttribute("orderPage", orderPage);
         return "meal/webPage/order";
     }
 
     /**
      * 订单详情
+     *
      * @param req
      * @param orderId
      * @return
      */
     @RequestMapping("/oauth/meal/orderDetail")
-    public String orderDetail(HttpServletRequest req,String orderId){
+    public String orderDetail(HttpServletRequest req, String orderId) {
         String companyId = getCurrentCompanyId(req);
         String openId = getCurrentOpenId(req);
         MealOrder mealOrder = mealOrderService.find(companyId, openId, orderId);
@@ -395,51 +402,53 @@ public class MealController extends FanBaseController {
         Hotel hotel = hotelService.getHotel(companyId, mealOrder.getHotelCode());
         req.setAttribute("order", mealOrder);
         req.setAttribute("rest", restaurant);
-        req.setAttribute("hotel",hotel);
+        req.setAttribute("hotel", hotel);
         return "meal/webPage/orderdetail";
     }
 
     /**
      * 支付中心
+     *
      * @param req
      * @param orderId
      * @return
      */
     @RequestMapping("/oauth/meal/payCenter")
-    public String payCenter(HttpServletRequest req,String orderId){
+    public String payCenter(HttpServletRequest req, String orderId) {
         String companyId = getCurrentCompanyId(req);
         String openId = getCurrentOpenId(req);
         MealOrder mealOrder = mealOrderService.find(companyId, openId, orderId);
         Restaurant restaurant = mealOrder.getRestaurant();
-        req.setAttribute("order",mealOrder);
-        req.setAttribute("rest",restaurant);
+        req.setAttribute("order", mealOrder);
+        req.setAttribute("rest", restaurant);
         return "meal/webPage/paycenter";
     }
 
 
     /**
      * 取消订单
+     *
      * @param req
      * @param orderId
      * @return
      */
     @RequestMapping("/oauth/meal/cancelOrder")
     @ResponseBody
-    public ResultData cancelOrder(HttpServletRequest req,String orderId){
+    public ResultData cancelOrder(HttpServletRequest req, String orderId) {
         ResultData resultData = new ResultData();
         Company company = getCurrentCompany(req);
         String openId = getCurrentOpenId(req);
         MealOrder mealOrder = mealOrderService.find(company.getId(), openId, orderId);
-        if(null != mealOrder){
-            boolean flag = mealOrderService.cancelMealOrder(company,openId,mealOrder.getOrderSn(),"用户自己取消！");
-            if(flag){
+        if (null != mealOrder) {
+            boolean flag = mealOrderService.cancelMealOrder(company, openId, mealOrder.getOrderSn(), "用户自己取消！");
+            if (flag) {
                 resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
                 resultData.setMessage("操作成功");
-            }else{
+            } else {
                 resultData.setCode(Constants.MessageCode.RESULT_ERROR);
                 resultData.setMessage("取消失败!");
             }
-        }else{
+        } else {
             resultData.setCode(Constants.MessageCode.RESULT_ERROR);
             resultData.setMessage("订单不存在!");
         }
@@ -449,57 +458,161 @@ public class MealController extends FanBaseController {
 
     /**
      * 餐馆详情
+     *
      * @param req
      * @param restaurantId
      * @return
      */
     @RequestMapping("/oauth/meal/restaurantDetail")
-    public String restaurantDetail(HttpServletRequest req,String restaurantId){
+    public String restaurantDetail(HttpServletRequest req, String restaurantId) {
         Restaurant restaurant = restaurantService.getById(restaurantId);
         long monthSale = restaurantService.countMonthSale(restaurant);
-        req.setAttribute("monthSale",monthSale);
+        req.setAttribute("monthSale", monthSale);
         req.setAttribute("rest", restaurant);
         req.setAttribute("bannerList", restaurant.getBannerUrls());
         return "/meal/webPage/restaurantDetail";
     }
 
     @RequestMapping("/oauth/meal/menu")
-    public String menu(HttpServletRequest req){
-        Object cookieStr = getCookieByName(req,"dishList");
+    public String menu(HttpServletRequest req) {
+        String cookieStr = getCookieByName(req, "dishList").toString();
+        JSONArray array = JSONArray.fromObject(cookieStr);
 
+        Map<String, MealOrderItem> itemMap = Maps.newHashMap();
+        float total = 0F;
+        String companyId = getCurrentCompanyId(req);
+        String hotelCode = null;
+        String restId = null;
+
+        for (Object obj : array) {
+            JSONObject jsonObject = (JSONObject) obj;
+
+            for (Object keyObj : jsonObject.keySet()) {
+                String key = keyObj.toString();
+
+                MealOrderItem item = itemMap.get(key);
+                if (null == item) {
+                    item = new MealOrderItem();
+                    item.setItemQuantity(0);
+                }
+
+                Object value = jsonObject.opt(key);
+                Dishes dishes = dishesService.getDishesById(key);
+                if (value instanceof JSONArray) {//套餐
+                    JSONArray dishArr = (JSONArray) value;
+                    List<String> dishNos = Lists.newArrayList();
+                    for (Object dishObj : dishArr) {
+                        dishNos.add(dishObj.toString());
+                    }
+                    List<SuiteItem> list = this.getSuiteDish(dishes, dishNos);
+                    dishes.setItemList(list);
+
+                    item = this.build(item, dishes, 1, null);
+                } else if (value instanceof JSONObject) {//有规格做法
+                    String actionId = ((JSONObject) value).optString("action");
+                    DishesAction action = dishesActionService.getById(actionId);
+                    if (null != action.getAddPrice()) {
+                        total += action.getAddPrice();
+                    }
+                    item = this.build(item, dishes, 1, action);
+                } else {//普通菜品
+                    int num = Integer.parseInt(value.toString());
+                    dishes = dishesService.getDishesById(key);
+                    item = this.build(item, dishes, num, null);
+                }
+                if (null == hotelCode) {
+                    hotelCode = dishes.getHotelCode();
+                }
+                if (null == restId) {
+                    restId = dishes.getRestaurantId();
+                }
+                total += dishes.getPrice();
+                itemMap.put(key, item);
+            }
+        }
+        List<MealOrderItem> list = Lists.newArrayList();
+        for (MealOrderItem item : itemMap.values()) {
+            list.add(item);
+        }
+        Hotel hotel = hotelService.getHotel(companyId, hotelCode);
+        if (null != hotel.getDeliverPrice()) {
+            total += hotel.getDeliverPrice();
+        }
+
+        req.setAttribute("list", list);
+        req.setAttribute("totalPrice", total);
+        req.setAttribute("hotel", hotel);
         return "/meal/webPage/menu";
+    }
+
+    private MealOrderItem build(MealOrderItem item, Dishes dishes, int num, DishesAction dishesAction) {
+        int itemQuantity = item.getItemQuantity();
+        item.setDishesId(dishes.getId());
+        item.setItemCode(dishes.getDishNo());
+        item.setName(dishes.getDishName());
+        item.setItemQuantity(itemQuantity + num);
+        item.setUnit(dishes.getUnit());
+        item.setItemPrice(dishes.getPrice());
+        item.setItemAmount(dishes.getPrice());
+        item.setDishesAction(dishesAction);
+        item.setItemList(dishes.getItemList());
+        return item;
+    }
+
+
+    private List<SuiteItem> getSuiteDish(Dishes dishes, List<String> dishNos) {
+        List<SuiteItem> items = Lists.newArrayList();
+        Map<String, String> map = Maps.newHashMap();
+        for (String dishNo : dishNos) {
+            map.put(dishNo, dishNo);
+        }
+        JSONDataUtil jacksonConverter = JSONConvertFactory.getJacksonConverter();
+        List<List> lists = jacksonConverter.listFromString(dishes.getSuiteData(), List.class);
+        for (List list : lists) {
+            for (Object itemObj : list) {
+                Map<String, Object> temp = (Map<String, Object>) itemObj;
+                SuiteItem suiteItem = new SuiteItem();
+                BeanUtil.transMap2Bean(temp, suiteItem);
+                String dishNo = suiteItem.getDishNo();
+                if (map.containsKey(dishNo)) {
+                    items.add(suiteItem);
+                }
+            }
+        }
+        return items;
     }
 
     /**
      * 根据名字获取cookie
+     *
      * @param request
-     * @param name cookie名字
+     * @param name    cookie名字
      * @return
      */
-    public  Object getCookieByName(HttpServletRequest request,String name){
-        Map<String,Object> cookieMap = ReadCookieMap(request);
-        if(cookieMap.containsKey(name)){
+    public Object getCookieByName(HttpServletRequest request, String name) {
+        Map<String, Object> cookieMap = ReadCookieMap(request);
+        if (cookieMap.containsKey(name)) {
             Object cookie = cookieMap.get(name);
             return cookie;
-        }else{
+        } else {
             return null;
         }
     }
 
 
-
     /**
      * 将cookie封装到Map里面
+     *
      * @param request
      * @return
      */
-    private  Map<String,Object> ReadCookieMap(HttpServletRequest request){
-        Map<String,Object> cookieMap = new HashMap<String,Object>();
+    private Map<String, Object> ReadCookieMap(HttpServletRequest request) {
+        Map<String, Object> cookieMap = new HashMap<String, Object>();
         String cookieStr = request.getHeader("cookie");
 
-        if(StringUtils.isNotEmpty(cookieStr)){
+        if (StringUtils.isNotEmpty(cookieStr)) {
             String[] str = cookieStr.split(";");
-            for(String cookie : str){
+            for (String cookie : str) {
                 String[] keyValue = cookie.split("=");
                 cookieMap.put(keyValue[0].trim(), keyValue[1].trim());
             }
@@ -509,7 +622,7 @@ public class MealController extends FanBaseController {
 
     @RequestMapping("/oauth/meal/syncDishesAction")
     @ResponseBody
-    public ResultData syncDishesAction(String hotelId){
+    public ResultData syncDishesAction(String hotelId) {
         ResultData resultData = new ResultData();
         Hotel hotel = hotelService.getHotelById(hotelId);
         List<DishesAction> actionList = dishesActionService.getDishesAction(hotel);
@@ -521,54 +634,15 @@ public class MealController extends FanBaseController {
     }
 
 
-    @RequestMapping("/oauth/meal/getDishList")
-    @ResponseBody
-    public ResultData getDishList(HttpServletRequest req){
-        ResultData resultData = new ResultData();
-        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
-        resultData.setMessage("操作成功");
-        return resultData;
-    }
-
-    @RequestMapping("/oauth/meal/updateDishNumOfCategory")
-    @ResponseBody
-    public ResultData updateDishNumOfCategory(HttpServletRequest req){
-        ResultData resultData = new ResultData();
-        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
-        resultData.setMessage("操作成功");
-        return resultData;
-    }
-
-    @RequestMapping("/oauth/meal/removeDishNumOfCategory")
-    @ResponseBody
-    public ResultData removeDishNumOfCategory (HttpServletRequest req){
-        ResultData resultData = new ResultData();
-        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
-        resultData.setMessage("操作成功");
-        return resultData;
-    }
-
-    @RequestMapping("/oauth/meal/getDishNumOfCategory")
-    @ResponseBody
-    public ResultData getDishNumOfCategory (HttpServletRequest req){
-        Cookie[] cookies = req.getCookies();
-
-
-        ResultData resultData = new ResultData();
-        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
-        resultData.setMessage("操作成功");
-        return resultData;
-    }
-
-
     /**
      * 同步套餐信息
+     *
      * @param restId
      * @return
      */
     @RequestMapping("/oauth/meal/syncDishesSuite")
     @ResponseBody
-    public ResultData syncDishesSuite(String restId){
+    public ResultData syncDishesSuite(String restId) {
         ResultData resultData = new ResultData();
         Restaurant restaurant = restaurantService.getById(restId);
         List<Dishes> list = dishesService.syncSuite(restaurant);
@@ -576,6 +650,114 @@ public class MealController extends FanBaseController {
         resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
         resultData.setMessage("操作成功");
         return resultData;
+    }
+
+
+    /**
+     * 获取地址列表
+     *
+     * @param req
+     * @return
+     */
+    @RequestMapping("/oauth/meal/getAddrList")
+    public String getAddrList(HttpServletRequest req) {
+        String openId = getCurrentOpenId(req);
+        String companyId = getCurrentCompanyId(req);
+        List<Guest> list = guestService.getByOpenId(openId, companyId);
+        req.setAttribute("list", list);
+        return "/meal/webPage/addressList";
+    }
+
+
+    /**
+     * 保存地址
+     *
+     * @param req
+     * @param guest
+     * @return
+     */
+    @RequestMapping("/oauth/meal/saveAddr")
+    @ResponseBody
+    public ResultData saveAddr(HttpServletRequest req, Guest guest) {
+        String openId = getCurrentOpenId(req);
+        String companyId = getCurrentCompanyId(req);
+        guest.setOpenId(openId);
+        guest.setCompanyId(companyId);
+
+        String address = guest.getAddress();
+        if (StringUtils.isNotEmpty(address)) {
+            try {
+                address = URLDecoder.decode(address, "UTF-8");
+                guest.setAddress(address);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+        guestService.save(guest);
+        ResultData resultData = new ResultData();
+        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
+        resultData.setMessage("操作成功");
+        return resultData;
+    }
+
+    /**
+     * 删除地址
+     * @param req
+     * @param id
+     * @return
+     */
+    @RequestMapping("/oauth/meal/deleteAddr")
+    @ResponseBody
+    public ResultData deleteAddr(HttpServletRequest req, String id) {
+        String openId = getCurrentOpenId(req);
+        String companyId = getCurrentCompanyId(req);
+        Guest guest = guestService.getById(id);
+        if (openId.equals(guest.getOpenId()) && companyId.equals(guest.getCompanyId())) {
+            guestService.delete(id);
+        }
+        ResultData resultData = new ResultData();
+        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
+        resultData.setMessage("操作成功");
+        return resultData;
+    }
+
+    /**
+     * 设为默认地址
+     * @param req
+     * @param id
+     * @return
+     */
+    @RequestMapping("/oauth/meal/setDefaultAddr")
+    @ResponseBody
+    public ResultData setDefaultAddr(HttpServletRequest req, String id) {
+        String openId = getCurrentOpenId(req);
+        String companyId = getCurrentCompanyId(req);
+        guestService.setDefault(companyId,openId,id);
+        ResultData resultData = new ResultData();
+        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
+        resultData.setMessage("操作成功");
+        return resultData;
+    }
+
+    /**
+     * 新增或者修改地址
+     *
+     * @param req
+     * @return
+     */
+    @RequestMapping("/oauth/meal/editAddr")
+    public String editAddr(HttpServletRequest req,String id) {
+        String openId = getCurrentOpenId(req);
+        String companyId = getCurrentCompanyId(req);
+
+        req.setAttribute("guest", new Guest());
+        if(StringUtils.isNotEmpty(id)){
+            Guest guest = guestService.getById(id);
+            if(null != guest && openId.equals(guest.getOpenId()) && companyId.equals(guest.getCompanyId())){
+                req.setAttribute("guest", guest);
+            }
+        }
+        return "/meal/webPage/addAddress";
     }
 
 

@@ -8,9 +8,9 @@
 <script type="text/javascript" src="../addons/weisrc_dish/template/js/1/wei_webapp_v2_common_v1.9.4.js"></script>
 <script type="text/javascript" src="../addons/weisrc_dish/template/js/1/wei_dialog_v1.9.9.js?v=1"></script>
 <script type="text/javascript" src="../addons/weisrc_dish/template/js/2/jQuery.js"></script>
-<link rel="stylesheet" type="text/css" href="../addons/weisrc_dish/template/css/2/mobiscroll.custom-2.6.2.min.css" media="all">
+<link rel="stylesheet" type="text/css" href="./assets/diandanbao/mobiscroll.custom-2.6.2.min.css" media="all">
 <link data-turbolinks-track="true" href="./assets/diandanbao/font.css?v=1" media="all" rel="stylesheet">
-<script type="text/javascript" src="../addons/weisrc_dish/template/js/2/mobiscroll.custom-2.6.2.min.js"></script>
+<script type="text/javascript" src="./assets/diandanbao/mobiscroll.custom-2.6.2.min.js"></script>
 
 <style>abbr,article,aside,audio,canvas,datalist,details,dialog,eventsource,fieldset,figure,figcaption,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,small,time,video,legend{display:block;}</style>
 
@@ -345,15 +345,51 @@
             <ul class="myorder" id="myorder">
            
                 <li>
+				    <section class="bbox" style="left:-40px;top:10px" dishid="1" dishname="情侣套餐"> 
+				    <input class="btn-reduce" style="margin-top:5px" type="button" value="-">
+					<input class="numBox" name="numBox" type="hidden" value="1" price="53" disabled="disabled">
+					<input class="setData" type="hidden" value="[[{'id':1,'name':'菜菜菜菜1'},{'id':2,'name':'菜菜菜2'},{'id':3,'name':'菜菜菜菜3'}],
+				          [{'id':4,'name':'菜菜菜菜4'},{'id':5,'name':'菜菜菜5'},{'id':6,'name':'菜菜菜菜6'}],
+						  [{'id':7,'name':'菜菜菜菜7'},{'id':6,'name':'菜菜菜8'},{'id':9,'name':'菜菜菜菜9'}]]" />
+
+                    <input type="hidden" class="btn-plus" value="+"> 		
+					</section>
+					<div style="display:inline;position:absolute;left:50px">
                     <span class="dishName">情侣套餐</span>
-                    
+                    <div>
                     <i>53元/份</i>
-                    <h2><button class="btn_add" style="position:absolute;left:50%;top:30%"onclick="location.href='">编辑</button></h2>
-                    <section class="bbox" dishid="1" dishname="情侣套餐"> 
-					
-					<input class="btn-reduce" type="button" value="-">
-					<input class="numBox" name="numBox" type="text" value="1" price="53" disabled="disabled">
-					<input type="button" class="btn-plus" value="+"></section>
+					</div>
+					</div>
+                    <h2><button class="btn_add" style="position:absolute;right:10%;top:30%"onclick="location.href='">编辑</button></h2>
+                    
+                </li>
+				<li>
+				    <section class="bbox" style="left:-40px;top:10px" dishid="1" dishname="多规格菜品"> 
+				    <input class="btn-reduce" style="margin-top:5px" type="button" value="-">
+					<input class="numBox" name="numBox" type="hidden" value="1" price="53" disabled="disabled">
+					<input class="styleData" type="hidden" value="[{'id':1,'name':'规格',data:[{'id':1,'name':'小份'},{'id':2,'name':'大份'}] },
+				{'id':2,'name':'做法',data:[{'id':1,'name':'清蒸'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
+				                            ,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
+											,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
+											,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
+											] },
+                {'id':3,'name':'其它',data:[{'id':1,'name':'少辣'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
+				                            ,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
+											,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
+											,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
+											] }											
+				]" />
+
+                    <input type="hidden" class="btn-plus" value="+"> 		
+					</section>
+					<div style="display:inline;position:absolute;left:50px">
+                    <span class="dishName">多规格菜品</span>
+                    <div>
+                    <i>53元/份</i>
+					</div>
+					</div>
+                    <h2><button class="btn_add" style="position:absolute;right:10%;top:30%"onclick="location.href='">编辑</button></h2>
+                    
                 </li>
 				<li>
 				    <section class="bbox" style="left:-40px;top:10px" dishid="1" dishname="糖醋里脊"> 
@@ -367,7 +403,7 @@
                     <i>10元/份</i>
                     </div>
 					</div>
-					<h2><button class="btn_add" style="position:absolute;left:70%;top:30%"onclick="location.href='">编辑</button></h2>
+					
 
                 </li>
                <li>
@@ -382,7 +418,7 @@
                     <i>10元/份</i>
                     </div>
 					</div>
-					<h2><button class="btn_add" style="position:absolute;left:70%;top:30%"onclick="location.href='">编辑</button></h2>
+					
 
                 </li>
 				<li>
@@ -397,7 +433,7 @@
                     <i>10元/份</i>
                     </div>
 					</div>
-					<h2><button class="btn_add" style="position:absolute;left:70%;top:30%"onclick="location.href='">编辑</button></h2>
+					
 
                 </li>
 				<li>
@@ -412,7 +448,7 @@
                     <i>10元/份</i>
                     </div>
 					</div>
-					<h2><button class="btn_add" style="position:absolute;left:70%;top:30%"onclick="location.href='">编辑</button></h2>
+					
 
                 </li>
             </ul>
@@ -604,7 +640,7 @@ var reduce = _qAll('.btn-reduce');
 var plus = _qAll('.btn-plus');
 var share = _qAll('.shareBtn');
 //金额累加操作
-"{if $flag != true}"
+
 function tototal(){
     var total = 0;
     var nums = _qAll('.numBox');
@@ -724,45 +760,15 @@ function doSelectBtn(){
         })
     } // for
 
-    //更新分类菜品数量
-    function ajaxDishReset(dishid, o2uNum, successCallback, errorCallback) {
-        var params = {
-            'dishid' : dishid,
-            'o2uNum' : o2uNum
-        };
-        var url = "{php echo $this->createMobileUrl('UpdateDishNumOfCategory', array('storeid' => $storeid, 'from_user' => $from_user), true)}";
-        _doAjax(url, 'POST', params, function(ret) {
-            if (ret['message']['code'] != 0) {
-                errorCallback();
-                alert(ret['message']['msg']);
-                return;
-            } else {
-                successCallback();
-            }
-            successCallback();
-        });
-    } // ajaxDishReset
+    
 
     function ajaxDishRemove(dishid, successCallback, errorCallback) {
-        var params = {
-            'dishid' : dishid,
-            'action' : 'remove'
-        };
-
-        var url = "{php echo $this->createMobileUrl('RemoveDishNumOfCategory', array('storeid' => $storeid, 'from_user' => $from_user), true)}";
-
-        _doAjax(url, 'POST', params, function(ret) {
-            if (ret['message']['code']!= 0) {
-                errorCallback();
-                alert(ret['message']['msg']);
-                return;
-            } else {
-                successCallback();
-            }
-        });
+	    // delete dishes in cookie
+		// 1.delete dish 2.minus category 3.minus price and totalcount
+        successCallback();
     } // ajaxDishRemove
 } // doSelectBtn
-"{/if}"
+
 _onPageLoaded(function(){
     var reduce = _qAll('.btn-reduce');
     var plus = _qAll('.btn-plus');
@@ -772,18 +778,19 @@ _onPageLoaded(function(){
     "{/if}"
 
     var url = "{php echo $this->createMobileUrl('clearmenu', array('storeid' => $storeid, 'from_user' => $from_user), true)}";
-    "{if $flag != true}"
+
     _q('#clearBtn').onclick = function() {
         MDialog.confirm(
             '', '是否清空菜单？', null,
             '确定', function(){
-                window.location.href = url;
+			    //delete cookies
+				//return cart page
+                //window.location.href = url;
             }, null,
             '取消', null, null,
             null, true, true
         );
     };
-    "{/if}"
 
     $("#btnselect").click(function () {
         var bool = checkItem();
@@ -797,24 +804,7 @@ _onPageLoaded(function(){
         }
     });
 
-    $("#submit_form2").click(function () {
-        var mobile = $("#entry_mobile").val();
-        var checkcode = $("#entry_checkcode").val();
-        if (mobile == "") {
-            alert('请输入手机号码!');
-            return false;
-        }
-        if (checkcode == "") {
-            alert('请输入验证码!');
-            return false;
-        }
-        MDialog.confirm(
-            '', '确认提交吗？', null,
-            '确定', function(){
-                postmain2();
-            }, null, '取消', null, null,null, true, true
-        );
-    });
+    
 });
 
 function checkItem() {
@@ -907,102 +897,8 @@ function postmain() {
     }
 }
 
-function postmain2() {
-    $("#submit_form2").hide();
-    if (true) {
-        var url = "{php echo $this->createMobileUrl('validatecheckcode', array('from_user' => $from_user), true)}";
 
-        var mobile = $("#entry_mobile").val();
-        var checkcode = $("#entry_checkcode").val();
-        if (mobile == "") {
-            alert('请输入手机号码!');
-            return false;
-        }
-        if (checkcode == "") {
-            alert('请输入验证码!');
-            return false;
-        }
-
-        $.ajax({
-            url: url, type: "post", dataType: "json", timeout: "10000",
-            data: {
-                "mobile": mobile,
-                "checkcode": checkcode
-            },
-            success: function (data) {
-                if (data.status == 1) {
-                    window.location.reload();
-                } else {
-                    alert(data.msg);
-                }
-                $("#submit_form2").show();
-            },error: function () {
-                alert("网络不稳定，请重新尝试!");
-            }
-        });
-    } else {
-        $("#submit_form2").show();
-    }
-}
 </script>
-<script type="text/javascript">
-    var intervalId,buttonObj;
-    //发送下一条短信需要间隔的秒数
-    var seconds = 60;
-    function getReceiveMemberCardVCode(clickObj, evt, formId, teleName, ch_type){
-        var form = document.getElementById(formId);
-        var url = "{php echo $this->createMobileurl('GetCheckCode', array('from_user' => $from_user), true);}";
-        var storeid = "{$storeid}";
-        var mobile = $.trim(form[teleName].value);
-        var req = {
-            mobile: mobile,
-            storeid: storeid
-        }
-        if(!req.mobile){
-            alert("请输入手机号");return;
-        }
-        clickObj.setAttribute("disabled", "disabled");
-        clickObj.value = "正在发送，请稍候...";
 
-        $.ajax({
-            url: url,
-            type:"post",
-            data:req,
-            dataType:"JSON",
-            success: function(data) {
-                if (data.status == 1) {
-                    clickObj.value = '发送成功';
-                    buttonObj = clickObj;
-                    intervalId = setInterval("ticker()",1000);
-                } else {
-                    clickObj.value = '发送失败';
-                    buttonObj = clickObj;
-                    intervalId = setInterval("ticker()",1000);
-                    alert('调试:' + data.msg);
-                    return false;
-                }
-            },
-            error: function(data){
-                alert('网络异常哦!');
-                return false;
-            }
-        });
-    }
-
-    function ticker(){
-        seconds --;
-        if(seconds > 55){
-            //提示消息显示5秒钟
-        }else if(seconds>0){
-            buttonObj.value = seconds+"秒后可重新获取";
-        }else{
-            clearInterval(intervalId);
-            buttonObj.removeAttribute("disabled");
-            buttonObj.value = "获取验证码";
-            seconds = 60;
-            buttonObj = null;
-        }
-    }
-</script>
 </body>
 </html>

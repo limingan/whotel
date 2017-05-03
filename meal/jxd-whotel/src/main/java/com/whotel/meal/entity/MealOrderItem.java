@@ -1,6 +1,9 @@
 package com.whotel.meal.entity;
 
 import com.whotel.thirdparty.jxd.util.AbstractInputParam;
+import org.mongodb.morphia.annotations.Embedded;
+
+import java.util.List;
 
 public class MealOrderItem extends AbstractInputParam {
 	
@@ -18,8 +21,39 @@ public class MealOrderItem extends AbstractInputParam {
 	
 	private Float itemAmount;//消费项目金额
 
+	@Embedded
+	private List<SuiteItem> itemList;//已选套餐信息
+
+	private DishesAction dishesAction;//做法
+
+	private String suiteData;//存储的套餐
+
+	public List<SuiteItem> getItemList() {
+		return itemList;
+	}
+
+	public void setItemList(List<SuiteItem> itemList) {
+		this.itemList = itemList;
+	}
+
+	public DishesAction getDishesAction() {
+		return dishesAction;
+	}
+
+	public void setDishesAction(DishesAction dishesAction) {
+		this.dishesAction = dishesAction;
+	}
+
 	public String getItemCode() {
 		return itemCode;
+	}
+
+	public String getSuiteData() {
+		return suiteData;
+	}
+
+	public void setSuiteData(String suiteData) {
+		this.suiteData = suiteData;
 	}
 
 	public void setItemCode(String itemCode) {

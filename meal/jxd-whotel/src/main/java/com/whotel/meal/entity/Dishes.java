@@ -78,6 +78,16 @@ public class Dishes extends UnDeletedEntity {
 
 	private String suiteData;//套餐内容字符串
 
+	private List<SuiteItem> itemList;//套餐已选内容
+
+	public List<SuiteItem> getItemList() {
+		return itemList;
+	}
+
+	public void setItemList(List<SuiteItem> itemList) {
+		this.itemList = itemList;
+	}
+
 	public String getSuiteData() {
 		return suiteData;
 	}

@@ -4,12 +4,8 @@
 <meta name="format-detection" content="telephone=no">
 <title>地址列表</title>
 <link rel="stylesheet" type="text/css" href="./assets/diandanbao/wei_canyin_v1.8.4.css?v=1.1.2" media="all">
-<link rel="stylesheet" type="text/css" href="../addons/weisrc_dish/template/css/2/mobiscroll.custom-2.6.2.min.css" media="all">
 <link data-turbolinks-track="true" href="./assets/diandanbao/font.css?v=1" media="all" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="./assets/diandanbao/wei_canyin_v1.8.4.css?v=1.1.2" media="all">
-<link rel="stylesheet" type="text/css" href="../addons/weisrc_dish/template/css/1/wei_dialog_v1.2.1.css?v=1.0" media="all">
-<script type="text/javascript" src="../addons/weisrc_dish/template/js/1/wei_webapp_v2_common_v1.9.4.js"></script>
-<script type="text/javascript" src="../addons/weisrc_dish/template/js/1/wei_dialog_v1.9.9.js?v=1"></script>
 <script src="./assets/diandanbao/jquery-1.11.3.min.js"></script>
 <style>abbr,article,aside,audio,canvas,datalist,details,dialog,eventsource,fieldset,figure,figcaption,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,small,time,video,legend{display:block;}</style>
 
@@ -319,14 +315,15 @@
                 <li style="height:55px;line-height:30px">
 
 				    <img src="./images/icon_add.png" style="margin-top:-5px;height:14px;width:12px"/>
-                    <span style="margin-left:5px;height:20px;font-size:16px">中心工业园二号岗 一栋六楼</span>
+                    <span style="margin-left:5px;height:20px;font-size:16px">中心工业园二号岗 一栋六楼（默认）</span><span style="color:orange">（默认）</span>
                     <div style="margin-left:25px;color:#999">
 					  <span>XXX先生</span>
 					  <span>13312345678</span>
 					</div>
 					
-                   <h2><button class="btn_add" style="position:absolute;left:65%;top:40%;background-color:orange" onclick="location.href='">编辑</button></h2>
-				   <h2><button class="btn_add delete-btn" style="position:absolute;left:80%;top:40%" onclick="location.href='">删除</button></h2>
+                   <h2><button  addressID = "1" class="btn_add btn_setdefault" style="position:absolute;left:50%;top:40%;background-color:#00aa00" onclick="location.href='">设为默认</button></h2>
+				   <h2><button class="btn_add" style="position:absolute;left:65%;top:40%;background-color:orange" onclick="location.href='">编辑</button></h2>
+                  <h2><button class="btn_add delete-btn" style="position:absolute;left:80%;top:40%" onclick="location.href='">删除</button></h2>
 					
                 </li>
 				<li style="height:55px;line-height:30px">
@@ -425,6 +422,13 @@ $(function() {
         })
 	 
 	});
+	
+    $('.btn_setdefault').click(function(){
+	  var obj = $(this);
+	  alert("设置默认地址成功"+ $(this).attr("addressid"));
+	});
+	
+	
 });
 </script>
 </body>

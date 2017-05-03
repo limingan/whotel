@@ -3239,7 +3239,8 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 #ddb-delivery-branch-index .branch-item .branch-info {
     display: block;
     padding: 10px 8px 6px 70px;
-    border-bottom: 1px dotted #eeeeee
+    border-bottom: 1px dotted #eeeeee;
+	height:90px;
 }
 
 #ddb-delivery-branch-index .branch-item .branch-image {

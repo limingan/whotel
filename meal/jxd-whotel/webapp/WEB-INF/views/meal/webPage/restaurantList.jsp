@@ -53,7 +53,7 @@
                <input id="showlan" type="hidden" value="100,100"/>
                <a class="branch-info " href="/oauth/meal/dishCatList.do?restaurantId=${rest.id}">
                    <div class="branch-image">
-                       <img src="${rest.miniatureUrl}">
+                       <img src="${rest.miniatureUrl}" >
                    </div>
                    <div class="delivery-info">
                        <div class="first-line">
@@ -70,7 +70,7 @@
                             <span class="ng-binding ng-scope" style="display:inline-block;">营业时间 <span style="color:red">${rest.businessTime}</span>
 
 							</span>
-                            <span onclick="javascript:void(0)" class="ng-binding ng-scope"  style="text-align:center;float:right;margin-right:20px;background-color:red;color:white;border-radius:25px;width:50px;height:20px">订餐</span>
+                            <span onclick="javascript:void(0)" class="ng-binding ng-scope"  style="text-align:center;float:right;margin-right:20px;background-color:red;color:white;border-radius:25px;width:80px;height:25px;line-height;25px;">订餐</span>
 
                            </div>
                            <div class="address ng-binding">${rest.cuisine}</div>

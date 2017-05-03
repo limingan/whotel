@@ -26,6 +26,10 @@ public class DishesActionService {
     @Autowired
     private DishesActionDao dishesActionDao;
 
+    public DishesAction getById(String id){
+        return dishesActionDao.get(id);
+    }
+
     public List<DishesAction> getDishesAction(Hotel hotel){
         List<DishesAction> result = Lists.newArrayList();
         try {

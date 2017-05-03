@@ -57,22 +57,22 @@
         <span class="button border-blue ng-hide" ng-show="can_complete()" ng-click="complete()">完成</span>
         <span class="button border-red ng-hide" ng-show="can_pay_online()" ng-click="pay_online()">支付</span>
         <span class="button border-blue ng-hide" ng-show="can_append_itemable()" ng-click="go_append_itemable()">追加商品</span>
-        <span class="button ng-hide" ng-show="order &amp;&amp; order.pay_item_state=='paid'">已支付</span>
+        <!--<span class="button ng-hide" ng-show="order &amp;&amp; order.pay_item_state=='paid'">已支付</span>
         <span class="button border-green ng-hide" ng-show="can_exchange_code()" ng-click="go_exchange_code()">兑换码</span>
         <span class="button border-red ng-binding  ng-hide" ng-click="hasten()" >催单</span>
-        <span class="button border-green ng-binding disable ng-hide">呼叫服务员</span>
+        <span class="button border-green ng-binding disable ng-hide">呼叫服务员</span>-->
         <div class="ng-hide">
         <!--<div>-->
             <hr>
-            <span
+           <!-- <span
                 class="button border-green ng-binding ng-scope" ng-click="call_waiter(waiter_service_item.name)"
-                ng-repeat="waiter_service_item in branch.waiter_service_items">水</span><!-- end ngRepeat: waiter_service_item in branch.waiter_service_items --><span
-                class="button border-green ng-binding ng-scope" ng-click="call_waiter(waiter_service_item.name)"
-                ng-repeat="waiter_service_item in branch.waiter_service_items">碗筷</span><!-- end ngRepeat: waiter_service_item in branch.waiter_service_items --><span
-                class="button border-green ng-binding ng-scope" ng-click="call_waiter(waiter_service_item.name)"
+             <!--    ng-repeat="waiter_service_item in branch.waiter_service_items">水</span><!-- end ngRepeat: waiter_service_item in branch.waiter_service_items --><span
+            <!--    class="button border-green ng-binding ng-scope" ng-click="call_waiter(waiter_service_item.name)"
+              <!--   ng-repeat="waiter_service_item in branch.waiter_service_items">碗筷</span><!-- end ngRepeat: waiter_service_item in branch.waiter_service_items --><span
+           <!--     class="button border-green ng-binding ng-scope" ng-click="call_waiter(waiter_service_item.name)"
                 ng-repeat="waiter_service_item in branch.waiter_service_items">椅子</span><!-- end ngRepeat: waiter_service_item in branch.waiter_service_items -->
-            <span class="button border-green" ng-click="call_waiter('其他服务')">其他服务</span>
-            <span class="button border-red" ng-click="show_options(false)">取消</span>
+         <!--   <span class="button border-green" ng-click="call_waiter('其他服务')">其他服务</span>
+            <span class="button border-red" ng-click="show_options(false)">取消</span>!-->
         </div>
     </div>
     <div class="main-view order-show ng-scope" id="delivery-order-show">
@@ -294,7 +294,7 @@
                 data: {
                 },
                 success: function (data) {
-                    if (data.status == 200) {
+                    if (data.code == 200) {
                         location.href='/oauth/meal/orderList.do';
                     } else {
                         alert(data.message);
