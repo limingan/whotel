@@ -7,6 +7,8 @@ import com.whotel.common.enums.TradeType;
 import com.whotel.common.http.HttpHelper.Response;
 import com.whotel.common.util.DateUtil;
 import com.whotel.common.util.Dom4jHelper;
+import com.whotel.ext.json.JSONConvertFactory;
+import com.whotel.ext.json.JSONDataUtil;
 import com.whotel.hotel.entity.Hotel;
 import com.whotel.meal.entity.*;
 import com.whotel.meal.enums.MealOrderStatus;
@@ -1859,6 +1861,8 @@ public class ApiXmlVoParser {
             String hotelCode = restaurant.getHotelCode();
             String restaurantId = restaurant.getId();
             Map<String, Dishes> dishesMap = Maps.newHashMap();
+            Map<String,Map<Integer,List<SuiteItem>>> itemMap = Maps.newHashMap();
+
             for (Map<String, String> map : list) {
                 String dishNo = map.get("SuiteNo");
                 String dishName = map.get("SuiteName");
@@ -1866,7 +1870,8 @@ public class ApiXmlVoParser {
                 Float price = Float.valueOf(map.get("SuitePrice"));
 
                 Dishes dishes = dishesMap.get(dishNo);
-                List<SuiteItem> itemList;
+                Map<Integer,List<SuiteItem>> suiteItemMap = itemMap.get(dishNo);
+
                 if (null == dishes) {
                     dishes = new Dishes();
                     dishes.setDishNo(dishNo);
@@ -1877,16 +1882,20 @@ public class ApiXmlVoParser {
                     dishes.setRestaurantId(restaurantId);
                     dishes.setIsSuite(1);
                     dishes.setPrice(price);
-                    itemList = Lists.newArrayList();
-                } else {
-                    itemList = dishes.getSuiteItems();
+                    suiteItemMap = Maps.newHashMap();
+                }
+
+                Integer grade = Integer.valueOf(map.get("Grade"));
+                List<SuiteItem> suiteItems = suiteItemMap.get(grade);
+                if(CollectionUtils.isEmpty(suiteItems)){
+                    suiteItems = Lists.newArrayList();
                 }
 
                 SuiteItem item = new SuiteItem();
                 item.setSuiteNo(dishNo);
                 item.setSuiteName(dishName);
                 item.setSuiteUnit(unit);
-                item.setGrade(Integer.valueOf(map.get("Grade")));
+                item.setGrade(grade);
                 item.setIsAuto(Integer.valueOf(map.get("IsAuto")));
                 item.setDishNo(map.get("DishNo"));
                 item.setDishName(map.get("DishName"));
@@ -1895,12 +1904,24 @@ public class ApiXmlVoParser {
                 item.setPrice(Float.valueOf(map.get("Price")));
                 item.setAmount(Float.valueOf(map.get("Amount")));
                 item.setRemark(map.get("Remark"));
-                itemList.add(item);
-                dishes.setSuiteItems(itemList);
+
+                suiteItems.add(item);
+                suiteItemMap.put(grade, suiteItems);
+                itemMap.put(dishNo,suiteItemMap);
                 dishesMap.put(dishNo,dishes);
             }
             List<Dishes> dishesList = Lists.newArrayList();
             for(Dishes dishes : dishesMap.values()){
+                String dishNo = dishes.getDishNo();
+
+                List<List<SuiteItem>> lists = Lists.newArrayList();
+                Map<Integer,List<SuiteItem>> suiteItemMap = itemMap.get(dishNo);
+                for(List<SuiteItem> items : suiteItemMap.values()){
+                    lists.add(items);
+                }
+                JSONDataUtil jacksonConverter = JSONConvertFactory.getJacksonConverter();
+                String json = jacksonConverter.jsonfromObject(lists);
+                dishes.setSuiteData(json);
                 dishesList.add(dishes);
             }
             return dishesList;

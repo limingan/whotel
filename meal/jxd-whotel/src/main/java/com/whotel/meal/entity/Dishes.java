@@ -75,7 +75,6 @@ public class Dishes extends UnDeletedEntity {
 
 	private Integer isSuite;//是否套餐
 
-	private List<SuiteItem> suiteItems;//套餐内容
 
 	private String suiteData;//套餐内容字符串
 
@@ -101,14 +100,6 @@ public class Dishes extends UnDeletedEntity {
 
 	public void setIsSuite(Integer isSuite) {
 		this.isSuite = isSuite;
-	}
-
-	public List<SuiteItem> getSuiteItems() {
-		return suiteItems;
-	}
-
-	public void setSuiteItems(List<SuiteItem> suiteItems) {
-		this.suiteItems = suiteItems;
 	}
 
 	public String getDishno1() {

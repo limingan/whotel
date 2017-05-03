@@ -317,12 +317,6 @@ public class MealController extends FanBaseController {
                 JSONDataUtil jacksonConverter = JSONConvertFactory.getJacksonConverter();
                 String json = jacksonConverter.jsonfromObject(select);
                 dishes.setMultiStyle(json);
-
-                if(null != dishes.getIsSuite() && dishes.getIsSuite().equals(1)){
-                    List<SuiteItem> itemList = dishes.getSuiteItems();
-                    String items = jacksonConverter.jsonfromObject(itemList);
-                    dishes.setSuiteData(items);
-                }
             }
             category.setDishesList(list);
         }
@@ -471,7 +465,8 @@ public class MealController extends FanBaseController {
 
     @RequestMapping("/oauth/meal/menu")
     public String menu(HttpServletRequest req){
-        Cookie cookie = getCookieByName(req, "dishList");
+        Object cookieStr = getCookieByName(req,"dishList");
+
         return "/meal/webPage/menu";
     }
 
@@ -481,10 +476,10 @@ public class MealController extends FanBaseController {
      * @param name cookie名字
      * @return
      */
-    public  Cookie getCookieByName(HttpServletRequest request,String name){
-        Map<String,Cookie> cookieMap = ReadCookieMap(request);
+    public  Object getCookieByName(HttpServletRequest request,String name){
+        Map<String,Object> cookieMap = ReadCookieMap(request);
         if(cookieMap.containsKey(name)){
-            Cookie cookie = (Cookie)cookieMap.get(name);
+            Object cookie = cookieMap.get(name);
             return cookie;
         }else{
             return null;
@@ -498,12 +493,15 @@ public class MealController extends FanBaseController {
      * @param request
      * @return
      */
-    private  Map<String,Cookie> ReadCookieMap(HttpServletRequest request){
-        Map<String,Cookie> cookieMap = new HashMap<String,Cookie>();
-        Cookie[] cookies = request.getCookies();
-        if(null!=cookies){
-            for(Cookie cookie : cookies){
-                cookieMap.put(cookie.getName(), cookie);
+    private  Map<String,Object> ReadCookieMap(HttpServletRequest request){
+        Map<String,Object> cookieMap = new HashMap<String,Object>();
+        String cookieStr = request.getHeader("cookie");
+
+        if(StringUtils.isNotEmpty(cookieStr)){
+            String[] str = cookieStr.split(";");
+            for(String cookie : str){
+                String[] keyValue = cookie.split("=");
+                cookieMap.put(keyValue[0].trim(), keyValue[1].trim());
             }
         }
         return cookieMap;

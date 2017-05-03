@@ -1,8 +1,11 @@
 package com.whotel.meal.entity;
 
+import org.mongodb.morphia.annotations.Embedded;
+
 /**
  * Created by limingan on 2017/5/3.
  */
+@Embedded
 public class SuiteItem {
 
     private String suiteNo;
