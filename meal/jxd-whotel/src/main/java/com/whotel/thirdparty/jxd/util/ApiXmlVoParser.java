@@ -1,6 +1,7 @@
 package com.whotel.thirdparty.jxd.util;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.whotel.common.enums.Gender;
 import com.whotel.common.enums.TradeType;
 import com.whotel.common.http.HttpHelper.Response;
@@ -1841,6 +1842,68 @@ public class ApiXmlVoParser {
                 dishesActionList.add(dishesAction);
             }
             return dishesActionList;
+        }
+        return null;
+    }
+
+    public static List<Dishes> parseDishesSuiteList(String xml, String charset, Restaurant restaurant) throws UnsupportedEncodingException, DocumentException {
+        InputStream ins = new ByteArrayInputStream(xml.getBytes(charset));
+        Dom4jHelper dom4jHelper = new Dom4jHelper(ins, charset);
+        List<Map<String, String>> list = dom4jHelper.getListElements("Row");
+        return parseDishesSuiteList(list, restaurant);
+    }
+
+    private static List<Dishes> parseDishesSuiteList(List<Map<String, String>> list, Restaurant restaurant) {
+        if (!CollectionUtils.isEmpty(list)) {
+            String companyId = restaurant.getCompanyId();
+            String hotelCode = restaurant.getHotelCode();
+            String restaurantId = restaurant.getId();
+            Map<String, Dishes> dishesMap = Maps.newHashMap();
+            for (Map<String, String> map : list) {
+                String dishNo = map.get("SuiteNo");
+                String dishName = map.get("SuiteName");
+                String unit = map.get("SuiteUnit");
+                Float price = Float.valueOf(map.get("SuitePrice"));
+
+                Dishes dishes = dishesMap.get(dishNo);
+                List<SuiteItem> itemList;
+                if (null == dishes) {
+                    dishes = new Dishes();
+                    dishes.setDishNo(dishNo);
+                    dishes.setDishName(dishName);
+                    dishes.setUnit(unit);
+                    dishes.setCompanyId(companyId);
+                    dishes.setHotelCode(hotelCode);
+                    dishes.setRestaurantId(restaurantId);
+                    dishes.setIsSuite(1);
+                    dishes.setPrice(price);
+                    itemList = Lists.newArrayList();
+                } else {
+                    itemList = dishes.getSuiteItems();
+                }
+
+                SuiteItem item = new SuiteItem();
+                item.setSuiteNo(dishNo);
+                item.setSuiteName(dishName);
+                item.setSuiteUnit(unit);
+                item.setGrade(Integer.valueOf(map.get("Grade")));
+                item.setIsAuto(Integer.valueOf(map.get("IsAuto")));
+                item.setDishNo(map.get("DishNo"));
+                item.setDishName(map.get("DishName"));
+                item.setQuan(Float.valueOf(map.get("Quan")));
+                item.setUnit(map.get("Unit"));
+                item.setPrice(Float.valueOf(map.get("Price")));
+                item.setAmount(Float.valueOf(map.get("Amount")));
+                item.setRemark(map.get("Remark"));
+                itemList.add(item);
+                dishes.setSuiteItems(itemList);
+                dishesMap.put(dishNo,dishes);
+            }
+            List<Dishes> dishesList = Lists.newArrayList();
+            for(Dishes dishes : dishesMap.values()){
+                dishesList.add(dishes);
+            }
+            return dishesList;
         }
         return null;
     }

@@ -155,4 +155,18 @@ public class JXDMealService {
 		dishesCategoryList = ApiXmlVoParser.parseDishesActionList(res.html(), res.charset(), hotel);
 		return dishesCategoryList;
 	}
+
+	public List<Dishes> loadSuiteItem(MealDishesSuiteQuery query,Restaurant restaurant,String mealUrl) throws Exception{
+		String param = JxdXmlUtils.toXml(query);
+		if(log.isDebugEnabled()) {
+			log.debug("param: \n" + param);
+		}
+		// 请求接口并获得响应
+		List<Dishes> dishesList = null;
+		Response res = HttpHelper.connect(mealUrl).header("Content-Type",
+				"text/xml").timeout(JXDConstants.TIMEOUT).post(param);
+		ApiXmlVoParser.checkReturnContent(res);
+		dishesList = ApiXmlVoParser.parseDishesSuiteList(res.html(), res.charset(), restaurant);
+		return dishesList;
+	}
 }

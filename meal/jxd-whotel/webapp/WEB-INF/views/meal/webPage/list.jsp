@@ -225,8 +225,8 @@
                 <c:forEach items="${cateList}" var="cate">
                     <div id="${cate.dishNo}">${cate.dishName}</div>
                     <c:forEach items="${cate.dishesList}" var="dish">
-                        <dl isMultiStyle="${dish.isMultiStyle}" multiStyle=${dish.multiStyle} dunitname="${dish.unit}" dsubcount="123" dishid="${dish.id}" dname="${dishName}" dtaste="口味" ddescribe="${dish.brief}" dmarkNum="45" dprice="${dish.price}" dishot="2" dspecialprice="${dish.price}" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
-                            <dt><h3>鱼鱼</h3></dt>
+                        <dl isMultiStyle="${dish.isMultiStyle}" multiStyle=${dish.multiStyle} isSet="${dish.isSuite}" setData=${dish.suiteData} dunitname="${dish.unit}" dsubcount="123" dishid="${dish.id}" dname="${dishName}" dtaste="口味" ddescribe="${dish.brief}" dmarkNum="45" dprice="${dish.price}" dishot="2" dspecialprice="${dish.price}" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+                            <dt><h3>${dish.dishName}</h3></dt>
 
                             <dd>
                                 <a href="javascript:void(0)" class="dataIn">
@@ -238,7 +238,7 @@
                             </dd>
                             <span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
                             <dd>
-                                <em class="sale">￥${dish.price}</em><del>￥${dish.marketPrice}</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
+                                <em class="sale">￥${dish.price}</em><del>￥${dish.marketPrice}</del>  <c:if test="${ dish.isMultiStyle == 1}"><a class="dishstyle" href="javascript:void(0);">可选规格</a></c:if>
 
                             </dd>
                             <dd class="dpNum">
@@ -425,7 +425,7 @@
 	      var baseHtml = '';
 		  
    	      $(n).each(function(ii,nn){
-		    baseHtml += '<li attrid="{0}">{1}</li>'.format(nn.id,nn.name);
+		    baseHtml += '<li attrid="{0}">{1}</li>'.format(nn.dishNo,nn.dishName);
 		 });
 		 baseHtml = '<ul>{0}</ul>'.format(baseHtml);
 		 

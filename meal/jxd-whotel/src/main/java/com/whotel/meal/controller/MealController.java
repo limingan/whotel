@@ -317,6 +317,12 @@ public class MealController extends FanBaseController {
                 JSONDataUtil jacksonConverter = JSONConvertFactory.getJacksonConverter();
                 String json = jacksonConverter.jsonfromObject(select);
                 dishes.setMultiStyle(json);
+
+                if(null != dishes.getIsSuite() && dishes.getIsSuite().equals(1)){
+                    List<SuiteItem> itemList = dishes.getSuiteItems();
+                    String items = jacksonConverter.jsonfromObject(itemList);
+                    dishes.setSuiteData(items);
+                }
             }
             category.setDishesList(list);
         }
@@ -551,6 +557,24 @@ public class MealController extends FanBaseController {
 
 
         ResultData resultData = new ResultData();
+        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
+        resultData.setMessage("操作成功");
+        return resultData;
+    }
+
+
+    /**
+     * 同步套餐信息
+     * @param restId
+     * @return
+     */
+    @RequestMapping("/oauth/meal/syncDishesSuite")
+    @ResponseBody
+    public ResultData syncDishesSuite(String restId){
+        ResultData resultData = new ResultData();
+        Restaurant restaurant = restaurantService.getById(restId);
+        List<Dishes> list = dishesService.syncSuite(restaurant);
+        resultData.setData(list);
         resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
         resultData.setMessage("操作成功");
         return resultData;

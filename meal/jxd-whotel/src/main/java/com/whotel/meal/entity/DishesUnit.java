@@ -4,7 +4,7 @@ import com.whotel.common.entity.BaseEntity;
 import org.mongodb.morphia.annotations.Entity;
 
 /**
- * 菜的做法
+ *
  * Created by limingan on 2017/4/24.
  */
 @Entity(noClassnameStored=true)
