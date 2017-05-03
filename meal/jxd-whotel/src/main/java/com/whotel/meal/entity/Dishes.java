@@ -1,8 +1,10 @@
 package com.whotel.meal.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 
 import com.whotel.common.entity.UnDeletedEntity;
@@ -66,7 +68,29 @@ public class Dishes extends UnDeletedEntity {
 	private Float marketPrice;//市场价
 	
 	private String shuffleNo;//市别id
-	
+
+	private String multiStyle;//规格列表
+
+	private Integer isMultiStyle;//是否多规格
+
+	private Integer isSet;//是否套餐
+
+	public Integer getIsMultiStyle() {
+		return isMultiStyle;
+	}
+
+	public void setIsMultiStyle(Integer isMultiStyle) {
+		this.isMultiStyle = isMultiStyle;
+	}
+
+	public Integer getIsSet() {
+		return isSet;
+	}
+
+	public void setIsSet(Integer isSet) {
+		this.isSet = isSet;
+	}
+
 	public String getDishno1() {
 		return dishno1;
 	}
@@ -288,5 +312,13 @@ public class Dishes extends UnDeletedEntity {
 			}
 		}
 		return name;
+	}
+
+	public String getMultiStyle() {
+		return multiStyle;
+	}
+
+	public void setMultiStyle(String multiStyle) {
+		this.multiStyle = multiStyle;
 	}
 }

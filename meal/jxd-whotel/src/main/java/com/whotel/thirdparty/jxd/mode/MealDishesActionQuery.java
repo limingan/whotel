@@ -2,13 +2,15 @@ package com.whotel.thirdparty.jxd.mode;
 
 import com.whotel.thirdparty.jxd.util.AbstractInputParam;
 
-public class MealDishesPracticeQuery extends AbstractInputParam {
+public class MealDishesActionQuery extends AbstractInputParam {
 	
 	private String opType = "餐饮食品作法查询";
 	
 	private String hotelCode;//酒店代码
 	
-	private String beginDate;//分厅编码
+	private String lastQueryTime;//
+
+	private String refeNo;
 
 	public String getOpType() {
 		return opType;
@@ -26,12 +28,20 @@ public class MealDishesPracticeQuery extends AbstractInputParam {
 		this.hotelCode = hotelCode;
 	}
 
-	public String getBeginDate() {
-		return beginDate;
+	public String getLastQueryTime() {
+		return lastQueryTime;
 	}
 
-	public void setBeginDate(String beginDate) {
-		this.beginDate = beginDate;
+	public void setLastQueryTime(String lastQueryTime) {
+		this.lastQueryTime = lastQueryTime;
+	}
+
+	public String getRefeNo() {
+		return refeNo;
+	}
+
+	public void setRefeNo(String refeNo) {
+		this.refeNo = refeNo;
 	}
 
 	@Override

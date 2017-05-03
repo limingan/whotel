@@ -2,6 +2,9 @@ package com.whotel.meal.controller;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gson.JsonObject;
+import com.weixin.core.api.TokenManager;
+import com.weixin.core.common.AccessToken;
 import com.whotel.card.entity.Member;
 import com.whotel.card.service.MemberTradeService;
 import com.whotel.common.base.Constants;
@@ -14,7 +17,11 @@ import com.whotel.common.enums.TradeStatus;
 import com.whotel.common.util.BeanUtil;
 import com.whotel.common.util.DateUtil;
 import com.whotel.company.entity.Company;
+import com.whotel.company.entity.PublicNo;
 import com.whotel.company.enums.ModuleType;
+import com.whotel.ext.json.JSONConvertFactory;
+import com.whotel.ext.json.JSONDataUtil;
+import com.whotel.ext.json.JSONDataUtilByJackson;
 import com.whotel.front.controller.FanBaseController;
 import com.whotel.front.entity.PayOrder;
 import com.whotel.front.entity.WeixinFan;
@@ -22,6 +29,7 @@ import com.whotel.hotel.entity.Hotel;
 import com.whotel.hotel.service.HotelService;
 import com.whotel.meal.controller.req.ListHotelReq;
 import com.whotel.meal.controller.req.ListRestaurantReq;
+import com.whotel.meal.controller.req.LoginParam;
 import com.whotel.meal.controller.req.PageOrderReq;
 import com.whotel.meal.entity.*;
 import com.whotel.meal.enums.MealOrderStatus;
@@ -34,9 +42,15 @@ import com.whotel.thirdparty.jxd.mode.vo.HotelBranchVO;
 import com.whotel.thirdparty.jxd.mode.vo.HotelCityVO;
 import com.whotel.thirdparty.jxd.mode.vo.MemberCouponVO;
 import com.whotel.thirdparty.jxd.mode.vo.MemberVO;
+import com.whotel.webiste.entity.Theme;
+import com.whotel.webiste.service.ThemeService;
 import com.whotel.weixin.bean.Location;
 import com.whotel.weixin.service.LocationService;
 import com.whotel.weixin.service.WeixinMessageService;
+import net.sf.json.JSON;
+import net.sf.json.JSONObject;
+import net.sf.json.util.JSONUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +59,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
@@ -82,8 +97,40 @@ public class MealController extends FanBaseController {
     private DishesService dishesService;
 
     @Autowired
-    private DishesPracticeService dishesPracticeService;
+    private DishesActionService dishesActionService;
 
+    @Autowired
+    private ThemeService themeService;
+
+
+    @RequestMapping("/oauth/meal/login")
+    public String login(HttpServletRequest req, LoginParam param) {
+        HttpSession session = req.getSession();
+
+        String companyId = param.getCompanyId();
+        PublicNo publicNo = publicNoService.getPublicNoByCompanyId(companyId);
+        AccessToken token = TokenManager.getAccessToken(publicNo.getAppId(), publicNo.getAppSecret(), param.getCode());
+        String openId = token.getOpenid();
+
+        Company company = companyService.getCompanyById(companyId);
+        Theme theme = themeService.getEnableTheme(companyId);
+
+        session.setAttribute(Constants.Session.WEIXINFAN_LOGIN_COMPANYID, companyId);
+        session.removeAttribute(Constants.Session.WEIXINFAN_LOGIN_OPENID);
+        session.setAttribute(Constants.Session.THEME, company.getTheme());
+        session.setAttribute(Constants.Session.WEIXINFAN_LOGIN_COMPANYNAME, company.getName());
+        session.setAttribute(Constants.Session.COMPANY_THEME, theme);
+        session.setAttribute(Constants.Session.WEIXINFAN_LOGIN_OPENID, openId);
+
+        Member member = memberService.getMemberByOpendId(openId);
+        if(null == member){
+            member = new Member();
+            member.setOpenId(openId);
+            member.setCompanyId(companyId);
+            memberService.saveMember(member);
+        }
+        return "redirect:/oauth/meal/list.do";
+    }
 
 
     /**
@@ -253,6 +300,24 @@ public class MealController extends FanBaseController {
         List<DishesCategory> cateList = dishesCategoryService.getByRestaurant(restaurant);
         for(DishesCategory category :cateList){
             List<Dishes> list = dishesService.getByCate(category);
+            for(Dishes dishes:list){
+                List<Map<String,Object>> select = Lists.newArrayList();
+                List<DishesAction> actionList = dishesActionService.getByDishes(dishes);
+                if(CollectionUtils.isNotEmpty(actionList)){
+                    Map<String,Object> actionMap = Maps.newHashMap();
+                    actionMap.put("id","action");
+                    actionMap.put("name","做法");
+                    actionMap.put("data",actionList);
+                    dishes.setIsMultiStyle(1);
+
+                    select.add(actionMap);
+                }else{
+                    dishes.setIsMultiStyle(0);
+                }
+                JSONDataUtil jacksonConverter = JSONConvertFactory.getJacksonConverter();
+                String json = jacksonConverter.jsonfromObject(select);
+                dishes.setMultiStyle(json);
+            }
             category.setDishesList(list);
         }
 
@@ -331,8 +396,6 @@ public class MealController extends FanBaseController {
         req.setAttribute("order", mealOrder);
         req.setAttribute("rest", restaurant);
         req.setAttribute("hotel",hotel);
-
-        List<DishesPractice> list = dishesPracticeService.getDishesPractices(hotel);
         return "meal/webPage/orderdetail";
     }
 
@@ -400,8 +463,98 @@ public class MealController extends FanBaseController {
         return "/meal/webPage/restaurantDetail";
     }
 
+    @RequestMapping("/oauth/meal/menu")
+    public String menu(HttpServletRequest req){
+        Cookie cookie = getCookieByName(req, "dishList");
+        return "/meal/webPage/menu";
+    }
+
+    /**
+     * 根据名字获取cookie
+     * @param request
+     * @param name cookie名字
+     * @return
+     */
+    public  Cookie getCookieByName(HttpServletRequest request,String name){
+        Map<String,Cookie> cookieMap = ReadCookieMap(request);
+        if(cookieMap.containsKey(name)){
+            Cookie cookie = (Cookie)cookieMap.get(name);
+            return cookie;
+        }else{
+            return null;
+        }
+    }
 
 
+
+    /**
+     * 将cookie封装到Map里面
+     * @param request
+     * @return
+     */
+    private  Map<String,Cookie> ReadCookieMap(HttpServletRequest request){
+        Map<String,Cookie> cookieMap = new HashMap<String,Cookie>();
+        Cookie[] cookies = request.getCookies();
+        if(null!=cookies){
+            for(Cookie cookie : cookies){
+                cookieMap.put(cookie.getName(), cookie);
+            }
+        }
+        return cookieMap;
+    }
+
+    @RequestMapping("/oauth/meal/syncDishesAction")
+    @ResponseBody
+    public ResultData syncDishesAction(String hotelId){
+        ResultData resultData = new ResultData();
+        Hotel hotel = hotelService.getHotelById(hotelId);
+        List<DishesAction> actionList = dishesActionService.getDishesAction(hotel);
+        dishesActionService.saveDishesAction(actionList);
+
+        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
+        resultData.setMessage("操作成功");
+        return resultData;
+    }
+
+
+    @RequestMapping("/oauth/meal/getDishList")
+    @ResponseBody
+    public ResultData getDishList(HttpServletRequest req){
+        ResultData resultData = new ResultData();
+        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
+        resultData.setMessage("操作成功");
+        return resultData;
+    }
+
+    @RequestMapping("/oauth/meal/updateDishNumOfCategory")
+    @ResponseBody
+    public ResultData updateDishNumOfCategory(HttpServletRequest req){
+        ResultData resultData = new ResultData();
+        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
+        resultData.setMessage("操作成功");
+        return resultData;
+    }
+
+    @RequestMapping("/oauth/meal/removeDishNumOfCategory")
+    @ResponseBody
+    public ResultData removeDishNumOfCategory (HttpServletRequest req){
+        ResultData resultData = new ResultData();
+        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
+        resultData.setMessage("操作成功");
+        return resultData;
+    }
+
+    @RequestMapping("/oauth/meal/getDishNumOfCategory")
+    @ResponseBody
+    public ResultData getDishNumOfCategory (HttpServletRequest req){
+        Cookie[] cookies = req.getCookies();
+
+
+        ResultData resultData = new ResultData();
+        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
+        resultData.setMessage("操作成功");
+        return resultData;
+    }
 
 
     /**---------------------------------------------------*/

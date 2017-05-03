@@ -225,7 +225,7 @@
                 <c:forEach items="${cateList}" var="cate">
                     <div id="${cate.dishNo}">${cate.dishName}</div>
                     <c:forEach items="${cate.dishesList}" var="dish">
-                        <dl dunitname="${dish.unit}" dsubcount="123" dishid="${dish.id}" dname="${dishName}" dtaste="口味" ddescribe="${dish.brief}" dmarkNum="45" dprice="${dish.marketPrice}" dishot="2" dspecialprice="${dish.price}" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+                        <dl isMultiStyle="${dish.isMultiStyle}" multiStyle=${dish.multiStyle} dunitname="${dish.unit}" dsubcount="123" dishid="${dish.id}" dname="${dishName}" dtaste="口味" ddescribe="${dish.brief}" dmarkNum="45" dprice="${dish.price}" dishot="2" dspecialprice="${dish.price}" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                             <dt><h3>鱼鱼</h3></dt>
 
                             <dd>
@@ -269,7 +269,6 @@
  <div id="popContent"></div>
 </div>
 <jsp:include page="_header.jsp"/>
-<jsp:include page="footer.jsp"/>
 <style>
  .popupWindow{
   width:100%;
@@ -521,7 +520,7 @@
 	   });
 	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button addToList" src="/static/images/dish_addMenu.png"/>';
+	   html += '<img class="bottomright-button addToList" src="/static/meal/images/dish_addMenu.png"/>';
 	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
 	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(multiStyleTemplate.format(dishName,html))
@@ -581,12 +580,11 @@
 	  $('.navOption').find('dd[categoryid='+i+']').children('span').css('display','inline-block').text(categoryList[i]);
 	 }
 	 // set cookies
-	 
 	 document.cookie = "categoryList="+JSON.stringify(categoryList);
-	 document.cookie = "dishList="+JSON.stringify(dishList);
+	 document.cookie = "dishList="+String(JSON.stringify(dishList));
 	 document.cookie = "totalCount="+totalcount;
 	 document.cookie = "totalPrice="+totalprice;
-
+     
      try{
 	 _q("#totalprice").value = totalprice;
 	 _q("#totalpriceshow").innerHTML = totalprice;
@@ -594,6 +592,7 @@
 	 _q("#totalcountshow").innerHTML = totalcount;
 	 }
 	 catch(e){;}
+	 changeBtnSelect();
 	}
 	
 	
@@ -1049,7 +1048,7 @@
     function getDishNumOfCategory() {
         var params = {
         };
-        _doAjax("{php echo $this->createMobileUrl('GetDishNumOfCategory', array('storeid' => $storeid, 'from_user' => $from_user), true)}", 'POST', params, function(ret) {
+        _doAjax("/oauth/meal/getDishNumOfCategory.do", 'POST', params, function(ret) {
             for(var i in ret.message.data) {
                 var val = ret['message']['data'][i];
                 if (val > 0) {

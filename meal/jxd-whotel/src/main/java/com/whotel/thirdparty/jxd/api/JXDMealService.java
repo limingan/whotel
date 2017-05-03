@@ -2,6 +2,7 @@ package com.whotel.thirdparty.jxd.api;
 
 import java.util.List;
 
+import com.whotel.hotel.entity.Hotel;
 import com.whotel.meal.entity.*;
 import com.whotel.thirdparty.jxd.mode.*;
 import org.apache.log4j.Logger;
@@ -137,21 +138,21 @@ public class JXDMealService {
 	/**
 	 * 查询做法列表
 	 * @param query
-	 * @param mealUrl
+	 * @param hotel
 	 * @return
 	 * @throws Exception
 	 */
-	public List<DishesPractice> loadDishesPractice(MealDishesPracticeQuery query,String mealUrl) throws Exception{
+	public List<DishesAction> loadDishesAction(MealDishesActionQuery query,Hotel hotel) throws Exception{
 		String param = JxdXmlUtils.toXml(query);
 		if(log.isDebugEnabled()) {
 			log.debug("param: \n" + param);
 		}
 		// 请求接口并获得响应
-		List<DishesPractice> dishesCategoryList = null;
-		Response res = HttpHelper.connect(mealUrl).header("Content-Type",
+		List<DishesAction> dishesCategoryList = null;
+		Response res = HttpHelper.connect(hotel.getMealUrl()).header("Content-Type",
 				"text/xml").timeout(JXDConstants.TIMEOUT).post(param);
 		ApiXmlVoParser.checkReturnContent(res);
-		dishesCategoryList = ApiXmlVoParser.parseDishesPracticeList(res.html(), res.charset());
+		dishesCategoryList = ApiXmlVoParser.parseDishesActionList(res.html(), res.charset(), hotel);
 		return dishesCategoryList;
 	}
 }

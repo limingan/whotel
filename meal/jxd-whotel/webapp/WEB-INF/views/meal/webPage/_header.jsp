@@ -118,7 +118,7 @@ function changeBtnSelect() {
     }
 }
 function btnSelectJump() {
-    var url = "{$jump_url}";
+    var url = "/oauth/meal/menu.do";
     var status = _q("#btnstatus").value;
     if (status == 1) {
         location.href= url;

@@ -49,6 +49,7 @@ public class OauthAccessFilter implements Filter{
 		publicNoService = SpringContextHolder.getBean(PublicNoService.class);
 		companyService = SpringContextHolder.getBean(CompanyService.class);
 		themeService = SpringContextHolder.getBean(ThemeService.class);
+		ignoreLoginURI.add("/oauth/meal/login.do");
 	}
 
 	@Override
@@ -68,9 +69,12 @@ public class OauthAccessFilter implements Filter{
 		String wxid = req.getParameter("wxid");
 		String comid = req.getParameter("comid");
 		String oauth2 = req.getParameter("oauth2");
-		
-		comid = "55e65986cb0d7463a708d003";
-		wxid = "oLI_KjsR4DUKt9gp-m8jYrJyggZQ";
+		if(StringUtils.isEmpty(comid)){
+			comid = "55e65986cb0d7463a708d003";
+		}
+		if(StringUtils.isEmpty(wxid)){
+			wxid = "oLI_KjsR4DUKt9gp-m8jYrJyggZQ";
+		}
 		
 		String companyId = (String) session.getAttribute(Constants.Session.WEIXINFAN_LOGIN_COMPANYID);
 		String openId = (String) session.getAttribute(Constants.Session.WEIXINFAN_LOGIN_OPENID);
