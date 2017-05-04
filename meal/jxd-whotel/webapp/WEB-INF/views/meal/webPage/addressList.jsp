@@ -334,7 +334,7 @@
                         <li style="height:55px;line-height:30px">
 
                             <img src="/static/meal/images/icon_add.png" style="margin-top:-5px;height:14px;width:12px"/>
-                            <span style="margin-left:5px;height:20px;font-size:16px">${guest.address}</span>
+                            <span style="margin-left:5px;height:20px;font-size:14px">${guest.address}</span>
                             <c:if test="${guest.isDefault == 1}"><span style="color:orange">（默认）</span></c:if>
                             <div style="margin-left:25px;color:#999">
                                 <span>${guest.name}</span>
@@ -344,20 +344,20 @@
                             <c:if test="${guest.isDefault != 1}">
                                 <h2>
                                     <button guestId="${guest.id}" class="btn_add btn_setdefault"
-                                            style="position:absolute;left:50%;top:40%;background-color:#00aa00"
+                                            style="position:absolute;left:40%;top:40%;background-color:#00aa00"
                                             onclick="location.href='">设为默认
                                     </button>
                                 </h2>
                             </c:if>
                             <h2>
                                 <button guestId="${guest.id}" class="btn_add"
-                                        style="position:absolute;left:65%;top:40%;background-color:orange"
+                                        style="position:absolute;left:60%;top:40%;background-color:orange"
                                         onclick="location.href='/oauth/meal/editAddr.do?id=${guest.id}'">编辑
                                 </button>
                             </h2>
                             <h2>
                                 <button guestId="${guest.id}" class="btn_add delete-btn"
-                                        style="position:absolute;left:80%;top:40%"
+                                        style="position:absolute;left:75%;top:40%"
                                         onclick="location.href='">删除
                                 </button>
                             </h2>
@@ -366,8 +366,10 @@
                     </c:forEach>
                 </ul>
             </div>
+			<div style="line-height:30px;height:30px;width:98%;margin:20px 15px;background-color:#F03C03;text-align:center;font-size:18px;">
+			   <a href="/oauth/meal/editAddr.do" style="color:white;">新增</a>
+			</div>
         </article>
-        <a href="/oauth/meal/editAddr.do">新增</a>
     </section>
 </div>
 

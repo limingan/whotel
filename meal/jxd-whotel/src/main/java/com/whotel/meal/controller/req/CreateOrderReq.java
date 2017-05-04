@@ -1,6 +1,7 @@
 package com.whotel.meal.controller.req;
 
 import com.whotel.meal.entity.MealOrderItem;
+import com.whotel.meal.enums.MealOrderType;
 
 import java.util.List;
 
@@ -20,6 +21,16 @@ public class CreateOrderReq {
     private String remark;
 
     private Integer guestNum;
+
+    private MealOrderType mealOrderType;
+
+    public MealOrderType getMealOrderType() {
+        return mealOrderType;
+    }
+
+    public void setMealOrderType(MealOrderType mealOrderType) {
+        this.mealOrderType = mealOrderType;
+    }
 
     public String getAddressId() {
         return addressId;

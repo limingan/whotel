@@ -343,114 +343,91 @@
                 <button class="btn_add" onclick="location.href='">+继续点菜</button>
             </h2>
             <ul class="myorder" id="myorder">
-           
-                <li>
-				    <section class="bbox" style="left:-40px;top:10px" dishid="1" dishname="情侣套餐"> 
-				    <input class="btn-reduce" style="margin-top:5px" type="button" value="-">
-					<input class="numBox" name="numBox" type="hidden" value="1" price="53" disabled="disabled">
-					<input class="setData" type="hidden" value="[[{'id':1,'name':'菜菜菜菜1'},{'id':2,'name':'菜菜菜2'},{'id':3,'name':'菜菜菜菜3'}],
-				          [{'id':4,'name':'菜菜菜菜4'},{'id':5,'name':'菜菜菜5'},{'id':6,'name':'菜菜菜菜6'}],
-						  [{'id':7,'name':'菜菜菜菜7'},{'id':6,'name':'菜菜菜8'},{'id':9,'name':'菜菜菜菜9'}]]" />
-
-                    <input type="hidden" class="btn-plus" value="+"> 		
-					</section>
-					<div style="display:inline;position:absolute;left:50px">
-                    <span class="dishName">情侣套餐</span>
-                    <div>
-                    <i>53元/份</i>
-					</div>
-					</div>
-                    <h2><button class="btn_add" style="position:absolute;right:10%;top:30%"onclick="location.href='">编辑</button></h2>
-                    
-                </li>
-				<li>
-				    <section class="bbox" style="left:-40px;top:10px" dishid="1" dishname="多规格菜品"> 
-				    <input class="btn-reduce" style="margin-top:5px" type="button" value="-">
-					<input class="numBox" name="numBox" type="hidden" value="1" price="53" disabled="disabled">
-					<input class="styleData" type="hidden" value="[{'id':1,'name':'规格',data:[{'id':1,'name':'小份'},{'id':2,'name':'大份'}] },
-				{'id':2,'name':'做法',data:[{'id':1,'name':'清蒸'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
-				                            ,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
-											,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
-											,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
-											] },
-                {'id':3,'name':'其它',data:[{'id':1,'name':'少辣'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
-				                            ,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
-											,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
-											,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
-											] }											
-				]" />
-
-                    <input type="hidden" class="btn-plus" value="+"> 		
-					</section>
-					<div style="display:inline;position:absolute;left:50px">
-                    <span class="dishName">多规格菜品</span>
-                    <div>
-                    <i>53元/份</i>
-					</div>
-					</div>
-                    <h2><button class="btn_add" style="position:absolute;right:10%;top:30%"onclick="location.href='">编辑</button></h2>
-                    
-                </li>
-				<li>
-				    <section class="bbox" style="left:-40px;top:10px" dishid="1" dishname="糖醋里脊"> 
-				    <input class="btn-reduce" style="margin-top:5px" type="button" value="-">
-					<input class="numBox" name="numBox" type="hidden" value="1" price="10" disabled="disabled">
-                    <input type="hidden" class="btn-plus" value="+"> 		
-					</section>
-					<div style="display:inline;position:absolute;left:50px">
-                    <span class="dishName" >糖醋里脊</span>
-                    <div >
-                    <i>10元/份</i>
-                    </div>
-					</div>
-					
-
-                </li>
-               <li>
-				    <section class="bbox" style="left:-40px;top:10px" dishid="1" dishname="菜品1"> 
-				    <input class="btn-reduce" style="margin-top:5px" type="button" value="-">
-					<input class="numBox" name="numBox" type="hidden" value="1" price="10" disabled="disabled">
-                    <input type="hidden" class="btn-plus" value="+"> 		
-					</section>
-					<div style="display:inline;position:absolute;left:50px">
-                    <span class="dishName" >菜品1</span>
-                    <div >
-                    <i>10元/份</i>
-                    </div>
-					</div>
-					
-
-                </li>
-				<li>
-				    <section class="bbox" style="left:-40px;top:10px" dishid="1" dishname="菜品2"> 
-				    <input class="btn-reduce" style="margin-top:5px" type="button" value="-">
-					<input class="numBox" name="numBox" type="hidden" value="1" price="10" disabled="disabled">
-                    <input type="hidden" class="btn-plus" value="+"> 		
-					</section>
-					<div style="display:inline;position:absolute;left:50px">
-                    <span class="dishName" >菜品2</span>
-                    <div >
-                    <i>10元/份</i>
-                    </div>
-					</div>
-					
-
-                </li>
-				<li>
-				    <section class="bbox" style="left:-40px;top:10px" dishid="1" dishname="菜品3"> 
-				    <input class="btn-reduce" style="margin-top:5px" type="button" value="-">
-					<input class="numBox" name="numBox" type="hidden" value="1" price="10" disabled="disabled">
-                    <input type="hidden" class="btn-plus" value="+"> 		
-					</section>
-					<div style="display:inline;position:absolute;left:50px">
-                    <span class="dishName" >菜品3</span>
-                    <div >
-                    <i>10元/份</i>
-                    </div>
-					</div>
-					
-
-                </li>
+                <script>
+				String.prototype.format = function (args) {
+                var result = this;
+                if (arguments.length > 0) {
+                    if (arguments.length == 1 && typeof (args) == "object") {
+                        for (var key in args) {
+                            if (args[key] != undefined) {
+                                var reg = new RegExp("({" + key + "})", "g");
+                                result = result.replace(reg, args[key]);
+                            }
+                        }
+                    } else {
+                        for (var i = 0; i < arguments.length; i++) {
+                            if (arguments[i] != undefined) {
+                                var reg = new RegExp("({)" + i + "(})", "g");
+                                result = result.replace(reg, arguments[i]);
+                            }
+                        }
+                    }
+                }
+                return result;
+            }
+               	function get_cookie(Name) {
+                  var search = Name + "="//查询检索的值
+                  var returnvalue = "";//返回值
+                  if (document.cookie.length > 0) {
+                    sd = document.cookie.indexOf(search);
+                    if (sd!= -1) {
+                       sd += search.length;
+                       end = document.cookie.indexOf(";", sd);
+                       if (end == -1)
+                        end = document.cookie.length;
+                        //unescape() 函数可对通过 escape() 编码的字符串进行解码。
+                       returnvalue=unescape(document.cookie.substring(sd, end))
+                     }
+                  } 
+                  return returnvalue;
+                 }
+				  var dishList = get_cookie('dishList');
+				  dishList = eval('('+dishList+')');
+				  for(var i=0;i<dishList.length;i++)
+				  {
+				   var dishId = Object.keys(dishList[i])[0];
+				   var dishInfo = eval('('+ localStorage.getItem(dishId) + ')');
+				   document.write('<li>');
+				   
+				   
+				   
+				   switch(dishInfo['style'])
+				   {
+				     case 'set':document.write('<section class="bbox" style="left:-40px;top:10px" dishid="{0}" dishname="{1}">'.format(dishId,dishInfo['name']));
+					            document.write('<input class="btn-reduce" style="margin-top:5px" type="button" value="-">');
+					            document.write('<input class="numBox" name="numBox" type="hidden" value="1" price="{0}" disabled="disabled">'.format(dishInfo['price']));
+								document.write('<input class="setData" type="hidden" value="{0}" />'.format(dishInfo['data']));
+								document.write('</section>');
+								document.write('<div style="display:inline;position:absolute;left:50px">');
+								document.write('<span class="dishName">{0}</span>'.format(dishInfo['name']));
+								document.write('<div><i>{0}元/{1}</i></div></div>'.format(dishInfo['price'],dishInfo['unit']));
+								document.write('<h2><button class="btn_add editStyle" style="position:absolute;right:10%;top:30%" onclick=";">编辑</button></h2>');
+					            break;
+					 case 'multi':document.write('<section class="bbox" style="left:-40px;top:10px" dishid="{0}" dishname="{1}">'.format(dishId,dishInfo['name']));
+					              document.write('<input class="btn-reduce" style="margin-top:5px" type="button" value="-">');
+					              document.write('<input class="numBox" name="numBox" type="hidden" value="1" price="{0}" disabled="disabled">'.format(dishInfo['price']));
+								  document.write('<input class="styleData" type="hidden" value="{0}" />'.format(dishInfo['data']));
+								  document.write('</section>');
+								  document.write('<div style="display:inline;position:absolute;left:50px">');
+								  document.write('<span class="dishName">{0}</span>'.format(dishInfo['name']));
+								  document.write('<div><i>{0}元/{1}</i></div></div>'.format(dishInfo['price'],dishInfo['unit']));
+								  document.write('<h2><button class="btn_add editStyle" style="position:absolute;right:10%;top:30%"onclick=";">编辑</button></h2>');
+					              break;
+					 case 'normal':
+					              document.write('<span class="dishName">{0}</span>'.format(dishInfo['name']));
+								  document.write('<i>{0}元/{1}</i>'.format(dishInfo['price'],dishInfo['unit']));
+								  document.write('<section class="bbox"  dishid="{0}" dishname="{1}">'.format(dishId,dishInfo['name']));
+					              document.write('<input class="btn-reduce"  type="button" value="-">');
+					              document.write('<input class="numBox" type="text" name="numBox" value="{1}" price="{0}" disabled="disabled">'.format(dishInfo['price'],dishList[i][dishId]));
+								  document.write('<input type="button" class="btn-plus" value="+"></section>');
+								  break;
+								  
+				   }
+				   document.write('</li>');
+				   }
+				  
+				</script>
+               
             </ul>
         </article>
     </section>
@@ -639,8 +616,16 @@
 var reduce = _qAll('.btn-reduce');
 var plus = _qAll('.btn-plus');
 var share = _qAll('.shareBtn');
+var editStyle = _qAll('.editStyle');
 //金额累加操作
+function bindEditEvent()
+{
+ var len = editStyle.length;
+ for( var j = 0; j < len; j++){
+ 
+ }
 
+}
 function tototal(){
     var total = 0;
     var nums = _qAll('.numBox');

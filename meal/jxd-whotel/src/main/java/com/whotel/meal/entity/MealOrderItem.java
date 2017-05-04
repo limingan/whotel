@@ -30,6 +30,8 @@ public class MealOrderItem extends AbstractInputParam {
 
 	private Integer isSuite;//是否套餐
 
+	private String actionId;//做法Id
+
 	public Integer getIsSuite() {
 		return isSuite;
 	}
@@ -116,6 +118,14 @@ public class MealOrderItem extends AbstractInputParam {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getActionId() {
+		return actionId;
+	}
+
+	public void setActionId(String actionId) {
+		this.actionId = actionId;
 	}
 
 	@Override

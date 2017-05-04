@@ -169,10 +169,10 @@
 
 
 <div class="shopInfoList ">
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >月售 ${monthSale} 份</span></div>
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.businessTime}</span></div>
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.address}</span></div>
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.tel}</span><a href="javascript:void(0);"><i class="fa fa-angle-right"></i></a></div>
+ <div style="line-height: 30px;height: 30px;"><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >月售 ${monthSale} 份</span></div>
+ <div style="line-height: 30px;height: 30px;"><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.businessTime}</span></div>
+ <div style="line-height: 30px;height: 30px;"><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.address}</span></div>
+ <div style="line-height: 30px;height: 30px;"><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >${rest.tel}</span><a href="javascript:void(0);"><i class="fa fa-angle-right"></i></a></div>
 </div>
 <div class="mModal" style="z-index: 900;height:100%;display:none"><a href="javascript:void(0)" style="height: 736px;"></a></div>
 <div class="popupWindow" style="z-index:9999;display:none">

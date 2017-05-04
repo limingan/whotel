@@ -29,6 +29,7 @@ import com.whotel.hotel.service.HotelService;
 import com.whotel.meal.controller.req.*;
 import com.whotel.meal.entity.*;
 import com.whotel.meal.enums.MealOrderStatus;
+import com.whotel.meal.enums.MealOrderType;
 import com.whotel.meal.enums.MealType;
 import com.whotel.meal.service.*;
 import com.whotel.thirdparty.jxd.mode.HotelBranchQuery;
@@ -778,6 +779,7 @@ public class MealController extends FanBaseController {
         String companyId = getCurrentCompanyId(req);
         param.setCompanyId(companyId);
         param.setOpenId(openId);
+        param.setMealOrderType(MealOrderType.OUT);
 
         MealOrder mealOrder = mealOrderService.createMealOrder(param);
         ResultData resultData = new ResultData();

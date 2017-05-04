@@ -408,7 +408,7 @@
             <ul class="myorder" id="myorder">
 
                 <c:forEach items="${list}" var="item">
-                    <li class="dish" id="${item.dishesId}" name="${item.isSuite}">
+                    <li class="dish" id="${item.dishesId}" name="${item.isSuite}" price="${item.itemPrice}">
                         <span class="dishName">${item.name}</span>
 
                         <i>${item.itemPrice}元/${item.unit}</i>
@@ -619,9 +619,15 @@
         }
     </style>
     <div class="header">
-        <input type="hidden" id="packprice" value="5.3" name="packprice">
-        <input type="hidden" id="discount" value="2.0" name="discount">
-        <input type="hidden" id="totalprice" value="${totalPrice}" name="totalprice">
+        <c:if test="${!empty hotel.deliverPrice}">
+            <input type="hidden" id="deliverPrice" value="${hotel.deliverPrice}" name="deliverPrice">
+        </c:if>
+        <c:if test="${empty hotel.deliverPrice}">
+            <input type="hidden" id="deliverPrice" value="0.0" name="deliverPrice">
+        </c:if>
+        <input type="hidden" id="packprice" value="0.0" name="packprice">
+        <input type="hidden" id="discount" value="0.0" name="discount">
+        <input type="hidden" id="totalprice" value="{$totalPrice}" name="totalprice">
         <input type="hidden" id="totalcount" value="{$totalcount}" name="totalcount">
         <input type="hidden" id="limitprice" value="{$limitprice}" name="limitprice">
         <input type="hidden" id="over_radius" value="{$over_radius}" name="over_radius">
@@ -678,13 +684,13 @@
     "{if $flag != true}"
     function tototal() {
         var total = 0;
-        var nums = _qAll('.numBox');
-        var packprice = _qAll('#packprice')[0].value;
+        var nums = $("#myorder li.dish .numBox");
+        var deliverPrice = _qAll('#deliverPrice')[0].value;
         var discount = _qAll('#discount')[0].value;
         for (var j = 0; j < nums.length; j++) {
             total = total + nums[j].value * nums[j].getAttribute('price');
         }
-        endTotal = parseFloat(total).toFixed(2) * 100 / 100 + parseFloat(packprice - discount);
+        endTotal = parseFloat(total).toFixed(2) * 100 / 100 + parseFloat(deliverPrice - discount);
         // endTotal = endTotal == parseInt(endTotal) ? parseInt(endTotal) : endTotal;
         _q('#totalprice').value = endTotal;
         _q("#totalpriceshow").innerHTML = endTotal;
@@ -942,8 +948,20 @@
         return true;
     }
 
+    function outCheck(){
+        if ($("#addressId").val() == "") {
+            alert("请输入您的联系地址！");
+            return false;
+        }
+        if ($("#guestNum").val() == "") {
+            alert("请输入您的用餐人数！");
+            return false;
+        }
+    }
+
     function postmain() {
         var status = _q("#btnstatus").value;
+        outCheck();
         var ordertype = $("#mode").val();
         var mealtime = $("#meal_date").val() + ' ' + $("#meal_time").val();
         if ($("#meal_date").val() == undefined) {
@@ -990,9 +1008,6 @@
             data.remark = $("#remark").val();
             data.guestNum = $("#guestNum").val();
             data.list = mydish
-            alert(JSON.stringify(data));
-
-
             $.ajax({
                 url: "/oauth/meal/createOrder.do", type: "post", dataType: "json", timeout: "10000",
                 data: {
@@ -1000,7 +1015,8 @@
                 },
                 success: function (data) {
                     if (data.code == 200) {
-                        location.href = '/oauth/meal/getAddrList.do';
+                        var orderId = data.data;
+                        location.href = '/oauth/meal/orderDetail.do?orderId='+orderId;
                     } else {
                         alert(data.message);
                     }

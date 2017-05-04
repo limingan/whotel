@@ -411,29 +411,37 @@
 	 var isMultiStyle = parentDl.getAttribute('isMultiStyle'); //是否多规格
 	 var isSet = parentDl.getAttribute('isSet');               //是否套餐
 	 var dishName = parentDl.getAttribute('dname'); 
+	 var dishUnit = parentDl.getAttribute('dunitname'); 
 	 var dishId = parentDl.getAttribute('dishid');
 	 var dishCategoryPage = $(this).parent().parent().prevAll('div').attr('id')
 	 var dishCategory = $('#navBar>dl').find('a[href="#'+dishCategoryPage+'"]').children('dd').attr('categoryId');
 	 var html='';
+	 var localStorageObj = {};
+	 localStorageObj['id'] = dishId;
+	 localStorageObj['price'] = dPrice;
+	 localStorageObj['unit'] = dishUnit;
+	 localStorageObj['name'] = dishName;
 	 if(1 == isSet)
 	 {
+	   localStorageObj['style'] = 'set';
+	   localStorageObj['data'] = parentDl.getAttribute('setData').replace(/[\r\n]/g,"");
 	   var setData = eval('('+ parentDl.getAttribute('setData') + ')');
 	   var setDishLength = setData.length;
-	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="/static/meal/images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="/static/meal/images/right_right_arrow.png">{1}</div>';
+	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="./images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="./images/right_right_arrow.png">{1}</div>';
 	   
 	   $(setData).each(function(i,n){
 	      var baseHtml = '';
 		  
    	      $(n).each(function(ii,nn){
-		    baseHtml += '<li attrid="{0}">{1}</li>'.format(nn.dishNo,nn.dishName);
+		    baseHtml += '<li attrid="{0}">{1}</li>'.format(nn.id,nn.name);
 		 });
 		 baseHtml = '<ul>{0}</ul>'.format(baseHtml);
 		 
 		 html += setTemplate.format('第'+parseInt(i+1)+'道菜', baseHtml);
 	   });
-	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
+	   html += '<img class="bottom-rmb" src="./images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button addToList" src="/static/meal/images/dish_addMenu.png"/>';
+	   html += '<img class="bottomright-button addToList" src="./images/dish_addMenu.png"/>';
 	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
 	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(html);
@@ -505,6 +513,8 @@
 	 }
 	 else if(1 == isMultiStyle)
 	 {
+	   localStorageObj['style'] = 'multi';
+	   localStorageObj['data'] = parentDl.getAttribute('multiStyle').replace(/[\r\n]/g,"");
 	   var multiStyleTemplate = '<div class="multiStyle"><div class="stitle"><span>{0}</span></div>{1}</div>';
 	   var multiStyleBaseTemplate = '<div class="subtitle" attrid="{2}">{0}</div>{1}';
 	   var multiStyle = eval('('+ parentDl.getAttribute('multiStyle') + ')');
@@ -518,9 +528,9 @@
 		 
 		 html += multiStyleBaseTemplate.format(n.name, baseHtml,n.id);
 	   });
-	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
+	   html += '<img class="bottom-rmb" src="./images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button addToList" src="/static/meal/images/dish_addMenu.png"/>';
+	   html += '<img class="bottomright-button addToList" src="./images/dish_addMenu.png"/>';
 	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
 	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(multiStyleTemplate.format(dishName,html))
@@ -547,9 +557,11 @@
 		   totalCount += 1;
 		   totalPrice += parseFloat(dPrice);
 		   allDishCategoryList[dishCategory] = undefined != allDishCategoryList[dishCategory]?allDishCategoryList[dishCategory]+1:1;
+		   
 		   var obj = {};
 		   obj[dishId] = dishStyleList;
 		   allDishObject.push(obj);
+		   
 		   refreshCategoryPrice(allDishCategoryList , allDishObject,totalCount ,totalPrice);
 		   $('.popupWindow .close').click();
 	   })
@@ -563,15 +575,31 @@
 	 }
 	 else //normal dish
 	 {
+	 
+	   localStorageObj['style'] = 'normal';
 	   totalPrice += parseFloat(dPrice);
 	   totalCount += 1;
+	   var isFindDish = false;
+	   for(var i=0;i<allDishObject.length;i++)
+	   {
+	    if(Object.keys(allDishObject[i])[0] == dishId)
+	    {
+	     isFindDish = true;
+	     allDishObject[i][dishId] ++;
+	     break;
+	    }
+	   }
+	   if(false == isFindDish)
+	   {
 	   var obj = {};
 	   obj[dishId] = 1;
 	   allDishObject.push(obj);
+	   }
+	   
 	   allDishCategoryList[dishCategory] = undefined != allDishCategoryList[dishCategory]?allDishCategoryList[dishCategory]+1:1;
 	   refreshCategoryPrice(allDishCategoryList , allDishObject,totalCount ,totalPrice);
 	 }
-	 
+	 localStorage.setItem(dishId,JSON.stringify(localStorageObj));
 	})
 	
 	function refreshCategoryPrice(categoryList,dishList,totalcount,totalprice)
@@ -580,19 +608,21 @@
 	  $('.navOption').find('dd[categoryid='+i+']').children('span').css('display','inline-block').text(categoryList[i]);
 	 }
 	 // set cookies
+	 
 	 document.cookie = "categoryList="+JSON.stringify(categoryList);
-	 document.cookie = "dishList="+String(JSON.stringify(dishList));
+	 document.cookie = "dishList="+JSON.stringify(dishList);
 	 document.cookie = "totalCount="+totalcount;
 	 document.cookie = "totalPrice="+totalprice;
-     
+
      try{
 	 _q("#totalprice").value = totalprice;
 	 _q("#totalpriceshow").innerHTML = totalprice;
 	 _q("#totalcount").value = totalcount;
 	 _q("#totalcountshow").innerHTML = totalcount;
+	 changeBtnSelect();
 	 }
 	 catch(e){;}
-	 changeBtnSelect();
+	 
 	}
 	
 	
@@ -610,7 +640,7 @@
         document.getElementById("navBar").style.height =  cHeight;
         document.getElementById("infoSection").style.height =  cHeight;
     }
-    
+
 
     //点击促发弹层事件
     function showPicInfo(){
