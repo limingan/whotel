@@ -14,9 +14,12 @@ import com.whotel.front.service.PayOrderService;
 import com.whotel.hotel.entity.Hotel;
 import com.whotel.hotel.enums.HotelOrderStatus;
 import com.whotel.hotel.service.HotelService;
+import com.whotel.meal.controller.req.CreateOrderReq;
 import com.whotel.meal.controller.req.PageOrderReq;
 import com.whotel.meal.dao.MealOrderDao;
 import com.whotel.meal.entity.MealOrder;
+import com.whotel.meal.entity.MealOrderItem;
+import com.whotel.meal.entity.Restaurant;
 import com.whotel.meal.enums.MealOrderStatus;
 import com.whotel.thirdparty.jxd.api.JXDMemberService;
 import com.whotel.thirdparty.jxd.api.JXDOrderService;
@@ -321,5 +324,24 @@ public class MealOrderService {
         properties.put("openId", openId);
         properties.put("id", id);
         return mealOrderDao.getByProperties(properties);
+    }
+
+    public MealOrder createMealOrder(CreateOrderReq param){
+        MealOrder mealOrder = new MealOrder();
+        mealOrder.setOpenId(param.getOpenId());
+        mealOrder.setCompanyId(param.getCompanyId());
+
+        String hotelId;
+        String restaurantId;
+        List<MealOrderItem> list = param.getList();
+        for(MealOrderItem mealOrderItem : list){
+            String dishId = mealOrderItem.getDishesId();
+            Integer itemQuantity = mealOrderItem.getItemQuantity();
+
+        }
+
+
+
+        return mealOrder;
     }
 }

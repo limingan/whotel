@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="/static/meal/css/mobiscroll.custom-2.6.2.min.css" media="all">
     <link data-turbolinks-track="true" href="/static/meal/css/font.css?v=1" media="all" rel="stylesheet">
     <script type="text/javascript" src="/static/meal/js/mobiscroll.custom-2.6.2.min.js"></script>
-	<script type="text/javascript" src="/assets/diandanbao/json2.js"></script>
+    <script type="text/javascript" src="/static/meal/js/json2.js"></script>
 
     <style>abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, fieldset, figure, figcaption, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, small, time, video, legend {
         display: block;
@@ -343,15 +343,16 @@
     <section style="margin-bottom: 10px;">
         <article>
             <div>
-                <ul class="myorder" id="myorder">
+                <ul class="myorder" id="addressInfo">
 
                     <li style="height:55px;line-height:30px">
+                        <input type="hidden" id="addressId" value="${guest.id}">
                         <img src="/static/meal/images/icon_add.png" style="margin-top:-5px;height:14px;width:12px"/>
-                        <span style="margin-left:5px;height:20px;font-size:16px">中心工业园二号岗 一栋六楼</span>
+                        <span style="margin-left:5px;height:20px;font-size:16px">${guest.address}</span>
 
                         <div style="margin-left:25px;color:#999">
-                            <span>XXX先生</span>
-                            <span>13312345678</span>
+                            <span>${guest.name}</span>
+                            <span>${guest.mobile}</span>
                         </div>
 
                         <a class="nav-right-item" href="/oauth/meal/getAddrList.do"><i
@@ -362,11 +363,10 @@
                     <li style="height:55px;line-height:30px">
                         <img src="/static/meal/images/icon_timer.png" style="margin-top:-5px;height:14px;width:12px"/>
                         <span style="margin-left:5px;height:20px;font-size:16px">立即配送</span><span
-                            style="margin-left:5px;color:red;font-size:14px">约10:53送达</span>
+                            style="margin-left:5px;color:red;font-size:14px">约${time}送达</span>
 
                         <div style="margin-left:25px;color:#999">
                             <span>商家自配送</span>
-
                         </div>
 
                         <a class="nav-right-item" href="javascript:void(0)" onclick=";"><i
@@ -376,256 +376,263 @@
 
                 </ul>
             </div>
-            <div id="form_dish" target="hide" {if $mode== 1}style="border-top: 1px #e7eaeb solid;margin-top: 10px;" >
-            <table class="table_book">
-                <tbody>
-                <tr>
-                    <td style="width: 80px;">所需餐具：</td>
-                    <td colspan="2">
-                        <input type="tel" id="counts" name="counts" value="" maxlength="3" style="width: 100px;"
-                               placeholder="请填写用餐人数">
-                    </td>
-                </tr>
+            <div id="form_dish" target="hide" {if $mode== 1}style="border-top: 1px #e7eaeb solid;margin-top: 10px;">
+                <table class="table_book">
+                    <tbody>
+                    <tr>
+                        <td style="width: 80px;">所需餐具：</td>
+                        <td colspan="2">
+                            <input type="tel"  id="guestNum" name="guestNum" value="1" maxlength="3" style="width: 100px;" >
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td style="width: 80px; vertical-align: top; line-height: 25px;">备注说明：</td>
-                    <td colspan="2">
+                    <tr>
+                        <td style="width: 80px; vertical-align: top; line-height: 25px;">备注说明：</td>
+                        <td colspan="2">
                         <textarea name="remark" id="remark" style="height: 60px;" maxlength="100"
                                   placeholder="请输入备注(可不填)"></textarea>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-</div>
-</article>
-</section>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+    </section>
 
-<section style="margin-bottom: 10px;">
-    <article>
-        <h2>菜单列表
-            <button class="btn_add emptyIt" id="clearBtn">清空</button>
-            <button class="btn_add" onclick="location.href='#'">+继续点菜</button>
-        </h2>
-        <ul class="myorder" id="myorder">
+    <section style="margin-bottom: 10px;">
+        <article>
+            <h2>菜单列表
+                <button class="btn_add emptyIt" id="clearBtn">清空</button>
+                <button class="btn_add" onclick="location.href='#'">+继续点菜</button>
+            </h2>
+            <ul class="myorder" id="myorder">
 
-            <c:forEach items="${list}" var="item">
-                <li>
-                    <span class="dishName">${item.name}</span>
+                <c:forEach items="${list}" var="item">
+                    <li class="dish" id="${item.dishesId}" name="${item.isSuite}">
+                        <span class="dishName">${item.name}</span>
 
-                    <i>${item.itemPrice}元/${item.unit}</i>
+                        <i>${item.itemPrice}元/${item.unit}</i>
 
-                    <h2>
-                        <button class="btn_add" style="position:absolute;left:50%;top:30%" onclick="location.href='#'">编辑
-                        </button>
-                    </h2>
-                    <section class="bbox" dishid="${item.dishesId}" dishname="${item.name}">
-
-                        <input class="btn-reduce" type="button" value="-">
-                        <input class="numBox" name="numBox" type="text" value="${item.itemQuantity}" price="${item.itemPrice}" disabled="disabled">
-                        <input type="button" class="btn-plus" value="+"></section>
-                    <c:if test="${!empty item.dishesAction}"><input type="text" id="itemActionId" value="${item.dishesAction.id}"></c:if>
-                </li>
-                <c:forEach items="${item.itemList}" var="suit">
-                    <li>
-                        <section class="bbox" style="left:-40px;top:10px" dishid="${suit.dishNo}" dishname="${suit.dishName}">
-                            <input class="btn-reduce" style="margin-top:5px" type="button" value="-">
-                            <input class="numBox" name="numBox" type="hidden" value="1" price="${suit.price}" disabled="disabled">
-                            <input type="hidden" class="btn-plus" value="+">
-                        </section>
-                        <div style="display:inline;position:absolute;left:50px">
-                            <span class="dishName">${suit.dishName}</span>
-
-                            <div>
-                                <i>${suit.price}元/${suit.unit}</i>
-                            </div>
-                        </div>
                         <h2>
-                            <button class="btn_add" style="position:absolute;left:70%;top:30%" onclick="location.href=''">编辑
+                            <button class="btn_add" style="position:absolute;left:50%;top:30%"
+                                    onclick="location.href='#'">编辑
                             </button>
                         </h2>
+                        <section class="bbox" dishid="${item.dishesId}" dishname="${item.name}">
 
+                            <input class="btn-reduce" type="button" value="-">
+                            <input class="numBox" name="numBox" type="text" value="${item.itemQuantity}"
+                                   price="${item.itemPrice}" disabled="disabled">
+                            <input type="button" class="btn-plus" value="+"></section>
+                        <c:if test="${!empty item.dishesAction}"><input type="text" id="itemActionId"
+                                                                        value="${item.dishesAction.id}"></c:if>
                     </li>
+                    <c:forEach items="${item.itemList}" var="suit">
+                        <li id="${suit.dishNo}" class="${item.dishesId}" name="${suit.grade}"  >
+                            <section class="bbox" style="left:-40px;top:10px" dishid="${suit.dishNo}"
+                                     dishname="${suit.dishName}">
+                                <input class="btn-reduce" style="margin-top:5px" type="button" value="-">
+                                <input class="numBox" name="numBox" type="hidden" value="1" price="${suit.price}"
+                                       disabled="disabled">
+                                <input type="hidden" class="btn-plus" value="+">
+                            </section>
+                            <div style="display:inline;position:absolute;left:50px">
+                                <span class="dishName">${suit.dishName}</span>
+
+                                <div>
+                                    <i>${suit.price}元/${suit.unit}</i>
+                                </div>
+                            </div>
+                            <h2>
+                                <button class="btn_add" style="position:absolute;left:70%;top:30%"
+                                        onclick="location.href=''">编辑
+                                </button>
+                            </h2>
+
+                        </li>
+                    </c:forEach>
                 </c:forEach>
-            </c:forEach>
-        </ul>
-    </article>
-</section>
+            </ul>
+        </article>
+    </section>
 
-<style>
-    .input {
-        display: inline-block;
-        padding: 11px 5px;
-        border: 1px solid #dddddd;
-        border-radius: 3px;
-        width: 100%;
-        background: #f3f3f3;
-        -webkit-box-sizing: border-box;
-        color: #606366;
-    }
+    <style>
+        .input {
+            display: inline-block;
+            padding: 11px 5px;
+            border: 1px solid #dddddd;
+            border-radius: 3px;
+            width: 100%;
+            background: #f3f3f3;
+            -webkit-box-sizing: border-box;
+            color: #606366;
+        }
 
-    .button {
-        display: inline-block;
-        line-height: 40px;
-        font-size: 12px;
-        text-align: center;
-        color: #ffffff;
-        border: 1px solid #c3cfd0;
-        border-radius: 1px;
-        background: #56c6d6;
-        border: 0;
-    }
+        .button {
+            display: inline-block;
+            line-height: 40px;
+            font-size: 12px;
+            text-align: center;
+            color: #ffffff;
+            border: 1px solid #c3cfd0;
+            border-radius: 1px;
+            background: #56c6d6;
+            border: 0;
+        }
 
-    .button.vcode {
-        width: 80px;
-    }
+        .button.vcode {
+            width: 80px;
+        }
 
-    .button.vcode[disabled] {
-        background: #cccccc;
-        font-size: 12px;
-    }
-</style>
+        .button.vcode[disabled] {
+            background: #cccccc;
+            font-size: 12px;
+        }
+    </style>
 
-<input type="hidden" id="mode" value="{$mode}" name="mode">
-<input type="hidden" id="tables" value="{$tablesid}" name="tables">
-<section style="margin-bottom: 0px;">
-    <article style="height:44;font-size:14px;font-weight:bold;padding:3px 19px;line-height:22px">
+    <input type="hidden" id="mode" value="{$mode}" name="mode">
+    <input type="hidden" id="tables" value="{$tablesid}" name="tables">
+    <section style="margin-bottom: 0px;">
+        <article style="height:44;font-size:14px;font-weight:bold;padding:3px 19px;line-height:22px">
 
-        <%--<div style="width: 120px;">打包费用:￥<span id="">5.3</span></span>元--%>
-        <%--</div>--%>
-            <c:if test="${!empty hotel.deliverPrice}"><div style="width: 120px;">配送费:￥<span id="">${hotel.deliverPrice}</span></span>元</div></c:if>
+            <%--<div style="width: 120px;">打包费用:￥<span id="">5.3</span></span>元--%>
+            <%--</div>--%>
+            <c:if test="${!empty hotel.deliverPrice}">
+                <div style="width: 120px;">配送费:￥<span id="">${hotel.deliverPrice}</span></span>元</div>
+            </c:if>
 
-    </article>
-</section>
-<style>
-    .header {
-        padding: 5px 0;
-        display: block;
-        position: fixed;
-        width: 100%;
-        z-index: 3;
-        bottom: 0px;
-        color: #F03C03;
-        background-color: #fff;
-        line-height: 32px;
-        font-size: 14px;
-        border-top: 1px solid #E2E2E2;
-    }
+        </article>
+    </section>
+    <style>
+        .header {
+            padding: 5px 0;
+            display: block;
+            position: fixed;
+            width: 100%;
+            z-index: 3;
+            bottom: 0px;
+            color: #F03C03;
+            background-color: #fff;
+            line-height: 32px;
+            font-size: 14px;
+            border-top: 1px solid #E2E2E2;
+        }
 
-    .header .left {
-        float: left;
-        margin-left: 10px
-    }
+        .header .left {
+            float: left;
+            margin-left: 10px
+        }
 
-    .header .right {
-        float: right;
-        margin-right: 10px
-    }
+        .header .right {
+            float: right;
+            margin-right: 10px
+        }
 
-    .footermenu {
-        position: relative;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 900;
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    }
+        .footermenu {
+            position: relative;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 900;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
 
-    .footermenu ul {
-        position: fixed;
-        z-index: 900;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-        display: block;
-        width: 100%;
-        height: 48px;
-        display: -webkit-box;
-        display: box;
-        -webkit-box-orient: horizontal;
-        background-color: #282f35;
-        background: -webkit-linear-gradient(top, #282f35, #282f35);
+        .footermenu ul {
+            position: fixed;
+            z-index: 900;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            display: block;
+            width: 100%;
+            height: 48px;
+            display: -webkit-box;
+            display: box;
+            -webkit-box-orient: horizontal;
+            background-color: #282f35;
+            background: -webkit-linear-gradient(top, #282f35, #282f35);
 
-        background: #5ac5d4;
-        border-top: 1px solid #5ac5d4;
-        /*border-top: 1px solid #404a54;*/
-    }
+            background: #5ac5d4;
+            border-top: 1px solid #5ac5d4;
+            /*border-top: 1px solid #404a54;*/
+        }
 
-    .footermenu ul li {
-        width: auto !important;
-        height: 100%;
-        position: static !important;
-        margin: 0;
-        border-radius: 0 !important;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        -webkit-box-flex: 1;
-        box-flex: 1;
-        -webkit-box-sizing: border-box;
-        box-shadow: none !important;
-        background: none;
-    }
+        .footermenu ul li {
+            width: auto !important;
+            height: 100%;
+            position: static !important;
+            margin: 0;
+            border-radius: 0 !important;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-box-flex: 1;
+            box-flex: 1;
+            -webkit-box-sizing: border-box;
+            box-shadow: none !important;
+            background: none;
+        }
 
-    .footermenu ul li img {
-        vertical-align: bottom;
-    }
+        .footermenu ul li img {
+            vertical-align: bottom;
+        }
 
-    .footermenu ul li a {
-        color: #fff;
-        text-align: center;
-        display: block;
-        text-decoration: none;
-        padding-top: 2px;
-        font-size: 12px;
-        position: relative;
-        height: 46px;
-        text-shadow: 0 1px rgba(0, 0, 0, 0.2);
-        line-height: 20px;
-    }
+        .footermenu ul li a {
+            color: #fff;
+            text-align: center;
+            display: block;
+            text-decoration: none;
+            padding-top: 2px;
+            font-size: 12px;
+            position: relative;
+            height: 46px;
+            text-shadow: 0 1px rgba(0, 0, 0, 0.2);
+            line-height: 20px;
+        }
 
-    .footermenu ul li a.active {
-        /*background: -webkit-linear-gradient(top,#404a54,#252c34);*/
-        background: -webkit-linear-gradient(top, #5ac5d4, #5ac5d4);
-        box-shadow: 0 -10px 25px 0px rgba(0, 0, 0, 0.3) inset;
-    }
+        .footermenu ul li a.active {
+            /*background: -webkit-linear-gradient(top,#404a54,#252c34);*/
+            background: -webkit-linear-gradient(top, #5ac5d4, #5ac5d4);
+            box-shadow: 0 -10px 25px 0px rgba(0, 0, 0, 0.3) inset;
+        }
 
-    .xhlbtn {
-        display: block;
-        text-align: center;
-        background-color: #F03C03;
-        /*background-color: #fdb338;*/
-        /*background-color: #5ac5d4;*/
-        padding: 0 15px;
-        border-radius: 20px;
-        color: #fff;
-        font-weight: bold;
-    }
+        .xhlbtn {
+            display: block;
+            text-align: center;
+            background-color: #F03C03;
+            /*background-color: #fdb338;*/
+            /*background-color: #5ac5d4;*/
+            padding: 0 15px;
+            border-radius: 20px;
+            color: #fff;
+            font-weight: bold;
+        }
 
-    img {
-        width: 24px;
-        height: 24px;
-        vertical-align: middle;
-    }
+        img {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+        }
 
-    .right .disable {
-        background-color: #dbdbdb;
-    }
-</style>
-<div class="header">
-    <input type="hidden" id="packprice" value="5.3" name="packprice">
-    <input type="hidden" id="discount" value="2.0" name="discount">
-    <input type="hidden" id="totalprice" value="{$totalprice}" name="totalprice">
-    <input type="hidden" id="totalcount" value="{$totalcount}" name="totalcount">
-    <input type="hidden" id="limitprice" value="{$limitprice}" name="limitprice">
-    <input type="hidden" id="over_radius" value="{$over_radius}" name="over_radius">
+        .right .disable {
+            background-color: #dbdbdb;
+        }
+    </style>
+    <div class="header">
+        <input type="hidden" id="packprice" value="5.3" name="packprice">
+        <input type="hidden" id="discount" value="2.0" name="discount">
+        <input type="hidden" id="totalprice" value="${totalPrice}" name="totalprice">
+        <input type="hidden" id="totalcount" value="{$totalcount}" name="totalcount">
+        <input type="hidden" id="limitprice" value="{$limitprice}" name="limitprice">
+        <input type="hidden" id="over_radius" value="{$over_radius}" name="over_radius">
 
-    <input type="hidden" id="btnstatus" value="0" name="btnstatus">
+        <input type="hidden" id="btnstatus" value="0" name="btnstatus">
 
-    <div class="left">还需支付：￥<span id="totalpriceshow">${totalPrice}</span></span>元</div>
-    <div class="right"><a id="btnselect" class="xhlbtn disable" href="javascript:void(0)">提交</a></div>
-</div>
+        <div class="left">还需支付：￥<span id="totalpriceshow">${totalPrice}</span></span>元</div>
+        <div class="right"><a id="btnselect" class="xhlbtn disable" href="javascript:void(0)">提交</a></div>
+    </div>
 
-<div style="padding-top: 20px;"></div>
+    <div style="padding-top: 20px;"></div>
 </div>
 
 <script>
@@ -680,12 +687,12 @@
         endTotal = parseFloat(total).toFixed(2) * 100 / 100 + parseFloat(packprice - discount);
         // endTotal = endTotal == parseInt(endTotal) ? parseInt(endTotal) : endTotal;
         _q('#totalprice').value = endTotal;
-//        _q("#totalpriceshow").innerHTML = endTotal;
+        _q("#totalpriceshow").innerHTML = endTotal;
 
         changeBtnSelect();
         return endTotal;
     }
-    //tototal();//初始化金额
+    tototal();//初始化金额
 
     function doSelectBtn() {
         var btn = _qAll("article ul li .bbox");
@@ -954,83 +961,56 @@
         $("#btnselect").hide();
         if (true) {
             var data = "[";
-            var myfoodlist = $("#myorder li");
+            var myfoodlist = $("#myorder li.dish");
             if (myfoodlist.length == 0) {
                 return;
             }
-			
-			
-			var mydish = [];
-			for (var i = 0; i < myfoodlist.length; i++) {
-				var dishitem = {};
-				dishitem.dishesId = myfoodlist.eq(i).attr("name");
-				dishitem.itemQuantity = myfoodlist.eq(i).find(".numBox").val();
-				mydish.push(dishitem);
-				/*data += "{";
-				data += "\"sid\":\"" + myfoodlist.eq(i).attr("name") + "\",";
-				data += "\"counts\":\"" + myfoodlist.eq(i).find(".numBox").val() + "\"";
-				data += "},";*/
-			}
-			
-			  $.ajax({
-				url: url, type: "post", dataType: "json", timeout: "10000",
-				data: {
-					JSON.stringify(mydish);
-				},
-				success: function (data) {
-					alert("订单提交成功！");
-					$("#btnselect").show();
-				}, error: function () {
-					alert("订单提交失败！");
-				}
-			});
-		} else {
-			$("#btnselect").show();
-		}
-		
-		
-    /*        data = data.substring(0, data.length - 1);
-            data += "]";
-            var url = "{php echo $this->createMobileUrl('addtoorder', array('storeid' => $storeid, 'from_user' => $from_user), true)}";
+            var mydish = [];
+            for (var i = 0; i < myfoodlist.length; i++) {
+                var dishitem = {};
+                var dishesId = myfoodlist.eq(i).attr("id");
+                dishitem.dishesId = dishesId;
+                dishitem.itemQuantity = myfoodlist.eq(i).find(".numBox").val();
 
-            var address = $("#address").val();
-            var totalprice = parseFloat(_q("#totalprice").value);
+                if (myfoodlist.eq(i).attr("name") == 1) {
+                    var itemlist = $("#myorder li." + dishesId);
+                    var suite = [];
+                    for (var j = 0; j < itemlist.length; j++) {
+                        var suiteItem = {};
+                        suiteItem.dishNo = itemlist.eq(j).attr("id");
+                        suiteItem.grade = itemlist.eq(j).attr("name");
+                        suite.push(suiteItem);
+                    }
+                    dishitem.itemList = suite;
+                }
+                mydish.push(dishitem);
+            }
+            var data = {};
+            data.addressId = $("#addressId").val();
+            data.remark = $("#remark").val();
+            data.guestNum = $("#guestNum").val();
+            data.list = mydish
+            alert(JSON.stringify(data));
+
 
             $.ajax({
-                url: url, type: "post", dataType: "json", timeout: "10000",
+                url: "/oauth/meal/createOrder.do", type: "post", dataType: "json", timeout: "10000",
                 data: {
-                    "type": "add",
-                    "total": totalprice,
-                    "ordertype": ordertype,
-                    "tables": $("#tables").val(),
-                    "guest_name": $("#name").val(),
-                    "tel": $("#tel").val(),
-                    "sex": $("input:checkbox[name='sex']").attr("checked") == "checked" ? "1" : "0",
-                    "meal_time": mealtime,
-                    "counts": $("#counts").val(),
-                    "seat_type": $("input:radio[name='seat_type']:checked").val(),
-                    "remark": $("#remark").val(),
-                    "data": data,
-                    "carports": $("#carports").val(),
-                    "address": address
+                    str: JSON.stringify(data)
                 },
                 success: function (data) {
-                    if (data.message['code'] != 0) {
-                        var url = "{php echo $this->createMobileUrl('pay', array(), true)}" + "&orderid=" + data.message['orderid'];
-                        location.href = url;
+                    if (data.code == 200) {
+                        location.href = '/oauth/meal/getAddrList.do';
                     } else {
-                        alert(data.message['msg']);
-                        //'网络不稳定，请重新尝试!'
+                        alert(data.message);
                     }
-                    $("#btnselect").show();
                 }, error: function () {
-                    alert("订单提交失败！");
+                    alert("网络不稳定，请重新尝试!");
                 }
             });
         } else {
             $("#btnselect").show();
         }
-		*/
     }
 
     function postmain2() {

@@ -90,6 +90,11 @@ public class JSONDataUtilByGson implements JSONDataUtil {
 		return null;
 	}
 
+	@Override
+	public <T> T readValue(String jsonStr, Class<T> valueType) {
+		return null;
+	}
+
 	/**
 	 * get json string for ext
 	 * @param obj

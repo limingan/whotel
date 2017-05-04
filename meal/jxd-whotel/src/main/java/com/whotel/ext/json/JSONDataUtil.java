@@ -20,5 +20,7 @@ public interface JSONDataUtil {
 
 	public <T> T objectFromStringType(String str, Type type);
 
+	<T> T readValue(String jsonStr, Class<T> valueType);
+
 	public String extJsonSupportPage(Object obj, int totalCount);
 }

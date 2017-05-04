@@ -26,10 +26,7 @@ import com.whotel.front.entity.PayOrder;
 import com.whotel.front.entity.WeixinFan;
 import com.whotel.hotel.entity.Hotel;
 import com.whotel.hotel.service.HotelService;
-import com.whotel.meal.controller.req.ListHotelReq;
-import com.whotel.meal.controller.req.ListRestaurantReq;
-import com.whotel.meal.controller.req.LoginParam;
-import com.whotel.meal.controller.req.PageOrderReq;
+import com.whotel.meal.controller.req.*;
 import com.whotel.meal.entity.*;
 import com.whotel.meal.enums.MealOrderStatus;
 import com.whotel.meal.enums.MealType;
@@ -475,12 +472,14 @@ public class MealController extends FanBaseController {
 
     @RequestMapping("/oauth/meal/menu")
     public String menu(HttpServletRequest req) {
+        String openId = getCurrentOpenId(req);
+        String companyId = getCurrentCompanyId(req);
+
         String cookieStr = getCookieByName(req, "dishList").toString();
         JSONArray array = JSONArray.fromObject(cookieStr);
-
         Map<String, MealOrderItem> itemMap = Maps.newHashMap();
         float total = 0F;
-        String companyId = getCurrentCompanyId(req);
+
         String hotelCode = null;
         String restId = null;
 
@@ -539,6 +538,16 @@ public class MealController extends FanBaseController {
             total += hotel.getDeliverPrice();
         }
 
+        Guest guest = new Guest();
+        List<Guest> guestList = guestService.getByOpenId(openId,companyId);
+        if(CollectionUtils.isNotEmpty(guestList)){
+            guest = guestList.get(0);
+        }
+
+        Date date = DateUtil.addHour(new Date(),1);
+        String time = DateUtil.format(date,"HH:mm");
+        req.setAttribute("time",time);
+        req.setAttribute("guest",guest);
         req.setAttribute("list", list);
         req.setAttribute("totalPrice", total);
         req.setAttribute("hotel", hotel);
@@ -556,6 +565,7 @@ public class MealController extends FanBaseController {
         item.setItemAmount(dishes.getPrice());
         item.setDishesAction(dishesAction);
         item.setItemList(dishes.getItemList());
+        item.setIsSuite(dishes.getIsSuite());
         return item;
     }
 
@@ -758,6 +768,23 @@ public class MealController extends FanBaseController {
             }
         }
         return "/meal/webPage/addAddress";
+    }
+
+    @RequestMapping("/oauth/meal/createOrder")
+    @ResponseBody
+    public ResultData createOrder(HttpServletRequest req,String str) {
+        CreateOrderReq param = JSONConvertFactory.getJacksonConverter().readValue(str,CreateOrderReq.class);
+        String openId = getCurrentOpenId(req);
+        String companyId = getCurrentCompanyId(req);
+        param.setCompanyId(companyId);
+        param.setOpenId(openId);
+
+        MealOrder mealOrder = mealOrderService.createMealOrder(param);
+        ResultData resultData = new ResultData();
+        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
+        resultData.setMessage("操作成功");
+        resultData.setData(mealOrder.getId());
+        return resultData;
     }
 
 

@@ -125,6 +125,17 @@ public class JSONDataUtilByJackson implements JSONDataUtil {
 		throw new RuntimeException("not implements");
 	}
 
+	@Override
+	public <T> T readValue(String jsonStr, Class<T> valueType) {
+		try {
+			return objectMapper.readValue(jsonStr, valueType);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
 	/**
 	 * get json string for ext
 	 * @param obj

@@ -28,6 +28,16 @@ public class MealOrderItem extends AbstractInputParam {
 
 	private String suiteData;//存储的套餐
 
+	private Integer isSuite;//是否套餐
+
+	public Integer getIsSuite() {
+		return isSuite;
+	}
+
+	public void setIsSuite(Integer isSuite) {
+		this.isSuite = isSuite;
+	}
+
 	public List<SuiteItem> getItemList() {
 		return itemList;
 	}
