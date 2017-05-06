@@ -1,5 +1,17 @@
 package com.whotel.thirdparty.jxd.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.dom4j.DocumentException;
+import org.springframework.util.CollectionUtils;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.whotel.common.enums.Gender;
@@ -7,24 +19,57 @@ import com.whotel.common.enums.TradeType;
 import com.whotel.common.http.HttpHelper.Response;
 import com.whotel.common.util.DateUtil;
 import com.whotel.common.util.Dom4jHelper;
+import com.whotel.common.util.MD5Util;
 import com.whotel.ext.json.JSONConvertFactory;
 import com.whotel.ext.json.JSONDataUtil;
 import com.whotel.hotel.entity.Hotel;
-import com.whotel.meal.entity.*;
+import com.whotel.meal.entity.Dishes;
+import com.whotel.meal.entity.DishesAction;
+import com.whotel.meal.entity.DishesCategory;
+import com.whotel.meal.entity.MealBranch;
+import com.whotel.meal.entity.MealOrder;
+import com.whotel.meal.entity.MealTab;
+import com.whotel.meal.entity.Restaurant;
+import com.whotel.meal.entity.Shuffle;
+import com.whotel.meal.entity.SuiteItem;
 import com.whotel.meal.enums.MealOrderStatus;
 import com.whotel.thirdparty.jxd.ApiException;
-import com.whotel.thirdparty.jxd.mode.vo.*;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.dom4j.DocumentException;
-import org.springframework.util.CollectionUtils;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.whotel.thirdparty.jxd.mode.vo.CategoryCodeVO;
+import com.whotel.thirdparty.jxd.mode.vo.ChargeMoneyVO;
+import com.whotel.thirdparty.jxd.mode.vo.ExchangeGiftVO;
+import com.whotel.thirdparty.jxd.mode.vo.FollowPolicyVO;
+import com.whotel.thirdparty.jxd.mode.vo.GeneralMsg;
+import com.whotel.thirdparty.jxd.mode.vo.HotelBranchVO;
+import com.whotel.thirdparty.jxd.mode.vo.HotelCityVO;
+import com.whotel.thirdparty.jxd.mode.vo.HotelOrderDetailVO;
+import com.whotel.thirdparty.jxd.mode.vo.HotelOrderVO;
+import com.whotel.thirdparty.jxd.mode.vo.HotelServiceVO;
+import com.whotel.thirdparty.jxd.mode.vo.HotelVO;
+import com.whotel.thirdparty.jxd.mode.vo.InterfaceListVO;
+import com.whotel.thirdparty.jxd.mode.vo.MbrCardTypeVO;
+import com.whotel.thirdparty.jxd.mode.vo.MbrCardUpgradeResult;
+import com.whotel.thirdparty.jxd.mode.vo.MbrCardUpgradeVO;
+import com.whotel.thirdparty.jxd.mode.vo.MbrCardVO;
+import com.whotel.thirdparty.jxd.mode.vo.MemberCouponVO;
+import com.whotel.thirdparty.jxd.mode.vo.MemberTradeVO;
+import com.whotel.thirdparty.jxd.mode.vo.MemberTypeVO;
+import com.whotel.thirdparty.jxd.mode.vo.MemberVO;
+import com.whotel.thirdparty.jxd.mode.vo.OccupancyManVO;
+import com.whotel.thirdparty.jxd.mode.vo.PWBTicketResult;
+import com.whotel.thirdparty.jxd.mode.vo.PointRecordVO;
+import com.whotel.thirdparty.jxd.mode.vo.ReservationResult;
+import com.whotel.thirdparty.jxd.mode.vo.RoomInfoVO;
+import com.whotel.thirdparty.jxd.mode.vo.RoomPriceVO;
+import com.whotel.thirdparty.jxd.mode.vo.RoomTypeVO;
+import com.whotel.thirdparty.jxd.mode.vo.TicketAccessoryVO;
+import com.whotel.thirdparty.jxd.mode.vo.TicketBranchVO;
+import com.whotel.thirdparty.jxd.mode.vo.TicketCityVO;
+import com.whotel.thirdparty.jxd.mode.vo.TicketInfoVO;
+import com.whotel.thirdparty.jxd.mode.vo.TicketOrderVO;
+import com.whotel.thirdparty.jxd.mode.vo.TicketPriceDateVO;
+import com.whotel.thirdparty.jxd.mode.vo.TicketPriceVO;
+import com.whotel.thirdparty.jxd.mode.vo.TicketServiceVO;
+import com.whotel.thirdparty.jxd.mode.vo.WaiterVO;
 
 /**
  * 将接口返回的值转换成公共的VO对象
@@ -1928,4 +1973,29 @@ public class ApiXmlVoParser {
         }
         return null;
     }
+    
+	public static List<WaiterVO> parseWaiterList(String html, String charset) throws Exception {
+		 InputStream ins = new ByteArrayInputStream(html.getBytes(charset));
+         Dom4jHelper dom4jHelper = new Dom4jHelper(ins, charset);
+         List<Map<String, String>> list = dom4jHelper.getListElements("Row");
+         if (list != null && !list.isEmpty()) {
+ 			List<WaiterVO> mealTabList = new ArrayList<WaiterVO>();
+ 			String pwd = null;
+ 			for(Map<String, String> map : list){
+ 				WaiterVO vo = new WaiterVO();
+ 				pwd = map.get("Pwd");
+ 				if(StringUtils.isNotBlank(pwd)) {
+ 					vo.setPwd(MD5Util.MD5(pwd));
+ 				}
+ 				vo.setUserName(map.get("UserName"));
+ 				vo.setUserNo(map.get("UserNo"));
+ 				vo.setStatus(map.get("Status"));
+ 				vo.setiCCard(map.get("ICCard"));
+ 				mealTabList.add(vo);
+ 			}
+ 			return mealTabList;
+ 		}
+ 		return null;
+	}
+
 }

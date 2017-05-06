@@ -170,7 +170,10 @@
 					</li>
 					<c:if test="${urlMap['/company/meal/listMealTab.do']==null}">
 						<li <c:if test="${cur_sub=='sel-meal-mealTab'}">class="active"</c:if>>
-							<a href="/company/meal/listMealTab.do">包间管理</a>
+							<a href="/company/meal/listMealTab.do">桌台管理</a>
+						</li>
+						<li <c:if test="${cur_sub=='sel-waiter-waiter'}">class="active"</c:if>>
+							<a href="/company/waiter/listWaiter.do">服务员管理</a>
 						</li>
 					</c:if>
 					<c:if test="${urlMap['/company/meal/listMealOrder.do']==null}">

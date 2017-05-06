@@ -6,6 +6,8 @@ import com.whotel.meal.dao.MealOrderDao;
 import com.whotel.meal.dao.RestaurantDao;
 import com.whotel.meal.entity.MealOrder;
 import com.whotel.meal.entity.Restaurant;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.mongodb.morphia.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,9 @@ public class RestaurantService {
     public List<Restaurant> getByParam(ListRestaurantReq param){
         Map<String, Serializable> properties = new HashMap<>();
         properties.put("companyId", param.getCompanyId());
-        properties.put("hotelCode",param.getHotelCode());
+        if(StringUtils.isNotBlank(param.getHotelCode())) {
+        	properties.put("hotelCode",param.getHotelCode());
+        }
         return restaurantDao.findByProperties(properties);
     }
 
