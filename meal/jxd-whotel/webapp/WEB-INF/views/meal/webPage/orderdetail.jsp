@@ -41,9 +41,31 @@
 	background-color: #F03C03;
 	color: #fff
 }
+
+ .popupWindow{
+  width:100%;
+  height:400px;
+  bottom:0px;
+  position:fixed;
+  background-color:white;
+ }
+ .popupWindow .close{
+   float:right;
+   margin-right:30px;
+   margin-top:10px;
+   width:20px;
+   height:25px;
+ }
 	</style>
 </head>
 <body>
+<div class="mModal1" style="position:fixed;width:100%;z-index: 901;height:100%;display:none;top:0;background-color:rgba(0, 0, 0, .5)"><a href="javascript:void(0)" style="height: 736px;"></a></div>
+<div class="popupWindow" style="z-index:9999;display:none">
+ <img class="close" src="/static/meal/images/close.png" />
+ <div id="popContent"></div>
+</div>
+
+
 <div ng-view="" style="height: 100%;" class="ng-scope">
     <input type="hidden" id="orderId" name="orderId" value="${order.id}"/>
     <div class="ddb-nav-header ng-scope" common-header="">
@@ -233,7 +255,7 @@
                         <span class="price ng-binding">￥${item.itemPrice}</span>
                     </div>
                     <div class="total-info">
-                        <button class="btn_add"  onclick="location.href=''">编辑</button>
+                        <button class="btn_add edit_button" >编辑</button>
                     </div>
                 </div>
             </c:forEach>
@@ -305,6 +327,11 @@
             });
         }
     }
+	$(function () {
+		$('.edit_button').click(function(){
+			 $('.mModal1,.popupWindow').show();
+		});
+	});
 </script>
 </body>
 </html>

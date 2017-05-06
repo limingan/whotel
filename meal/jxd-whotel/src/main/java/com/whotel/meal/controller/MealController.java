@@ -771,6 +771,12 @@ public class MealController extends FanBaseController {
         return "/meal/webPage/addAddress";
     }
 
+    /**
+     * 创建订单
+     * @param req
+     * @param str
+     * @return
+     */
     @RequestMapping("/oauth/meal/createOrder")
     @ResponseBody
     public ResultData createOrder(HttpServletRequest req,String str) {
@@ -786,6 +792,10 @@ public class MealController extends FanBaseController {
         resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
         resultData.setMessage("操作成功");
         resultData.setData(mealOrder.getId());
+
+
+
+
         return resultData;
     }
 
