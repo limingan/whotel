@@ -87,7 +87,7 @@ input[type='checkbox']{width: 17px;height: 17px;}
 				<div class="form-actions fluid">
 					<div class="col-md-offset-3 col-md-9">
 						<button type="submit" class="btn blue">提交</button>
-						<button type="button" class="btn default goback">取消</button>
+						<button type="button" class="btn default js-goback">取消</button>
 					</div>
 				</div>
 			</form>
@@ -98,6 +98,11 @@ input[type='checkbox']{width: 17px;height: 17px;}
 <script src="/static/common/js/goback.js?v=${version}" type="text/javascript"></script>
 <script type="text/javascript">
 $(function() {
+	$(".js-goback").click(function(){
+		location.href = "/company/waiter/listWaiter.do";
+		return false;
+	});
+	
 	var message = $("message");
 	if(message != null && message.length > 0) {
 		alert(message);
