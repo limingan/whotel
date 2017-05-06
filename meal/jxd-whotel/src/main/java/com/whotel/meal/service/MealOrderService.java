@@ -8,6 +8,7 @@ import com.whotel.card.service.MemberService;
 import com.whotel.common.dao.mongo.Order;
 import com.whotel.common.dao.mongo.Page;
 import com.whotel.common.enums.FilterModel;
+import com.whotel.common.enums.PayMode;
 import com.whotel.common.enums.TradeStatus;
 import com.whotel.common.util.BeanUtil;
 import com.whotel.company.entity.Company;
@@ -16,6 +17,7 @@ import com.whotel.company.service.InterfaceConfigService;
 import com.whotel.company.service.SysParamConfigService;
 import com.whotel.ext.json.JSONConvertFactory;
 import com.whotel.ext.json.JSONDataUtil;
+import com.whotel.front.entity.PayOrder;
 import com.whotel.front.service.PayOrderService;
 import com.whotel.hotel.entity.Hotel;
 import com.whotel.hotel.enums.HotelOrderStatus;
@@ -30,7 +32,6 @@ import com.whotel.thirdparty.jxd.api.JXDOrderService;
 import com.whotel.thirdparty.jxd.mode.vo.MemberVO;
 import com.whotel.thirdparty.jxd.mode.vo.ReservationResult;
 import com.whotel.weixin.service.WeixinMessageService;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.mongodb.morphia.query.Query;
@@ -56,8 +57,6 @@ public class MealOrderService {
     private WeixinMessageService weixinMessageService;
     @Autowired
     private MemberService memberService;
-    @Autowired
-    private SysParamConfigService sysParamConfigService;
     @Autowired
     private DishesService dishesService;
     @Autowired
@@ -414,6 +413,18 @@ public class MealOrderService {
         mealOrder.setUpdateTime(now);
         mealOrder.setCreateDate(now);
         mealOrderDao.save(mealOrder);
+
+
+        PayOrder payOrder = new PayOrder();
+        payOrder.setPayMode(PayMode.BOOKMEAL);
+        payOrder.setOpenId(openId);
+        payOrder.setName(mealOrder.getName());
+        payOrder.setBusinessId(mealOrder.getId());
+        payOrder.setTotalFee((long) (mealOrder.getTotalFee() * 100));
+        payOrder.setCompanyId(companyId);
+        payOrder.setOrderSn(mealOrder.getOrderSn());
+
+        payOrderService.savePayOrder(payOrder);
 
         return mealOrder;
     }

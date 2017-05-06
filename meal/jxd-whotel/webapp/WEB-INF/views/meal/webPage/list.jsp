@@ -427,21 +427,21 @@
 	   localStorageObj['data'] = parentDl.getAttribute('setData').replace(/[\r\n]/g,"");
 	   var setData = eval('('+ parentDl.getAttribute('setData') + ')');
 	   var setDishLength = setData.length;
-	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="./images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="./images/right_right_arrow.png">{1}</div>';
+	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="/static/meal/images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="/static/meal/images/right_right_arrow.png">{1}</div>';
 	   
 	   $(setData).each(function(i,n){
 	      var baseHtml = '';
 		  
    	      $(n).each(function(ii,nn){
-		    baseHtml += '<li attrid="{0}">{1}</li>'.format(nn.id,nn.name);
+		    baseHtml += '<li attrid="{0}">{1}</li>'.format(nn.dishNo,nn.dishName);
 		 });
 		 baseHtml = '<ul>{0}</ul>'.format(baseHtml);
 		 
 		 html += setTemplate.format('第'+parseInt(i+1)+'道菜', baseHtml);
 	   });
-	   html += '<img class="bottom-rmb" src="./images/rmb.png"/>';
+	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button addToList" src="./images/dish_addMenu.png"/>';
+	   html += '<img class="bottomright-button addToList" src="/static/meal/images/dish_addMenu.png"/>';
 	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
 	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(html);
@@ -528,9 +528,9 @@
 		 
 		 html += multiStyleBaseTemplate.format(n.name, baseHtml,n.id);
 	   });
-	   html += '<img class="bottom-rmb" src="./images/rmb.png"/>';
+	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button addToList" src="./images/dish_addMenu.png"/>';
+	   html += '<img class="bottomright-button addToList" src="/static/meal/images/dish_addMenu.png"/>';
 	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
 	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(multiStyleTemplate.format(dishName,html))

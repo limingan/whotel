@@ -40,10 +40,32 @@
 	background-color: #F03C03;
 	color: #fff
 }
+
+ .popupWindow{
+  width:100%;
+  height:400px;
+  bottom:0px;
+  position:fixed;
+  background-color:white;
+ }
+ .popupWindow .close{
+   float:right;
+   margin-right:30px;
+   margin-top:10px;
+   width:20px;
+   height:25px;
+ }
 	</style>
 	
 </head>
 <body>
+<div class="mModal1" style="position:fixed;width:100%;z-index: 901;height:100%;display:none;top:0;background-color:rgba(0, 0, 0, .5)"><a href="javascript:void(0)" style="height: 736px;"></a></div>
+<div class="popupWindow" style="z-index:9999;display:none">
+ <img class="close" src="/static/meal/images/close.png" />
+ <div id="popContent"></div>
+</div>
+
+
 <div ng-view="" style="height: 100%;" class="ng-scope">
     <div class="ddb-nav-header ng-scope" common-header="">
         <div class="nav-left-item" onclick="javascript :history.back(-1);"><i class="fa fa-angle-left"></i></div>
@@ -191,7 +213,7 @@
                     <span class="price ng-binding">￥23.5</span>
                 </div>
                 <div class="total-info">
-                    <button class="btn_add"  onclick="location.href='">编辑</button>
+                    <button class="btn_add edit_button"  >编辑</button>
                 </div>
             </div>
 			<div class="list-item ng-scope">
@@ -204,7 +226,7 @@
                     <span class="price ng-binding">￥23.5</span>
                 </div>
                 <div class="total-info">
-                    <button class="btn_add"  onclick="location.href='">编辑</button>
+                    <button class="btn_add edit_button"  >编辑</button>
                 </div>
             </div>
             <div class="list-item">合计：<span class="red ng-binding">2份</span>，<strong
@@ -251,13 +273,13 @@
 <script src="./assets/diandanbao/jquery-1.11.3.min.js"></script>
 <script>
     function confirmorder() {
-            var url = "{php echo $this->createMobileUrl('pay', array('orderid' => $order['id']), true)}";
+            var url = "";
             window.location.href = url;
 
     }
 
     function cancelorder() {
-        var url = "{php echo $this->createMobileUrl('cancelorder', array('id' => $order['id']), true)}";
+        var url = "";
         if (confirm("确认取消吗?")) {
             $.ajax({
                 url: url, type: "post", dataType: "json", timeout: "10000",
@@ -265,7 +287,7 @@
                 },
                 success: function (data) {
                     if (data.status == 1) {
-                        location.href='{php echo $this->createMobileUrl('order', array(), true)}';
+                        location.href='';
                     } else {
                         alert(data.msg);
                     }
@@ -275,6 +297,11 @@
             });
         }
     }
+	$(function () {
+	$('.edit_button').click(function(){
+		 $('.mModal1,.popupWindow').show();
+	});
+	});
 </script>
 </body>
 </html>
