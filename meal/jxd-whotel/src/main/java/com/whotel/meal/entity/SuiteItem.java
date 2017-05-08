@@ -2,6 +2,8 @@ package com.whotel.meal.entity;
 
 import org.mongodb.morphia.annotations.Embedded;
 
+import java.util.List;
+
 /**
  * Created by limingan on 2017/5/3.
  */
@@ -20,6 +22,27 @@ public class SuiteItem {
     private Float price;//价格
     private Float amount;//金额
     private String remark;//备注
+
+    @Embedded
+    private List<DishProp> propList;//菜品做法、规格信息
+
+    private String propData;//菜品做法、规格信息json字符串
+
+    public List<DishProp> getPropList() {
+        return propList;
+    }
+
+    public void setPropList(List<DishProp> propList) {
+        this.propList = propList;
+    }
+
+    public String getPropData() {
+        return propData;
+    }
+
+    public void setPropData(String propData) {
+        this.propData = propData;
+    }
 
     public String getSuiteNo() {
         return suiteNo;

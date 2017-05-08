@@ -1,0 +1,67 @@
+@charset "UTF-8";
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak,
+.ng-hide:not(.ng-hide-animate) {
+  display: none !important;
+}
+ng\:form {
+  display: block;
+}
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak,
+.ng-hide:not(.ng-hide-animate) {
+  display: none !important;
+}
+ng\:form {
+  display: block;
+}
+@media screen {
+  .smnoscreen {
+    display: none;
+  }
+}
+@media print {
+  .smnoprint {
+    display: none;
+  }
+}
+.main-view {
+  background: #eeeeee !important;
+  margin-top: 10px !important;
+}
+.main-view .branch-info {
+  padding-left: 85px !important;
+}
+.main-view .branch-item .branch-image {
+  height: 70px;
+  width: 85px !important;
+  margin-left: -85px !important;
+}
+.main-view .branch-item .branch-image img {
+  height: 70px !important;
+  width: 85px !important;
+}
+.main-view .branch-item .delivery-info {
+  margin-top: 3px;
+}
+.main-view .branch-item .delivery-info .btn-dc {
+  text-align: center;
+  float: right;
+  margin-right: 20px;
+  background-color: red;
+  color: white;
+  border-radius: 25px;
+  width: 50px;
+}
+.main-view .branch-item .delivery-info .yy-time {
+  display: inline-block;
+  color: #ccc;
+}

@@ -41,7 +41,17 @@ public class PrizeRecord extends BaseEntity {
 	private Boolean isOk;
 	
 	private String remark;
-	
+
+	private Float prizeValue;//红包价值
+
+	public Float getPrizeValue() {
+		return prizeValue;
+	}
+
+	public void setPrizeValue(Float prizeValue) {
+		this.prizeValue = prizeValue;
+	}
+
 	public String getPic() {
 		return pic;
 	}

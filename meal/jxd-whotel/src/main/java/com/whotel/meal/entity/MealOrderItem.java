@@ -32,6 +32,12 @@ public class MealOrderItem extends AbstractInputParam {
 
 	private String actionId;//做法Id
 
+
+	@Embedded
+	private List<DishProp> propList;//菜品做法、规格信息
+
+	private String propData;//菜品做法、规格信息json字符串
+
 	public Integer getIsSuite() {
 		return isSuite;
 	}
@@ -126,6 +132,22 @@ public class MealOrderItem extends AbstractInputParam {
 
 	public void setActionId(String actionId) {
 		this.actionId = actionId;
+	}
+
+	public List<DishProp> getPropList() {
+		return propList;
+	}
+
+	public void setPropList(List<DishProp> propList) {
+		this.propList = propList;
+	}
+
+	public String getPropData() {
+		return propData;
+	}
+
+	public void setPropData(String propData) {
+		this.propData = propData;
 	}
 
 	@Override

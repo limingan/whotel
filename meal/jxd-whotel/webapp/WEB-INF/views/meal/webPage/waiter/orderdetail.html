@@ -1,12 +1,6 @@
 <html ng-app="diandanbao" class="ng-scope">
 <head>
-    <style type="text/css">@charset "UTF-8";
-    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate) {
-        display: none !important;
-    }
-    ng\:form {
-        display: block;
-    }</style>
+
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta content="telephone=no" name="format-detection">
@@ -14,52 +8,8 @@
     <title>甲乙丙丁(中餐厅) C002</title>
     <link data-turbolinks-track="true" href="../assets/diandanbao/weixin.css?v=1" media="all"
           rel="stylesheet">
-    <style type="text/css">@media screen {
-        .smnoscreen {
-            display: none
-        }
-    }
-
-    @media print {
-        .smnoprint {
-            display: none
-        }
-    }
-	.total-info .btn_add {
-
-	margin-left: 30px;
-	margin-top: 0px;
-	padding: 5px 8px;
-	border: 0;
-	border-radius: 2px;
-	cursor: pointer;
-	background-color: #2ec366;
-	background-color: #4dbfd0;
-	background-color: #F03C03;
-	color: #fff
-}
-    .addMargin
-	{
-	  margin-left:12px
-	}
-	#btnselect
-	{
-	  position:fixed;
-	  text-align:center;
-	  margin-bottom:5px;
-	  margin-left:1%;
-	  width:98%;
-	  bottom:0;
-	  color:white;
-	  background-color:RGB(226,58,57);
-	  font-size:18px;
-	  line-height:29px;
-	  height:30px;
-	  letter-spacing:15px;
-	  border-radius:10px;
-	  
-	}
-	</style>
+          <!-- 新添加样式 -->
+    <link rel="stylesheet" type="text/css" href="css/orderdetail2.css">
 	<meta charset="gbk">
 </head>
 <body>
@@ -98,8 +48,9 @@
       
         <div class=" ng-scope">    
        
-        <div class="section no-bottom-border" style="margin-top:10px">
-            <div style="height:30px"><i class="fa fa-list-alt"></i>订单明细</div>
+        <div class="section no-bottom-border">
+            <div class="list-item-title"><i class="fa fa-list-alt"></i>订单明细</div>
+            <div class="list-item-line">&nbsp;</div>
 			<div class="list-item ng-scope addMargin">
                 <div class="name ng-binding">
                     糖醋鱼
@@ -114,7 +65,8 @@
                     <span class="price ng-binding">￥23.5</span>
                 </div>
             </div>
-			<div class="list-item ng-scope addMargin">
+
+			<div class="list-item list-item-s ng-scope addMargin">
                <div class="name ng-binding">
                     糖醋鱼
                 </div>
@@ -128,6 +80,8 @@
                     <span class="price ng-binding">￥23.5</span>
                 </div>
             </div>
+            <div class="list-item-line">&nbsp;</div>
+
 			<div class="list-item ng-scope addMargin">
                <div class="name ng-binding">
                     茶位费
@@ -138,7 +92,7 @@
                     <span class="price ng-binding">￥4</span>
                 </div>
             </div>
-			<div class="list-item  addMargin">
+			<div class="list-item list-item-s addMargin">
                <div class="name ng-binding">
                     酒水
                 </div>
@@ -149,39 +103,46 @@
                 </div>
             </div>
             <div class="list-item addMargin"><div class="name ng-binding">原价：￥23.45 - 优惠 ￥2 </div>
+
 			<div class="total-info" >
-			<span >共付</span><span class="price red ng-binding">￥23.45</span>
+			<span >共付</span><span class="price price-wg red ng-binding">￥23.45</span>
             </div>
                   
 
                    
             </div>
+            <div class="list-item-line">&nbsp;</div>
+
             <div class="list-item ng-scope addMargin">
                 <table class="table_book">
                     <tbody>
                     <tr>
                         <td style="width: 80px;">会员卡号</td>
                         <td colspan="2">
-                            <input type="tel" id="counts" name="counts" value="" maxlength="3" style="width: 200px;" placeholder="请填写会员卡号">
+                            <input type="tel" id="counts" name="counts" value=""  placeholder="请填写会员卡号">
                         </td>
                     </tr>
                   
                     <tr>
-                        <td style="width: 80px; vertical-align: top; line-height: 25px;">优惠券</td>
+                        <td class="td-l">优惠券</td>
                         <td colspan="2">
-                            <select name="remark" id="remark" style="width: 200px;"  ></select>
+                            <select name="remark" id="remark" style="color:#999;">
+                                <option value="" style="color:#999;">请选择优惠券</option>
+                            </select>
                         </td>
                     </tr>
 					<tr>
-                        <td style="width: 80px; vertical-align: top; line-height: 25px;">付款方式</td>
+                        <td class="td-l">付款方式</td>
                         <td colspan="2">
-                            <select name="remark" id="remark" style="width: 200px;" maxlength="100" ></select>
+                            <select name="remark" id="remark" style="color:#999;">
+                                <option style="color:#999;">请选择付款方式</option>
+                            </select>
                         </td>
                     </tr>
 					<tr>
-                        <td style="width: 80px; vertical-align: top; line-height: 25px;">发票抬头</td>
+                        <td class="td-l">发票抬头</td>
                         <td colspan="2">
-                            <input type="text" name="remark" id="remark" style="width: 200px;" maxlength="100" placeholder="请输入备注(可不填)"></input>
+                            <input type="text" name="remark" id="remark" maxlength="100" placeholder="请输入备注(可不填)"></input>
                         </td>
                     </tr>
                     </tbody>
@@ -193,7 +154,7 @@
         
     </div>
 </div>
-<div class=""><a id="btnselect" class="xhlbtn disable" href="javascript:void(0)">下单</a></div>
+<div class="xd-box"><a id="btnselect" class="xhlbtn disable" href="javascript:void(0)">下单</a></div>
 <script src="./assets/diandanbao/jquery-1.11.3.min.js"></script>
 <script>
     function confirmorder() {

@@ -1,0 +1,63 @@
+@charset "UTF-8";
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak,
+.ng-hide:not(.ng-hide-animate) {
+  display: none !important;
+}
+ng\:form {
+  display: block;
+}
+@media print {
+  .smnoprint {
+    display: none;
+  }
+}
+.total-info .btn_add {
+  margin-left: 30px;
+  margin-top: 0px;
+  padding: 0px 8px;
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+  background-color: #2ec366;
+  background-color: #4dbfd0;
+  background-color: #F03C03;
+  color: #fff;
+  height: 25px;
+  line-height: 25px;
+}
+.popupWindow {
+  width: 100%;
+  height: 400px;
+  bottom: 0px;
+  position: fixed;
+  background-color: white;
+}
+.popupWindow .close {
+  float: right;
+  margin-right: 30px;
+  margin-top: 10px;
+  width: 20px;
+  height: 25px;
+}
+.ddb-nav-footer {
+  height: auto !important;
+}
+.ddb-nav-footer .button {
+  width: calc(100% - 28px);
+  height: 44px;
+  line-height: 44px;
+  margin: 10px 14px;
+  padding: 0;
+  background: #e23a39;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+}
+.order-show .juchi {
+  height: 50px;
+}

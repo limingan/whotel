@@ -3,13 +3,6 @@
 <html ng-app="diandanbao" class="ng-scope">
 <head>
     <meta charset="utf-8">
-    <style type="text/css">@charset "UTF-8";
-    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate) {
-        display: none !important;
-    }
-    ng\:form {
-        display: block;
-    }</style>
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta content="telephone=no" name="format-detection">
@@ -17,46 +10,16 @@
     <title>我的订单</title>
     <link data-turbolinks-track="true" href="/static/meal/css/weixin.css?v=1" media="all"
           rel="stylesheet">
-    <style type="text/css">@media screen {
+    <!-- 新添加样式 -->
+    <link rel="stylesheet" type="text/css" href="/static/meal/css/orderdetail.css">
+    
+    <style type="text/css">
+    @media screen {
         .smnoscreen {
-            display: none
+                display: none
+            }
         }
-    }
-
-    @media print {
-        .smnoprint {
-            display: none
-        }
-    }
-	.total-info .btn_add {
-
-	margin-left: 30px;
-	margin-top: 0px;
-	padding: 5px 8px;
-	border: 0;
-	border-radius: 2px;
-	cursor: pointer;
-	background-color: #2ec366;
-	background-color: #4dbfd0;
-	background-color: #F03C03;
-	color: #fff
-}
-
- .popupWindow{
-  width:100%;
-  height:400px;
-  bottom:0px;
-  position:fixed;
-  background-color:white;
- }
- .popupWindow .close{
-   float:right;
-   margin-right:30px;
-   margin-top:10px;
-   width:20px;
-   height:25px;
- }
-	</style>
+    </style>  
 </head>
 <body>
 <div class="mModal1" style="position:fixed;width:100%;z-index: 901;height:100%;display:none;top:0;background-color:rgba(0, 0, 0, .5)"><a href="javascript:void(0)" style="height: 736px;"></a></div>
@@ -219,12 +182,12 @@
             <div class="order-state ng-isolate-scope active">
                 <div class="order-state-header">
                     <div class="square">
-                        <div class="line-through" ng-hide="hide_left"></div>
+                        <div class="line-through ng-hide" ng-hide="hide_left"></div>
                     </div>
                     <i class="fa fa-check-circle"></i>
 
                     <div class="square">
-                        <div class="line-through" ng-hide="hide_right"></div>
+                        <div class="line-through ng-hide" ng-hide="hide_right"></div>
                     </div>
                 </div>
                 <div class="order-state-body ng-binding">已取消</div>

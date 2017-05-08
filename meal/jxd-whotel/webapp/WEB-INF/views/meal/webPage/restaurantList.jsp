@@ -2,42 +2,19 @@
 <%@ include file="/common/taglibs.jsp"%>
 <html lang="zh-CN">
 <head>
-    <style type="text/css">@charset "UTF-8";
-    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate) {
-        display: none !important;
-    }
-
-    ng\:form {
-        display: block;
-    }</style>
-    <style type="text/css">@charset "UTF-8";
-    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate) {
-        display: none !important;
-    }
-    ng\:form {
-        display: block;
-    }
-
-    </style>
+    
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta content="telephone=no" name="format-detection">
     <title>分厅列表</title>
     <link data-turbolinks-track="true" href="/static/meal/css/weixin.css?v=1" media="all" rel="stylesheet">
-    <style type="text/css">
-        @media screen {
-        .smnoscreen {
-            display: none
-        }
-    }
-    @media print {
-        .smnoprint {
-            display: none
-        }
-    }</style>
+    
     <script type="text/javascript" src="/static/meal/js/jQuery.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5PESLgvMcSbSUbPjmDKgvGZ3"></script>
     <script type="text/javascript" src="/static/meal/js/postion.js?v=3"></script>
+    <!-- 新添加样式 -->
+    <link rel="stylesheet" type="text/css" href="/static/meal/css/restaurantList.css">
+
 </head>
 <body>
 <div style="height: 100%;" class="ng-scope">
@@ -67,10 +44,10 @@
 
                            <div class="fee ng-binding">
 
-                            <span class="ng-binding ng-scope" style="display:inline-block;">营业时间 <span style="color:red">${rest.businessTime}</span>
+                            <span class="ng-binding ng-scope yy-time">营业时间 <span style="color:red">${rest.businessTime}</span>
 
 							</span>
-                            <span onclick="javascript:void(0)" class="ng-binding ng-scope"  style="text-align:center;float:right;margin-right:20px;background-color:red;color:white;border-radius:25px;width:80px;height:25px;line-height;25px;">订餐</span>
+                            <span onclick="javascript:void(0)" class="ng-binding ng-scope btn-dc">订餐</span>
 
                            </div>
                            <div class="address ng-binding">${rest.cuisine}</div>

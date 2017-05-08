@@ -7,151 +7,20 @@
 <link rel="stylesheet" type="text/css" href="http://tiantianwutuo.top/webPage/assets/diandanbao/wei_canyin_v1.8.4.css?v=1.1.1" media="all">
 <link rel="stylesheet" type="text/css" href="http://tiantianwutuo.top/addons/weisrc_dish/template/css/1/wei_dialog_v1.2.1.css?v=1.1" media="all">
 <link data-turbolinks-track="true" href="http://tiantianwutuo.top/addons/weisrc_dish/template/mobile/style1/assets/diandanbao/font.css?v=1" media="all" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="css/restaurantDetail.css">
 <style>
     /*解决右边背景总是为灰色的bug*/
     #page_allMenu section article, #pInfo {
         min-height: 100%;
     }
 </style>
-<style>abbr,article,aside,audio,canvas,datalist,details,dialog,eventsource,fieldset,figure,figcaption,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,small,time,video,legend{display:block;}</style>
+
 <script type="text/javascript" src="http://tiantianwutuo.top/addons/weisrc_dish/template/js/1/wei_webapp_v2_common_v1.9.4.js"></script>
 <script type="text/javascript" src="http://tiantianwutuo.top/addons/weisrc_dish/template/js/1/wei_dialog_v1.9.9.js"></script>
 <script type="text/javascript" src="http://tiantianwutuo.top/webpage/assets/diandanbao/jquery-1.11.3.min.js"></script>
 </head>
 <body id="page_allMenu" style="background-color: #fff;">
-<style>
-
-    .ddb-nav-header {
-        opacity: 0.95;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        height: 45px;
-        line-height: 44px;
-        z-index: 1999;
-        border-bottom: 1px solid #eeeeee;
-        background-color: white;
-        color: #555555
-    }
-
-    .ddb-nav-header a {
-        color: #555555
-    }
-
-    .ddb-nav-header .header-title {
-        width: 50%;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        text-align: center;
-        overflow: hidden;
-        font-size: 17px;
-        font-weight: bold;
-        display: inline-block;
-        margin-left: 25%
-    }
-
-    .ddb-nav-header .nav-left-item, .ddb-nav-header .nav-right-item {
-        display: inline-block;
-        height: 100%
-    }
-
-    .ddb-nav-header .nav-left-item i, .ddb-nav-header .nav-right-item i {
-        width: 20px;
-        font-size: 18px;
-        line-height: inherit;
-    }
-
-    .ddb-nav-header .nav-left-item {
-        width: 25%;
-        float: left;
-        padding-left: 10px
-    }
-
-    .ddb-nav-header .nav-right-item {
-        width: 10%;
-        float: right;
-        text-align: right
-    }
-
-    .ddb-nav-header .nav-right-item .operation-button {
-        font-size: 16px;
-        text-align: right;
-        color: #555555;
-        padding-right: 10px;
-        font-weight: bold
-    }
-
-    .ddb-nav-header .nav-left-item ~ .header-title {
-        margin-left: 0
-    }
-
-    .ddb-nav-header.label-red {
-        border-bottom: 0
-    }
-    .notification-section {
-        opacity: 0.9;
-        top: 45px;
-        margin-top: 45px;
-        background-color: #fff9df;
-        padding: 0 10px;
-        border-bottom: 0px solid #dbdbdb;
-        z-index: 1999;
-    }
-
-    .notification-section .notice {
-        border-top: 1px dotted #eeeeee;
-        padding: 8px 0;
-        padding-left: 30px;
-        line-height: 20px
-    }
-
-    .notification-section .notice i {
-        display: block;
-        float: left;
-        margin-left: -30px;
-        text-align: center;
-        width: 30px
-    }
-    .product-notice-section {
-        opacity: 0.9;
-        top: 45px;
-        margin-top: 45px;
-
-        background-color: #fff9df;
-        padding: 8px 20px;
-        font-size: 14px;
-        line-height: 20px;
-        z-index: 1999
-    }
-	.ddb-tab-bar .active{
-	padding-bottom:0px;
-	line-height:5px;
-	border-bottom:2px solid #ff0000
-	}
-	.dn{
-	display:none
-	}
-	.shopInfoList{
-	 line-height:40px;
-	 font-size:16px;
-	}
-	.shopInfoList img {
-	 width:13px;height:13px;margin-left:20px
-	}
-	.shopInfoList span{
-	 margin-left:20px
-	}
-	.shopInfoList i{
-	 margin-left:10px
-	}
-	.dishSecondTitle{
-	 line-height:8px;
-	}
-	.dishstyle{
-	position:absolute;
-    right:0px;
-	}
-</style>
 <div class="ddb-nav-header ng-scope">
     <a class="nav-left-item" href="javascript:void(0)" onclick="history.go(-1)"><i class="fa fa-angle-left"></i><span style="position:absolute;top:0px">返回</span></a>
     <div class="header-title ng-binding">餐厅1</div>
@@ -159,18 +28,32 @@
 </div>
 
 <div class="notification-section">
-    <div class="">
-       <img style="width:100%;height:200px" src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/>
+    <div class="adsBar">
+       <img  src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/>
     </div>
 </div>
          
 
 
-<div class="shopInfoList ">
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >月售 811 份</span></div>
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >09:30-21:00</span></div>
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >深圳市南山区</span></div>
- <div><img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/><span >0755-33331111</span><a href="javascript:void(0);"><i class="fa fa-angle-right"></i></a></div>
+<div class="shopInfoList">
+ <div class="shopDetail">
+    <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/>
+    <span >月售 811 份</span>
+  </div>
+ <div class="shopDetail">
+    <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/>
+    <span >09:30-21:00</span>
+  </div>
+ <div class="shopDetail">
+    <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/>
+    <span >深圳市南山区</span>
+  </div>
+ <div class="shopDetail">
+    <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg"/>
+    <span >0755-33331111</span>
+    <a href="javascript:void(0);"><i class="fa fa-angle-right"></i></a>
+  </div>
+  <div class="bom-line">&nbsp;</div>
 </div>
 <div class="mModal" style="z-index: 900;height:100%;display:none"><a href="javascript:void(0)" style="height: 736px;"></a></div>
 <div class="popupWindow" style="z-index:9999;display:none">
@@ -178,84 +61,7 @@
  <div id="popContent"></div>
 </div>
 <style>
- .popupWindow{
-  width:100%;
-  height:400px;
-  bottom:0px;
-  position:fixed;
-  background-color:white;
- }
- .popupWindow .close{
-   float:right;
-   margin-right:30px;
-   margin-top:10px;
-   width:20px;
-   height:25px;
- }
- .subTitle{
-  margin-left:20px;
-  padding-top:20px
- }
- .multiStyle .stitle{
-  text-align:center;
-  font-size:16px;
-  margin-top:20px;
- }
- .multiStyle>ul{
-  margin-top:-20px;margin-left:50px;
- }
- .setStyle>ul{
-  margin-top:60px;margin-left:20px;
- }
- .multiStyle>ul>li{
-  margin-bottom:5px;margin-left:20px;display:inline-block;line-height:22px;height:25px;text-align:center;width:60px;border:1px solid #b2b2b2;border-radius:15px;color:white:float:left;list-style:none;
- }
- .setStyle>ul>li{
-  margin-bottom:5px;margin-left:20px;display:inline-block;line-height:22px;height:25px;text-align:center;width:70px;border:1px solid #b2b2b2;border-radius:15px;color:white:float:left;list-style:none;
- }
- .setStyle>.settitle{
-   position:absolute;
-   top:10px;
-   font-size:16px;
-   left:43%;
- }
- .multiStyle ul .redborder,.setStyle ul .redborder{
-  border:1px solid #F00;
- }
- .bottomright-button{
-  position:fixed;
-  bottom:5px;
-  right:40px;
-  width:77px;
-  height:32px;
- }
- .bottom-rmb
- {
-  position:fixed;
-  bottom:14px;
-  left:70px;
-  width:8px;
-  height:14px;
- }
- .bottom-price{
-  position:fixed;
-  bottom:10px;
-  left:83px;
-  font-size:20px;
-  color:red;
- }
- .leftArrow,.rightArrow{
-  width:10px;
-  height:20px;
-  position:absolute;
-  top:10px;  
- }
- .leftArrow{
-  left:35%;
- }
- .rightArrow{
-  left:65%;
- }
+ 
 </style>
 
 <script type="text/javascript">

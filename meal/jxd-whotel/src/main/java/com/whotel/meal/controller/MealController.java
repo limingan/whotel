@@ -11,12 +11,10 @@ import com.whotel.card.service.MemberTradeService;
 import com.whotel.common.base.Constants;
 import com.whotel.common.dao.mongo.Page;
 import com.whotel.common.dto.ResultData;
-import com.whotel.common.enums.FilterModel;
-import com.whotel.common.enums.PayMent;
-import com.whotel.common.enums.PayMode;
-import com.whotel.common.enums.TradeStatus;
+import com.whotel.common.enums.*;
 import com.whotel.common.util.BeanUtil;
 import com.whotel.common.util.DateUtil;
+import com.whotel.common.util.EncryptUtil;
 import com.whotel.company.entity.Company;
 import com.whotel.company.entity.PublicNo;
 import com.whotel.company.enums.ModuleType;
@@ -25,6 +23,7 @@ import com.whotel.ext.json.JSONDataUtil;
 import com.whotel.front.controller.FanBaseController;
 import com.whotel.front.entity.PayOrder;
 import com.whotel.front.entity.WeixinFan;
+import com.whotel.front.service.PayOrderService;
 import com.whotel.hotel.entity.Hotel;
 import com.whotel.hotel.service.HotelService;
 import com.whotel.meal.controller.req.*;
@@ -36,10 +35,7 @@ import com.whotel.meal.service.*;
 import com.whotel.thirdparty.jxd.mode.HotelBranchQuery;
 import com.whotel.thirdparty.jxd.mode.HotelCityQuery;
 import com.whotel.thirdparty.jxd.mode.MealTabQuery;
-import com.whotel.thirdparty.jxd.mode.vo.HotelBranchVO;
-import com.whotel.thirdparty.jxd.mode.vo.HotelCityVO;
-import com.whotel.thirdparty.jxd.mode.vo.MemberCouponVO;
-import com.whotel.thirdparty.jxd.mode.vo.MemberVO;
+import com.whotel.thirdparty.jxd.mode.vo.*;
 import com.whotel.webiste.entity.Theme;
 import com.whotel.webiste.service.ThemeService;
 import com.whotel.weixin.bean.Location;
@@ -104,6 +100,8 @@ public class MealController extends FanBaseController {
     GuestService guestService;
     @Autowired
     PrizeService prizeService;
+    @Autowired
+    private PayOrderService payOrderService;
 
 
     @RequestMapping("/oauth/meal/login")
@@ -420,11 +418,8 @@ public class MealController extends FanBaseController {
         String openId = getCurrentOpenId(req);
         MealOrder mealOrder = mealOrderService.find(companyId, openId, orderId);
         Restaurant restaurant = mealOrder.getRestaurant();
-
-        List<PrizeRecord> prizeList = prizeService.getByOpenId(openId,companyId);
         req.setAttribute("order", mealOrder);
         req.setAttribute("rest", restaurant);
-        req.setAttribute("prizeList",prizeList);
         return "meal/webPage/paycenter";
     }
 
@@ -558,6 +553,9 @@ public class MealController extends FanBaseController {
         req.setAttribute("list", list);
         req.setAttribute("totalPrice", total);
         req.setAttribute("hotel", hotel);
+        List<PrizeRecord> prizeList = prizeService.getByOpenId(openId,companyId);
+
+        req.setAttribute("prizeList", prizeList);
         return "/meal/webPage/menu";
     }
 
@@ -816,6 +814,61 @@ public class MealController extends FanBaseController {
             resultData.setData(jsApi);
         }
         return resultData;
+    }
+
+
+    @RequestMapping("/oauth/meal/memberPay")
+    @ResponseBody
+    public String memberPay(HttpServletRequest req,String password,String orderId,String mbrCardNo){
+        Member member = getCurrentMember(req);
+        if(!StringUtils.equals(member.getPayPwd(), EncryptUtil.md5(password))) {
+            return "支付密码不正确";
+        }
+
+        MealOrder mealOrder = mealOrderService.getMealOrderById(orderId);
+
+        PayOrder payOrder = payOrderService.getPayOrderByOrderSn(mealOrder.getPaySn());
+        if(payOrder == null || !payOrderService.checkPayOrder(payOrder)) {
+            return "订单数据错误，请重新下单！";
+        }
+
+        MemberVO memberVO = getCurrentMemberVO(req);
+        Company company =getCurrentCompany(req);
+        String subProfileId = null;
+        if(StringUtils.isNotBlank(mbrCardNo)){
+            MbrCardVO mbrCardVO = memberTradeService.getMbrCardVO(company,memberVO.getProfileId(), mbrCardNo);
+            if(mbrCardVO==null){
+                return "订单数据错误，卡号找不到，请重新下单！";
+            }else if(mbrCardVO.getBalance()<(payOrder.getTotalFee()/100)){
+                return "余额不足";
+            }
+            subProfileId = mbrCardVO.getProfileId();
+        }else{
+            if(memberVO.getBalance()<(payOrder.getTotalFee()/100)){
+                return "余额不足";
+            }
+        }
+
+        WeixinFan fan = getCurrentFan(req);
+
+        payOrder.setOpenId(fan.getOpenId());
+        payOrder.setCompanyId(company.getId());
+        payOrder.setMbrCardNo(mbrCardNo);
+        payOrder.setPayMent(PayMent.BALANCEPAY);
+        payOrderService.savePayOrder(payOrder);
+        String tradeNo = payOrder.getOrderSn();
+        boolean memberTrade = memberTradeService.memberTrade(tradeNo, fan.getOpenId(), payOrder.getTotalFee(), TradeType.DEDUCT, payOrder.getRemark(),subProfileId);
+        if(memberTrade) {
+            boolean rs = payOrderService.handlePayOrder(tradeNo, tradeNo, PayMent.BALANCEPAY);
+            if(rs) {
+                PayMode payMode = payOrder.getPayMode();
+                if(PayMode.BOOKHOTEL.equals(payMode)||PayMode.TICKETBOOK.equals(payMode)||PayMode.BOOKMEAL.equals(payMode)||PayMode.COMBOBOOK.equals(payMode)) {
+                    return "true";
+                }
+            }
+        }
+
+        return "支付失败，请重新下单";
     }
 
 

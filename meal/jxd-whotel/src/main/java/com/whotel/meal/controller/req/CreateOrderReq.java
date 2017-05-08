@@ -24,6 +24,8 @@ public class CreateOrderReq {
 
     private MealOrderType mealOrderType;
 
+    private String prizeId;//优惠券ID
+
     public MealOrderType getMealOrderType() {
         return mealOrderType;
     }
@@ -78,5 +80,13 @@ public class CreateOrderReq {
 
     public void setOpenId(String openId) {
         this.openId = openId;
+    }
+
+    public String getPrizeId() {
+        return prizeId;
+    }
+
+    public void setPrizeId(String prizeId) {
+        this.prizeId = prizeId;
     }
 }

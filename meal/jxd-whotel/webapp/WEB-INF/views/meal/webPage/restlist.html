@@ -1,38 +1,11 @@
 <html lang="zh-CN">
 <head>
-    <style type="text/css">@charset "UTF-8";
-    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate) {
-        display: none !important;
-    }
-
-    ng\:form {
-        display: block;
-    }</style>
-    <style type="text/css">@charset "UTF-8";
-    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate) {
-        display: none !important;
-    }
-    ng\:form {
-        display: block;
-    }
-
-    </style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta content="telephone=no" name="format-detection">
     <title>门店列表</title>
     <link data-turbolinks-track="true" href="./assets/diandanbao/weixin.css?v=1 " media="all" rel="stylesheet">
-    <style type="text/css">
-        @media screen {
-        .smnoscreen {
-            display: none
-        }
-    }
-    @media print {
-        .smnoprint {
-            display: none
-        }
-    }</style>
+    <link rel="stylesheet" type="text/css" href="css/restlist.css">
     <script type="text/javascript" src="./assets/diandanbao/jQuery.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5PESLgvMcSbSUbPjmDKgvGZ3"></script>
     <script type="text/javascript" src="./assets/diandianbao/postion.js?v=3"></script>
@@ -182,6 +155,128 @@
 								<i class="fa fa-star-o ng-scope"></i>
 								<i class="fa fa-star-o ng-scope"></i>
 								<i class="fa fa-star-o ng-scope"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="third-line">
+                        <div class="time ng-hide" ng-show="branch.delivery_times.length &gt; 0">
+                            <i class="fa fa-clock-o"></i>
+                            配送时间
+                        </div>
+                        <div class="fee ng-binding">
+                     
+                            <span class="ng-binding ng-scope">￥20起送</span>
+                            <span class="spliter"></span>
+                           
+                            
+                            <span class="ng-binding ng-scope">配送费￥6</span>
+                            <span class="spliter"></span>
+                           
+                        </div>
+                        <div class="address ng-binding">深圳市福田区XX路XX号</div>
+                    </div>
+                </div>
+            </a>
+           
+            <div class="top-sales ng-binding ng-scope">
+                餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介
+            </div>
+            
+        </div>
+        <div class="morelist branch-item ng-scope " >  
+        <input id="showlan" type="hidden" value="100,100"/>     
+            <a class="branch-info " href="{php echo $this->createMobileUrl('detail', array('id' => $item['id']), true)}">
+                <div class="branch-image">
+                    <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg">
+                </div>
+                <div class="delivery-info">
+                    <div class="first-line">
+                        <div class="name ng-binding">
+                            餐厅1
+                        </div>
+                        
+                        
+                        
+                        <div class="tag label-green ng-scope">营业中</div>
+                        
+                        
+                        <div class="tag label-red ng-scope">店</div>
+                        
+                        
+                        <div class="tag label-blue ng-scope">外</div>
+                        
+                        <div class="distance right ng-binding" id="shopspostion">10.345km</div>
+                    </div>
+                    <div class="second-line">
+                        <div class="comment-level red">
+                            <div class="ng-isolate-scope">
+                                
+                                <i class="fa fa-star-o ng-scope"></i>
+                                <i class="fa fa-star-o ng-scope"></i>
+                                <i class="fa fa-star-o ng-scope"></i>
+                                <i class="fa fa-star-o ng-scope"></i>
+                                <i class="fa fa-star-o ng-scope"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="third-line">
+                        <div class="time ng-hide" ng-show="branch.delivery_times.length &gt; 0">
+                            <i class="fa fa-clock-o"></i>
+                            配送时间
+                        </div>
+                        <div class="fee ng-binding">
+                     
+                            <span class="ng-binding ng-scope">￥20起送</span>
+                            <span class="spliter"></span>
+                           
+                            
+                            <span class="ng-binding ng-scope">配送费￥6</span>
+                            <span class="spliter"></span>
+                           
+                        </div>
+                        <div class="address ng-binding">深圳市福田区XX路XX号</div>
+                    </div>
+                </div>
+            </a>
+           
+            <div class="top-sales ng-binding ng-scope">
+                餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介餐厅简介
+            </div>
+            
+        </div>
+        <div class="morelist branch-item ng-scope " >  
+        <input id="showlan" type="hidden" value="100,100"/>     
+            <a class="branch-info " href="{php echo $this->createMobileUrl('detail', array('id' => $item['id']), true)}">
+                <div class="branch-image">
+                    <img src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg">
+                </div>
+                <div class="delivery-info">
+                    <div class="first-line">
+                        <div class="name ng-binding">
+                            餐厅1
+                        </div>
+                        
+                        
+                        
+                        <div class="tag label-green ng-scope">营业中</div>
+                        
+                        
+                        <div class="tag label-red ng-scope">店</div>
+                        
+                        
+                        <div class="tag label-blue ng-scope">外</div>
+                        
+                        <div class="distance right ng-binding" id="shopspostion">10.345km</div>
+                    </div>
+                    <div class="second-line">
+                        <div class="comment-level red">
+                            <div class="ng-isolate-scope">
+                                
+                                <i class="fa fa-star-o ng-scope"></i>
+                                <i class="fa fa-star-o ng-scope"></i>
+                                <i class="fa fa-star-o ng-scope"></i>
+                                <i class="fa fa-star-o ng-scope"></i>
+                                <i class="fa fa-star-o ng-scope"></i>
                             </div>
                         </div>
                     </div>

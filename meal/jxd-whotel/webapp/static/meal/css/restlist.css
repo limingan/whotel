@@ -1,0 +1,45 @@
+@charset "UTF-8";
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak,
+.ng-hide:not(.ng-hide-animate) {
+  display: none !important;
+}
+ng\:form {
+  display: block;
+}
+@media screen {
+  .smnoscreen {
+    display: none;
+  }
+}
+@media print {
+  .smnoprint {
+    display: none;
+  }
+}
+.main-view {
+  padding-top: 70px !important;
+}
+.main-view .branch-item .branch-info {
+  height: 95px !important;
+}
+.main-view .branch-item .branch-info .branch-image {
+  height: 60px !important;
+}
+.main-view .branch-item .branch-info .branch-image img {
+  height: 60px !important;
+}
+.main-view .branch-item .fee,
+.main-view .branch-item .address {
+  color: #999;
+}
+.main-view .branch-item .top-sales {
+  color: #999;
+}
+.ddb-tab-bar .ddb-tab-item:last-child {
+  border-right: none;
+}

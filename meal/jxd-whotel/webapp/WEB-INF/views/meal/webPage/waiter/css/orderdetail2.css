@@ -1,0 +1,113 @@
+@charset "UTF-8";
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak,
+.ng-hide:not(.ng-hide-animate) {
+  display: none !important;
+}
+ng\:form {
+  display: block;
+}
+@media screen {
+  .smnoscreen {
+    display: none;
+  }
+}
+@media print {
+  .smnoprint {
+    display: none;
+  }
+}
+.total-info .btn_add {
+  margin-left: 30px;
+  margin-top: 0px;
+  padding: 5px 8px;
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+  background-color: #2ec366;
+  background-color: #4dbfd0;
+  background-color: #F03C03;
+  color: #ffffff;
+}
+.addMargin {
+  margin-left: 12px;
+}
+#btnselect {
+  position: fixed;
+  text-align: center;
+  margin-bottom: 5px;
+  margin-left: 1%;
+  width: 98%;
+  bottom: 0;
+  color: white;
+  background-color: #e23a39;
+  font-size: 18px;
+  line-height: 45px;
+  height: 45px;
+  letter-spacing: 15px;
+  border-radius: 0 0 5px 5px;
+}
+.section {
+  border-top: none !important;
+  padding-bottom: 30px;
+}
+.main-view {
+  background: #eee !important;
+  height: 100% !important;
+}
+.ddb-nav-header .nav-right-item {
+  width: auto !important;
+}
+.list-item-title {
+  padding-top: 10px;
+  height: 40px;
+  line-height: 30px;
+}
+.list-item-title i {
+  vertical-align: middle;
+  margin-right: 10px;
+}
+.list-item-line {
+  height: 1px;
+  margin-left: 25px;
+  background: #efefef;
+}
+.list-item {
+  border-bottom: none !important;
+  padding-left: 12px !important;
+}
+.list-item .table_book tr {
+  height: 40px;
+  line-height: 40px;
+}
+.list-item .table_book tr input,
+.list-item .table_book tr select {
+  height: 30px;
+  width: 100%;
+  padding-left: 8px;
+}
+.list-item .table_book tr .td-l {
+  width: 80px;
+  line-height: 25px;
+}
+.list-item-s {
+  margin-top: -8px;
+}
+.price-wg {
+  font-size: 15px;
+}
+.xd-box {
+  width: 100%;
+  margin-top: 30px;
+}
+.xd-box .xhlbtn {
+  display: block;
+  position: relative  !important;
+}
+.price-wg {
+  font-size: 16px;
+}
