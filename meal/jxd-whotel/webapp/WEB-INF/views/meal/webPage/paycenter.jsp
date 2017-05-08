@@ -21,6 +21,7 @@
 	<script type="text/javascript" src="/static/meal/js/common.js?v=20160906"></script>
 	<link href="/static/meal/css/bootstrap.min.css?v=20160906" rel="stylesheet">
 	<link href="/static/meal/css/common.min.css?v=20160906" rel="stylesheet">
+	<link rel="stylesheet" type="text/css"  href="/static/front/css/loading.css?v=${version}"/>
 	<script type="text/javascript">
 	if(navigator.appName == 'Microsoft Internet Explorer'){
 		if(navigator.userAgent.indexOf("MSIE 5.0")>0 || navigator.userAgent.indexOf("MSIE 6.0")>0 || navigator.userAgent.indexOf("MSIE 7.0")>0) {
@@ -37,6 +38,7 @@
 <div class="container container-fill">
 
 <div class="mui-content pay-method">
+	<input type="hidden" value="${order.id}" id="orderId">
 	<h5 class="mui-desc-title mui-pl10">订单详情</h5>
 	<ul class="mui-table-view">
 
@@ -46,7 +48,12 @@
 		<li class="mui-table-view-cell">
 			商家名称<span class="mui-pull-right mui-text-muted">${rest.name}</span>
 		</li>
-
+        <li class="mui-table-view-cell">
+			优惠券<select id="coupon" class="mui-pull-right mui-text-muted" style="margin-top:-6px;width:70px;height:33px;padding:0;margin-bottom:-20px">
+			       <option couponId="333">减2</option>
+			       <option couponId="334">减22</option>
+			</select>
+		</li>
 		<li class="mui-table-view-cell">
 			您需要支付<span class="mui-pull-right mui-text-success mui-big mui-rmb">${order.totalFee} 元</span>
 		</li>
@@ -55,30 +62,9 @@
 	<h5 class="mui-desc-title mui-pl10">选择支付方式</h5>
 	<ul class="mui-table-view mui-table-view-chevron">
 
-		<li class="mui-table-view-cell">
-			<a class="mui-navigate-right mui-media js-pay" href="javascript:;">
-				<form action="{php echo url('mc/cash/credit');}" method="post">
-					<input type="hidden" name="params" value="{php echo base64_encode(json_encode($params));}" />
-					<input type="hidden" name="code" value="" />
-					<input type="hidden" name="coupon_id" value="" />
-				</form>
-				<img src="/static/meal/images/money.png" alt="" class="mui-media-object mui-pull-left"/>
-				<span class="mui-media-body mui-block">
-					余额
-					<span class="mui-block mui-text-muted mui-rmb mui-mt5"> 30.00</span>
-				</span>
-			</a>
-		</li>
-
-		
 
 		<li class="mui-table-view-cell mui-disabled js-wechat-pay">
-			<a class="mui-navigate-right mui-media" href="javascript:;">
-				<form action="{php echo url('mc/cash/wechat');}" method="post">
-					<input type="hidden" name="params" value="{php echo base64_encode(json_encode($params));}" />
-					<input type="hidden" name="code" value="" />
-					<input type="hidden" name="coupon_id" value="" />
-				</form>
+			<a class="mui-navigate-right mui-media" href="javascript:;" id="order">
 				<img src="/static/meal/images/wx-icon.png" alt="" class="mui-media-object mui-pull-left"/>
 				<span class="mui-media-body mui-block">
 					<span id="wetitle">微信支付(必须使用微信内置浏览器)</span>
@@ -122,38 +108,41 @@
 	<div class="mui-content">
 		<div class="pay-select-coupon">
 			<div class="js-coupon-show">
-				{loop $coupon $li}
-				<div class="mui-input-row mui-radio">
-					<label>
-						<div class="coupon-panel">
-							<div class="mui-row">
-								<div class="mui-col-xs-4 mui-text-center">
-									<div class="coupon-panel-left">
-										{$li['icon']}
+				<c:forEach  items="${prizeList}" var="prize">
+					<div class="mui-input-row mui-radio">
+						<label>
+							<div class="coupon-panel">
+								<div class="mui-row">
+									<div class="mui-col-xs-4 mui-text-center">
+										<div class="coupon-panel-left">
+											${prize.pic}
+										</div>
+									</div>
+									<div class="mui-col-xs-8">
+										<div class="store-title mui-ellipsis">${prize.prizeName}</div>
+										<div class="date">${prize.date}</div>
 									</div>
 								</div>
-								<div class="mui-col-xs-8">
-									<div class="store-title mui-ellipsis">{$li['title']}</div>
-									<div class="date">{$li['extra_date_info']}</div>
-								</div>
 							</div>
-						</div>
-						<input type="radio" name="coupon" value="{$li['id']}" />
-					</label>
-					<ol class="coupon-rules" style="display:none;">
-						{if empty($li[description])}
-						暂无说明
-						{else}
-						{php echo htmlspecialchars_decode($li['description'])}
-						{/if}
-					</ol>
-					<div class="scan-rules js-scan-rules">折扣券使用规则<span class="fa fa-angle-up"></span></div>
-				</div>
-				{/loop}
+							<input type="radio" name="coupon" value="${prize.id}" />
+						</label>
+						<ol class="coupon-rules" style="display:none;">
+							<c:if test="${empty prize.remark}">
+							暂无说明
+							</c:if>
+							<c:if test="${!empty prize.remark}">
+								${prize.remark}
+							</c:if>
+						</ol>
+						<div class="scan-rules js-scan-rules">折扣券使用规则<span class="fa fa-angle-up"></span></div>
+					</div>
+				</c:forEach>
 			</div>
 		</div>
 	</div>
 </div>
+	<div id="tradeForm" style="display: none"></div>
+	<div class="loading" id="loading"></div>
 
 
 <script type="text/javascript">
@@ -212,14 +201,94 @@
 </script>
 {/if}
 <script type="text/javascript">
-	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-		$('.js-wechat-pay').removeClass('mui-disabled');
-		$('.js-wechat-pay a').addClass('js-pay');
-		$('#wetitle').html('微信支付');
-	});
+
+
+	   var data = 
+       {
+         "appId": "wx8888888888888888",
+         "timeStamp": "1414411784",
+         "nonceStr": "gbwr71b5no6q6ne18c8up1u7l7he2y75",
+         "package": "prepay_id=wx201410272009395522657a690389285100",
+         "signType": "MD5",
+         "paySign": "9C6747193720F851EB876299D59F6C7D"
+       }
+       var isHouFu = 1; //是否后付
+	   function jsApiCall()
+        {
+            WeixinJSBridge.invoke(
+                'getBrandWCPayRequest',
+                data,
+                function(res){
+                    WeixinJSBridge.log(res.err_msg);
+                    window.location.replace("/outh/orderList");
+					//alert(res.err_code+res.err_desc+res.err_msg);
+                }
+            );
+        }
+
+        function callpay()
+        {
+            if (typeof WeixinJSBridge == "undefined"){
+                if( document.addEventListener ){
+                    document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                }else if (document.attachEvent){
+                    document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+                    document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                }
+            }else{
+                jsApiCall();
+            }
+        }
 	$(document).on('click', '.js-pay', function() {
 		$(this).find('form').submit();
 	})
+	
+	$('#order').click(function(){
+		/*if(1 == isHouFu)
+		{
+		   var couponId = $('#coupon').val();
+		   $.post('/outh/generateOrder',{orderId:${order.orderSn},couponId:couponId},function(res){
+		   	if(res.status == 200)
+		   	{ 
+		           data = res.data;
+		   		callpay();
+		   	}
+		   });
+		}
+		else*/
+//		 callpay();
+		wxPay();
+		
+	});
+
+
+
+	   var $loading = $("#loading");
+	   function wxPay() {
+		   $loading.show();
+		   $.ajax({
+			   type : "POST",
+			   url : "/oauth/meal/getWxPayData.do",
+			   data:{orderId:$("#orderId").val()},
+			   cache:false,
+			   dataType : 'html',
+			   success : function(rs) {
+				   $loading.hide();
+				   if (rs && rs != "") {
+					   $("#tradeForm").html(rs);
+				   } else {
+					   // document.referrer
+					   $("#alertMsg").html("支付失败！");
+					   $("#alertTip").modal();
+				   }
+			   },
+			   error: function(request) {
+				   $loading.hide();
+				   $("#alertMsg").html("网络异常，支付失败！");
+				   $("#alertTip").modal();
+			   }
+		   });
+	   }
 </script>
 
 </div>

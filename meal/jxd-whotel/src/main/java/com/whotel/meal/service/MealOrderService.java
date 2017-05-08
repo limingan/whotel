@@ -2,18 +2,23 @@ package com.whotel.meal.service;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.weixin.pay.util.WxPayUtil;
 import com.whotel.card.entity.Guest;
 import com.whotel.card.entity.Member;
 import com.whotel.card.service.MemberService;
 import com.whotel.common.dao.mongo.Order;
 import com.whotel.common.dao.mongo.Page;
 import com.whotel.common.enums.FilterModel;
+import com.whotel.common.enums.PayMent;
 import com.whotel.common.enums.PayMode;
 import com.whotel.common.enums.TradeStatus;
 import com.whotel.common.util.BeanUtil;
 import com.whotel.company.entity.Company;
 import com.whotel.company.entity.InterfaceConfig;
+import com.whotel.company.entity.PayConfig;
+import com.whotel.company.enums.PayType;
 import com.whotel.company.service.InterfaceConfigService;
+import com.whotel.company.service.PayConfigService;
 import com.whotel.company.service.SysParamConfigService;
 import com.whotel.ext.json.JSONConvertFactory;
 import com.whotel.ext.json.JSONDataUtil;
@@ -65,6 +70,9 @@ public class MealOrderService {
     DishesActionService dishesActionService;
     @Autowired
     GuestService getDeliverPrice;
+    @Autowired
+    PayConfigService payConfigService;
+
 
     /**
      * 查询餐饮订单
@@ -396,6 +404,8 @@ public class MealOrderService {
         MealOrder mealOrder = new MealOrder();
         mealOrder.setOpenId(openId);
         mealOrder.setCompanyId(companyId);
+        mealOrder.setRestaurantId(restaurantId);
+        mealOrder.setHotelCode(hotelCode);
         mealOrder.setName(restaurant.getName());
         mealOrder.setOrderSn(hotel.getCode() + payOrderService.genPayOrderSn());
         mealOrder.setTotalFee(total);
@@ -412,22 +422,28 @@ public class MealOrderService {
         mealOrder.setCreateTime(now);
         mealOrder.setUpdateTime(now);
         mealOrder.setCreateDate(now);
+
+        String payOrderSn = payOrderService.genPayOrderSn();
+        mealOrder.setPaySn(payOrderSn);
         mealOrderDao.save(mealOrder);
 
-
         PayOrder payOrder = new PayOrder();
+        payOrder.setOrderSn(payOrderSn);
         payOrder.setPayMode(PayMode.BOOKMEAL);
         payOrder.setOpenId(openId);
         payOrder.setName(mealOrder.getName());
         payOrder.setBusinessId(mealOrder.getId());
         payOrder.setTotalFee((long) (mealOrder.getTotalFee() * 100));
         payOrder.setCompanyId(companyId);
-        payOrder.setOrderSn(mealOrder.getOrderSn());
+        payOrder.setOrderSn(payOrderSn);
 
         payOrderService.savePayOrder(payOrder);
 
         return mealOrder;
     }
+
+
+
 
     private List<SuiteItem> getSuiteDish(Dishes dishes, Map<String, String> map) {
         List<SuiteItem> items = Lists.newArrayList();
@@ -445,5 +461,18 @@ public class MealOrderService {
             }
         }
         return items;
+    }
+
+
+    public String genJsApi(MealOrder order,String ip){
+        PayOrder payOrder = payOrderService.getPayOrderByOrderSn(order.getPaySn());
+        payOrder.setOpenId(order.getOpenId());
+        payOrder.setCompanyId(order.getCompanyId());
+        payOrder.setPayMent(PayMent.WXPAY);
+        payOrderService.savePayOrder(payOrder);
+
+        PayConfig payConfig =  payConfigService.getPayConfigByType(payOrder.getCompanyId(),PayType.WX);
+        String payApi = WxPayUtil.genJsApi(payConfig, payOrder, ip, null);
+        return payApi;
     }
 }

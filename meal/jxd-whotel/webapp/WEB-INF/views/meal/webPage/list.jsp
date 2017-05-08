@@ -303,7 +303,7 @@
   margin-bottom:5px;margin-left:20px;display:inline-block;line-height:22px;height:25px;text-align:center;width:60px;border:1px solid #b2b2b2;border-radius:15px;color:white:float:left;list-style:none;
  }
  .setStyle>ul>li{
-  margin-bottom:5px;margin-left:20px;display:inline-block;line-height:22px;height:25px;text-align:center;width:70px;border:1px solid #b2b2b2;border-radius:15px;color:white:float:left;list-style:none;
+  margin-bottom:5px;margin-left:20px;display:inline-block;line-height:22px;height:25px;text-align:center;width:100px;border:1px solid #b2b2b2;border-radius:15px;color:white:float:left;list-style:none;
  }
  .setStyle>.settitle{
    position:absolute;
@@ -349,6 +349,12 @@
  }
  .rightArrow{
   left:62%;
+ }
+ .confirmBtn{
+  border-radius:0px;
+  background-color:#FF0000;
+  color:white;
+  border:0px;
  }
 </style>
 <script type="text/javascript"> 
@@ -427,13 +433,16 @@
 	   localStorageObj['data'] = parentDl.getAttribute('setData').replace(/[\r\n]/g,"");
 	   var setData = eval('('+ parentDl.getAttribute('setData') + ')');
 	   var setDishLength = setData.length;
-	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="/static/meal/images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="/static/meal/images/right_right_arrow.png">{1}</div>';
+	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="/static/meal/images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="./images/right_right_arrow.png">{1}</div>';
 	   
 	   $(setData).each(function(i,n){
 	      var baseHtml = '';
 		  
    	      $(n).each(function(ii,nn){
-		    baseHtml += '<li attrid="{0}">{1}</li>'.format(nn.dishNo,nn.dishName);
+		    if(typeof(nn.style) !='undefined')
+		    baseHtml += '<li attrid="{0}" styleData=\'{2}\'>{1}</li>'.format(nn.id,nn.name,JSON.stringify(nn.style));
+			else
+			baseHtml += '<li attrid="{0}">{1}</li>'.format(nn.id,nn.name);
 		 });
 		 baseHtml = '<ul>{0}</ul>'.format(baseHtml);
 		 
@@ -460,8 +469,14 @@
 			 }
 			else
              {
-			  var subDishId = parentNode.children('.setStyle').children('ul').eq(i).children('.redborder').attr('attrid');
-			  setDishList.push(subDishId);
+			  var selectedDish = parentNode.children('.setStyle').children('ul').eq(i).children('.redborder');
+			  var subDishId = selectedDish.attr('attrid');
+			  var obj = {id:subDishId};
+			  if(selectedDish.attr('selectStyle') != undefined)
+			  {
+			   obj.style = selectedDish.attr('selectStyle')
+			  }
+			  setDishList.push(obj);
 			 }			
 		  }
 		  //save set id setdishes id
@@ -481,7 +496,68 @@
 	   $('.mModal1,.popupWindow').show();
 	   $('.setStyle ul li').click(function(){
 	    $(this).parent().children('li').removeClass('redborder');
-		$(this).addClass('redborder');
+		if($(this).attr('styledata') == undefined)
+		 $(this).addClass('redborder');
+		else
+         {
+		   //show style selection dialog
+		   var stylePopup = $('.popupWindow').clone();
+		   stylePopup.children('#popContent').html('');
+		   
+		   // add style data
+		   var multiStyleTemplate = '<div class="multiStyle"><div class="stitle"><span>{0}</span></div>{1}</div>';
+	       var multiStyleBaseTemplate = '<div class="subtitle" attrid="{2}">{0}</div>{1}';
+	       var multiStyle = eval('('+ $(this).attr('styledata') + ')');
+		   var html = '';
+	       $(multiStyle).each(function(i,n){
+	       var baseHtml = '';
+		  
+   	         $(n.data).each(function(ii,nn){
+		       baseHtml += '<li attrid="{0}"  >{1}</li>'.format(nn.id,nn.name);
+		     });
+		   baseHtml = '<ul>{0}</ul>'.format(baseHtml);		 
+		   html += multiStyleBaseTemplate.format(n.name, baseHtml,n.id);
+	      });
+		   html += '<button class="bottomright-button confirmBtn">确定</button>';
+		   stylePopup.children('#popContent').html(multiStyleTemplate.format('',html));
+		   //bind event
+		   stylePopup.children('.close').click(function(){
+		     $(this).parent().remove();
+		   });
+		   stylePopup.find('li').click(function(){
+		     $(this).parent().children('li').removeClass('redborder');
+		     $(this).addClass('redborder');
+		   });
+		   var currentDish = this;
+		   stylePopup.find('.confirmBtn').click(function(){
+		     var ulLength = $(this).parent().children('ul').length;
+		     var parentNode = $(this).parent();
+		     var dishStyleList = {};
+			 var dishStyleAllSelected = true;
+		     for(var i=0;i<ulLength ;i++)
+		     {
+		      if(parentNode.children('ul').eq(i).children('.redborder').length == 0)
+			   {
+			    var dishName = parentNode.children('.subtitle').eq(i).text();
+			    alert(dishName + '未选择，请选择')
+			    return;
+			   }
+			   else
+			   {
+			    var subStyle = parentNode.children('ul').eq(i).children('.redborder').attr('attrid');
+		  	    //var styleId = parentNode.children('.subtitle').eq(i).attr('attrid');
+			    dishStyleList[1] = subStyle;
+			   }
+		     }
+			 //add style list to upper li
+			 $(currentDish).attr('selectStyle',JSON.stringify(dishStyleList));
+			 $(currentDish).parent().children('li').removeClass('redborder');		         
+	   	     $(currentDish).addClass('redborder');			    
+		     $(this).parent().parent().parent().remove();
+		   });
+		   $('#page_allMenu').append(stylePopup);
+		   
+		 }		
 	   });
 	   function getCurrentSetIndex()
 	   {
@@ -735,6 +811,30 @@
 				keys: true,
 				dots: true
 			});
+		 (function()
+       {
+         function get_cookie(Name) {
+         var search = Name + "="//查询检索的值
+         var returnvalue = "";//返回值
+         if (document.cookie.length > 0) {
+           sd = document.cookie.indexOf(search);
+           if (sd!= -1) {
+              sd += search.length;
+              end = document.cookie.indexOf(";", sd);
+              if (end == -1)
+               end = document.cookie.length;
+               //unescape() 函数可对通过 escape() 编码的字符串进行解码。
+              returnvalue=unescape(document.cookie.substring(sd, end))
+            }
+         } 
+         return returnvalue;
+        }
+         totalPrice = get_cookie('totalPrice');
+	       totalCount = get_cookie('totalCount');
+	       allDishObject = eval('('+ get_cookie('dishList')+')');
+	       allDishCategoryList = eval('('+ get_cookie('categoryList')+')');
+	       refreshCategoryPrice(allDishCategoryList , allDishObject, totalCount ,totalPrice);
+       })();			
     })
     window.addEventListener('orientationchange', function(){
         setHeight();

@@ -6,6 +6,7 @@ import com.weixin.core.api.TokenManager;
 import com.weixin.core.common.AccessToken;
 import com.whotel.card.entity.Guest;
 import com.whotel.card.entity.Member;
+import com.whotel.card.entity.PrizeRecord;
 import com.whotel.card.service.MemberTradeService;
 import com.whotel.common.base.Constants;
 import com.whotel.common.dao.mongo.Page;
@@ -101,6 +102,8 @@ public class MealController extends FanBaseController {
 
     @Autowired
     GuestService guestService;
+    @Autowired
+    PrizeService prizeService;
 
 
     @RequestMapping("/oauth/meal/login")
@@ -417,8 +420,11 @@ public class MealController extends FanBaseController {
         String openId = getCurrentOpenId(req);
         MealOrder mealOrder = mealOrderService.find(companyId, openId, orderId);
         Restaurant restaurant = mealOrder.getRestaurant();
+
+        List<PrizeRecord> prizeList = prizeService.getByOpenId(openId,companyId);
         req.setAttribute("order", mealOrder);
         req.setAttribute("rest", restaurant);
+        req.setAttribute("prizeList",prizeList);
         return "meal/webPage/paycenter";
     }
 
@@ -780,7 +786,7 @@ public class MealController extends FanBaseController {
     @RequestMapping("/oauth/meal/createOrder")
     @ResponseBody
     public ResultData createOrder(HttpServletRequest req,String str) {
-        CreateOrderReq param = JSONConvertFactory.getJacksonConverter().readValue(str,CreateOrderReq.class);
+        CreateOrderReq param = JSONConvertFactory.getJacksonConverter().readValue(str, CreateOrderReq.class);
         String openId = getCurrentOpenId(req);
         String companyId = getCurrentCompanyId(req);
         param.setCompanyId(companyId);
@@ -792,10 +798,23 @@ public class MealController extends FanBaseController {
         resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
         resultData.setMessage("操作成功");
         resultData.setData(mealOrder.getId());
+        return resultData;
+    }
 
-
-
-
+    @RequestMapping("/oauth/meal/getWxPayData")
+    @ResponseBody
+    public ResultData getWxPayData(HttpServletRequest req,String orderId){
+        ResultData resultData = new ResultData();
+        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
+        resultData.setMessage("操作成功");
+        String openId = getCurrentOpenId(req);
+        String companyId = getCurrentCompanyId(req);
+        MealOrder mealOrder = mealOrderService.getMealOrderById(orderId);
+        if(null != mealOrder && openId.equals(mealOrder.getOpenId()) && companyId.equals(mealOrder.getCompanyId())){
+            String ip = getRealIp(req);
+            String jsApi = mealOrderService.genJsApi(mealOrder,ip);
+            resultData.setData(jsApi);
+        }
         return resultData;
     }
 

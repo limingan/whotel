@@ -64,6 +64,16 @@ public class MealOrder extends BaseOrder {
 
 	private String addr;
 
+	private String paySn;//支付ID
+
+	public String getPaySn() {
+		return paySn;
+	}
+
+	public void setPaySn(String paySn) {
+		this.paySn = paySn;
+	}
+
 	public String getAddr() {
 		return addr;
 	}
