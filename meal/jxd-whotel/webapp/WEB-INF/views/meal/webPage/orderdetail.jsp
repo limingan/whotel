@@ -245,7 +245,7 @@
                         <span class="ng-scope">
                         （含
                         <c:if test="${empty hotel.teaFee}">0 * ${order.guestNum}</c:if>
-                        <c:if test="${!empty hotel.teaFee}">${hotel.teaFee} * ${order.guestNum}</c:if>
+                        <c:if test="${!empty hotel.teaFee}">${hotel.teaFee} 元/人* ${order.guestNum} 人</c:if>
                         元茶位费）
                     </span>
                 </c:if>
