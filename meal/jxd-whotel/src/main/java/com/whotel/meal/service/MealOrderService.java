@@ -32,11 +32,13 @@ import com.whotel.meal.controller.req.PageOrderReq;
 import com.whotel.meal.dao.MealOrderDao;
 import com.whotel.meal.entity.*;
 import com.whotel.meal.enums.MealOrderStatus;
+import com.whotel.meal.enums.MealOrderType;
 import com.whotel.thirdparty.jxd.api.JXDMemberService;
 import com.whotel.thirdparty.jxd.api.JXDOrderService;
 import com.whotel.thirdparty.jxd.mode.vo.MemberVO;
 import com.whotel.thirdparty.jxd.mode.vo.ReservationResult;
 import com.whotel.weixin.service.WeixinMessageService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.mongodb.morphia.query.Query;
@@ -374,30 +376,53 @@ public class MealOrderService {
                     String dishNo = suiteItem.getDishNo();
                     map.put(dishNo, dishNo);
                 }
-                List<SuiteItem> resultList = this.getSuiteDish(dishes,map);
+                List<SuiteItem> resultList = this.getSuiteDish(dishes, map);
                 String suiteData = jsonDataUtil.jsonfromObject(resultList);
                 item.setItemList(null);
                 item.setSuiteData(suiteData);
             } else {
                 item.setIsSuite(0);
             }
-            String actionId = item.getActionId();
-            if (StringUtils.isNotEmpty(actionId)) {
-                DishesAction dishesAction = dishesActionService.getById(actionId);
-                item.setDishesAction(dishesAction);
-                item.setActionId(null);
+
+            List<DishProp> propList = item.getPropList();
+            if (CollectionUtils.isNotEmpty(propList)) {
+                List<Map<String, Object>> propResult = Lists.newArrayList();
+                for (DishProp prop : propList) {
+                    if (prop.getPropId().equals("action")) {
+                        Map<String, Object> actionMap = Maps.newHashMap();
+                        actionMap.put("propName", "做法");
+                        List<Map<String, String>> propValue = Lists.newArrayList();
+                        List<String> values = prop.getValueList();
+                        for (String value : values) {
+                            if (StringUtils.isNotEmpty(value)) {
+                                DishesAction dishesAction = dishesActionService.getById(value);
+                                Map<String, String> map = Maps.newHashMap();
+                                map.put("id", dishesAction.getId());
+                                map.put("name", dishesAction.getName());
+                                propValue.add(map);
+
+                                total += dishesAction.getAddPrice();
+                            }
+                        }
+                        actionMap.put("propValue", propValue);
+                        propResult.add(actionMap);
+                    }
+                }
+                String propData = jsonDataUtil.jsonfromObject(propResult);
+                item.setPropData(propData);
+                item.setPropList(null);
             }
+
             int itemQuantity = item.getItemQuantity();
-            total += (dishes.getPrice()*itemQuantity);
+            total += (dishes.getPrice() * itemQuantity);
         }
 
-        String addressId = param.getAddressId();
-        Guest guest = getDeliverPrice.getById(addressId);
+
 
         Hotel hotel = hotelService.getHotel(companyId, hotelCode);
         Restaurant restaurant = restaurantService.getById(restaurantId);
 
-        if(null != hotel && null != hotel.getDeliverPrice()){
+        if (null != hotel && null != hotel.getDeliverPrice()) {
             total += hotel.getDeliverPrice();
         }
 
@@ -408,41 +433,54 @@ public class MealOrderService {
         mealOrder.setHotelCode(hotelCode);
         mealOrder.setName(restaurant.getName());
         mealOrder.setOrderSn(hotel.getCode() + payOrderService.genPayOrderSn());
-        mealOrder.setTotalFee(total);
-        mealOrder.setTradeStatus(TradeStatus.WAIT_PAY);
-        mealOrder.setContactName(guest.getName());
-        mealOrder.setContactMobile(guest.getMobile());
-        mealOrder.setAddr(guest.getAddress());
         mealOrder.setGuestNum(param.getGuestNum());
         mealOrder.setRemark(param.getRemark());
         mealOrder.setItems(list);
         mealOrder.setMealOrderType(param.getMealOrderType());
+
+        if(MealOrderType.OUT.equals(param.getMealOrderType())){
+            String addressId = param.getAddressId();
+            Guest guest = getDeliverPrice.getById(addressId);
+            mealOrder.setContactName(guest.getName());
+            mealOrder.setContactMobile(guest.getMobile());
+            mealOrder.setAddr(guest.getAddress());
+        }else{
+            Float teaFee = hotel.getTeaFee();
+            Integer guestNum = param.getGuestNum();
+            if(null != teaFee && null != guestNum){
+                total += teaFee*guestNum;
+            }
+        }
+        mealOrder.setTotalFee(total);
+
 
         Date now = new Date();
         mealOrder.setCreateTime(now);
         mealOrder.setUpdateTime(now);
         mealOrder.setCreateDate(now);
 
-        String payOrderSn = payOrderService.genPayOrderSn();
-        mealOrder.setPaySn(payOrderSn);
+        if(param.getPayAfter().equals(1)){
+            mealOrder.setPayMent(PayMent.PAYAFTER);
+            mealOrder.setTradeStatus(TradeStatus.FINISHED);
+        }else{
+            String payOrderSn = payOrderService.genPayOrderSn();
+            mealOrder.setPaySn(payOrderSn);
+            mealOrder.setTradeStatus(TradeStatus.WAIT_PAY);
+
+            PayOrder payOrder = new PayOrder();
+            payOrder.setOrderSn(payOrderSn);
+            payOrder.setPayMode(PayMode.BOOKMEAL);
+            payOrder.setOpenId(openId);
+            payOrder.setName(mealOrder.getName());
+            payOrder.setBusinessId(mealOrder.getId());
+            payOrder.setTotalFee((long) (mealOrder.getTotalFee() * 100));
+            payOrder.setCompanyId(companyId);
+
+            payOrderService.savePayOrder(payOrder);
+        }
         mealOrderDao.save(mealOrder);
-
-        PayOrder payOrder = new PayOrder();
-        payOrder.setOrderSn(payOrderSn);
-        payOrder.setPayMode(PayMode.BOOKMEAL);
-        payOrder.setOpenId(openId);
-        payOrder.setName(mealOrder.getName());
-        payOrder.setBusinessId(mealOrder.getId());
-        payOrder.setTotalFee((long) (mealOrder.getTotalFee() * 100));
-        payOrder.setCompanyId(companyId);
-        payOrder.setOrderSn(payOrderSn);
-
-        payOrderService.savePayOrder(payOrder);
-
         return mealOrder;
     }
-
-
 
 
     private List<SuiteItem> getSuiteDish(Dishes dishes, Map<String, String> map) {
@@ -464,14 +502,14 @@ public class MealOrderService {
     }
 
 
-    public String genJsApi(MealOrder order,String ip){
+    public String genJsApi(MealOrder order, String ip) {
         PayOrder payOrder = payOrderService.getPayOrderByOrderSn(order.getPaySn());
         payOrder.setOpenId(order.getOpenId());
         payOrder.setCompanyId(order.getCompanyId());
         payOrder.setPayMent(PayMent.WXPAY);
         payOrderService.savePayOrder(payOrder);
 
-        PayConfig payConfig =  payConfigService.getPayConfigByType(payOrder.getCompanyId(),PayType.WX);
+        PayConfig payConfig = payConfigService.getPayConfigByType(payOrder.getCompanyId(), PayType.WX);
         String payApi = WxPayUtil.genJsApi(payConfig, payOrder, ip, null);
         return payApi;
     }

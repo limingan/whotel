@@ -41,10 +41,7 @@ import com.whotel.webiste.service.ThemeService;
 import com.whotel.weixin.bean.Location;
 import com.whotel.weixin.service.LocationService;
 import com.whotel.weixin.service.WeixinMessageService;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +50,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
@@ -284,6 +280,12 @@ public class MealController extends FanBaseController {
         Company company = getCurrentCompany(req);
         String companyId = company.getId();
         param.setCompanyId(companyId);
+        if (null == param.getPayAfter()) {
+            param.setPayAfter(1);
+        }
+        if (null == param.getMealOrderType()) {
+            param.setMealOrderType(MealOrderType.IN);
+        }
         List<Restaurant> list = restaurantService.getByParam(param);
         req.setAttribute("restList", list);
         req.setAttribute("mealType", param.getMealOrderType());
@@ -327,6 +329,12 @@ public class MealController extends FanBaseController {
         }
 
         long monthSale = restaurantService.countMonthSale(restaurant);
+        if (null == payAfter) {
+            payAfter = 1;
+        }
+        if (null == mealType) {
+            mealType = MealOrderType.IN;
+        }
         req.setAttribute("mealType", mealType);
         req.setAttribute("payAfter", payAfter);
         req.setAttribute("monthSale", monthSale);
@@ -477,7 +485,7 @@ public class MealController extends FanBaseController {
     }
 
     @RequestMapping("/oauth/meal/menu")
-    public String menu(HttpServletRequest req, MealOrderType mealType, Integer payAfter,String restId) {
+    public String menu(HttpServletRequest req, MealOrderType mealType, Integer payAfter, String restId) {
         String openId = getCurrentOpenId(req);
         String companyId = getCurrentCompanyId(req);
 
@@ -489,13 +497,19 @@ public class MealController extends FanBaseController {
         String time = DateUtil.format(date, "HH:mm");
         req.setAttribute("time", time);
 
+        if (null == payAfter) {
+            payAfter = 1;
+        }
+        if (null == mealType) {
+            mealType = MealOrderType.IN;
+        }
         req.setAttribute("hotel", hotel);
         req.setAttribute("mealType", mealType);
         req.setAttribute("payAfter", payAfter);
         List<PrizeRecord> prizeList = prizeService.getByOpenId(openId, companyId);
 
         req.setAttribute("prizeList", prizeList);
-        if(MealOrderType.OUT.equals(mealType)){
+        if (MealOrderType.OUT.equals(mealType)) {
             Guest guest = new Guest();
             List<Guest> guestList = guestService.getByOpenId(openId, companyId);
             if (CollectionUtils.isNotEmpty(guestList)) {
@@ -503,48 +517,10 @@ public class MealController extends FanBaseController {
             }
             req.setAttribute("guest", guest);
             return "/meal/webPage/menu";
-        }else{
+        } else {
             req.setAttribute("rest", restaurant);
             return "/meal/webPage/menu_tangshi";
         }
-    }
-
-    private MealOrderItem build(MealOrderItem item, Dishes dishes, int num, DishesAction dishesAction) {
-        int itemQuantity = item.getItemQuantity();
-        item.setDishesId(dishes.getId());
-        item.setItemCode(dishes.getDishNo());
-        item.setName(dishes.getDishName());
-        item.setItemQuantity(itemQuantity + num);
-        item.setUnit(dishes.getUnit());
-        item.setItemPrice(dishes.getPrice());
-        item.setItemAmount(dishes.getPrice());
-        item.setDishesAction(dishesAction);
-        item.setItemList(dishes.getItemList());
-        item.setIsSuite(dishes.getIsSuite());
-        return item;
-    }
-
-
-    private List<SuiteItem> getSuiteDish(Dishes dishes, List<String> dishNos) {
-        List<SuiteItem> items = Lists.newArrayList();
-        Map<String, String> map = Maps.newHashMap();
-        for (String dishNo : dishNos) {
-            map.put(dishNo, dishNo);
-        }
-        JSONDataUtil jacksonConverter = JSONConvertFactory.getJacksonConverter();
-        List<List> lists = jacksonConverter.listFromString(dishes.getSuiteData(), List.class);
-        for (List list : lists) {
-            for (Object itemObj : list) {
-                Map<String, Object> temp = (Map<String, Object>) itemObj;
-                SuiteItem suiteItem = new SuiteItem();
-                BeanUtil.transMap2Bean(temp, suiteItem);
-                String dishNo = suiteItem.getDishNo();
-                if (map.containsKey(dishNo)) {
-                    items.add(suiteItem);
-                }
-            }
-        }
-        return items;
     }
 
     /**
@@ -742,7 +718,12 @@ public class MealController extends FanBaseController {
         String companyId = getCurrentCompanyId(req);
         param.setCompanyId(companyId);
         param.setOpenId(openId);
-        param.setMealOrderType(MealOrderType.OUT);
+        if (null == param.getPayAfter()) {
+            param.setPayAfter(1);
+        }
+        if (null == param.getMealOrderType()) {
+            param.setMealOrderType(MealOrderType.IN);
+        }
 
         MealOrder mealOrder = mealOrderService.createMealOrder(param);
         ResultData resultData = new ResultData();

@@ -24,14 +24,9 @@ public class MealOrderItem extends AbstractInputParam {
 	@Embedded
 	private List<SuiteItem> itemList;//已选套餐信息
 
-	private DishesAction dishesAction;//做法
-
 	private String suiteData;//存储的套餐
 
 	private Integer isSuite;//是否套餐
-
-	private String actionId;//做法Id
-
 
 	@Embedded
 	private List<DishProp> propList;//菜品做法、规格信息
@@ -52,14 +47,6 @@ public class MealOrderItem extends AbstractInputParam {
 
 	public void setItemList(List<SuiteItem> itemList) {
 		this.itemList = itemList;
-	}
-
-	public DishesAction getDishesAction() {
-		return dishesAction;
-	}
-
-	public void setDishesAction(DishesAction dishesAction) {
-		this.dishesAction = dishesAction;
 	}
 
 	public String getItemCode() {
@@ -124,14 +111,6 @@ public class MealOrderItem extends AbstractInputParam {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getActionId() {
-		return actionId;
-	}
-
-	public void setActionId(String actionId) {
-		this.actionId = actionId;
 	}
 
 	public List<DishProp> getPropList() {

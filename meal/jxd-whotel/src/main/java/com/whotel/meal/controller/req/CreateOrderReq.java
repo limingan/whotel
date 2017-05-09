@@ -26,6 +26,16 @@ public class CreateOrderReq {
 
     private String prizeId;//优惠券ID
 
+    private Integer payAfter;//是否后付费 0-否 1-是
+
+    public Integer getPayAfter() {
+        return payAfter;
+    }
+
+    public void setPayAfter(Integer payAfter) {
+        this.payAfter = payAfter;
+    }
+
     public MealOrderType getMealOrderType() {
         return mealOrderType;
     }

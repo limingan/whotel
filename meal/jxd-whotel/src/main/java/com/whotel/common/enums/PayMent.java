@@ -4,7 +4,7 @@ import com.whotel.common.base.Labeled;
 
 public enum PayMent implements Labeled {
 	
-	BALANCEPAY("储值支付"), WXPAY("微信支付"), OFFLINEPAY("到店支付"), ONLINEPAY("线上支付");
+	BALANCEPAY("储值支付"), WXPAY("微信支付"), OFFLINEPAY("到店支付"), ONLINEPAY("线上支付"),PAYAFTER("后付费");
 
 	private String label;
 	
