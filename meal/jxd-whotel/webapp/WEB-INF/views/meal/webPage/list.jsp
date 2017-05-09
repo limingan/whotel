@@ -10,6 +10,9 @@
 <link rel="stylesheet" type="text/css" href="/static/meal/css/wei_dialog_v1.2.1.css?v=1.1" media="all">
 <link data-turbolinks-track="true" href="/static/meal/css/font.css?v=1" media="all" rel="stylesheet">
 
+<link rel="stylesheet" type="text/css" href="/static/meal/css/list.css">
+
+
     <link rel="stylesheet" type="text/css" href="/static/meal/css/banner.css?v=1.1.1" media="all">
 
     <style>
@@ -18,146 +21,14 @@
         min-height: 100%;
     }
 </style>
-<style>abbr,article,aside,audio,canvas,datalist,details,dialog,eventsource,fieldset,figure,figcaption,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,small,time,video,legend{display:block;}</style>
+
 <script type="text/javascript" src="/static/meal/js/wei_webapp_v2_common_v1.9.4.js"></script>
 <script type="text/javascript" src="/static/meal/js/wei_dialog_v1.9.9.js"></script>
 <script type="text/javascript" src="/static/meal/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/static/meal/js/unslider.min.js"></script>
 </head>
 <body id="page_allMenu" style="background-color: #fff;height:100%">
-<style>
- 
-    .ddb-nav-header {
-        opacity: 0.95;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        height: 45px;
-        line-height: 44px;
-        z-index: 1999;
-        border-bottom: 1px solid #eeeeee;
-        background-color: white;
-        color: #555555
-    }
 
-    .ddb-nav-header a {
-        color: #555555
-    }
-
-    .ddb-nav-header .header-title {
-        width: 50%;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        text-align: center;
-        overflow: hidden;
-        font-size: 17px;
-        font-weight: bold;
-        display: inline-block;
-        margin-left: 25%
-    }
-
-    .ddb-nav-header .nav-left-item, .ddb-nav-header .nav-right-item {
-        display: inline-block;
-        height: 100%
-    }
-
-    .ddb-nav-header .nav-left-item i, .ddb-nav-header .nav-right-item i {
-        width: 20px;
-        font-size: 18px;
-        line-height: inherit;
-    }
-
-    .ddb-nav-header .nav-left-item {
-        width: 25%;
-        float: left;
-        padding-left: 10px
-    }
-
-    .ddb-nav-header .nav-right-item {
-        width: 10%;
-        float: right;
-        text-align: right
-    }
-
-    .ddb-nav-header .nav-right-item .operation-button {
-        font-size: 16px;
-        text-align: right;
-        color: #555555;
-        padding-right: 10px;
-        font-weight: bold
-    }
-
-    .ddb-nav-header .nav-left-item ~ .header-title {
-        margin-left: 0
-    }
-
-    .ddb-nav-header.label-red {
-        border-bottom: 0
-    }
-    .notification-section {
-        opacity: 0.9;
-        top: 45px;
-        margin-top: 45px;
-        background-color: #fff9df;
-        padding: 0 10px;
-        border-bottom: 0px solid #dbdbdb;
-        z-index: 1999;
-    }
-
-    .notification-section .notice {
-        border-top: 1px dotted #eeeeee;
-        padding: 8px 0;
-        padding-left: 30px;
-        line-height: 20px
-    }
-
-    .notification-section .notice i {
-        display: block;
-        float: left;
-        margin-left: -30px;
-        text-align: center;
-        width: 30px
-    }
-    .product-notice-section {
-        opacity: 0.9;
-        top: 45px;
-        margin-top: 45px;
-
-        background-color: #fff9df;
-        padding: 8px 20px;
-        font-size: 14px;
-        line-height: 20px;
-        z-index: 1999
-    }
-	.ddb-tab-bar .active{
-	padding-bottom:0px;
-	line-height:5px;
-	border-bottom:2px solid #ff0000
-	}
-	.dn{
-	display:none
-	}
-	.shopInfoList{
-     line-height:40px;
-	 font-size:16px;
-	}
-	.shopInfoList img {
-	 width:13px;height:13px;margin-left:20px
-	}
-	.shopInfoList span{
-	 margin-left:20px
-	}
-	.shopInfoList i{
-	 margin-left:10px
-	}
-	.dishSecondTitle{
-	 line-height:8px;
-	}
-	.dishstyle{
-	position:absolute;
-    right:0px;
-	}
-</style>
 <div class="ddb-nav-header ng-scope">
     <a class="nav-left-item" href="javascript:void(0)" onclick="history.go(-1)"><i class="fa fa-angle-left"></i></a>
     <div class="header-title ng-binding">${rest.name}</div>
@@ -169,7 +40,7 @@
     <div class="banner">
         <ul>
             <c:forEach items="${bannerList}" var="baner">
-                <li><img style="width:100%;height:150px" src="${baner}"></li>
+                <li><img style="width:100%;" src="${baner}"></li>
             </c:forEach>
         </ul>
     </div>
@@ -201,7 +72,7 @@
                         <dd categoryid="${cate.id}" class="active" style="color:black;">
                             <%--fixme limingan 分类无图--%>
                             <%--<img style="width:15px;height:15px;border-top:10px" src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">--%>
-                            ${cate.dishName}
+                            <p>${cate.dishName}</p>
                             <span style="display:none;"></span>
                         </dd>
                     </a>
@@ -210,7 +81,7 @@
                 <c:if test="${status.index !=0}">
                     <a class="navOption" href="#${cate.dishNo}">
                         <dd categoryid="${cate.id}" >
-                                ${cate.dishName}
+                                <p>${cate.dishName}</p>
                             <span style="display:none;"></span>
                         </dd>
                     </a>
@@ -223,9 +94,9 @@
         <article style="border: 0px">
             <div id="pInfo">
                 <c:forEach items="${cateList}" var="cate">
-                    <div id="${cate.dishNo}">${cate.dishName}</div>
+                    <div class="pTitle" id="${cate.dishNo}">${cate.dishName}</div>
                     <c:forEach items="${cate.dishesList}" var="dish">
-                        <dl isMultiStyle="${dish.isMultiStyle}" multiStyle=${dish.multiStyle} isSet="${dish.isSuite}" setData=${dish.suiteData} dunitname="${dish.unit}" dsubcount="123" dishid="${dish.id}" dname="${dishName}" dtaste="口味" ddescribe="${dish.brief}" dmarkNum="45" dprice="${dish.price}" dishot="2" dspecialprice="${dish.price}" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+                        <dl class="pContent" isMultiStyle="${dish.isMultiStyle}" multiStyle='${dish.multiStyle}' isSet='${dish.isSuite}' setData='${dish.suiteData}' dunitname="${dish.unit}" dsubcount="123" dishid="${dish.id}" dname="${dish.dishName}" dtaste="口味" ddescribe="${dish.brief}" dmarkNum="45" dprice="${dish.price}" dishot="2" dspecialprice="${dish.price}" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                             <dt><h3>${dish.dishName}</h3></dt>
 
                             <dd>
@@ -237,7 +108,7 @@
                                 </a>
                             </dd>
                             <span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                            <dd>
+                            <dd class="dishDetailInfo">
                                 <em class="sale">￥${dish.price}</em><del>￥${dish.marketPrice}</del>  <c:if test="${ dish.isMultiStyle == 1}"><a class="dishstyle" href="javascript:void(0);">可选规格</a></c:if>
 
                             </dd>
@@ -251,7 +122,7 @@
                         </dl>
                     </c:forEach>
                 </c:forEach>
-                <div style="margin-top: 100px;"></div>
+                <div class="botLine"></div>
             </div>
         </article>
     </section>
@@ -269,94 +140,6 @@
  <div id="popContent"></div>
 </div>
 <jsp:include page="_header.jsp"/>
-<style>
- .popupWindow{
-  width:100%;
-  height:400px;
-  bottom:0px;
-  position:fixed;
-  background-color:white;
- }
- .popupWindow .close{
-   float:right;
-   margin-right:30px;
-   margin-top:10px;
-   width:20px;
-   height:25px;
- }
- .subTitle{
-  margin-left:20px;
-  padding-top:20px
- }
- .multiStyle .stitle{
-  text-align:center;
-  font-size:16px;
-  margin-top:20px;
- }
- .multiStyle>ul{
-  margin-top:-20px;margin-left:50px;
- }
- .setStyle>ul{
-  margin-top:60px;margin-left:20px;
- }
- .multiStyle>ul>li{
-  margin-bottom:5px;margin-left:20px;display:inline-block;line-height:22px;height:25px;text-align:center;width:60px;border:1px solid #b2b2b2;border-radius:15px;color:white:float:left;list-style:none;
- }
- .setStyle>ul>li{
-  margin-bottom:5px;margin-left:20px;display:inline-block;line-height:22px;height:25px;text-align:center;width:100px;border:1px solid #b2b2b2;border-radius:15px;color:white:float:left;list-style:none;
- }
- .setStyle>.settitle{
-   position:absolute;
-   top:10px;
-   text-align:center;
-   width:60%;
-   left:20%;
- }
- .multiStyle ul .redborder,.setStyle ul .redborder{
-  border:1px solid #F00;
- }
- .bottomright-button{
-  position:fixed;
-  bottom:5px;
-  right:40px;
-  width:77px;
-  height:32px;
- }
- .bottom-rmb
- {
-  position:fixed;
-  bottom:14px;
-  left:70px;
-  width:8px;
-  height:14px;
- }
- .bottom-price{
-  position:fixed;
-  bottom:10px;
-  left:83px;
-  font-size:20px;
-  color:red;
- }
- .leftArrow,.rightArrow{
-  width:10px;
-  height:20px;
-  position:absolute;
-  top:10px;  
-  z-index:10;
- }
- .leftArrow{
-  left:35%;
- }
- .rightArrow{
-  left:62%;
- }
- .confirmBtn{
-  border-radius:0px;
-  background-color:#FF0000;
-  color:white;
-  border:0px;
- }
-</style>
 <script type="text/javascript"> 
    var totalPrice=0;
    var totalCount = 0;
@@ -427,22 +210,23 @@
 	 localStorageObj['price'] = dPrice;
 	 localStorageObj['unit'] = dishUnit;
 	 localStorageObj['name'] = dishName;
+	 localStorageObj['category'] = dishCategory;
 	 if(1 == isSet)
 	 {
 	   localStorageObj['style'] = 'set';
 	   localStorageObj['data'] = parentDl.getAttribute('setData').replace(/[\r\n]/g,"");
 	   var setData = eval('('+ parentDl.getAttribute('setData') + ')');
 	   var setDishLength = setData.length;
-	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="/static/meal/images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="./images/right_right_arrow.png">{1}</div>';
+	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="/static/meal/images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="/static/meal/images/right_right_arrow.png">{1}</div>';
 	   
 	   $(setData).each(function(i,n){
 	      var baseHtml = '';
 		  
    	      $(n).each(function(ii,nn){
 		    if(typeof(nn.style) !='undefined')
-		    baseHtml += '<li attrid="{0}" styleData=\'{2}\'>{1}</li>'.format(nn.id,nn.name,JSON.stringify(nn.style));
+		    baseHtml += '<li attrid="{0}" grade="{3}" styleData=\'{2}\'>{1}</li>'.format(nn.dishNo,nn.dishName,JSON.stringify(nn.style),nn.grade);
 			else
-			baseHtml += '<li attrid="{0}">{1}</li>'.format(nn.id,nn.name);
+			baseHtml += '<li attrid="{0}" grade="{2}">{1}</li>'.format(nn.dishNo,nn.dishName,nn.grade);
 		 });
 		 baseHtml = '<ul>{0}</ul>'.format(baseHtml);
 		 
@@ -471,7 +255,8 @@
              {
 			  var selectedDish = parentNode.children('.setStyle').children('ul').eq(i).children('.redborder');
 			  var subDishId = selectedDish.attr('attrid');
-			  var obj = {id:subDishId};
+			  var grade = selectedDish.attr('grade');
+			  var obj = {id:subDishId,grade:grade};
 			  if(selectedDish.attr('selectStyle') != undefined)
 			  {
 			   obj.style = selectedDish.attr('selectStyle')
@@ -829,11 +614,13 @@
          } 
          return returnvalue;
         }
-         totalPrice = get_cookie('totalPrice');
-	       totalCount = get_cookie('totalCount');
+		if(get_cookie('totalPrice') != ''){
+           totalPrice = parseFloat(get_cookie('totalPrice'));
+	       totalCount = parseFloat(get_cookie('totalCount'));
 	       allDishObject = eval('('+ get_cookie('dishList')+')');
 	       allDishCategoryList = eval('('+ get_cookie('categoryList')+')');
 	       refreshCategoryPrice(allDishCategoryList , allDishObject, totalCount ,totalPrice);
+		}
        })();			
     })
     window.addEventListener('orientationchange', function(){

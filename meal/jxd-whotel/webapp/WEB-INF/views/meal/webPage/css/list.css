@@ -310,6 +310,12 @@
   border-radius: 50% !important;
   left: -50px !important;
 }
+.confirmBtn{
+  border-radius:0px;
+  background-color:#FF0000;
+  color:white;
+  border:0px;
+ }
 @media screen and (max-width: 350px) {
   .pContent {
     height: 110px !important;

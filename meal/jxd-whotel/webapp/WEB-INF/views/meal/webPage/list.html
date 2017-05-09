@@ -8,152 +8,22 @@
 <link rel="stylesheet" type="text/css" href="./assets/diandanbao/banner.css?v=1.1.1" media="all">
 <link rel="stylesheet" type="text/css" href="http://tiantianwutuo.top/addons/weisrc_dish/template/css/1/wei_dialog_v1.2.1.css?v=1.1" media="all">
 <link data-turbolinks-track="true" href="http://tiantianwutuo.top/addons/weisrc_dish/template/mobile/style1/assets/diandanbao/font.css?v=1" media="all" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="css/list.css">
 <style>
     /*解决右边背景总是为灰色的bug*/
     #page_allMenu section article, #pInfo {
         min-height: 100%;
     }
 </style>
-<style>abbr,article,aside,audio,canvas,datalist,details,dialog,eventsource,fieldset,figure,figcaption,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,small,time,video,legend{display:block;}</style>
+
 <script type="text/javascript" src="http://tiantianwutuo.top/addons/weisrc_dish/template/js/1/wei_webapp_v2_common_v1.9.4.js"></script>
 <script type="text/javascript" src="http://tiantianwutuo.top/addons/weisrc_dish/template/js/1/wei_dialog_v1.9.9.js"></script>
 <script type="text/javascript" src="http://tiantianwutuo.top/webpage/assets/diandanbao/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="./assets/diandanbao/unslider.min.js"></script>
 </head>
 <body id="page_allMenu" style="background-color: #fff;height:100%">
-<style>
- 
-    .ddb-nav-header {
-        opacity: 0.95;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        height: 45px;
-        line-height: 44px;
-        z-index: 1999;
-        border-bottom: 1px solid #eeeeee;
-        background-color: white;
-        color: #555555
-    }
 
-    .ddb-nav-header a {
-        color: #555555
-    }
-
-    .ddb-nav-header .header-title {
-        width: 50%;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        text-align: center;
-        overflow: hidden;
-        font-size: 17px;
-        font-weight: bold;
-        display: inline-block;
-        margin-left: 25%
-    }
-
-    .ddb-nav-header .nav-left-item, .ddb-nav-header .nav-right-item {
-        display: inline-block;
-        height: 100%
-    }
-
-    .ddb-nav-header .nav-left-item i, .ddb-nav-header .nav-right-item i {
-        width: 20px;
-        font-size: 18px;
-        line-height: inherit;
-    }
-
-    .ddb-nav-header .nav-left-item {
-        width: 25%;
-        float: left;
-        padding-left: 10px
-    }
-
-    .ddb-nav-header .nav-right-item {
-        width: 10%;
-        float: right;
-        text-align: right
-    }
-
-    .ddb-nav-header .nav-right-item .operation-button {
-        font-size: 16px;
-        text-align: right;
-        color: #555555;
-        padding-right: 10px;
-        font-weight: bold
-    }
-
-    .ddb-nav-header .nav-left-item ~ .header-title {
-        margin-left: 0
-    }
-
-    .ddb-nav-header.label-red {
-        border-bottom: 0
-    }
-    .notification-section {
-        opacity: 0.9;
-        top: 45px;
-        margin-top: 45px;
-        background-color: #fff9df;
-        padding: 0 10px;
-        border-bottom: 0px solid #dbdbdb;
-        z-index: 1999;
-    }
-
-    .notification-section .notice {
-        border-top: 1px dotted #eeeeee;
-        padding: 8px 0;
-        padding-left: 30px;
-        line-height: 20px
-    }
-
-    .notification-section .notice i {
-        display: block;
-        float: left;
-        margin-left: -30px;
-        text-align: center;
-        width: 30px
-    }
-    .product-notice-section {
-        opacity: 0.9;
-        top: 45px;
-        margin-top: 45px;
-
-        background-color: #fff9df;
-        padding: 8px 20px;
-        font-size: 14px;
-        line-height: 20px;
-        z-index: 1999
-    }
-	.ddb-tab-bar .active{
-	padding-bottom:0px;
-	line-height:5px;
-	border-bottom:2px solid #ff0000
-	}
-	.dn{
-	display:none
-	}
-	.shopInfoList{
-     line-height:40px;
-	 font-size:16px;
-	}
-	.shopInfoList img {
-	 width:13px;height:13px;margin-left:20px
-	}
-	.shopInfoList span{
-	 margin-left:20px
-	}
-	.shopInfoList i{
-	 margin-left:10px
-	}
-	.dishSecondTitle{
-	 line-height:8px;
-	}
-	.dishstyle{
-	position:absolute;
-    right:0px;
-	}
-</style>
 <div class="ddb-nav-header ng-scope">
     <a class="nav-left-item" href="javascript:void(0)" onclick="history.go(-1)"><i class="fa fa-angle-left"></i></a>
     <div class="header-title ng-binding">餐厅1</div>
@@ -163,9 +33,9 @@
 <div class="notification-section">
     <div class="banner">
 	  <ul>
-	    <li><img style="width:100%;height:200px" src="http://www.jq22.com/demo/jquery-lunbotu-150202204549/images/pic_01.jpg"/></li>
-		<li><img style="width:100%;height:200px" src="http://www.jq22.com/demo/jquery-lunbotu-150202204549/images/pic_02.jpg"/></li>
-		<li><img style="width:100%;height:200px" src="http://www.jq22.com/demo/jquery-lunbotu-150202204549/images/pic_03.jpg"/></li>
+	    <li><img style="width:100%;" src="http://www.jq22.com/demo/jquery-lunbotu-150202204549/images/pic_01.jpg"/></li>
+		<li><img style="width:100%;" src="http://www.jq22.com/demo/jquery-lunbotu-150202204549/images/pic_02.jpg"/></li>
+		<li><img style="width:100%;" src="http://www.jq22.com/demo/jquery-lunbotu-150202204549/images/pic_03.jpg"/></li>
 	  </ul>
       
     </div>
@@ -191,26 +61,26 @@
             
 
                 <a class="navOption" href="#page1"><dd categoryid="1" class="active">
-                    <img style="width:15px;height:15px;border-top:10px" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1493566188&di=e7a64fe7aaeeb46b2c121c3a26956012&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.sxxdf.cn%2Fuploads%2Fallimg%2F120430%2F1-12043009344X31.jpg" alt="" title="">
-					分类1
+                    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1493566188&di=e7a64fe7aaeeb46b2c121c3a26956012&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.sxxdf.cn%2Fuploads%2Fallimg%2F120430%2F1-12043009344X31.jpg" alt="" title="">
+					<p>分类1</p>                    
                     <span style="display:none;"></span>
                 </dd>
 				</a>
 				<a class="navOption" href="#page2">
                 <dd categoryid="2" >
-                    分类2                    
+                    <p>分类2 </p>                   
                     <span style="display:none;"></span>
                 </dd>
 				</a>
 				<a class="navOption" href="#page3">
                 <dd categoryid="3" >
-                    分类23                   
+                    <p>分类23</p>                   
                     <span style="display:none;"></span>
                 </dd>
 				</a>
 				<a class="navOption" href="#page4">
                 <dd categoryid="4" >
-                    套餐                   
+                    <p>套餐  </p>                 
                     <span style="display:none;"></span>
                 </dd>
 				</a>
@@ -222,8 +92,8 @@
     <section id="infoSection">
         <article style="border: 0px">
             <div id="pInfo">
-                <div id="page1">分类1</div>
-                <dl dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述<br/>TEST<br/>TEST2" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+                <div class="pTitle" id="page1">分类1</div>
+                <dl class="pContent" dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述<br/>TEST<br/>TEST2" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                     <dt><h3>鱼鱼</h3></dt>
 					
                     <dd>
@@ -235,7 +105,7 @@
                         </a>
                     </dd>
 					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
+                    <dd class="dishDetailInfo">
                         <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
 						
                     </dd>
@@ -244,10 +114,10 @@
 					<f style="color: #f00;">满一件 ，9.9</f>
 					</dd>
                     <dd class="btn">
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                       <img src="images/plusdish.png" class="addDish" alt="">
                     </dd>
                 </dl>
-              <dl dunitname="份" dsubcount="123" dishid="2" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+              <dl class="pContent" dunitname="份" dsubcount="123" dishid="2" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                     <dt><h3>鱼鱼</h3></dt>
 					
                     <dd>
@@ -259,7 +129,7 @@
                         </a>
                     </dd>
 					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
+                    <dd class="dishDetailInfo">
                         <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
 						
                     </dd>
@@ -269,10 +139,10 @@
 					</dd>
                     <dd class="btn">
 					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                       <img src="images/plusdish.png" class="addDish" alt="">
                     </dd>
                 </dl>
-				<dl dunitname="份" dsubcount="123" dishid="3" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+				<dl class="pContent" dunitname="份" dsubcount="123" dishid="3" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                     <dt><h3>鱼鱼</h3></dt>
 					
                     <dd>
@@ -284,7 +154,7 @@
                         </a>
                     </dd>
 					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
+                    <dd class="dishDetailInfo">
                         <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
 						
                     </dd>
@@ -294,10 +164,10 @@
 					</dd>
                     <dd class="btn">
 					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                       <img src="images/plusdish.png" class="addDish" alt="">
                     </dd>
                 </dl>
-				<dl dunitname="份" dsubcount="123" dishid="4" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+				<dl class="pContent" dunitname="份" dsubcount="123" dishid="4" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                     <dt><h3>鱼鱼</h3></dt>
 					
                     <dd>
@@ -309,7 +179,7 @@
                         </a>
                     </dd>
 					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
+                    <dd class="dishDetailInfo">
                         <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
 						
                     </dd>
@@ -319,10 +189,10 @@
 					</dd>
                     <dd class="btn">
 					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                       <img src="images/plusdish.png" class="addDish" alt="">
                     </dd>
                 </dl>
-				<dl dunitname="份" dsubcount="123" dishid="5" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+				<dl class="pContent" dunitname="份" dsubcount="123" dishid="5" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                     <dt><h3>鱼鱼</h3></dt>
 					
                     <dd>
@@ -334,7 +204,7 @@
                         </a>
                     </dd>
 					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
+                    <dd class="dishDetailInfo">
                         <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
 						
                     </dd>
@@ -344,10 +214,10 @@
 					</dd>
                     <dd class="btn">
 					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                       <img src="images/plusdish.png" class="addDish" alt="">
                     </dd>
                 </dl>
-				<dl dunitname="份" dsubcount="123" dishid="6" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+				<dl class="pContent" dunitname="份" dsubcount="123" dishid="6" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                     <dt><h3>鱼鱼</h3></dt>
 					
                     <dd>
@@ -359,7 +229,7 @@
                         </a>
                     </dd>
 					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
+                    <dd class="dishDetailInfo">
                         <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
 						
                     </dd>
@@ -369,10 +239,10 @@
 					</dd>
                     <dd class="btn">
 					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                       <img src="images/plusdish.png" class="addDish" alt="">
                     </dd>
                 </dl>
-				<dl dunitname="份" dsubcount="123" dishid="7" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+				<dl class="pContent" dunitname="份" dsubcount="123" dishid="7" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                     <dt><h3>鱼鱼</h3></dt>
 					
                     <dd>
@@ -384,7 +254,7 @@
                         </a>
                     </dd>
 					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
+                    <dd class="dishDetailInfo">
                         <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
 						
                     </dd>
@@ -394,11 +264,11 @@
 					</dd>
                     <dd class="btn">
 					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                       <img src="images/plusdish.png" class="addDish" alt="">
                     </dd>
                 </dl>
-				<div id="page2">分类2</div>
-				<dl dunitname="份" dsubcount="123" dishid="8" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+				<div class="pTitle" id="page2">分类2</div>
+				<dl class="pContent" dunitname="份" dsubcount="123" dishid="8" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                     <dt><h3>鱼鱼</h3></dt>
 					
                     <dd>
@@ -410,7 +280,7 @@
                         </a>
                     </dd>
 					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
+                    <dd class="dishDetailInfo">
                         <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
 						
                     </dd>
@@ -420,10 +290,10 @@
 					</dd>
                     <dd class="btn">
 					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                       <img src="images/plusdish.png" class="addDish" alt="">
                     </dd>
                 </dl>
-				<dl dunitname="份" dsubcount="123" dishid="9" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+				<dl class="pContent" dunitname="份" dsubcount="123" dishid="9" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                     <dt><h3>鱼鱼</h3></dt>
 					
                     <dd>
@@ -435,7 +305,7 @@
                         </a>
                     </dd>
 					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
+                    <dd class="dishDetailInfo">
                         <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
 						
                     </dd>
@@ -445,10 +315,10 @@
 					</dd>
                     <dd class="btn">
 					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                       <img src="images/plusdish.png" class="addDish" alt="">
                     </dd>
                 </dl>
-				<dl dunitname="份" dsubcount="123" dishid="10" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+				<dl class="pContent" dunitname="份" dsubcount="123" dishid="10" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                     <dt><h3>鱼鱼</h3></dt>
 					
                     <dd>
@@ -460,7 +330,7 @@
                         </a>
                     </dd>
 					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
+                    <dd class="dishDetailInfo">
                         <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
 						
                     </dd>
@@ -470,10 +340,10 @@
 					</dd>
                     <dd class="btn">
 					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                       <img src="images/plusdish.png" class="addDish" alt="">
                     </dd>
                 </dl>
-				<dl dunitname="份" dsubcount="123" dishid="11" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+				<dl class="pContent" dunitname="份" dsubcount="123" dishid="11" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                     <dt><h3>鱼鱼</h3></dt>
 					
                     <dd>
@@ -485,7 +355,7 @@
                         </a>
                     </dd>
 					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
+                    <dd class="dishDetailInfo">
                         <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
 						
                     </dd>
@@ -495,10 +365,10 @@
 					</dd>
                     <dd class="btn">
 					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                       <img src="images/plusdish.png" class="addDish" alt="">
                     </dd>
                 </dl>
-				<dl dunitname="份" dsubcount="123" dishid="12" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+				<dl class="pContent" dunitname="份" dsubcount="123" dishid="12" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                     <dt><h3>鱼鱼</h3></dt>
 					
                     <dd>
@@ -510,7 +380,7 @@
                         </a>
                     </dd>
 					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
+                    <dd class="dishDetailInfo">
                         <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
 						
                     </dd>
@@ -520,10 +390,10 @@
 					</dd>
                     <dd class="btn">
 					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                       <img src="images/plusdish.png" class="addDish" alt="">
                     </dd>
                 </dl>
-				<dl dunitname="份" dsubcount="123" dishid="13" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+				<dl class="pContent" dunitname="份" dsubcount="123" dishid="13" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                     <dt><h3>鱼鱼</h3></dt>
 					
                     <dd>
@@ -535,7 +405,7 @@
                         </a>
                     </dd>
 					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
+                    <dd class="dishDetailInfo">
                         <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
 						
                     </dd>
@@ -545,11 +415,11 @@
 					</dd>
                     <dd class="btn">
 					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                       <img src="images/plusdish.png" class="addDish" alt="">
                     </dd>
                 </dl>
-				<div id="page3">分类3</div>
-				<dl dunitname="份" dsubcount="123" dishid="14" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+				<div class="pTitle" id="page3">分类3</div>
+				<dl class="pContent" dunitname="份" dsubcount="123" dishid="14" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                     <dt><h3>鱼鱼</h3></dt>
 					
                     <dd>
@@ -561,7 +431,7 @@
                         </a>
                     </dd>
 					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
+                    <dd class="dishDetailInfo">
                         <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
 						
                     </dd>
@@ -571,10 +441,10 @@
 					</dd>
                     <dd class="btn">
 					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                       <img src="images/plusdish.png" class="addDish" alt="">
                     </dd>
                 </dl>
-				<dl dunitname="份" dsubcount="123" dishid="15" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+				<dl class="pContent" dunitname="份" dsubcount="123" dishid="15" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                     <dt><h3>鱼鱼</h3></dt>
 					
                     <dd>
@@ -586,7 +456,7 @@
                         </a>
                     </dd>
 					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
+                    <dd class="dishDetailInfo">
                         <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
 						
                     </dd>
@@ -596,10 +466,10 @@
 					</dd>
                     <dd class="btn">
 					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                       <img src="images/plusdish.png" class="addDish" alt="">
                     </dd>
                 </dl>
-				<dl 
+				<dl class="pContent"
 				multiStyle="[{'id':1,'name':'规格',data:[{'id':1,'name':'小份'},{'id':2,'name':'大份'}] },
 				{'id':2,'name':'做法',data:[{'id':1,'name':'清蒸'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
 				                            ,{'id':2,'name':'红烧'},{'id':2,'name':'红烧'},{'id':2,'name':'红烧'}
@@ -624,7 +494,7 @@
                         </a>
                     </dd>
 					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
+                    <dd class="dishDetailInfo">
                         <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
 						
                     </dd>
@@ -634,14 +504,14 @@
 					</dd>
                     <dd class="btn">
 					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                       <img src="images/plusdish.png" class="addDish" alt="">
                     </dd>
                 </dl>
-				<div id="page4">套餐</div>
-				<dl 
-				setData="[[{'id':1,'name':'菜菜菜菜1','style':{'name':'规格',data:[{'id':1,'name':'红烧'},{'id':2,'name':'油炸'}]}},{'id':2,'name':'菜菜菜2'},{'id':3,'name':'菜菜菜菜3'}],
-				          [{'id':4,'name':'菜菜菜菜4'},{'id':5,'name':'菜菜菜5'},{'id':6,'name':'菜菜菜菜6'}],
-						  [{'id':7,'name':'菜菜菜菜7'},{'id':6,'name':'菜菜菜8'},{'id':9,'name':'菜菜菜菜9'}]]"
+				<div class="pTitle" id="page4">套餐</div>
+				<dl class="pContent"
+				setData="[[{'id':1,'grade':1,'name':'菜菜菜菜1','style':{'name':'规格',data:[{'id':1,'name':'红烧'},{'id':2,'name':'油炸'}]}},{'id':2,'grade':1,'name':'菜菜菜2'},{'id':3,'grade':1,'name':'菜菜菜菜3'}],
+				          [{'id':4,'grade':2,'name':'菜菜菜菜4'},{'id':5,'grade':2,'name':'菜菜菜5'},{'id':6,'grade':2,'name':'菜菜菜菜6'}],
+						  [{'id':7,'grade':3,'name':'菜菜菜菜7'},{'id':6,'grade':3,'name':'菜菜菜8'},{'id':9,'grade':3,'name':'菜菜菜菜9'}]]"
 				isSet=1 dunitname="份" dsubcount="123" dishid="17" dname="鱼" dtaste="口味" ddescribe="菜品描述" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                     <dt><h3>套餐</h3></dt>
 					
@@ -654,7 +524,7 @@
                         </a>
                     </dd>
 					<span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
-                    <dd>
+                    <dd class="dishDetailInfo">
                         <em class="sale">￥123</em><del>￥1239</del>  <a class="dishstyle" href="javascript:void(0);">可选规格</a>
 						
                     </dd>
@@ -664,10 +534,10 @@
 					</dd>
                     <dd class="btn">
 					
-                       <img src="images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                       <img src="images/plusdish.png" class="addDish" alt="">
                     </dd>
                 </dl>
-                <div style="margin-top: 100px;"></div>
+                <div class="botLine"></div>
             </div>
         </article>
     </section>
@@ -684,97 +554,10 @@
  <img class="close" src="images/close.png" style="z-index:901"/>
  <div id="popContent"></div>
 </div>
-<style>
- .popupWindow{
-  width:100%;
-  height:400px;
-  bottom:0px;
-  position:fixed;
-  background-color:white;
- }
- .popupWindow .close{
-   float:right;
-   margin-right:30px;
-   margin-top:10px;
-   width:20px;
-   height:25px;
- }
- .subTitle{
-  margin-left:20px;
-  padding-top:20px
- }
- .multiStyle .stitle{
-  text-align:center;
-  font-size:16px;
-  margin-top:20px;
- }
- .multiStyle>ul{
-  margin-top:-20px;margin-left:50px;
- }
- .setStyle>ul{
-  margin-top:60px;margin-left:20px;
- }
- .multiStyle>ul>li{
-  margin-bottom:5px;margin-left:20px;display:inline-block;line-height:22px;height:25px;text-align:center;width:60px;border:1px solid #b2b2b2;border-radius:15px;color:white:float:left;list-style:none;
- }
- .setStyle>ul>li{
-  margin-bottom:5px;margin-left:20px;display:inline-block;line-height:22px;height:25px;text-align:center;width:100px;border:1px solid #b2b2b2;border-radius:15px;color:white:float:left;list-style:none;
- }
- .setStyle>.settitle{
-   position:absolute;
-   top:10px;
-   text-align:center;
-   width:60%;
-   left:20%;
- }
- .multiStyle ul .redborder,.setStyle ul .redborder{
-  border:1px solid #F00;
- }
- .bottomright-button{
-  position:fixed;
-  bottom:5px;
-  right:40px;
-  width:77px;
-  height:32px;
- }
- .bottom-rmb
- {
-  position:fixed;
-  bottom:14px;
-  left:70px;
-  width:8px;
-  height:14px;
- }
- .bottom-price{
-  position:fixed;
-  bottom:10px;
-  left:83px;
-  font-size:20px;
-  color:red;
- }
- .leftArrow,.rightArrow{
-  width:10px;
-  height:20px;
-  position:absolute;
-  top:10px;  
-  z-index:10;
- }
- .leftArrow{
-  left:35%;
- }
- .rightArrow{
-  left:62%;
- }
- .confirmBtn{
-  border-radius:0px;
-  background-color:#FF0000;
-  color:white;
-  border:0px;
- }
-</style>
+
 {php include $this->template($this->cur_tpl.'/_header');}
 <script type="text/javascript"> 
-   var totalPrice=0;
+   var totalPrice= 0;
    var totalCount = 0;
    var allDishObject = Array();
    var allDishCategoryList = {};
@@ -844,6 +627,7 @@
 	 localStorageObj['price'] = dPrice;
 	 localStorageObj['unit'] = dishUnit;
 	 localStorageObj['name'] = dishName;
+	 localStorageObj['category'] = dishCategory;
 	 if(1 == isSet)
 	 {
 	   localStorageObj['style'] = 'set';
@@ -857,9 +641,9 @@
 		  
    	      $(n).each(function(ii,nn){
 		    if(typeof(nn.style) !='undefined')
-		    baseHtml += '<li attrid="{0}" styleData=\'{2}\'>{1}</li>'.format(nn.id,nn.name,JSON.stringify(nn.style));
+		    baseHtml += '<li attrid="{0}" grade="{3}" styleData=\'{2}\'>{1}</li>'.format(nn.id,nn.name,JSON.stringify(nn.style),nn.grade);
 			else
-			baseHtml += '<li attrid="{0}">{1}</li>'.format(nn.id,nn.name);
+			baseHtml += '<li attrid="{0}" grade="{2}">{1}</li>'.format(nn.id,nn.name,nn.grade);
 		 });
 		 baseHtml = '<ul>{0}</ul>'.format(baseHtml);
 		 
@@ -888,7 +672,8 @@
              {
 			  var selectedDish = parentNode.children('.setStyle').children('ul').eq(i).children('.redborder');
 			  var subDishId = selectedDish.attr('attrid');
-			  var obj = {id:subDishId};
+			  var grade = selectedDish.attr('grade');
+			  var obj = {id:subDishId,grade:grade};
 			  if(selectedDish.attr('selectStyle') != undefined)
 			  {
 			   obj.style = selectedDish.attr('selectStyle')
@@ -1246,11 +1031,13 @@
          } 
          return returnvalue;
         }
-         totalPrice = get_cookie('totalPrice');
-	       totalCount = get_cookie('totalCount');
+		  if(get_cookie('totalPrice') != ''){
+           totalPrice = parseFloat(get_cookie('totalPrice'));
+	       totalCount = parseFloat(get_cookie('totalCount'));
 	       allDishObject = eval('('+ get_cookie('dishList')+')');
 	       allDishCategoryList = eval('('+ get_cookie('categoryList')+')');
 	       refreshCategoryPrice(allDishCategoryList , allDishObject, totalCount ,totalPrice);
+		   }
        })();		
     })
     window.addEventListener('orientationchange', function(){

@@ -1,6 +1,6 @@
 <html ng-app="diandanbao" class="ng-scope">
 <head>
-
+    <meta charset="utf8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta content="telephone=no" name="format-detection">
@@ -157,7 +157,7 @@
 <div class="xd-box"><a id="btnselect" class="xhlbtn disable" href="javascript:void(0)">下单</a></div>
 <script src="./assets/diandanbao/jquery-1.11.3.min.js"></script>
 <script>
-    function confirmorder() {
+    functiona confirmorder() {
             var url = "{php echo $this->createMobileUrl('pay', array('orderid' => $order['id']), true)}";
             window.location.href = url;
 

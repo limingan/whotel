@@ -90,6 +90,16 @@ public class Hotel extends UnDeletedEntity {
 
 	private String deliverTime;//配送时间
 
+	private Float teaFee;//茶位费
+
+	public Float getTeaFee() {
+		return teaFee;
+	}
+
+	public void setTeaFee(Float teaFee) {
+		this.teaFee = teaFee;
+	}
+
 	public Boolean getIsAllChecked() {
 		return isAllChecked;
 	}

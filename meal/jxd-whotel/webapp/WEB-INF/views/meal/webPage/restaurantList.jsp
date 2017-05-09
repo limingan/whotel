@@ -28,7 +28,7 @@
        <c:forEach items="${restList}" var="rest">
            <div class="morelist branch-item ng-scope " >
                <input id="showlan" type="hidden" value="100,100"/>
-               <a class="branch-info " href="/oauth/meal/dishCatList.do?restaurantId=${rest.id}">
+               <a class="branch-info " href="/oauth/meal/dishCatList.do?restaurantId=${rest.id}&payAfter=${payAfter}&mealType=${mealType}">
                    <div class="branch-image">
                        <img src="${rest.miniatureUrl}" >
                    </div>

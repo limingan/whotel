@@ -286,6 +286,8 @@ public class MealController extends FanBaseController {
         param.setCompanyId(companyId);
         List<Restaurant> list = restaurantService.getByParam(param);
         req.setAttribute("restList", list);
+        req.setAttribute("mealType", param.getMealOrderType());
+        req.setAttribute("payAfter", param.getPayAfter());
         return "meal/webPage/restaurantList";
     }
 
@@ -298,7 +300,7 @@ public class MealController extends FanBaseController {
      * @return
      */
     @RequestMapping("/oauth/meal/dishCatList")
-    public String dishCatList(HttpServletRequest req, String restaurantId) {
+    public String dishCatList(HttpServletRequest req, String restaurantId, MealOrderType mealType, Integer payAfter) {
         Restaurant restaurant = restaurantService.getById(restaurantId);
         List<DishesCategory> cateList = dishesCategoryService.getByRestaurant(restaurant);
         for (DishesCategory category : cateList) {
@@ -325,6 +327,8 @@ public class MealController extends FanBaseController {
         }
 
         long monthSale = restaurantService.countMonthSale(restaurant);
+        req.setAttribute("mealType", mealType);
+        req.setAttribute("payAfter", payAfter);
         req.setAttribute("monthSale", monthSale);
         req.setAttribute("rest", restaurant);
         req.setAttribute("bannerList", restaurant.getBannerUrls());
@@ -473,90 +477,36 @@ public class MealController extends FanBaseController {
     }
 
     @RequestMapping("/oauth/meal/menu")
-    public String menu(HttpServletRequest req) {
+    public String menu(HttpServletRequest req, MealOrderType mealType, Integer payAfter,String restId) {
         String openId = getCurrentOpenId(req);
         String companyId = getCurrentCompanyId(req);
 
-        String cookieStr = getCookieByName(req, "dishList").toString();
-        JSONArray array = JSONArray.fromObject(cookieStr);
-        Map<String, MealOrderItem> itemMap = Maps.newHashMap();
-        float total = 0F;
-
-        String hotelCode = null;
-        String restId = null;
-
-        for (Object obj : array) {
-            JSONObject jsonObject = (JSONObject) obj;
-
-            for (Object keyObj : jsonObject.keySet()) {
-                String key = keyObj.toString();
-
-                MealOrderItem item = itemMap.get(key);
-                if (null == item) {
-                    item = new MealOrderItem();
-                    item.setItemQuantity(0);
-                }
-
-                Object value = jsonObject.opt(key);
-                Dishes dishes = dishesService.getDishesById(key);
-                if (value instanceof JSONArray) {//套餐
-                    JSONArray dishArr = (JSONArray) value;
-                    List<String> dishNos = Lists.newArrayList();
-                    for (Object dishObj : dishArr) {
-                        dishNos.add(dishObj.toString());
-                    }
-                    List<SuiteItem> list = this.getSuiteDish(dishes, dishNos);
-                    dishes.setItemList(list);
-
-                    item = this.build(item, dishes, 1, null);
-                } else if (value instanceof JSONObject) {//有规格做法
-                    String actionId = ((JSONObject) value).optString("action");
-                    DishesAction action = dishesActionService.getById(actionId);
-                    if (null != action.getAddPrice()) {
-                        total += action.getAddPrice();
-                    }
-                    item = this.build(item, dishes, 1, action);
-                } else {//普通菜品
-                    int num = Integer.parseInt(value.toString());
-                    dishes = dishesService.getDishesById(key);
-                    item = this.build(item, dishes, num, null);
-                }
-                if (null == hotelCode) {
-                    hotelCode = dishes.getHotelCode();
-                }
-                if (null == restId) {
-                    restId = dishes.getRestaurantId();
-                }
-                total += dishes.getPrice();
-                itemMap.put(key, item);
-            }
-        }
-        List<MealOrderItem> list = Lists.newArrayList();
-        for (MealOrderItem item : itemMap.values()) {
-            list.add(item);
-        }
+        Restaurant restaurant = restaurantService.getById(restId);
+        String hotelCode = restaurant.getHotelCode();
         Hotel hotel = hotelService.getHotel(companyId, hotelCode);
-        if (null != hotel.getDeliverPrice()) {
-            total += hotel.getDeliverPrice();
-        }
 
-        Guest guest = new Guest();
-        List<Guest> guestList = guestService.getByOpenId(openId,companyId);
-        if(CollectionUtils.isNotEmpty(guestList)){
-            guest = guestList.get(0);
-        }
+        Date date = DateUtil.addHour(new Date(), 1);
+        String time = DateUtil.format(date, "HH:mm");
+        req.setAttribute("time", time);
 
-        Date date = DateUtil.addHour(new Date(),1);
-        String time = DateUtil.format(date,"HH:mm");
-        req.setAttribute("time",time);
-        req.setAttribute("guest",guest);
-        req.setAttribute("list", list);
-        req.setAttribute("totalPrice", total);
         req.setAttribute("hotel", hotel);
-        List<PrizeRecord> prizeList = prizeService.getByOpenId(openId,companyId);
+        req.setAttribute("mealType", mealType);
+        req.setAttribute("payAfter", payAfter);
+        List<PrizeRecord> prizeList = prizeService.getByOpenId(openId, companyId);
 
         req.setAttribute("prizeList", prizeList);
-        return "/meal/webPage/menu";
+        if(MealOrderType.OUT.equals(mealType)){
+            Guest guest = new Guest();
+            List<Guest> guestList = guestService.getByOpenId(openId, companyId);
+            if (CollectionUtils.isNotEmpty(guestList)) {
+                guest = guestList.get(0);
+            }
+            req.setAttribute("guest", guest);
+            return "/meal/webPage/menu";
+        }else{
+            req.setAttribute("rest", restaurant);
+            return "/meal/webPage/menu_tangshi";
+        }
     }
 
     private MealOrderItem build(MealOrderItem item, Dishes dishes, int num, DishesAction dishesAction) {
@@ -717,6 +667,7 @@ public class MealController extends FanBaseController {
 
     /**
      * 删除地址
+     *
      * @param req
      * @param id
      * @return
@@ -738,6 +689,7 @@ public class MealController extends FanBaseController {
 
     /**
      * 设为默认地址
+     *
      * @param req
      * @param id
      * @return
@@ -747,7 +699,7 @@ public class MealController extends FanBaseController {
     public ResultData setDefaultAddr(HttpServletRequest req, String id) {
         String openId = getCurrentOpenId(req);
         String companyId = getCurrentCompanyId(req);
-        guestService.setDefault(companyId,openId,id);
+        guestService.setDefault(companyId, openId, id);
         ResultData resultData = new ResultData();
         resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
         resultData.setMessage("操作成功");
@@ -761,14 +713,14 @@ public class MealController extends FanBaseController {
      * @return
      */
     @RequestMapping("/oauth/meal/editAddr")
-    public String editAddr(HttpServletRequest req,String id) {
+    public String editAddr(HttpServletRequest req, String id) {
         String openId = getCurrentOpenId(req);
         String companyId = getCurrentCompanyId(req);
 
         req.setAttribute("guest", new Guest());
-        if(StringUtils.isNotEmpty(id)){
+        if (StringUtils.isNotEmpty(id)) {
             Guest guest = guestService.getById(id);
-            if(null != guest && openId.equals(guest.getOpenId()) && companyId.equals(guest.getCompanyId())){
+            if (null != guest && openId.equals(guest.getOpenId()) && companyId.equals(guest.getCompanyId())) {
                 req.setAttribute("guest", guest);
             }
         }
@@ -777,13 +729,14 @@ public class MealController extends FanBaseController {
 
     /**
      * 创建订单
+     *
      * @param req
      * @param str
      * @return
      */
     @RequestMapping("/oauth/meal/createOrder")
     @ResponseBody
-    public ResultData createOrder(HttpServletRequest req,String str) {
+    public ResultData createOrder(HttpServletRequest req, String str) {
         CreateOrderReq param = JSONConvertFactory.getJacksonConverter().readValue(str, CreateOrderReq.class);
         String openId = getCurrentOpenId(req);
         String companyId = getCurrentCompanyId(req);
@@ -801,16 +754,16 @@ public class MealController extends FanBaseController {
 
     @RequestMapping("/oauth/meal/getWxPayData")
     @ResponseBody
-    public ResultData getWxPayData(HttpServletRequest req,String orderId){
+    public ResultData getWxPayData(HttpServletRequest req, String orderId) {
         ResultData resultData = new ResultData();
         resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
         resultData.setMessage("操作成功");
         String openId = getCurrentOpenId(req);
         String companyId = getCurrentCompanyId(req);
         MealOrder mealOrder = mealOrderService.getMealOrderById(orderId);
-        if(null != mealOrder && openId.equals(mealOrder.getOpenId()) && companyId.equals(mealOrder.getCompanyId())){
+        if (null != mealOrder && openId.equals(mealOrder.getOpenId()) && companyId.equals(mealOrder.getCompanyId())) {
             String ip = getRealIp(req);
-            String jsApi = mealOrderService.genJsApi(mealOrder,ip);
+            String jsApi = mealOrderService.genJsApi(mealOrder, ip);
             resultData.setData(jsApi);
         }
         return resultData;
@@ -819,32 +772,32 @@ public class MealController extends FanBaseController {
 
     @RequestMapping("/oauth/meal/memberPay")
     @ResponseBody
-    public String memberPay(HttpServletRequest req,String password,String orderId,String mbrCardNo){
+    public String memberPay(HttpServletRequest req, String password, String orderId, String mbrCardNo) {
         Member member = getCurrentMember(req);
-        if(!StringUtils.equals(member.getPayPwd(), EncryptUtil.md5(password))) {
+        if (!StringUtils.equals(member.getPayPwd(), EncryptUtil.md5(password))) {
             return "支付密码不正确";
         }
 
         MealOrder mealOrder = mealOrderService.getMealOrderById(orderId);
 
         PayOrder payOrder = payOrderService.getPayOrderByOrderSn(mealOrder.getPaySn());
-        if(payOrder == null || !payOrderService.checkPayOrder(payOrder)) {
+        if (payOrder == null || !payOrderService.checkPayOrder(payOrder)) {
             return "订单数据错误，请重新下单！";
         }
 
         MemberVO memberVO = getCurrentMemberVO(req);
-        Company company =getCurrentCompany(req);
+        Company company = getCurrentCompany(req);
         String subProfileId = null;
-        if(StringUtils.isNotBlank(mbrCardNo)){
-            MbrCardVO mbrCardVO = memberTradeService.getMbrCardVO(company,memberVO.getProfileId(), mbrCardNo);
-            if(mbrCardVO==null){
+        if (StringUtils.isNotBlank(mbrCardNo)) {
+            MbrCardVO mbrCardVO = memberTradeService.getMbrCardVO(company, memberVO.getProfileId(), mbrCardNo);
+            if (mbrCardVO == null) {
                 return "订单数据错误，卡号找不到，请重新下单！";
-            }else if(mbrCardVO.getBalance()<(payOrder.getTotalFee()/100)){
+            } else if (mbrCardVO.getBalance() < (payOrder.getTotalFee() / 100)) {
                 return "余额不足";
             }
             subProfileId = mbrCardVO.getProfileId();
-        }else{
-            if(memberVO.getBalance()<(payOrder.getTotalFee()/100)){
+        } else {
+            if (memberVO.getBalance() < (payOrder.getTotalFee() / 100)) {
                 return "余额不足";
             }
         }
@@ -857,12 +810,12 @@ public class MealController extends FanBaseController {
         payOrder.setPayMent(PayMent.BALANCEPAY);
         payOrderService.savePayOrder(payOrder);
         String tradeNo = payOrder.getOrderSn();
-        boolean memberTrade = memberTradeService.memberTrade(tradeNo, fan.getOpenId(), payOrder.getTotalFee(), TradeType.DEDUCT, payOrder.getRemark(),subProfileId);
-        if(memberTrade) {
+        boolean memberTrade = memberTradeService.memberTrade(tradeNo, fan.getOpenId(), payOrder.getTotalFee(), TradeType.DEDUCT, payOrder.getRemark(), subProfileId);
+        if (memberTrade) {
             boolean rs = payOrderService.handlePayOrder(tradeNo, tradeNo, PayMent.BALANCEPAY);
-            if(rs) {
+            if (rs) {
                 PayMode payMode = payOrder.getPayMode();
-                if(PayMode.BOOKHOTEL.equals(payMode)||PayMode.TICKETBOOK.equals(payMode)||PayMode.BOOKMEAL.equals(payMode)||PayMode.COMBOBOOK.equals(payMode)) {
+                if (PayMode.BOOKHOTEL.equals(payMode) || PayMode.TICKETBOOK.equals(payMode) || PayMode.BOOKMEAL.equals(payMode) || PayMode.COMBOBOOK.equals(payMode)) {
                     return "true";
                 }
             }
