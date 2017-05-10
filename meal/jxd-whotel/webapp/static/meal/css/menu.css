@@ -437,3 +437,130 @@ img {
   line-height: 26px;
   padding: 0 8px;
 }
+.popupWindow {
+  width: 100%;
+  height: 400px;
+  bottom: 0px;
+  position: fixed;
+  background-color: white;
+}
+.popupWindow .close {
+  float: right;
+  margin-right: 30px;
+  margin-top: 10px;
+  width: 20px;
+  height: 25px;
+}
+.subTitle {
+  margin-left: 20px;
+  padding-top: 20px;
+}
+.multiStyle .stitle {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 20px;
+}
+.multiStyle > ul {
+  margin-top: -21px;
+  margin-left: 50px;
+  margin-right: 20px;
+}
+.setStyle > ul {
+  margin-top: 60px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.multiStyle > ul > li {
+  margin-bottom: 10px;
+  margin-left: 20px;
+  display: inline-block;
+  line-height: 22px;
+  height: 25px;
+  text-align: center;
+  border: 1px solid #b2b2b2;
+  border-radius: 15px;
+  list-style: none;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.setStyle > ul > li {
+  margin-bottom: 10px;
+  margin-left: 20px;
+  display: inline-block;
+  line-height: 22px;
+  height: 25px;
+  text-align: center;
+  border: 1px solid #b2b2b2;
+  border-radius: 15px;
+  list-style: none;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.setStyle > .settitle {
+  position: absolute;
+  top: 10px;
+  text-align: center;
+  width: 60%;
+  left: 20%;
+}
+.multiStyle ul .redborder,
+.setStyle ul .redborder {
+  border: 1px solid #F00;
+}
+.bottomright-button {
+  position: fixed;
+  bottom: 5px;
+  right: 40px;
+  width: 77px;
+  height: 32px;
+}
+.bottom-rmb {
+  position: fixed;
+  bottom: 14px;
+  left: 70px;
+  width: 8px;
+  height: 14px;
+}
+.bottom-price {
+  position: fixed;
+  bottom: 10px;
+  left: 83px;
+  font-size: 20px;
+  color: red;
+}
+.leftArrow,
+.rightArrow {
+  width: 10px;
+  height: 20px;
+  position: absolute;
+  top: 10px;
+  z-index: 10;
+}
+.leftArrow {
+  left: 35%;
+}
+.rightArrow {
+  left: 62%;
+}
+.pTitle {
+  height: 30px;
+  line-height: 30px;
+  border-bottom: 1px dashed #efefef;
+}
+.confirmBtn,.addToList{
+  border-radius:0px;
+  background-color:#F03C03;
+  color:white;
+  border:0px;
+ }
+.pContent {
+  border-bottom: none !important;
+  height: 90px !important;
+  margin-bottom: 12px !important;
+}
+.pContent:last-child {
+  border-bottom: 1px solid #efefef;
+}
+.dn {
+  display: none;
+}

@@ -21,9 +21,6 @@ ng\:form {
     display: none;
   }
 }
-.main-view {
-  padding-top: 70px !important;
-}
 .main-view .branch-item .branch-info {
   height: 95px !important;
 }

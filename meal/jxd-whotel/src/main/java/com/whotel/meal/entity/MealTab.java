@@ -56,7 +56,27 @@ public class MealTab extends UnDeletedEntity {
 	private String notes;//预订须知
 	
 	private String timeStamp;
-	
+
+	private String qrCode;//二维码地址
+
+	private Boolean payAfter;//是否后付费
+
+	public String getQrCode() {
+		return qrCode;
+	}
+
+	public void setQrCode(String qrCode) {
+		this.qrCode = qrCode;
+	}
+
+	public Boolean getPayAfter() {
+		return payAfter;
+	}
+
+	public void setPayAfter(Boolean payAfter) {
+		this.payAfter = payAfter;
+	}
+
 	public String getTabName() {
 		return tabName;
 	}
@@ -221,5 +241,9 @@ public class MealTab extends UnDeletedEntity {
 
 	public void setTimeStamp(String timeStamp) {
 		this.timeStamp = timeStamp;
+	}
+
+	public String getQrCodeUrl(){
+		return QiniuUtils.getResUrl(qrCode);
 	}
 }

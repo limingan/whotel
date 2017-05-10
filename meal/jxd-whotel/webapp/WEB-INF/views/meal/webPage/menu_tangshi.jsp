@@ -67,12 +67,23 @@
                 <table class="table_book">
                     <tbody>
                     <tr>
+                        <td style="width: 80px;">桌台号：</td>
+                        <td colspan="2">${mealTab.tabNo}</td>
+                    </tr>
+                    <tr>
                         <td style="width: 80px;">用餐人数：</td>
                         <td colspan="2">
                             <input type="tel" id="guestNum" name="guestNum" value="" maxlength="3" class="tdInp" placeholder="请填写用餐人数"> 人
                         </td>
                     </tr>
-                  
+                  <tr>
+			       <td>优惠券：</td><td><select class="couponSelect" style="width:80px;">
+				          <option prizeId="0" prizeValue="0">请选择</option>
+                      <c:forEach items="${prizeList}" var="prize">
+                          <option prizeId="${prize.id}" prizeValue="${prize.prizeValue}">${prize.prizeName}</option>
+                      </c:forEach>
+			       </select></td>
+		          </tr>
                     <tr>
                         <td style="width: 80px; vertical-align: top; line-height: 25px;">备注说明：</td>
                         <td colspan="2">
@@ -89,7 +100,7 @@
         <article>
             <h2>菜单列表
                 <button class="btn_add emptyIt" id="clearBtn">清空</button>
-                <button class="btn_add" onclick="location.href='">+继续点菜</button>
+                <button class="btn_add" onclick="history.go(-1)">+继续点菜</button>
             </h2>
             <ul class="myorder" id="myorder">
                 <script>
@@ -213,18 +224,18 @@
 
             <%--</div>--%>
             <c:if test="${!empty hotel.teaFee}">
-                <div style="width: 120px;">茶位费:￥<span id="">${hotel.teaFee}</span></span>元/人</div>
+                <div style="width: 120px;">茶位费:￥<span id="teaFeePerPerson">${hotel.teaFee}</span></span>元/人
+				</div>
             </c:if>
         </article>
     </section>
 
     <div class="header">
+        <input type="hidden" id="payAfter" value="${payAfter}" name="payAfter">
 	    <input type="hidden" id="packprice" value="0" name="packprice">
-        <c:if test="${!empty hotel.teaFee}">
-        <input type="hidden" id="teaFee" value="${hotel.teaFee}" name="teaFee">
-        </c:if>
 		<input type="hidden" id="discount" value="0" name="discount">
 		<input type="hidden" id="coupon" value="0" name="coupon">
+		<input type="hidden" id="teaFee" value="0" name="teaFee">
         <input type="hidden" id="totalprice" value="{$totalprice}" name="totalprice">
         <input type="hidden" id="totalcount" value="{$totalcount}" name="totalcount">
         <input type="hidden" id="limitprice" value="{$limitprice}" name="limitprice">
@@ -243,6 +254,29 @@
  <div id="popContent"></div>
 </div>
 <script>
+   $('#guestNum').blur(function(){
+	   var num = 0;
+	   if($('#guestNum').val() == '')
+	   {
+         alert("请输入用餐人数！");
+		 $('#guestNum').focus();
+		 return;
+	   }
+	   else 
+	   {
+		   
+		  num = parseInt($('#guestNum').val());
+		   
+		   if(!num > 0)
+		   {
+			   alert("请输入正确的用餐人数！");
+		       $('#guestNum').focus();
+		       return;
+		   }
+	   }
+	  $('#teaFee').val(num * parseFloat($('#teaFeePerPerson').text()) );
+	  tototal();
+   });
    $('.couponSelect').change(function(){
 	 $('#coupon').val($('.couponSelect option:selected').attr('prizeValue'));
 	 tototal();
@@ -301,10 +335,12 @@ function tototal(){
     var nums = _qAll('.numBox');
 	var packprice = _qAll('#packprice')[0].value;
 	var discount = parseFloat(_qAll('#discount')[0].value) + parseFloat(_qAll('#coupon')[0].value);
+	var teaFee = parseFloat(_qAll('#teaFee')[0].value);
     for( var j = 0; j < nums.length; j++){
         total = total + nums[j].value * nums[j].getAttribute('price');
     }
-    endTotal = parseFloat(total).toFixed(2) * 100/100 + parseFloat(packprice - discount);
+    endTotal = parseFloat(total).toFixed(2) * 100/100 + parseFloat(packprice - discount + teaFee);
+	endTotal = endTotal.toFixed(2);
     // endTotal = endTotal == parseInt(endTotal) ? parseInt(endTotal) : endTotal;
     _q('#totalprice').value = endTotal;
     _q("#totalpriceshow").innerHTML = endTotal;
@@ -315,17 +351,22 @@ function tototal(){
 tototal();//初始化金额
 function addMinusNormalDish(dishId,sign)
 {
+ var dishInfo = eval('('+ localStorage.getItem(dishId) + ')');	 
  for(var i in allDishObject)
  {
   if(Object.keys(allDishObject[i])[0]==dishId )
   {
+   if(dishInfo['style'] == 'normal')
+   {
    allDishObject[i][dishId] += sign;
    if(allDishObject[i][dishId]  == 0)
+    allDishObject.splice(i, 1);
+   }
+   else
     allDishObject.splice(i, 1);
   }
  }
  //refresh categorycount
-  var dishInfo = eval('('+ localStorage.getItem(dishId) + ')');
   var dishCategory = dishInfo.category;
   allDishCategoryList[dishCategory] += sign;
   if(allDishCategoryList[dishCategory]  == 0)
@@ -549,7 +590,8 @@ function checkItem() {
 
 function postmain() {
         var status = _q("#btnstatus").value;
-        outCheck();
+        if(false == outCheck())
+			return;
         var ordertype = $("#mode").val();
         var mealtime = $("#meal_date").val() + ' ' + $("#meal_time").val();
         if ($("#meal_date").val() == undefined) {
@@ -567,12 +609,18 @@ function postmain() {
         $("#btnselect").hide();
         if (true) {
 		    var length = allDishObject.length;
+			if(length == 0)
+			{
+				alert('未选择菜品，请选择菜品');
+				return;
+			}
 			var orderData = {};
 			orderData['remark'] = $("#remark").val();
 			orderData['guestNum'] = $("#guestNum").val();
-			orderData['mealOrderType'] = 'IN';	
-			if($('#couponSelect').val() !=0)
-			 orderData['prizeId'] = $('#couponSelect').val();	
+			orderData['mealOrderType'] = 'IN';
+            orderData['payAfter'] = $("#payAfter").val();
+			if($('.couponSelect').val() !=0)
+			 orderData['prizeId'] = $('.couponSelect').val();	
 			 orderData['list'] = Array();
 			for(var i=0;i<length;i++)
 			{
@@ -708,7 +756,7 @@ function postmain() {
 	   });
 	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button addToList" src="/static/meal/images/dish_addMenu.png"/>';
+	   html += '<button class="bottomright-button addToList" src="./images/dish_addMenu.png">确定</button>';
 	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
 	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(html);
@@ -873,7 +921,7 @@ function postmain() {
 	   });
 	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button addToList" src="/static/meal/images/dish_addMenu.png"/>';
+	   html += '<button class="bottomright-button addToList" src="./images/dish_addMenu.png">确定</button>';
 	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
 	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(multiStyleTemplate.format(dishName,html))

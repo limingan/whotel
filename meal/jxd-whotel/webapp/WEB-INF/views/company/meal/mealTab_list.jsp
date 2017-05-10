@@ -88,6 +88,7 @@ input[type='checkbox']{width: 17px;height: 17px;}
 							<th width="8%">容纳人数</th>
 							<th width="8%">最低消费</th>
 							<th width="8%">定金</th>
+							<th width="8%">二维码</th>
 							<th width="8%"><span style="color: #0033CC;cursor: pointer;" onclick="orderAscDesc()">排序
 								<img src="/static/company/images/${queryParam.params.order=='true'?'asc':'desc'}.png"/>
 							</span></th>
@@ -110,10 +111,12 @@ input[type='checkbox']{width: 17px;height: 17px;}
 						   	    <td>${mealTab.seats}</td>
 						   	    <td>${mealTab.minimums}</td>
 						   	    <td>${mealTab.deposit}</td>
+								<td><img src="${mealTab.qrCodeUrl}" width="100" height="100"/></td>
 						   	    <td>${mealTab.orderIndex}</td>
 								<td><span style="position:relative;"> 
 									<a href="toEditMealTab.do?id=${mealTab.id}" class="btn btn-sm purple"><i class="fa fa-edit"></i> 编辑</a>
 									<a href="javascript:deleteNotice('${mealTab.id}')" class="btn btn-sm default"><i class="fa fa-times"></i> 删除</a>
+									<a href="javascript:createQRCode('${mealTab.id}')" class="btn btn-sm default"><i class="fa fa-times"></i> 生成二维码</a>
 								</span></td>
 						 	</tr>
 						</c:forEach>
@@ -196,5 +199,19 @@ function orderAscDesc(){
 		$("#js_order").val("true");
 	}
 	$("#pageForm").submit();
+}
+
+function createQRCode(id){
+	$.ajax({
+		url:"/company/meal/createQRCode.do?id="+id,
+		type : 'get',
+		success:function(data) {
+			if(data.length == 0){
+				$loading.show();
+			}else{
+				alert(data);
+			}
+		}
+	});
 }
 </script>

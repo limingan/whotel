@@ -119,7 +119,8 @@
                         </td>
                     </tr>
                   <tr>
-			       <td>优惠券</td><td><select class="" style="width:80px;">
+			       <td>优惠券：</td><td><select class="couponSelect" style="width:80px;">
+				          <option prizeId="0" prizeValue="0">请选择</option>
                       <c:forEach items="${prizeList}" var="prize">
                           <option prizeId="${prize.id}" prizeValue="${prize.prizeValue}">${prize.prizeName}</option>
                       </c:forEach>
@@ -276,6 +277,7 @@
         <c:if test="${empty hotel.deliverPrice}">
             <input type="hidden" id="deliverPrice" value="0.0" name="deliverPrice">
         </c:if>
+        <input type="hidden" id="payAfter" value="${payAfter}" name="payAfter">
         <input type="hidden" id="packprice" value="0.0" name="packprice">
         <input type="hidden" id="discount" value="0.0" name="discount">
 		<input type="hidden" id="coupon" value="0" name="coupon">
@@ -360,6 +362,7 @@ function tototal(){
         total = total + nums[j].value * nums[j].getAttribute('price');
     }
     endTotal = parseFloat(total).toFixed(2) * 100/100 + parseFloat(packprice - discount);
+	endTotal = endTotal.toFixed(2);
     // endTotal = endTotal == parseInt(endTotal) ? parseInt(endTotal) : endTotal;
     _q('#totalprice').value = endTotal;
     _q("#totalpriceshow").innerHTML = endTotal;
@@ -370,17 +373,23 @@ function tototal(){
 tototal();//初始化金额
 function addMinusNormalDish(dishId,sign)
 {
+ var dishInfo = eval('('+ localStorage.getItem(dishId) + ')');	 
  for(var i in allDishObject)
  {
   if(Object.keys(allDishObject[i])[0]==dishId )
   {
+   if(dishInfo['style'] == 'normal')
+   {
    allDishObject[i][dishId] += sign;
    if(allDishObject[i][dishId]  == 0)
+    allDishObject.splice(i, 1);
+   }
+   else
     allDishObject.splice(i, 1);
   }
  }
  //refresh categorycount
-  var dishInfo = eval('('+ localStorage.getItem(dishId) + ')');
+  
   var dishCategory = dishInfo.category;
   allDishCategoryList[dishCategory] += sign;
   if(allDishCategoryList[dishCategory]  == 0)
@@ -607,7 +616,8 @@ function checkItem() {
 
 function postmain() {
         var status = _q("#btnstatus").value;
-        outCheck();
+        if(false == outCheck())
+			return;
         var ordertype = $("#mode").val();
         var mealtime = $("#meal_date").val() + ' ' + $("#meal_time").val();
         if ($("#meal_date").val() == undefined) {
@@ -625,13 +635,19 @@ function postmain() {
         $("#btnselect").hide();
         if (true) {
 		    var length = allDishObject.length;
+			if(length == 0)
+			{
+				alert('未选择菜品，请选择菜品');
+				return;
+			}
 			var orderData = {};
 			orderData['addressId'] = $("#addressId").val();
 			orderData['remark'] = $("#remark").val();
 			orderData['guestNum'] = $("#guestNum").val();
-			orderData['mealOrderType'] = 'OUT';	
-			if($('#couponSelect').val() !=0)
-			 orderData['prizeId'] = $('#couponSelect').val();	
+			orderData['mealOrderType'] = 'OUT';
+            orderData['payAfter'] = $("#payAfter").val();
+            if($('.couponSelect').val() !=0)
+			 orderData['prizeId'] = $('.couponSelect').val();	
 			 orderData['list'] = Array();
 			for(var i=0;i<length;i++)
 			{
@@ -768,7 +784,7 @@ function postmain() {
 	   });
 	   html += '<img class="bottom-rmb" src="./images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button addToList" src="./images/dish_addMenu.png"/>';
+	   html += '<button class="bottomright-button addToList" src="./images/dish_addMenu.png">确定</button>';
 	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
 	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(html);
@@ -933,7 +949,7 @@ function postmain() {
 	   });
 	   html += '<img class="bottom-rmb" src="./images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button addToList" src="./images/dish_addMenu.png"/>';
+	   html += '<button class="bottomright-button addToList" src="./images/dish_addMenu.png">确定</button>';
 	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
 	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(multiStyleTemplate.format(dishName,html))

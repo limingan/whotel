@@ -547,9 +547,9 @@ img {
   line-height: 30px;
   border-bottom: 1px dashed #efefef;
 }
-.confirmBtn{
+.confirmBtn,.addToList{
   border-radius:0px;
-  background-color:#FF0000;
+  background-color:#F03C03;
   color:white;
   border:0px;
  }

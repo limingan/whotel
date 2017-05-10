@@ -81,7 +81,7 @@ public class OauthAccessFilter implements Filter{
 		System.out.println("comid:"+comid+"-------------companyId:"+companyId);
 		System.out.println("wxid:"+wxid+"-------------openId:"+openId);
 		if(StringUtils.isNotBlank(comid)) {
-			if(StringUtils.isBlank(companyId) || !StringUtils.equals(comid, companyId)) {
+			if(StringUtils.isBlank(companyId) && !StringUtils.equals(comid, companyId)) {
 				companyId = comid;
 				session.setAttribute(Constants.Session.WEIXINFAN_LOGIN_COMPANYID, companyId);
 				session.removeAttribute(Constants.Session.WEIXINFAN_LOGIN_OPENID);
@@ -97,7 +97,7 @@ public class OauthAccessFilter implements Filter{
 		}
 		
 		if(StringUtils.isNotBlank(wxid)) {
-			if(StringUtils.isBlank(openId) || !StringUtils.equals(wxid, openId)) {
+			if(StringUtils.isBlank(openId) && !StringUtils.equals(wxid, openId)) {
 				openId = wxid;
 				session.setAttribute(Constants.Session.WEIXINFAN_LOGIN_OPENID, openId);
 			}

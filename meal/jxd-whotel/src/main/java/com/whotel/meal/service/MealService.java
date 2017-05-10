@@ -2,11 +2,18 @@ package com.whotel.meal.service;
 
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.whotel.common.util.QiniuUtils;
+import com.whotel.common.util.QrcodeUtil;
+import com.whotel.company.entity.PublicNo;
+import com.whotel.company.service.PublicNoService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +84,36 @@ public class MealService {
 
 	@Autowired
 	private SystemLogService systemLogService;
+	@Autowired
+	PublicNoService publicNoService;
+
+	public static final String wx_oauth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=";
+	public static final String  web_url = "http://tiantianwutuo.com:8080/oauth/meal/login.do?tabId=";
+
+	public String createQRcode(String tabId) throws Exception {
+		MealTab mealTab = mealTabDao.get(tabId);
+
+		String qrCodeUrl = mealTab.getQrCode();
+		if(null == qrCodeUrl){
+			String companyId = mealTab.getCompanyId();
+			PublicNo publicNo = publicNoService.getPublicNoByCompanyId(companyId);
+
+			StringBuffer weixinUrl = new StringBuffer(wx_oauth_url).append(publicNo.getAppId());
+
+			StringBuffer webUrl = new StringBuffer(web_url).append(tabId);
+			if(null != mealTab.getPayAfter() && mealTab.getPayAfter()){
+				webUrl.append("&payAfter=1");
+			}
+			String url = URLEncoder.encode(webUrl.toString(), "UTF-8");
+			weixinUrl.append("&redirect_uri=").append(url).append("&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect");
+			byte[] imageByte = QrcodeUtil.zxingCodeCreate(weixinUrl.toString(), 300, 300);
+			qrCodeUrl = QiniuUtils.upload(imageByte);
+			mealTab.setQrCode(qrCodeUrl);
+			mealTabDao.save(mealTab);
+		}
+		qrCodeUrl = QiniuUtils.getResUrl(qrCodeUrl);
+		return  qrCodeUrl;
+	}
 	
 	//////////////////////////菜式//////////////////////////
 	public Dishes getDishesById(String id){
@@ -557,10 +594,13 @@ public class MealService {
 		}
 		
 		Order orders = Order.desc("displayOrder");
-		return dishesCategoryDao.findByProperties(properties, orders );
+		return dishesCategoryDao.findByProperties(properties, orders);
 	}
 	
 	public List<DishesCategory> findDishesCategoryByCompanyId(String companyId){
 		return dishesCategoryDao.findByProperty("companyId", companyId);
 	}
+
+
+
 }

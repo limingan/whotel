@@ -75,6 +75,7 @@ public class TokenManager {
 	 */
 	public static AccessToken getAccessToken(String appId, String appSecret, String code) {
 		try {
+			logger.info("TokenManager getAccessToken appId = " + appId + " appSecret = " + appSecret + "code =" + code);
 			String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + appId.trim() + "&secret=" + appSecret.trim()
 					+ "&code=" + code.trim() + "&grant_type=authorization_code";
 			String resp = HttpHelper.connect(url).timeout(TIME_OUT).post().html();

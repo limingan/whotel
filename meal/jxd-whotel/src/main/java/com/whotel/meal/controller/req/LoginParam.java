@@ -5,16 +5,17 @@ package com.whotel.meal.controller.req;
  */
 public class LoginParam {
 
-    private String companyId;
+    private String tabId;
 
     private String code;
 
-    public String getCompanyId() {
-        return companyId;
+
+    public String getTabId() {
+        return tabId;
     }
 
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
+    public void setTabId(String tabId) {
+        this.tabId = tabId;
     }
 
     public String getCode() {
@@ -23,5 +24,13 @@ public class LoginParam {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    @Override
+    public String toString() {
+        return "LoginParam{" +
+                "tabId='" + tabId + '\'' +
+                ", code='" + code + '\'' +
+                '}';
     }
 }

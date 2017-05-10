@@ -39,6 +39,7 @@ ng\:form {
 }
 .main-view .branch-info {
   padding-left: 85px !important;
+  height: 86px;
 }
 .main-view .branch-item .branch-image {
   height: 70px;

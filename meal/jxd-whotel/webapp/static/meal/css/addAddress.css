@@ -184,7 +184,7 @@ a {
 .U-user-login-btn {
   display: block;
   border: none;
-  background: url(images/bg_mb_btn1_1.png) repeat-x;
+  background: url(/static/meal/images/bg_mb_btn1_1.png) repeat-x;
   font-size: 1em;
   color: #efefef;
   line-height: 49px;

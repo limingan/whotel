@@ -87,9 +87,8 @@
     }
 </style>
 <div class="header">
-    <input type="hidden" id="mealType" value="${mealType}">
-    <input type="hidden" id="payAfter" value="${payAfter}">
     <input type="hidden" id="restId" value="${rest.id}">
+    <input type="hidden" id="tabId" value="${tabId}">
     <input type="hidden" id="totalprice" value="{$totalprice}" name="totalprice">
     <input type="hidden" id="totalcount" value="{$totalcount}" name="totalcount">
     <input type="hidden" id="btnstatus" value="0" name="btnstatus">
@@ -121,7 +120,7 @@ function changeBtnSelect() {
     }
 }
 function btnSelectJump() {
-    var url = "/oauth/meal/menu.do?payAfter="+$('#payAfter').val()+"&mealType="+$('#mealType').val()+"&restId="+$('#restId').val();
+    var url = "/oauth/meal/menu.do?tabId="+$('#tabId').val() + "&restId="+$('#restId').val();
     var status = _q("#btnstatus").value;
     if (status == 1) {
         location.href= url;

@@ -50,6 +50,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
@@ -101,32 +102,36 @@ public class MealController extends FanBaseController {
 
 
     @RequestMapping("/oauth/meal/login")
-    public String login(HttpServletRequest req, LoginParam param) {
-        HttpSession session = req.getSession();
+    public String login(ServletRequest req, LoginParam param) {
+        logger.info("MealController login param = " + param.toString());
+        HttpServletRequest request = (HttpServletRequest) req;
+        HttpSession session = request.getSession();
 
-        String companyId = param.getCompanyId();
+        String tabId = param.getTabId();
+        MealTab mealTab = mealService.getMealTabById(tabId);
+        String companyId = mealTab.getCompanyId();
         PublicNo publicNo = publicNoService.getPublicNoByCompanyId(companyId);
+
         AccessToken token = TokenManager.getAccessToken(publicNo.getAppId(), publicNo.getAppSecret(), param.getCode());
         String openId = token.getOpenid();
-
         Company company = companyService.getCompanyById(companyId);
         Theme theme = themeService.getEnableTheme(companyId);
 
         session.setAttribute(Constants.Session.WEIXINFAN_LOGIN_COMPANYID, companyId);
-        session.removeAttribute(Constants.Session.WEIXINFAN_LOGIN_OPENID);
         session.setAttribute(Constants.Session.THEME, company.getTheme());
         session.setAttribute(Constants.Session.WEIXINFAN_LOGIN_COMPANYNAME, company.getName());
         session.setAttribute(Constants.Session.COMPANY_THEME, theme);
         session.setAttribute(Constants.Session.WEIXINFAN_LOGIN_OPENID, openId);
 
-        Member member = memberService.getMemberByOpendId(openId);
+        Member member = memberService.getByOpendId(openId);
         if (null == member) {
             member = new Member();
             member.setOpenId(openId);
             member.setCompanyId(companyId);
             memberService.saveMember(member);
         }
-        return "redirect:/oauth/meal/list.do";
+        String redirectUrl = "/oauth/meal/dishCatList.do?tabId=" + tabId;
+        return "redirect:" + redirectUrl;
     }
 
 
@@ -280,16 +285,8 @@ public class MealController extends FanBaseController {
         Company company = getCurrentCompany(req);
         String companyId = company.getId();
         param.setCompanyId(companyId);
-        if (null == param.getPayAfter()) {
-            param.setPayAfter(1);
-        }
-        if (null == param.getMealOrderType()) {
-            param.setMealOrderType(MealOrderType.IN);
-        }
         List<Restaurant> list = restaurantService.getByParam(param);
         req.setAttribute("restList", list);
-        req.setAttribute("mealType", param.getMealOrderType());
-        req.setAttribute("payAfter", param.getPayAfter());
         return "meal/webPage/restaurantList";
     }
 
@@ -302,7 +299,12 @@ public class MealController extends FanBaseController {
      * @return
      */
     @RequestMapping("/oauth/meal/dishCatList")
-    public String dishCatList(HttpServletRequest req, String restaurantId, MealOrderType mealType, Integer payAfter) {
+    public String dishCatList(HttpServletRequest req, String restaurantId, String tabId) {
+        if (StringUtils.isNotEmpty(tabId)) {
+            MealTab mealTab = mealService.getMealTabById(tabId);
+            restaurantId = mealTab.getRestaurantId();
+        }
+
         Restaurant restaurant = restaurantService.getById(restaurantId);
         List<DishesCategory> cateList = dishesCategoryService.getByRestaurant(restaurant);
         for (DishesCategory category : cateList) {
@@ -329,14 +331,9 @@ public class MealController extends FanBaseController {
         }
 
         long monthSale = restaurantService.countMonthSale(restaurant);
-        if (null == payAfter) {
-            payAfter = 1;
-        }
-        if (null == mealType) {
-            mealType = MealOrderType.IN;
-        }
-        req.setAttribute("mealType", mealType);
-        req.setAttribute("payAfter", payAfter);
+
+
+        req.setAttribute("tabId", tabId);
         req.setAttribute("monthSale", monthSale);
         req.setAttribute("rest", restaurant);
         req.setAttribute("bannerList", restaurant.getBannerUrls());
@@ -485,9 +482,20 @@ public class MealController extends FanBaseController {
     }
 
     @RequestMapping("/oauth/meal/menu")
-    public String menu(HttpServletRequest req, MealOrderType mealType, Integer payAfter, String restId) {
+    public String menu(HttpServletRequest req, String tabId, String restId) {
         String openId = getCurrentOpenId(req);
         String companyId = getCurrentCompanyId(req);
+
+        int payAfter = 0;
+        MealOrderType mealType = MealOrderType.OUT;
+        MealTab mealTab = null;
+        if (StringUtils.isNotEmpty(tabId)) {
+            mealTab = mealService.getMealTabById(tabId);
+            mealType = MealOrderType.IN;
+            if (null != mealTab && null != mealTab.getPayAfter() && mealTab.getPayAfter()) {
+                payAfter = 1;
+            }
+        }
 
         Restaurant restaurant = restaurantService.getById(restId);
         String hotelCode = restaurant.getHotelCode();
@@ -497,12 +505,6 @@ public class MealController extends FanBaseController {
         String time = DateUtil.format(date, "HH:mm");
         req.setAttribute("time", time);
 
-        if (null == payAfter) {
-            payAfter = 1;
-        }
-        if (null == mealType) {
-            mealType = MealOrderType.IN;
-        }
         req.setAttribute("hotel", hotel);
         req.setAttribute("mealType", mealType);
         req.setAttribute("payAfter", payAfter);
@@ -518,47 +520,10 @@ public class MealController extends FanBaseController {
             req.setAttribute("guest", guest);
             return "/meal/webPage/menu";
         } else {
+            req.setAttribute("mealTab", mealTab);
             req.setAttribute("rest", restaurant);
             return "/meal/webPage/menu_tangshi";
         }
-    }
-
-    /**
-     * 根据名字获取cookie
-     *
-     * @param request
-     * @param name    cookie名字
-     * @return
-     */
-    public Object getCookieByName(HttpServletRequest request, String name) {
-        Map<String, Object> cookieMap = ReadCookieMap(request);
-        if (cookieMap.containsKey(name)) {
-            Object cookie = cookieMap.get(name);
-            return cookie;
-        } else {
-            return null;
-        }
-    }
-
-
-    /**
-     * 将cookie封装到Map里面
-     *
-     * @param request
-     * @return
-     */
-    private Map<String, Object> ReadCookieMap(HttpServletRequest request) {
-        Map<String, Object> cookieMap = new HashMap<String, Object>();
-        String cookieStr = request.getHeader("cookie");
-
-        if (StringUtils.isNotEmpty(cookieStr)) {
-            String[] str = cookieStr.split(";");
-            for (String cookie : str) {
-                String[] keyValue = cookie.split("=");
-                cookieMap.put(keyValue[0].trim(), keyValue[1].trim());
-            }
-        }
-        return cookieMap;
     }
 
     @RequestMapping("/oauth/meal/syncDishesAction")

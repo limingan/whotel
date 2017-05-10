@@ -30,7 +30,7 @@
 <body id="page_allMenu" style="background-color: #fff;height:100%">
 
 <div class="ddb-nav-header ng-scope">
-    <a class="nav-left-item" href="javascript:void(0)" onclick="history.go(-1)"><i class="fa fa-angle-left"></i></a>
+    <a class="nav-left-item" href="javascript:void(0)" onclick="clearAndGoBack()"><i class="fa fa-angle-left"></i></a>
     <div class="header-title ng-binding">${rest.name}</div>
     
 </div>
@@ -68,23 +68,23 @@
             <c:forEach items="${cateList}" var="cate" varStatus="status">
 
                 <c:if test="${status.index ==0}">
-                    <a class="navOption" href="#${cate.dishNo}">
+                    <div class="navOption" href="#${cate.dishNo}">
                         <dd categoryid="${cate.id}" class="active" style="color:black;">
                             <%--fixme limingan 分类无图--%>
                             <%--<img style="width:15px;height:15px;border-top:10px" src="http://tiantianwutuo.top/attachment/images/1/2017/04/SanMzlI2yXTxyqhYt1DtILUxnY1VU2.jpg" alt="" title="">--%>
                             <p>${cate.dishName}</p>
                             <span style="display:none;"></span>
                         </dd>
-                    </a>
+                    </div>
                 </c:if>
 
                 <c:if test="${status.index !=0}">
-                    <a class="navOption" href="#${cate.dishNo}">
+                    <div class="navOption" href="#${cate.dishNo}">
                         <dd categoryid="${cate.id}" >
                                 <p>${cate.dishName}</p>
                             <span style="display:none;"></span>
                         </dd>
-                    </a>
+                    </div>
                 </c:if>
             </c:forEach>
         </dl>
@@ -113,7 +113,7 @@
 
                             </dd>
                             <dd class="dpNum">
-                                <img src="/static/meal/images/icon_fullminus.png" style="position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
+                                <img src="/static/meal/images/icon_fullminus.png" style="vertical-align:0;position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
                                 <f style="color: #f00;">满一件 ，9.9</f>
                             </dd>
                             <dd class="btn">
@@ -182,13 +182,16 @@
       $('.navOption dd').removeClass("active");
 	  $(this).children('dd').addClass('active');
       $("#infoSection").animate({
-        scrollTop: $($(this).attr("href")).offset().top - $("#page1").offset().top +"px"
+        scrollTop: $($(this).attr("href")).offset().top - $("#" + $('.pTitle').eq(0).attr('id')).offset().top +"px"
       }, {
         duration: 300,
         easing: "swing"
       });
       return false;
     });
+	$('.dishstyle').click(function(){
+	  $(this).parent().parent().children('.btn').children('.addDish').click();
+	});
     var addBtn = _qAll('.addDish');
 	var addBtnLength = addBtn.length;
 	for(var i=0;i<addBtnLength;i++)
@@ -203,7 +206,7 @@
 	 var dishUnit = parentDl.getAttribute('dunitname'); 
 	 var dishId = parentDl.getAttribute('dishid');
 	 var dishCategoryPage = $(this).parent().parent().prevAll('div').attr('id')
-	 var dishCategory = $('#navBar>dl').find('a[href="#'+dishCategoryPage+'"]').children('dd').attr('categoryId');
+	 var dishCategory = $('#navBar>dl').find('div[href="#'+dishCategoryPage+'"]').children('dd').attr('categoryId');
 	 var html='';
 	 var localStorageObj = {};
 	 localStorageObj['id'] = dishId;
@@ -474,7 +477,7 @@
 	 document.cookie = "dishList="+JSON.stringify(dishList);
 	 document.cookie = "totalCount="+totalcount;
 	 document.cookie = "totalPrice="+totalprice;
-
+     totalprice = totalprice.toFixed(2);
      try{
 	 _q("#totalprice").value = totalprice;
 	 _q("#totalpriceshow").innerHTML = totalprice;
@@ -579,7 +582,27 @@
     }
 
     
-
+         function get_cookie(Name) {
+         var search = Name + "="//查询检索的值
+         var returnvalue = "";//返回值
+         if (document.cookie.length > 0) {
+           sd = document.cookie.indexOf(search);
+           if (sd!= -1) {
+              sd += search.length;
+              end = document.cookie.indexOf(";", sd);
+              if (end == -1)
+               end = document.cookie.length;
+               //unescape() 函数可对通过 escape() 编码的字符串进行解码。
+              returnvalue=unescape(document.cookie.substring(sd, end))
+            }
+         } 
+         return returnvalue;
+        }	
+		function delCookie(name){//为cookie name
+          var date = new Date();
+          date.setTime(date.getTime() - 10000);
+          document.cookie = name + "=a; expires=" + date.toGMTString();
+        }
     _onPageLoaded(function(){
         //changeBtnSelect();
         setHeight();
@@ -596,36 +619,44 @@
 				keys: true,
 				dots: true
 			});
-		 (function()
-       {
-         function get_cookie(Name) {
-         var search = Name + "="//查询检索的值
-         var returnvalue = "";//返回值
-         if (document.cookie.length > 0) {
-           sd = document.cookie.indexOf(search);
-           if (sd!= -1) {
-              sd += search.length;
-              end = document.cookie.indexOf(";", sd);
-              if (end == -1)
-               end = document.cookie.length;
-               //unescape() 函数可对通过 escape() 编码的字符串进行解码。
-              returnvalue=unescape(document.cookie.substring(sd, end))
-            }
-         } 
-         return returnvalue;
-        }
-		if(get_cookie('totalPrice') != ''){
+		
+	    (function()
+        {
+         
+		  if(get_cookie('totalPrice') != ''){
            totalPrice = parseFloat(get_cookie('totalPrice'));
 	       totalCount = parseFloat(get_cookie('totalCount'));
 	       allDishObject = eval('('+ get_cookie('dishList')+')');
 	       allDishCategoryList = eval('('+ get_cookie('categoryList')+')');
 	       refreshCategoryPrice(allDishCategoryList , allDishObject, totalCount ,totalPrice);
-		}
-       })();			
+		   }
+       })();		
     })
     window.addEventListener('orientationchange', function(){
         setHeight();
     })
+	function clearAndGoBack()
+	{
+	if(get_cookie('totalPrice') != '')
+	{
+	 MDialog.confirm(
+                        '', '                       是否返回上一页？购物车将被清空。' , null,
+                        '  确定  ', function(){
+                           delCookie('totalPrice');
+						   delCookie('totalCount');
+						   delCookie('dishList');
+						   delCookie('categoryList');
+						   history.go(-1);
+                        }, null,
+                        '  取消  ', null, null,null, true, true
+                    );
+	  $('.mDialog').attr('style',$('.mDialog').attr('style') + '-webkit-box-sizing:initial;' );
+      var left = $('.mDialog').offset().left - 25;	  
+      $('.mDialog').attr('style',$('.mDialog').attr('style') + 'left:'+ left+ 'px' );		  
+	}
+	else
+     history.go(-1);	
+	}
 </script>
 </body>
 </html>

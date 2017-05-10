@@ -15,7 +15,6 @@
 <body>
 <!-- ngView:  -->
 <div ng-view="" style="height: 100%;" class="ng-scope">
-    {php include $this->template($this->cur_tpl.'/_menu');}
     <div id="search-word-page" class="ng-scope">
         <div class="ddb-nav-header search-header">
             <div class="search-input">

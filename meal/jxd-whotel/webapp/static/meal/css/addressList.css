@@ -132,7 +132,7 @@
   border: 1px solid #dedede;
   display: inline-block;
   height: 35px;
-  background: url(/static/meal/images/btn1.png#1), -webkit-gradient(linear, 0 0, 0 100%, from(#f03c03), to(#f03c03));
+  background: url(../addons/weisrc_dish/template/images/btn1.png#1), -webkit-gradient(linear, 0 0, 0 100%, from(#f03c03), to(#f03c03));
   background-size: auto 32px, auto auto;
   background-position: right center;
   background-repeat: no-repeat;

@@ -25,7 +25,7 @@
 <body id="page_allMenu" style="background-color: #fff;height:100%">
 
 <div class="ddb-nav-header ng-scope">
-    <a class="nav-left-item" href="javascript:void(0)" onclick="history.go(-1)"><i class="fa fa-angle-left"></i></a>
+    <a class="nav-left-item" href="javascript:void(0)" onclick="clearAndGoBack()"><i class="fa fa-angle-left"></i></a>
     <div class="header-title ng-binding">餐厅1</div>
     
 </div>
@@ -60,30 +60,30 @@
         <dl>
             
 
-                <a class="navOption" href="#page1"><dd categoryid="1" class="active">
+                <div class="navOption" href="#page1"><dd categoryid="1" class="active">
                     <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1493566188&di=e7a64fe7aaeeb46b2c121c3a26956012&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.sxxdf.cn%2Fuploads%2Fallimg%2F120430%2F1-12043009344X31.jpg" alt="" title="">
 					<p>分类1</p>                    
                     <span style="display:none;"></span>
                 </dd>
-				</a>
-				<a class="navOption" href="#page2">
+				</div>
+				<div class="navOption" href="#page2">
                 <dd categoryid="2" >
                     <p>分类2 </p>                   
                     <span style="display:none;"></span>
                 </dd>
 				</a>
-				<a class="navOption" href="#page3">
+				<div class="navOption" href="#page3">
                 <dd categoryid="3" >
                     <p>分类23</p>                   
                     <span style="display:none;"></span>
                 </dd>
-				</a>
-				<a class="navOption" href="#page4">
+				</div>
+				<div class="navOption" href="#page4">
                 <dd categoryid="4" >
                     <p>套餐  </p>                 
                     <span style="display:none;"></span>
                 </dd>
-				</a>
+				</div>
 				
 
         </dl>
@@ -599,13 +599,16 @@
       $('.navOption dd').removeClass("active");
 	  $(this).children('dd').addClass('active');
       $("#infoSection").animate({
-        scrollTop: $($(this).attr("href")).offset().top - $("#page1").offset().top +"px"
+        scrollTop: $($(this).attr("href")).offset().top - $("#" + $('.pTitle').eq(0).attr('id')).offset().top +"px"
       }, {
         duration: 300,
         easing: "swing"
       });
       return false;
     });
+	$('.dishstyle').click(function(){
+	  $(this).parent().parent().children('.btn').children('.addDish').click();
+	});
     var addBtn = _qAll('.addDish');
 	var addBtnLength = addBtn.length;
 	for(var i=0;i<addBtnLength;i++)
@@ -620,7 +623,7 @@
 	 var dishUnit = parentDl.getAttribute('dunitname'); 
 	 var dishId = parentDl.getAttribute('dishid');
 	 var dishCategoryPage = $(this).parent().parent().prevAll('div').attr('id')
-	 var dishCategory = $('#navBar>dl').find('a[href="#'+dishCategoryPage+'"]').children('dd').attr('categoryId');
+	 var dishCategory = $('#navBar>dl').find('div[href="#'+dishCategoryPage+'"]').children('dd').attr('categoryId');
 	 var html='';
 	 var localStorageObj = {};
 	 localStorageObj['id'] = dishId;
@@ -891,7 +894,7 @@
 	 document.cookie = "dishList="+JSON.stringify(dishList);
 	 document.cookie = "totalCount="+totalcount;
 	 document.cookie = "totalPrice="+totalprice;
-
+     totalprice = totalprice.toFixed(2);
      try{
 	 _q("#totalprice").value = totalprice;
 	 _q("#totalpriceshow").innerHTML = totalprice;
@@ -996,7 +999,27 @@
     }
 
     
-
+         function get_cookie(Name) {
+         var search = Name + "="//查询检索的值
+         var returnvalue = "";//返回值
+         if (document.cookie.length > 0) {
+           sd = document.cookie.indexOf(search);
+           if (sd!= -1) {
+              sd += search.length;
+              end = document.cookie.indexOf(";", sd);
+              if (end == -1)
+               end = document.cookie.length;
+               //unescape() 函数可对通过 escape() 编码的字符串进行解码。
+              returnvalue=unescape(document.cookie.substring(sd, end))
+            }
+         } 
+         return returnvalue;
+        }	
+		function delCookie(name){//为cookie name
+          var date = new Date();
+          date.setTime(date.getTime() - 10000);
+          document.cookie = name + "=a; expires=" + date.toGMTString();
+        }
     _onPageLoaded(function(){
         //changeBtnSelect();
         setHeight();
@@ -1013,24 +1036,10 @@
 				keys: true,
 				dots: true
 			});
+		
 	    (function()
-       {
-         function get_cookie(Name) {
-         var search = Name + "="//查询检索的值
-         var returnvalue = "";//返回值
-         if (document.cookie.length > 0) {
-           sd = document.cookie.indexOf(search);
-           if (sd!= -1) {
-              sd += search.length;
-              end = document.cookie.indexOf(";", sd);
-              if (end == -1)
-               end = document.cookie.length;
-               //unescape() 函数可对通过 escape() 编码的字符串进行解码。
-              returnvalue=unescape(document.cookie.substring(sd, end))
-            }
-         } 
-         return returnvalue;
-        }
+        {
+         
 		  if(get_cookie('totalPrice') != ''){
            totalPrice = parseFloat(get_cookie('totalPrice'));
 	       totalCount = parseFloat(get_cookie('totalCount'));
@@ -1043,6 +1052,28 @@
     window.addEventListener('orientationchange', function(){
         setHeight();
     })
+	function clearAndGoBack()
+	{
+	if(get_cookie('totalPrice') != '')
+	{
+	 MDialog.confirm(
+                        '', '                       是否返回上一页？购物车将被清空。' , null,
+                        '  确定  ', function(){
+                           delCookie('totalPrice');
+						   delCookie('totalCount');
+						   delCookie('dishList');
+						   delCookie('categoryList');
+						   history.go(-1);
+                        }, null,
+                        '  取消  ', null, null,null, true, true
+                    );
+	  $('.mDialog').attr('style',$('.mDialog').attr('style') + '-webkit-box-sizing:initial;' );
+      var left = $('.mDialog').offset().left - 25;	  
+      $('.mDialog').attr('style',$('.mDialog').attr('style') + 'left:'+ left+ 'px' );		  
+	}
+	else
+     history.go(-1);	
+	}
 </script>
 </body>
 </html>

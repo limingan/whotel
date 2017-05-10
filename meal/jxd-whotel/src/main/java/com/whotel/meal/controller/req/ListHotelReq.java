@@ -1,7 +1,5 @@
 package com.whotel.meal.controller.req;
 
-import java.math.BigDecimal;
-
 /**
  * Created by limingan on 2017/4/16.
  */
