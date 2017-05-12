@@ -96,6 +96,9 @@ public  class Constants {
 		public static final String THEME = "THEME";
 		
 		public static final String COMPANY_THEME = "COMPANY_THEME";
+		
+		public static final String WAITER_ID = "WAITER_ID";
+		
 	}
 	
 	public static class MessageCode {

@@ -38,6 +38,12 @@ public class RestaurantService {
         if(StringUtils.isNotBlank(param.getHotelCode())) {
         	properties.put("hotelCode",param.getHotelCode());
         }
+        if(StringUtils.isNotBlank(param.getRestaurantId())) {
+        	properties.put("id", param.getRestaurantId());
+        }
+        if(param.getIsEnable() != null) {
+        	properties.put("isEnable", param.getIsEnable());
+        }
         return restaurantDao.findByProperties(properties);
     }
 
