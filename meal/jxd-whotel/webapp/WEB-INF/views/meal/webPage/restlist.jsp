@@ -41,7 +41,7 @@
             </div>
         </div>
         <div class="ddb-box filter-nav-box ng-hide" ng-show="mask" ng-click="select()">
-            <div class="box-mask"></div>
+            
         </div>
         <div class="filter-nav-menu" ng-transclude="">
             <div class="ddb-nav-pane ng-isolate-scope ng-hide">

@@ -224,9 +224,7 @@
                         ×
                         <span class="price ng-binding">￥${item.itemPrice}</span>
                     </div>
-                    <div class="total-info">
-                        <button class="btn_add edit_button">编辑</button>
-                    </div>
+                    
                 </div>
             </c:forEach>
 

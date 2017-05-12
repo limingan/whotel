@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <meta name="format-detection" content="telephone=no">
-<title>全部商品</title>
+<title>全部菜肴</title>
 <link data-turbolinks-track="true" href="/static/meal/css/weixin.css?v=1" media="all" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/static/meal/css/wei_canyin_v1.8.4.css?v=1.1.1" media="all">
 <link rel="stylesheet" type="text/css" href="/static/meal/css/wei_dialog_v1.2.1.css?v=1.1" media="all">
@@ -109,15 +109,24 @@
                             </dd>
                             <span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
                             <dd class="dishDetailInfo">
-                                <em class="sale">￥${dish.price}</em><del>￥${dish.marketPrice}</del>  <c:if test="${ dish.isMultiStyle == 1}"><a class="dishstyle" href="javascript:void(0);">可选规格</a></c:if>
+                                <em class="sale">￥${dish.price}</em><del>￥${dish.marketPrice}</del>  
 
                             </dd>
                             <dd class="dpNum">
-                                <img src="/static/meal/images/icon_fullminus.png" style="vertical-align:0;position:relative;top:3px;left:0px;width:13px;height:13px;" alt="">
-                                <f style="color: #f00;">满一件 ，9.9</f>
+
                             </dd>
                             <dd class="btn">
-                                <img src="/static/meal/images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+							    <<c:choose>
+                                  <c:when test="${dish.isMultiStyle== 1 || dish.isSuite== 1 }">  
+							        <a class="dishstyle" href="javascript:void(0);">可选规格</a>
+                                    <numsmall style="display:none">0</numsmall>       
+								  </c:when>
+                                  <c:otherwise> 
+                                    <img src="images/minusdish.png" class="minusDish" alt="" style="display:none">
+					                <num style="display:none">0</num>								
+                                    <img src="/static/meal/images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+ 								  </c:otherwise>
+                                </c:choose>
                             </dd>
                         </dl>
                     </c:forEach>
@@ -141,10 +150,11 @@
 </div>
 <jsp:include page="_header.jsp"/>
 <script type="text/javascript"> 
-   var totalPrice=0;
+   var totalPrice= 0;
    var totalCount = 0;
    var allDishObject = Array();
    var allDishCategoryList = {};
+   
         String.prototype.format = function (args) {
             var result = this;
             if (arguments.length > 0) {
@@ -192,9 +202,42 @@
 	$('.dishstyle').click(function(){
 	  $(this).parent().parent().children('.btn').children('.addDish').click();
 	});
-    var addBtn = _qAll('.addDish');
+    var addBtn = _qAll('.addDish,.dishstyle');
+	var minusBtn = _qAll('.minusDish');
 	var addBtnLength = addBtn.length;
+	var minusLength = minusBtn.length;
+	function addMinusNormalDish(dishId,sign)
+    {
+     var dishInfo = eval('('+ localStorage.getItem(dishId) + ')');
+	 var currentDishCount ;
+     for(var i in allDishObject)
+     {
+      if(Object.keys(allDishObject[i])[0]==dishId )
+      {
+	  if(allDishObject[i][dishId]  == 0 || allDishObject[i][dishId]==undefined)
+	   return 0;
+       if(dishInfo['style'] == 'normal')
+       {
+       allDishObject[i][dishId] += sign;
+	   currentDishCount = allDishObject[i][dishId];
+       if(allDishObject[i][dishId]  == 0)
+        allDishObject.splice(i, 1);
+       }
+       else
+        allDishObject.splice(i, 1);
+      }
+     }
+	 var dishCategory = dishInfo.category;
+     allDishCategoryList[dishCategory] += sign;
+     if(allDishCategoryList[dishCategory]  == 0)
+       delete allDishCategoryList[dishCategory];
+     totalCount+=sign;
+     totalPrice += sign*(dishInfo['price']);
+     refreshCategoryPrice(allDishCategoryList , allDishObject,totalCount ,totalPrice);
+	 return currentDishCount;
+   }
 	for(var i=0;i<addBtnLength;i++)
+	{
 	addBtn[i].addEventListener(_moveendEvt,function(){
 	
 	 //load dish style
@@ -220,24 +263,24 @@
 	   localStorageObj['data'] = parentDl.getAttribute('setData').replace(/[\r\n]/g,"");
 	   var setData = eval('('+ parentDl.getAttribute('setData') + ')');
 	   var setDishLength = setData.length;
-	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="/static/meal/images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="/static/meal/images/right_right_arrow.png">{1}</div>';
+	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="./images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="./images/right_right_arrow.png">{1}</div>';
 	   
 	   $(setData).each(function(i,n){
 	      var baseHtml = '';
 		  
    	      $(n).each(function(ii,nn){
 		    if(typeof(nn.style) !='undefined')
-		    baseHtml += '<li attrid="{0}" grade="{3}" styleData=\'{2}\'>{1}</li>'.format(nn.dishNo,nn.dishName,JSON.stringify(nn.style),nn.grade);
+		    baseHtml += '<li attrid="{0}" grade="{3}" styleData=\'{2}\'>{1}</li>'.format(nn.id,nn.name,JSON.stringify(nn.style),nn.grade);
 			else
-			baseHtml += '<li attrid="{0}" grade="{2}">{1}</li>'.format(nn.dishNo,nn.dishName,nn.grade);
+			baseHtml += '<li attrid="{0}" grade="{2}">{1}</li>'.format(nn.id,nn.name,nn.grade);
 		 });
 		 baseHtml = '<ul>{0}</ul>'.format(baseHtml);
 		 
 		 html += setTemplate.format('第'+parseInt(i+1)+'道菜', baseHtml);
 	   });
-	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
+	   html += '<img class="bottom-rmb" src="./images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button addToList" src="/static/meal/images/dish_addMenu.png"/>';
+	   html += '<img class="bottomright-button addToList" src="./images/dish_addMenu.png"/>';
 	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
 	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(html);
@@ -386,15 +429,15 @@
 	      var baseHtml = '';
 		  
    	      $(n.data).each(function(ii,nn){
-		    baseHtml += '<li attrid="{0}">{1}</li>'.format(nn.id,nn.name);
+		    baseHtml += '<li attrid="{0}"  >{1}</li>'.format(nn.id,nn.name);
 		 });
 		 baseHtml = '<ul>{0}</ul>'.format(baseHtml);
 		 
 		 html += multiStyleBaseTemplate.format(n.name, baseHtml,n.id);
 	   });
-	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
+	   html += '<img class="bottom-rmb" src="./images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button addToList" src="/static/meal/images/dish_addMenu.png"/>';
+	   html += '<img class="bottomright-button addToList" src="./images/dish_addMenu.png"/>';
 	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
 	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(multiStyleTemplate.format(dishName,html))
@@ -461,18 +504,63 @@
 	   }
 	   
 	   allDishCategoryList[dishCategory] = undefined != allDishCategoryList[dishCategory]?allDishCategoryList[dishCategory]+1:1;
+	   localStorage.setItem(dishId,JSON.stringify(localStorageObj));
 	   refreshCategoryPrice(allDishCategoryList , allDishObject,totalCount ,totalPrice);
 	 }
 	 localStorage.setItem(dishId,JSON.stringify(localStorageObj));
 	})
 	
+	}
+	var canMinus = true;
+	for(var i=0;i<minusLength;i++)
+	{
+	 minusBtn[i].addEventListener(_moveendEvt,function(){
+	 if(!canMinus)
+	  return;
+	 canMinus = false;
+	 var parentDl = this.parentNode.parentNode;
+	 var dPrice = parentDl.getAttribute('dPrice');
+	 var dishId = parentDl.getAttribute('dishid');
+	 var dishCategoryPage = $(this).parent().parent().prevAll('div').attr('id')
+	 var dishCategory = $('#navBar>dl').find('div[href="#'+dishCategoryPage+'"]').children('dd').attr('categoryId');
+	 var currentDishCount = addMinusNormalDish(dishId,-1);
+	 if(0 == currentDishCount)
+	 {
+	  $(this).fadeOut(0);
+	  $(this).siblings('num').fadeOut(0);
+	 }
+	 canMinus = true;
+	})
+	}
 	function refreshCategoryPrice(categoryList,dishList,totalcount,totalprice)
 	{
+	 $('.navOption').find('dd').children('span').text('').css('display','none');
 	 for(var i in categoryList) {
 	  $('.navOption').find('dd[categoryid='+i+']').children('span').css('display','inline-block').text(categoryList[i]);
 	 }
 	 // set cookies
-	 
+	 var styleSetDishCount = {};
+	 $(dishList).each(function(i,n){
+		 var dishId = Object.keys(n)[0];
+		 var dishInfo = eval('(' + localStorage.getItem(dishId) + ')');
+		 var obj = $('#pInfo').find('dl[dishid='+dishId+']');
+		 switch(dishInfo['style'])
+		 {
+		  case 'normal':		           
+				   obj.children('.btn').children('num').text(n[dishId]);
+		           obj.children('.btn').children('num').fadeIn(0);
+				   obj.children('.btn').children('.minusDish').fadeIn(0);
+				   break;
+		  case 'multi':
+		  case 'set':
+		           styleSetDishCount[dishId] = (undefined == styleSetDishCount[dishId])?1:1+styleSetDishCount[dishId];
+				   obj.children('.btn').children('numsmall').text(styleSetDishCount[dishId] );
+		           obj.children('.btn').children('numsmall').fadeIn(0);
+				   break;
+				   
+                   		  
+		 }
+	 });
 	 document.cookie = "categoryList="+JSON.stringify(categoryList);
 	 document.cookie = "dishList="+JSON.stringify(dishList);
 	 document.cookie = "totalCount="+totalcount;
@@ -603,6 +691,7 @@
           date.setTime(date.getTime() - 10000);
           document.cookie = name + "=a; expires=" + date.toGMTString();
         }
+		
     _onPageLoaded(function(){
         //changeBtnSelect();
         setHeight();

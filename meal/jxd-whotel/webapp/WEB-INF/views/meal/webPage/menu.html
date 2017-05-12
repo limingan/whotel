@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <meta name="format-detection" content="telephone=no">
-<title>我的商品</title>
+<title>我的菜单</title>
 <link rel="stylesheet" type="text/css" href="./assets/diandanbao/wei_canyin_v1.8.4.css?v=1.1.2" media="all">
 <link rel="stylesheet" type="text/css" href="../addons/weisrc_dish/template/css/1/wei_dialog_v1.2.1.css?v=1.0" media="all">
 <script type="text/javascript" src="../addons/weisrc_dish/template/js/1/wei_webapp_v2_common_v1.9.4.js"></script>
@@ -662,7 +662,7 @@ function postmain() {
 			  }
 			  orderData['list'].push(obj);
 			}
-            
+            _addClass(_q("#btnselect"),'disable');
             $.ajax({
                 url: "/oauth/meal/createOrder.do", type: "post", dataType: "json", timeout: "10000",
                 data: {
@@ -671,12 +671,18 @@ function postmain() {
                 success: function (data) {
                     if (data.code == 200) {
                         var orderId = data.data;
+						delCookie('categoryList');
+				        delCookie('dishList');
+				        delCookie('totalCount');
+				        delCookie('totalPrice');
                         location.href = '/oauth/meal/orderDetail.do?orderId='+orderId;
                     } else {
                         alert(data.message);
+						_removeClass(_q("#btnselect"),'disable');
                     }
                 }, error: function () {
                     alert("网络不稳定，请重新尝试!");
+					_removeClass(_q("#btnselect"),'disable');
                 }
             });
         } else {

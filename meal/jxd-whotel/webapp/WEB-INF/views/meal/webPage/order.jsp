@@ -18,7 +18,7 @@
         
     </div>
 
-    <div class="orders-index-page main-view ng-scope" id="delivery-orders-index">
+    <div class="orders-index-page main-view ng-scope" id="delivery-orders-index" style="margin-bottom:45px">
         
         <div class="space-12"></div>
         <c:forEach items="${orderPage.result}" var="order">

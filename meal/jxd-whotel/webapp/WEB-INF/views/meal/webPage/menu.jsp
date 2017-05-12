@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="format-detection" content="telephone=no">
-    <title>我的商品</title>
+    <title>我的菜单</title>
     <link rel="stylesheet" type="text/css" href="/static/meal/css/wei_canyin_v1.8.4.css?v=1.1.2" media="all">
     <link rel="stylesheet" type="text/css" href="/static/meal/css/wei_dialog_v1.2.1.css?v=1.0" media="all">
     <script type="text/javascript" src="/static/meal/js/wei_webapp_v2_common_v1.9.4.js"></script>
@@ -705,7 +705,7 @@ function postmain() {
 			  }
 			  orderData['list'].push(obj);
 			}
-            
+            _addClass(_q("#btnselect"),'disable');
             $.ajax({
                 url: "/oauth/meal/createOrder.do", type: "post", dataType: "json", timeout: "10000",
                 data: {
@@ -714,12 +714,18 @@ function postmain() {
                 success: function (data) {
                     if (data.code == 200) {
                         var orderId = data.data;
+						delCookie('categoryList');
+				        delCookie('dishList');
+				        delCookie('totalCount');
+				        delCookie('totalPrice');
                         location.href = '/oauth/meal/orderDetail.do?orderId='+orderId;
                     } else {
                         alert(data.message);
+						_removeClass(_q("#btnselect"),'disable');
                     }
                 }, error: function () {
                     alert("网络不稳定，请重新尝试!");
+					_removeClass(_q("#btnselect"),'disable');
                 }
             });
         } else {
@@ -755,7 +761,7 @@ function postmain() {
 	   
 	   var setData = eval('(' + dishInfo.data + ')');
 	   var setDishLength = setData.length;
-	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="./images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="./images/right_right_arrow.png">{1}</div>';
+	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="/static/meal/images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="/static/meal/images/right_right_arrow.png">{1}</div>';
 	   var dishSelectedData = allDishObject[liId][dishId];
 	   $(setData).each(function(i,n){
 	      var baseHtml = '';
@@ -782,9 +788,9 @@ function postmain() {
 		 
 		 html += setTemplate.format('第'+parseInt(i+1)+'道菜', baseHtml);
 	   });
-	   html += '<img class="bottom-rmb" src="./images/rmb.png"/>';
+	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<button class="bottomright-button addToList" src="./images/dish_addMenu.png">确定</button>';
+	   html += '<button class="bottomright-button addToList" src="/static/meal/images/dish_addMenu.png">确定</button>';
 	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
 	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(html);
@@ -947,9 +953,9 @@ function postmain() {
 		 
 		 html += multiStyleBaseTemplate.format(n.name, baseHtml,n.id);
 	   });
-	   html += '<img class="bottom-rmb" src="./images/rmb.png"/>';
+	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<button class="bottomright-button addToList" src="./images/dish_addMenu.png">确定</button>';
+	   html += '<button class="bottomright-button addToList" src="/static/meal/images/dish_addMenu.png">确定</button>';
 	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
 	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(multiStyleTemplate.format(dishName,html))

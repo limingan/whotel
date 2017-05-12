@@ -142,11 +142,15 @@
 }
 .dishstyle {
   position: absolute;
-  right: 0px;
-  margin-right: 60px !important;
+  right: -16px;
+  margin-right: 20px !important;	
   font-size: 12px !important;
   line-height: 18px !important;
-  margin-top: 14px !important;
+  margin-top: 6px !important;
+  border:1px solid #FF0000 !important;
+  width:55px !important;
+  color: white !important;
+  background-color:#FF0000;
 }
 .dishDetailInfo {
   margin-top: -4px !important;
@@ -155,7 +159,12 @@
   margin-top: 6px !important;
 }
 .btn {
+  width:90px;
+  margin-top:22px;
+  margin-right:5px;
+  text-align:center;
   top: 33% !important;
+ 
 }
 .popupWindow {
   width: 100%;
@@ -263,13 +272,14 @@
   left: 62%;
 }
 .pTitle {
-  height: 30px;
+  height: 0px;
   line-height: 30px;
   border-bottom: 1px dashed #efefef;
+  color:white;
 }
 .pContent {
   border-bottom: none !important;
-  height: 90px !important;
+  height: 60px !important;
   margin-bottom: 12px !important;
 }
 .pContent:last-child {
@@ -302,13 +312,45 @@
   height: 90px;
   border-top: 1px solid #efefef;
 }
-.addDish {
-  float: right;
-  margin-top: 47px;
+.minusDish {
+  float:left;	
   width: 25px !important;
   height: 25px !important;
   border-radius: 50% !important;
-  left: -50px !important;
+  left: 3px !important;
+  position:absolute !important;
+  top:8px !important;
+}
+.addDish {
+  float:right;	
+  padding:1px 1px;
+  width: 25px !important;
+  height: 25px !important;
+  border-radius: 50% !important;
+  left: 62px !important;
+  position:absolute !important;
+  top:8px !important;
+}
+.pContent .btn num
+{
+	line-height:35px
+}
+.pContent .btn numsmall {
+	display: inline-block;
+	-webkit-text-size-adjust: none;
+	font-size: 10px;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	background-color: #ef4437;
+	color: #fff;
+	font-family: Verdana;
+	font-weight: normal;
+	padding: 2px 4px;
+	border-radius: 15px;
+	line-height: 10px;
+	text-align: center;
+	opacity: 1
 }
 .confirmBtn{
   border-radius:0px;

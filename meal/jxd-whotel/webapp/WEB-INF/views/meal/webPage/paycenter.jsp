@@ -88,13 +88,6 @@
             商家名称<span class="mui-pull-right mui-text-muted">${rest.name}</span>
         </li>
         <li class="mui-table-view-cell">
-            优惠券<select id="coupon" class="mui-pull-right mui-text-muted"
-                       style="margin-top:-6px;width:70px;height:33px;padding:0;margin-bottom:-20px">
-            <option couponId="333">减2</option>
-            <option couponId="334">减22</option>
-        </select>
-        </li>
-        <li class="mui-table-view-cell">
             您需要支付<span class="mui-pull-right mui-text-success mui-big mui-rmb">${order.totalFee} 元</span>
         </li>
     </ul>
