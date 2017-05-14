@@ -386,29 +386,10 @@ public class MealOrderService {
 
             List<DishProp> propList = item.getPropList();
             if (CollectionUtils.isNotEmpty(propList)) {
-                List<Map<String, Object>> propResult = Lists.newArrayList();
-                for (DishProp prop : propList) {
-                    if (prop.getPropId().equals("action")) {
-                        Map<String, Object> actionMap = Maps.newHashMap();
-                        actionMap.put("propName", "做法");
-                        List<Map<String, String>> propValue = Lists.newArrayList();
-                        List<String> values = prop.getValueList();
-                        for (String value : values) {
-                            if (StringUtils.isNotEmpty(value)) {
-                                DishesAction dishesAction = dishesActionService.getById(value);
-                                Map<String, String> map = Maps.newHashMap();
-                                map.put("id", dishesAction.getId());
-                                map.put("name", dishesAction.getName());
-                                propValue.add(map);
-
-                                total += dishesAction.getAddPrice();
-                            }
-                        }
-                        actionMap.put("propValue", propValue);
-                        propResult.add(actionMap);
-                    }
-                }
-                String propData = jsonDataUtil.jsonfromObject(propResult);
+                Map<String,Object> map = this.getPropMap(propList);
+                float tempTotal = (float) map.get("total");
+                String propData = (String) map.get("propData");
+                total += tempTotal;
                 item.setPropData(propData);
                 item.setPropList(null);
             }
@@ -416,7 +397,6 @@ public class MealOrderService {
             int itemQuantity = item.getItemQuantity();
             total += (dishes.getPrice() * itemQuantity);
         }
-
 
 
         Hotel hotel = hotelService.getHotel(companyId, hotelCode);
@@ -438,17 +418,17 @@ public class MealOrderService {
         mealOrder.setItems(list);
         mealOrder.setMealOrderType(param.getMealOrderType());
 
-        if(MealOrderType.OUT.equals(param.getMealOrderType())){
+        if (MealOrderType.OUT.equals(param.getMealOrderType())) {
             String addressId = param.getAddressId();
             Guest guest = getDeliverPrice.getById(addressId);
             mealOrder.setContactName(guest.getName());
             mealOrder.setContactMobile(guest.getMobile());
             mealOrder.setAddr(guest.getAddress());
-        }else{
+        } else {
             Float teaFee = hotel.getTeaFee();
             Integer guestNum = param.getGuestNum();
-            if(null != teaFee && null != guestNum){
-                total += teaFee*guestNum;
+            if (null != teaFee && null != guestNum) {
+                total += teaFee * guestNum;
             }
         }
         mealOrder.setTotalFee(total);
@@ -459,10 +439,10 @@ public class MealOrderService {
         mealOrder.setUpdateTime(now);
         mealOrder.setCreateDate(now);
 
-        if(param.getPayAfter().equals(1)){
+        if (param.getPayAfter().equals(1)) {
             mealOrder.setPayMent(PayMent.PAYAFTER);
             mealOrder.setTradeStatus(TradeStatus.FINISHED);
-        }else{
+        } else {
             String payOrderSn = payOrderService.genPayOrderSn();
             mealOrder.setPaySn(payOrderSn);
             mealOrder.setTradeStatus(TradeStatus.WAIT_PAY);
@@ -482,6 +462,38 @@ public class MealOrderService {
         return mealOrder;
     }
 
+    private Map<String, Object> getPropMap(List<DishProp> propList) {
+        JSONDataUtil jsonDataUtil = JSONConvertFactory.getJacksonConverter();
+        float total = 0F;
+        List<Map<String, Object>> propResult = Lists.newArrayList();
+        for (DishProp prop : propList) {
+            if (prop.getPropId().equals("action")) {
+                Map<String, Object> actionMap = Maps.newHashMap();
+                actionMap.put("propName", "做法");
+                List<Map<String, String>> propValue = Lists.newArrayList();
+                List<String> values = prop.getValueList();
+                for (String value : values) {
+                    if (StringUtils.isNotEmpty(value)) {
+                        DishesAction dishesAction = dishesActionService.getById(value);
+                        Map<String, String> map = Maps.newHashMap();
+                        map.put("id", dishesAction.getId());
+                        map.put("name", dishesAction.getName());
+                        propValue.add(map);
+
+                        total += dishesAction.getAddPrice();
+                    }
+                }
+                actionMap.put("propValue", propValue);
+                propResult.add(actionMap);
+            }
+        }
+        String propData = jsonDataUtil.jsonfromObject(propResult);
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("total", total);
+        map.put("propData", propData);
+        return map;
+    }
+
 
     private List<SuiteItem> getSuiteDish(Dishes dishes, Map<String, String> map) {
         List<SuiteItem> items = Lists.newArrayList();
@@ -495,6 +507,14 @@ public class MealOrderService {
                 String dishNo = suiteItem.getDishNo();
                 if (map.containsKey(dishNo)) {
                     items.add(suiteItem);
+                }
+
+                List<DishProp> propList = suiteItem.getPropList();
+                if (CollectionUtils.isNotEmpty(propList)) {
+                    Map<String,Object> propMap = this.getPropMap(propList);
+                    String propData = (String) propMap.get("propData");
+                    suiteItem.setPropData(propData);
+                    suiteItem.setPropList(null);
                 }
             }
         }

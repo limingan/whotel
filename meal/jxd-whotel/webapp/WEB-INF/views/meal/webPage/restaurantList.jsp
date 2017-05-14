@@ -28,7 +28,7 @@
        <c:forEach items="${restList}" var="rest">
            <div class="morelist branch-item ng-scope " >
                <input id="showlan" type="hidden" value="100,100"/>
-               <a class="branch-info " href="/oauth/meal/dishCatList.do?restaurantId=${rest.id}">
+               <a class="branch-info " href="/oauth/meal/dishCatList.do?restaurantId=${rest.id}" onclick="clearCookies()">
                    <div class="branch-image">
                        <img src="${rest.miniatureUrl}" >
                    </div>
@@ -100,6 +100,37 @@
         var id = $(this).attr("data-id");
         //window.location.href = "{php echo $this->createMobileurl('waprestlist', array('storeid' => $storeid, 'typeid' => $typeid, 'areaid' => $areaid), true)}" + '&sortid=' + id + '&lat=' + curlat + '&lng=' + curlng;
     });
+	function get_cookie(Name) {
+     var search = Name + "="//查询检索的值
+     var returnvalue = "";//返回值
+     if (document.cookie.length > 0) {
+       sd = document.cookie.indexOf(search);
+       if (sd!= -1) {
+          sd += search.length;
+          end = document.cookie.indexOf(";", sd);
+          if (end == -1)
+           end = document.cookie.length;
+           //unescape() 函数可对通过 escape() 编码的字符串进行解码。
+          returnvalue=unescape(document.cookie.substring(sd, end))
+        }
+    } 
+    return returnvalue;
+   }
+	function delCookie(name)
+    {
+      var exp = new Date();
+      exp.setTime(exp.getTime() - 1);
+      var cval=get_cookie(name);
+      if(cval!=null)
+      document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+    }
+	function clearCookies()
+	{
+	  delCookie('categoryList');
+	  delCookie('dishList');
+	  delCookie('totalCount');
+	  delCookie('totalPrice');
+	}
 </script>
 </body>
 </html>

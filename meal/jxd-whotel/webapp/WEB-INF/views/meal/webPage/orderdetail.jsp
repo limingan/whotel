@@ -41,11 +41,12 @@
     </div>
     <!-- ngInclude:  -->
     <div class="ddb-nav-footer ng-scope" style="text-align:center;">
-        <span class="button border-green <c:if test="${ order.tradeStatus != 'WAIT_PAY'}">ng-hide</c:if>"
-              onclick="confirmorder()">确认</span>
+        
 
         <span class="button border-blue ng-hide" ng-show="can_complete()" ng-click="complete()">完成</span>
-        <span class="button border-red ng-hide" ng-show="can_pay_online()" ng-click="pay_online()">支付</span>
+		<c:if test="${order.tradeStatus=='WAIT_PAY'}">
+        <span class="button border-red" ng-show="can_pay_online()" onclick="confirmorder()">支付</span>
+		</c:if>
         <span class="button border-blue ng-hide" ng-show="can_append_itemable()"
               ng-click="go_append_itemable()">追加商品</span>
         <!--<span class="button ng-hide" ng-show="order &amp;&amp; order.pay_item_state=='paid'">已支付</span>

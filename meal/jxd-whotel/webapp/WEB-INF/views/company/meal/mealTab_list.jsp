@@ -111,7 +111,7 @@ input[type='checkbox']{width: 17px;height: 17px;}
 						   	    <td>${mealTab.seats}</td>
 						   	    <td>${mealTab.minimums}</td>
 						   	    <td>${mealTab.deposit}</td>
-								<td><img src="${mealTab.qrCodeUrl}" width="100" height="100"/></td>
+								<td><img src="${mealTab.qrCode}" width="100" height="100"/></td>
 						   	    <td>${mealTab.orderIndex}</td>
 								<td><span style="position:relative;"> 
 									<a href="toEditMealTab.do?id=${mealTab.id}" class="btn btn-sm purple"><i class="fa fa-edit"></i> 编辑</a>

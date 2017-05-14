@@ -18,83 +18,128 @@ import com.whotel.weixin.service.TokenService;
 
 /**
  * 场景二维码接口
- * @author 冯勇
  *
+ * @author 冯勇
  */
 public class SceneQrcodeCreator {
-	private static final Logger log = LoggerFactory.getLogger(SceneQrcodeCreator.class);
-	private static final String REQ_URL = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=";
-	
-	private static final String QR_URL = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=";
-	public static final int TIME_OUT = 30 * 1000;
-	
-	
-	/**
-	 * @return 返回ticket
-	 */
-	public static String create(String appId, String appSecret, QrActionType type, String scene_id,Integer time) {
-		BaseToken t;
-		String ticket = null;
-		try {
-			for (int i = 0; i < 2; i++) {
-				t = TokenService.getTokenService().getAccessToken(appId, appSecret);
-				ticket = create(t, type, scene_id,time);
-				if(StringUtils.isNotEmpty(ticket)){
-					break;
-				}else{
-					TokenService.getTokenService().refreshAccessToken(appId, appSecret, t);
-				}
-			}
-			return ticket;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	/**
-	 * @return 返回ticket
-	 */
-	public static String create(BaseToken token, QrActionType type, String scene_id) {
-		return create(token, type, scene_id,null);
-	}
-	
-	public static String create(BaseToken token, QrActionType type, String scene_id,Integer time) {
-		
-		String data = null;
-		if(time==null){
-			time=604800;
-		}
-		
-		if(QrActionType.QR_LIMIT_SCENE.equals(type)) {
-			data = "{\"action_name\": \"" + type + "\", \"action_info\": {\"scene\": {\"scene_id\": " + scene_id
-					+ "}}}";
-		} else if(QrActionType.QR_SCENE.equals(type)){
-			data = "{\"expire_seconds\": "+time+", \"action_name\": \"" + type + "\", \"action_info\": {\"scene\": {\"scene_id\": " + scene_id
-					+ "}}}";
-		}
-		
-		String result;
-		try {
-			result = HttpHelper.connect(REQ_URL + token.getAccess_token()).timeout(TIME_OUT).post(data).html();
-			JSONDataUtil jacksonConverter = JSONConvertFactory.getJacksonConverter();
-			JSONObject jsonObj = jacksonConverter.objectFromString(result, JSONObject.class);
-			System.out.println("resp->" + result);
-			log.info("SceneQrcodeCreator create data->" + data);
-			log.info("SceneQrcodeCreator create resp->" + result);
-			return (String) jsonObj.get("ticket");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public static String getQrUrl(String ticket) {
-		try {
-			return QR_URL + URLEncoder.encode(ticket, "utf-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+    private static final Logger log = LoggerFactory.getLogger(SceneQrcodeCreator.class);
+    private static final String REQ_URL = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=";
+
+    private static final String QR_URL = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=";
+    public static final int TIME_OUT = 30 * 1000;
+
+
+    /**
+     * @return 返回ticket
+     */
+    public static String create(String appId, String appSecret, QrActionType type, String scene_id, Integer time) {
+        BaseToken t;
+        String ticket = null;
+        try {
+            for (int i = 0; i < 2; i++) {
+                t = TokenService.getTokenService().getAccessToken(appId, appSecret);
+                ticket = create(t, type, scene_id, time);
+                if (StringUtils.isNotEmpty(ticket)) {
+                    break;
+                } else {
+                    TokenService.getTokenService().refreshAccessToken(appId, appSecret, t);
+                }
+            }
+            return ticket;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @return 返回ticket
+     */
+    public static String create(BaseToken token, QrActionType type, String scene_id) {
+        return create(token, type, scene_id, null);
+    }
+
+    public static String create(BaseToken token, QrActionType type, String scene_id, Integer time) {
+
+        String data = null;
+        if (time == null) {
+            time = 604800;
+        }
+
+        if (QrActionType.QR_LIMIT_SCENE.equals(type)) {
+            data = "{\"action_name\": \"" + type + "\", \"action_info\": {\"scene\": {\"scene_id\": " + scene_id
+                    + "}}}";
+        } else if (QrActionType.QR_SCENE.equals(type)) {
+            data = "{\"expire_seconds\": " + time + ", \"action_name\": \"" + type + "\", \"action_info\": {\"scene\": {\"scene_id\": " + scene_id
+                    + "}}}";
+        }
+
+        String result;
+        try {
+            result = HttpHelper.connect(REQ_URL + token.getAccess_token()).timeout(TIME_OUT).post(data).html();
+            JSONDataUtil jacksonConverter = JSONConvertFactory.getJacksonConverter();
+            JSONObject jsonObj = jacksonConverter.objectFromString(result, JSONObject.class);
+            System.out.println("resp->" + result);
+            log.info("SceneQrcodeCreator create data->" + data);
+            log.info("SceneQrcodeCreator create resp->" + result);
+            return (String) jsonObj.get("ticket");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getQrUrl(String ticket) {
+        try {
+            return QR_URL + URLEncoder.encode(ticket, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 带参数的二维码,scene_str 模式,只支持永久二维码
+     *
+     * @param token
+     * @param scene_str
+     * @return
+     */
+    public static String create(BaseToken token, String scene_str) {
+        String data = "{\"action_name\": \"" + QrActionType.QR_LIMIT_STR_SCENE + "\", \"action_info\": {\"scene\": {\"scene_str\": \"" + scene_str + "\"}}}";
+
+        String result;
+        try {
+            result = HttpHelper.connect(REQ_URL + token.getAccess_token()).timeout(TIME_OUT).post(data).html();
+            JSONDataUtil jacksonConverter = JSONConvertFactory.getJacksonConverter();
+            JSONObject jsonObj = jacksonConverter.objectFromString(result, JSONObject.class);
+            System.out.println("resp->" + result);
+            log.info("SceneQrcodeCreator create data->" + data);
+            log.info("SceneQrcodeCreator create resp->" + result);
+            return (String) jsonObj.get("ticket");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /**
+     * @return 返回ticket
+     */
+    public static String create(String appId, String appSecret, String scene_str) {
+        BaseToken token;
+        String ticket = null;
+        try {
+            token = TokenService.getTokenService().getAccessToken(appId, appSecret);
+            ticket = create(token, scene_str);
+            if(StringUtils.isEmpty(ticket)){
+                token = TokenService.getTokenService().refreshAccessToken(appId, appSecret, token);
+                ticket = create(token, scene_str);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ticket;
+    }
 }

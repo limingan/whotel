@@ -88,14 +88,6 @@
                             <input type="tel" id="guentNum" name="guentNum" value="" maxlength="3" class="tdInp" placeholder="请填写用餐人数"> 人
                         </td>
                     </tr>
-                  <tr>
-			       <td>优惠券：</td><td><select class="couponSelect" style="width:80px;">
-				   <option prizeId="0" prizeValue="0">请选择</option>
-				   <option prizeId="123" prizeValue="5">减5</option>
-				   <option prizeId="456" prizeValue="10">减10</option>
-
-			       </select></td>
-		          </tr>
                     <tr>
                         <td style="width: 80px; vertical-align: top; line-height: 25px;">备注说明：</td>
                         <td colspan="2">
@@ -591,7 +583,6 @@ function postmain() {
             return false;
         }
 
-        $("#btnselect").hide();
         if (true) {
 		    var length = allDishObject.length;
 			if(length == 0)

@@ -12,8 +12,12 @@ import java.util.Map;
 
 import com.whotel.common.util.QiniuUtils;
 import com.whotel.common.util.QrcodeUtil;
+import com.whotel.common.util.SystemConfig;
 import com.whotel.company.entity.PublicNo;
 import com.whotel.company.service.PublicNoService;
+import com.whotel.hotel.dao.SceneQrcodeDao;
+import com.whotel.hotel.entity.SceneQrcode;
+import com.whotel.weixin.service.SceneService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,35 +90,46 @@ public class MealService {
 	private SystemLogService systemLogService;
 	@Autowired
 	PublicNoService publicNoService;
+	@Autowired
+	SceneService sceneService;
 
 	public static final String wx_oauth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=";
-	public static final String  web_url = "http://tiantianwutuo.com:8080/oauth/meal/login.do?tabId=";
+	public static final String  web_url = SystemConfig.getProperty("server.url") + "/oauth/meal/login.do?tabId=";
 
 	public String createQRcode(String tabId) throws Exception {
 		MealTab mealTab = mealTabDao.get(tabId);
 
-		String qrCodeUrl = mealTab.getQrCode();
-		if(null == qrCodeUrl){
-			String companyId = mealTab.getCompanyId();
-			PublicNo publicNo = publicNoService.getPublicNoByCompanyId(companyId);
+		String companyId = mealTab.getCompanyId();
+		PublicNo publicNo = publicNoService.getPublicNoByCompanyId(companyId);
 
+		String innerUrl = mealTab.getInnerUrl();
+		boolean blankInnerUrl = StringUtils.isBlank(innerUrl);
+		if(blankInnerUrl){
 			StringBuffer weixinUrl = new StringBuffer(wx_oauth_url).append(publicNo.getAppId());
-
 			StringBuffer webUrl = new StringBuffer(web_url).append(tabId);
 			if(null != mealTab.getPayAfter() && mealTab.getPayAfter()){
 				webUrl.append("&payAfter=1");
 			}
 			String url = URLEncoder.encode(webUrl.toString(), "UTF-8");
-			weixinUrl.append("&redirect_uri=").append(url).append("&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect");
-			byte[] imageByte = QrcodeUtil.zxingCodeCreate(weixinUrl.toString(), 300, 300);
-			qrCodeUrl = QiniuUtils.upload(imageByte);
+			weixinUrl.append("&redirect_uri=").append(url).append("&response_type=code&scope=snsapi_base&state=123#wechat_redirect");
+			mealTab.setInnerUrl(weixinUrl.toString());
+		}
+
+		String qrCodeUrl = mealTab.getQrCode();
+		boolean blankQrCodeUrl = StringUtils.isBlank(qrCodeUrl);
+		if(blankQrCodeUrl){
+			SceneQrcode sceneQrcode = sceneService.createSceneQrcode(companyId,tabId);
+			if(null != sceneQrcode && null != sceneQrcode.getQrUrl()){
+				qrCodeUrl = sceneQrcode.getQrUrl();
+			}
 			mealTab.setQrCode(qrCodeUrl);
+		}
+		if(blankInnerUrl || blankQrCodeUrl){
 			mealTabDao.save(mealTab);
 		}
-		qrCodeUrl = QiniuUtils.getResUrl(qrCodeUrl);
 		return  qrCodeUrl;
 	}
-	
+
 	//////////////////////////菜式//////////////////////////
 	public Dishes getDishesById(String id){
 		return dishesDao.get(id);

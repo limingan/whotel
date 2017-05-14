@@ -31,7 +31,7 @@
                         <c:if test="${order.mealOrderType eq 'OUT'}">
                             [外卖]
                         </c:if>
-                        小肥羊餐厅</div>
+                        ${order.name}</div>
                     <div class="variants overflow-ellipsis ng-binding">
                         共计 ${fn:length(order.items)} 件商品
                     </div>

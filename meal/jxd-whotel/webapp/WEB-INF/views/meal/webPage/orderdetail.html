@@ -31,11 +31,10 @@
         <div class="header-title ng-binding">我的订单</div>
     </div>
     <!-- ngInclude:  -->
-    <div class="ddb-nav-footer ng-scope" style="text-align:center;">
-        <span class="button border-green {if $order['paytype']!=0}ng-hide{/if}" onclick="confirmorder()">确认</span>
+    <div class="ddb-nav-footer ng-scope" style="text-align:center;">        
 
         <span class="button border-blue ng-hide" ng-show="can_complete()" ng-click="complete()">完成</span>
-        <span class="button border-red ng-hide" ng-show="can_pay_online()" ng-click="pay_online()">支付</span>
+        <span class="button border-red " ng-show="can_pay_online()" ng-click="pay_online()">支付</span>
         <span class="button border-blue ng-hide" ng-show="can_append_itemable()" ng-click="go_append_itemable()">追加商品</span>
         <span class="button ng-hide" ng-show="order &amp;&amp; order.pay_item_state=='paid'">已支付</span>
         <span class="button border-green ng-hide" ng-show="can_exchange_code()" ng-click="go_exchange_code()">兑换码</span>

@@ -122,7 +122,7 @@ public class WeixinHandleServlet extends HttpServlet {
 				wt.println("success");
 			}
 			wt.flush();
-			log.warn("回复消息内容："+msg.toString());
+			log.warn("回复消息内容："+((respMsg == null)?null:respMsg.toString()));
 		} catch (Exception e) {
 			log.error("Error in doPost!", e);
 		}

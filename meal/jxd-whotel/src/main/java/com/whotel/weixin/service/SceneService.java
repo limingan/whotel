@@ -104,4 +104,21 @@ public class SceneService {
 		}
 		return sceneId;
 	}
+
+
+	/**
+	 * 生成带参数的永久二维码,参数为String
+	 */
+	public SceneQrcode createSceneQrcode(String companyId, String scene_str){
+		PublicNo publicNo = publicNoService.getPublicNoByCompanyId(companyId);
+		SceneQrcode sceneQrcode = new SceneQrcode();
+		sceneQrcode.setCompanyId(companyId);
+		sceneQrcode.setSceneStr(scene_str);
+		sceneQrcode.setType(QrActionType.QR_LIMIT_SCENE);
+		String ticket = SceneQrcodeCreator.create(publicNo.getAppId(), publicNo.getAppSecret(), scene_str);
+		sceneQrcode.setTicket(ticket);
+		sceneQrcode.setQrUrl(SceneQrcodeCreator.getQrUrl(ticket));
+		saveSceneQrcode(sceneQrcode);
+		return sceneQrcode;
+	}
 }

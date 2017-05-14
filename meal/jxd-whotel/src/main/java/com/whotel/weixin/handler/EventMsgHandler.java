@@ -1,11 +1,15 @@
 package com.whotel.weixin.handler;
 
+import com.weixin.core.bean.*;
+import com.whotel.common.util.QiniuUtils;
+import com.whotel.meal.dao.MealTabDao;
+import com.whotel.meal.entity.MealTab;
+import com.whotel.meal.entity.Restaurant;
+import com.whotel.meal.service.RestaurantService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.weixin.core.bean.EventMsg;
-import com.weixin.core.bean.TextMsg;
-import com.weixin.core.bean.WeixinMsg;
 import com.weixin.core.common.WeixinConstant;
 import com.weixin.core.common.WeixinConstant.EventType;
 import com.weixin.core.handler.AbstractWeixinHandler;
@@ -23,6 +27,8 @@ import com.whotel.system.service.SystemLogService;
 import com.whotel.weixin.service.LocationService;
 import com.whotel.weixin.service.ResponseMsgService;
 import com.whotel.weixin.service.SceneService;
+
+import java.util.List;
 
 /**
  * 事件消息处理器
@@ -42,6 +48,9 @@ public class EventMsgHandler extends AbstractWeixinHandler {
 	private SceneService sceneService;
 	
 	private SystemLogService systemLogService;
+
+	MealTabDao mealTabDao;
+	RestaurantService restaurantService;
 	
 	@Override
 	public WeixinMsg handleMsg(WeixinMsg msg) throws Exception {
@@ -131,28 +140,63 @@ public class EventMsgHandler extends AbstractWeixinHandler {
 		et = System.currentTimeMillis();
 		System.out.println("readUserMsg"+(et-bt));
 		bt = et;
-		
-		WelcomeMsg welcomeMsg = publicNoService.getWelcomeMsg(publicNo.getCompanyId());
-		et = System.currentTimeMillis();
-		System.out.println("getWelcomeMsg"+(et-bt));
-		bt = et;
-		
+
 		// 返回"被添加自动回复"消息
 		WeixinMsg responseMsg=null;
-		if(welcomeMsg != null){
-			responseMsg = responseMsgService.toWeixinMsg(welcomeMsg.getResponseMsg(), openId);
+		String eventKey = e.getEventKey();
+
+
+		if(e.getEvent().equals(EventType.Subscribe)){
+			eventKey = eventKey.replace("qrscene_","");
 		}
-		et = System.currentTimeMillis();
-		System.out.println("toWeixinMsg"+(et-bt));
-		bt = et;
-		
-		//场景处理
-		responseMsg = sceneService.handleScene(e, responseMsg);
-		et = System.currentTimeMillis();
-		System.out.println("handleScene"+(et-bt));
-		bt = et;
+		boolean flag = StringUtils.isNumeric(eventKey);
+		if(flag){
+
+			WelcomeMsg welcomeMsg = publicNoService.getWelcomeMsg(publicNo.getCompanyId());
+			et = System.currentTimeMillis();
+			System.out.println("getWelcomeMsg"+(et-bt));
+			bt = et;
+
+
+			if(welcomeMsg != null){
+				responseMsg = responseMsgService.toWeixinMsg(welcomeMsg.getResponseMsg(), openId);
+			}
+			et = System.currentTimeMillis();
+			System.out.println("toWeixinMsg"+(et-bt));
+			bt = et;
+
+			//场景处理
+			responseMsg = sceneService.handleScene(e, responseMsg);
+			et = System.currentTimeMillis();
+			System.out.println("handleScene"+(et-bt));
+			bt = et;
+		}else{
+			responseMsg = this.mealMsg(eventKey);
+		}
+
 		return responseMsg;
 	}
+
+	private WeixinMsg mealMsg(String tabId){
+		MealTab mealTab = mealTabDao.get(tabId);
+		Restaurant restaurant = restaurantService.getById(mealTab.getRestaurantId());
+		Item item = new Item();
+		item.setTitle("欢迎使用线上点餐系统");
+		StringBuffer sb = new StringBuffer("你所在的餐厅为：\n").append(restaurant.getName()).append("\n");
+		sb.append("桌台号:\n").append(mealTab.getTabNo()).append("\n");
+		sb.append("请您核对是否正确，以免影响用餐。");
+		item.setDescription(sb.toString());
+		item.setUrl(mealTab.getInnerUrl());
+		item.setPicUrl(QiniuUtils.getResUrl(restaurant.getImgUrl()));
+
+		NewsMsg newsMsg = new NewsMsg();
+		newsMsg.setArticleCount(1);
+		List<Item> articles = newsMsg.getArticles();
+		articles.add(item);
+		return newsMsg;
+	}
+
+
 	
 	private void handleGetCard(EventMsg e) {
 	
@@ -202,6 +246,12 @@ public class EventMsgHandler extends AbstractWeixinHandler {
 		}
 		if(systemLogService == null) {
 			systemLogService = SpringContextHolder.getBean(SystemLogService.class);
+		}
+		if(mealTabDao == null) {
+			mealTabDao = SpringContextHolder.getBean(MealTabDao.class);
+		}
+		if(restaurantService == null) {
+			restaurantService = SpringContextHolder.getBean(RestaurantService.class);
 		}
 	}
 

@@ -32,6 +32,16 @@ public class SceneQrcode extends BaseEntity {
 	
 	private Date createDate;
 
+	private String sceneStr;
+
+	public String getSceneStr() {
+		return sceneStr;
+	}
+
+	public void setSceneStr(String sceneStr) {
+		this.sceneStr = sceneStr;
+	}
+
 	public String getCompanyId() {
 		return companyId;
 	}

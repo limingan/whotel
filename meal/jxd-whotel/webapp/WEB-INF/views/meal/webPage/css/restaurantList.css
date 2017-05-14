@@ -36,6 +36,7 @@ ng\:form {
 .main-view {
   background: #eeeeee !important;
   margin-top: 10px !important;
+  margin-bottom:50px;
 }
 .main-view .branch-info {
   padding-left: 85px !important;

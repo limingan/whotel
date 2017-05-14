@@ -32,7 +32,7 @@ public class DataPackUtil {
 		if (map != null) {
 			sb.append("<xml>");
 			for (Entry<String, String> entry : map.entrySet()) {
-				sb.append("<" + entry.getKey() + ">").append(entry.getValue()).append("</" + entry.getKey() + ">");
+				sb.append("<" + entry.getKey() + ">").append("<![CDATA[").append(entry.getValue()).append("]]>").append("</" + entry.getKey() + ">");
 			}
 			sb.append("</xml>");
 		}

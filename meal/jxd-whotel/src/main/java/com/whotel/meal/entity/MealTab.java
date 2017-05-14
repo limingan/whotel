@@ -61,6 +61,16 @@ public class MealTab extends UnDeletedEntity {
 
 	private Boolean payAfter;//是否后付费
 
+	private String innerUrl;//堂食下单时跳转的URL
+
+	public String getInnerUrl() {
+		return innerUrl;
+	}
+
+	public void setInnerUrl(String innerUrl) {
+		this.innerUrl = innerUrl;
+	}
+
 	public String getQrCode() {
 		return qrCode;
 	}
@@ -241,9 +251,5 @@ public class MealTab extends UnDeletedEntity {
 
 	public void setTimeStamp(String timeStamp) {
 		this.timeStamp = timeStamp;
-	}
-
-	public String getQrCodeUrl(){
-		return QiniuUtils.getResUrl(qrCode);
 	}
 }

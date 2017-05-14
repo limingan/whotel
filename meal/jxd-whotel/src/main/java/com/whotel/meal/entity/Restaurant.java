@@ -79,7 +79,17 @@ public class Restaurant extends UnDeletedEntity {
 	private Integer regionId;//地区编号
 	
 	private String coord;    //坐标
-	
+
+	private String imgUrl;//点餐进入微信号时的图片链接
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
 	public String getHotelName() {
 		return hotelName;
 	}

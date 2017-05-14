@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.whotel.hotel.dao.SceneQrcodeDao;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,8 @@ public class MealManageService {
 
 	@Autowired 
 	private DishesCategoryDao dishesCategoryDao;
+	@Autowired
+	SceneQrcodeDao sceneQrcodeDao;
 	
 	/**
 	 * 同步菜式

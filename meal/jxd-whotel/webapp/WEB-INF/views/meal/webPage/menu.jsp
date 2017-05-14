@@ -118,14 +118,6 @@
                            <input type="tel" id="guentNum" name="guentNum" value="" maxlength="3" class="tdInp" placeholder="请填写用餐人数"> 人
                         </td>
                     </tr>
-                  <tr>
-			       <td>优惠券：</td><td><select class="couponSelect" style="width:80px;">
-				          <option prizeId="0" prizeValue="0">请选择</option>
-                      <c:forEach items="${prizeList}" var="prize">
-                          <option prizeId="${prize.id}" prizeValue="${prize.prizeValue}">${prize.prizeName}</option>
-                      </c:forEach>
-			       </select></td>
-		          </tr>
                     <tr>
                         <td style="width: 80px; vertical-align: top; line-height: 25px;">备注说明：</td>
                         <td colspan="2">
@@ -143,7 +135,7 @@
         <article>
             <h2>菜单列表
                 <button class="btn_add emptyIt" id="clearBtn">清空</button>
-                <button class="btn_add" onclick="location.href='#'">+继续点菜</button>
+                <button class="btn_add" onclick="history.go(-1)">+继续点菜</button>
             </h2>
             <ul class="myorder" id="myorder">
 
@@ -632,7 +624,6 @@ function postmain() {
             return false;
         }
 
-        $("#btnselect").hide();
         if (true) {
 		    var length = allDishObject.length;
 			if(length == 0)
@@ -718,7 +709,7 @@ function postmain() {
 				        delCookie('dishList');
 				        delCookie('totalCount');
 				        delCookie('totalPrice');
-                        location.href = '/oauth/meal/orderDetail.do?orderId='+orderId;
+                        location.href = '/oauth/meal/payCenter.do?orderId='+orderId;
                     } else {
                         alert(data.message);
 						_removeClass(_q("#btnselect"),'disable');

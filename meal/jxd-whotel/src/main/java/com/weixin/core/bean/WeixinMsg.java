@@ -25,6 +25,7 @@ public class WeixinMsg implements WeixinBean {
 	protected String fromUserName;
 	protected long createTime;
 	protected String msgType;
+	protected String eventKey;
 
 	public WeixinMsg() {
 		this.createTime = new Date().getTime() / 1000;
@@ -142,11 +143,24 @@ public class WeixinMsg implements WeixinBean {
 		this.msgType = msgType;
 	}
 
+	public String getEventKey() {
+		return eventKey;
+	}
+
+	public void setEventKey(String eventKey) {
+		this.eventKey = eventKey;
+	}
+
 	@Override
 	public String toString() {
-		return "WeixinMsg [msgId=" + msgId + ", toUserName=" + toUserName
-				+ ", fromUserName=" + fromUserName + ", createTime="
-				+ createTime + ", msgType=" + msgType + "]";
+		return "WeixinMsg{" +
+				"msgId=" + msgId +
+				", toUserName='" + toUserName + '\'' +
+				", fromUserName='" + fromUserName + '\'' +
+				", createTime=" + createTime +
+				", msgType='" + msgType + '\'' +
+				", eventKey='" + eventKey + '\'' +
+				'}';
 	}
 
 	@Override
@@ -160,6 +174,8 @@ public class WeixinMsg implements WeixinBean {
 		result = prime * result + ((msgType == null) ? 0 : msgType.hashCode());
 		result = prime * result
 				+ ((toUserName == null) ? 0 : toUserName.hashCode());
+		result = prime * result
+				+ ((eventKey == null) ? 0 : eventKey.hashCode());
 		return result;
 	}
 
@@ -189,7 +205,14 @@ public class WeixinMsg implements WeixinBean {
 		if (toUserName == null) {
 			if (other.toUserName != null)
 				return false;
+
 		} else if (!toUserName.equals(other.toUserName))
+			return false;
+		if (eventKey == null) {
+			if (other.eventKey != null)
+				return false;
+
+		} else if (!eventKey.equals(other.eventKey))
 			return false;
 		return true;
 	}

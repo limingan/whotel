@@ -116,15 +116,15 @@
 
                             </dd>
                             <dd class="btn">
-							    <<c:choose>
+							    <c:choose>
                                   <c:when test="${dish.isMultiStyle== 1 || dish.isSuite== 1 }">  
 							        <a class="dishstyle" href="javascript:void(0);">可选规格</a>
                                     <numsmall style="display:none">0</numsmall>       
 								  </c:when>
                                   <c:otherwise> 
-                                    <img src="images/minusdish.png" class="minusDish" alt="" style="display:none">
+                                    <img src="/static/meal/images/minusdish.png" class="minusDish" alt="" style="display:none">
 					                <num style="display:none">0</num>								
-                                    <img src="/static/meal/images/plusdish.png" class="addDish" style="float:right;margin-top:47px;width:25px;height:25px;left:-50px" alt="">
+                                    <img src="/static/meal/images/plusdish.png" class="addDish" alt="">
  								  </c:otherwise>
                                 </c:choose>
                             </dd>
@@ -263,7 +263,7 @@
 	   localStorageObj['data'] = parentDl.getAttribute('setData').replace(/[\r\n]/g,"");
 	   var setData = eval('('+ parentDl.getAttribute('setData') + ')');
 	   var setDishLength = setData.length;
-	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="./images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="./images/right_right_arrow.png">{1}</div>';
+	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="/static/meal/images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="/static/meal/images/right_right_arrow.png">{1}</div>';
 	   
 	   $(setData).each(function(i,n){
 	      var baseHtml = '';
@@ -278,9 +278,9 @@
 		 
 		 html += setTemplate.format('第'+parseInt(i+1)+'道菜', baseHtml);
 	   });
-	   html += '<img class="bottom-rmb" src="./images/rmb.png"/>';
+	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button addToList" src="./images/dish_addMenu.png"/>';
+	   html += '<img class="bottomright-button addToList" src="/static/meal/images/dish_addMenu.png"/>';
 	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
 	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(html);
@@ -435,9 +435,9 @@
 		 
 		 html += multiStyleBaseTemplate.format(n.name, baseHtml,n.id);
 	   });
-	   html += '<img class="bottom-rmb" src="./images/rmb.png"/>';
+	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
-	   html += '<img class="bottomright-button addToList" src="./images/dish_addMenu.png"/>';
+	   html += '<img class="bottomright-button addToList" src="/static/meal/images/dish_addMenu.png"/>';
 	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
 	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
 	   $('#popContent').html(multiStyleTemplate.format(dishName,html))
@@ -588,9 +588,10 @@
     function setHeight(){
         var  cHeight;
         cHeight = document.documentElement.clientHeight;
-        cHeight = cHeight - $('#infoSection').offset().top +"px";
+        cHeight = cHeight  -45 -$('.ddb-nav-header').height()+"px";
         document.getElementById("navBar").style.height =  cHeight;
         document.getElementById("infoSection").style.height =  cHeight;
+		$('.shopInfoList').height(cHeight);
     }
 
 
