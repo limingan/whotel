@@ -700,7 +700,7 @@ public class MealController extends FanBaseController {
 
     @RequestMapping("/oauth/meal/getWxPayData")
     @ResponseBody
-    public ResultData getWxPayData(HttpServletRequest req, String orderId) {
+    public String getWxPayData(HttpServletRequest req, String orderId) {
         ResultData resultData = new ResultData();
         resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
         resultData.setMessage("操作成功");
@@ -711,8 +711,9 @@ public class MealController extends FanBaseController {
             String ip = getRealIp(req);
             String jsApi = mealOrderService.genJsApi(mealOrder, ip);
             resultData.setData(jsApi);
+            return jsApi;
         }
-        return resultData;
+        return null;
     }
 
 

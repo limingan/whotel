@@ -405,14 +405,14 @@ public class MealOrderService {
         if (null != hotel && null != hotel.getDeliverPrice()) {
             total += hotel.getDeliverPrice();
         }
-
+        String orderSn = hotel.getCode() + payOrderService.genPayOrderSn();
         MealOrder mealOrder = new MealOrder();
         mealOrder.setOpenId(openId);
         mealOrder.setCompanyId(companyId);
         mealOrder.setRestaurantId(restaurantId);
         mealOrder.setHotelCode(hotelCode);
         mealOrder.setName(restaurant.getName());
-        mealOrder.setOrderSn(hotel.getCode() + payOrderService.genPayOrderSn());
+        mealOrder.setOrderSn(orderSn);
         mealOrder.setGuestNum(param.getGuestNum());
         mealOrder.setRemark(param.getRemark());
         mealOrder.setItems(list);
@@ -438,6 +438,7 @@ public class MealOrderService {
         mealOrder.setCreateTime(now);
         mealOrder.setUpdateTime(now);
         mealOrder.setCreateDate(now);
+        mealOrderDao.save(mealOrder);
 
         if (param.getPayAfter().equals(1)) {
             mealOrder.setPayMent(PayMent.PAYAFTER);
@@ -448,7 +449,7 @@ public class MealOrderService {
             mealOrder.setTradeStatus(TradeStatus.WAIT_PAY);
 
             PayOrder payOrder = new PayOrder();
-            payOrder.setOrderSn(payOrderSn);
+            payOrder.setOrderSn(orderSn);
             payOrder.setPayMode(PayMode.BOOKMEAL);
             payOrder.setOpenId(openId);
             payOrder.setName(mealOrder.getName());
@@ -457,6 +458,7 @@ public class MealOrderService {
             payOrder.setCompanyId(companyId);
 
             payOrderService.savePayOrder(payOrder);
+
         }
         mealOrderDao.save(mealOrder);
         return mealOrder;
@@ -523,7 +525,7 @@ public class MealOrderService {
 
 
     public String genJsApi(MealOrder order, String ip) {
-        PayOrder payOrder = payOrderService.getPayOrderByOrderSn(order.getPaySn());
+        PayOrder payOrder = payOrderService.getPayOrderByOrderSn(order.getOrderSn());
         payOrder.setOpenId(order.getOpenId());
         payOrder.setCompanyId(order.getCompanyId());
         payOrder.setPayMent(PayMent.WXPAY);
