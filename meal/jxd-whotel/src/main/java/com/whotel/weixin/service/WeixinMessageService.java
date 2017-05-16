@@ -601,6 +601,7 @@ public class WeixinMessageService {
 	 * 餐饮预订提醒（商户）
 	 */
 	public void sendMealOrderMsgToCompany(String orderSn){
+		log.info("sendMealOrderMsgToCompany orderSn =" + orderSn);
 		MealOrder mealOrder = mealOrderService.getMealOrderByOrderSn(orderSn);
 		String commpanyId = "";
 		String html = "";

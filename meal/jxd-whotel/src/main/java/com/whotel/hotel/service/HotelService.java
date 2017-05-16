@@ -321,7 +321,7 @@ public class HotelService {
 
 	public List<Hotel> findHotel(ListHotelReq param){
 		Query<Hotel> query = hotelDao.createQuery();
-		query.field("companyId").equal(param.getCompanyId());
+		query.field("companyId").equal(param.getComid());
 		if(StringUtils.isNotEmpty(param.getCity()) && !"0".equals(param.getCity())){
 			query.field("city").equal(param.getCity());
 		}

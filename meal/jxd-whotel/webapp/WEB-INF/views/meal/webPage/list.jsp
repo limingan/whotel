@@ -90,7 +90,7 @@
         </dl>
         <div style="margin-top: 100px;"></div>
     </nav>
-    <section id="infoSection">
+    <section id="infoSection" onscroll="dishScroll()">
         <article style="border: 0px">
             <div id="pInfo">
                 <c:forEach items="${cateList}" var="cate">
@@ -263,7 +263,7 @@
 	   localStorageObj['data'] = parentDl.getAttribute('setData').replace(/[\r\n]/g,"");
 	   var setData = eval('('+ parentDl.getAttribute('setData') + ')');
 	   var setDishLength = setData.length;
-	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="/static/meal/images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="/static/meal/images/right_right_arrow.png">{1}</div>';
+	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="./images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="./images/right_right_arrow.png">{1}<div style="width:100%;height:40px;top:50%;"><img class="leftArrow middle" src="./images/right_left_arrow.png"><img class="rightArrow middle" src="./images/right_right_arrow.png"></div></div>';
 	   
 	   $(setData).each(function(i,n){
 	      var baseHtml = '';
@@ -703,7 +703,7 @@
         if(_isIOS){
             _q("#page_allMenu section article").style.overflowY ="scroll";
             _q("#page_allMenu section article").style.minHeight ="85%";
-            _q("#page_allMenu section article").style.marginBottom="15px";
+            _q("#page_allMenu section article").style.marginBottom="35px";
         }
 		$('.banner').unslider({			
 				keys: true,
@@ -746,6 +746,30 @@
 	}
 	else
      history.go(-1);	
+	}
+	function dishScroll()
+	{
+	//get dock point 
+	 var currentScrollTop = $('#infoSection').scrollTop();
+	 console.log(currentScrollTop);
+	 var topList=Array();
+	 $('#pInfo').children('.pTitle').each(function(i,n){
+	  if(i==0)
+	  topList.push($(n).offset().top);
+	  else
+	  topList.push($(n).offset().top-topList[0]);
+	 });
+	 topList[0] = 0;
+	 for(var i=topList.length;i>=0;i--)
+	 {
+	   if(currentScrollTop >= topList[i])
+	    {
+		 $('.navOption dd').removeClass("active");
+	     $('.navOption dd').eq(i).addClass('active');
+		 break;
+		}
+	 }
+	 
 	}
 </script>
 </body>

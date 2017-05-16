@@ -178,7 +178,8 @@
         </div>
     </div>
 </div>
-<div id="tradeForm" style="display: none"></div>
+<div id="tradeForm" style="display: none">
+</div>
 <div class="loading" id="loading"></div>
 
 <script type="text/javascript">
@@ -240,29 +241,6 @@
 {/if}
 <script type="text/javascript">
 
-
-    var data =
-    {
-        "appId": "wx8888888888888888",
-        "timeStamp": "1414411784",
-        "nonceStr": "gbwr71b5no6q6ne18c8up1u7l7he2y75",
-        "package": "prepay_id=wx201410272009395522657a690389285100",
-        "signType": "MD5",
-        "paySign": "9C6747193720F851EB876299D59F6C7D"
-    }
-    var isHouFu = 1; //是否后付
-    function jsApiCall() {
-        WeixinJSBridge.invoke(
-                'getBrandWCPayRequest',
-                data,
-                function (res) {
-                    WeixinJSBridge.log(res.err_msg);
-                    window.location.replace("/outh/orderList");
-                    //alert(res.err_code+res.err_desc+res.err_msg);
-                }
-        );
-    }
-
     function callpay() {
         if (typeof WeixinJSBridge == "undefined") {
             if (document.addEventListener) {
@@ -280,22 +258,7 @@
     })
 
     $('#order').click(function () {
-        /*if(1 == isHouFu)
-         {
-         var couponId = $('#coupon').val();
-         $.post('/outh/generateOrder',{orderId:
-        ${order.orderSn},couponId:couponId},function(res){
-         if(res.status == 200)
-         {
-         data = res.data;
-         callpay();
-         }
-         });
-         }
-         else*/
-//		 callpay();
         wxPay();
-
     });
 
 
@@ -381,6 +344,18 @@
     }
     function Immediate() {
         $.DialogByZ.Close();
+    }
+
+    function wxPayCallBack(orderSn,res) {
+        if(res.err_msg=='get_brand_wcpay_request:ok'){
+            document.location = "/oauth/meal/orderDetail.do?orderId="+$("#orderId").val();
+        }else{
+            $.DialogByZ.Alert({
+                Title: "提示", Content: "支付失败", BtnL: "关闭", FunL: function () {
+                    $.DialogByZ.Close();
+                }
+            });
+        }
     }
 
 </script>

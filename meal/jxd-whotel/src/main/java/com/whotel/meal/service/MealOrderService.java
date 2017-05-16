@@ -337,7 +337,7 @@ public class MealOrderService {
         Map<String, Serializable> properties = new HashMap<>();
         properties.put("companyId", companyId);
         properties.put("openId", openId);
-        properties.put("id", id);
+        properties.put("id",id);
         return mealOrderDao.getByProperties(properties);
     }
 

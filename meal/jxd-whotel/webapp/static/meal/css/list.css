@@ -199,6 +199,22 @@
   margin-left: 20px;
   margin-right: 20px;
 }
+.setStyle .leftArrow.middle{
+	height:40px !important;
+	width:20px !important;
+	top:50% !important;
+	left:0px !important;
+	margin-left:5px !important;	
+}
+.setStyle .rightArrow.middle{
+	position:absolute;
+	height:40px !important;
+	width:20px !important;
+	top:50% !important;	
+	right:0px !important;
+	margin-right:5px !important;
+    left:auto !important;	
+}
 .multiStyle > ul > li {
   margin-bottom: 10px;
   margin-left: 20px;

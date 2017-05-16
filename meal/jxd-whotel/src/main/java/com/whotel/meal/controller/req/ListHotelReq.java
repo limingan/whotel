@@ -5,7 +5,7 @@ package com.whotel.meal.controller.req;
  */
 public class ListHotelReq {
 
-    private String companyId;
+    private String comid;
 
     private Integer type;//门店类型 2-堂食 1-外卖 0-两者
 
@@ -27,12 +27,12 @@ public class ListHotelReq {
         this.keyword = keyword;
     }
 
-    public String getCompanyId() {
-        return companyId;
+    public String getComid() {
+        return comid;
     }
 
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
+    public void setComid(String comid) {
+        this.comid = comid;
     }
 
     public Integer getType() {

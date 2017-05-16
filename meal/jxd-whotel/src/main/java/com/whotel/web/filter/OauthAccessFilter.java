@@ -50,6 +50,7 @@ public class OauthAccessFilter implements Filter{
 		companyService = SpringContextHolder.getBean(CompanyService.class);
 		themeService = SpringContextHolder.getBean(ThemeService.class);
 		ignoreLoginURI.add("/oauth/meal/login.do");
+		ignoreLoginURI.add("/oauth/meal/outLogin.do");
 	}
 
 	@Override

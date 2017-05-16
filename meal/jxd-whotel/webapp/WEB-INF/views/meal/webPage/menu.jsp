@@ -135,7 +135,7 @@
         <article>
             <h2>菜单列表
                 <button class="btn_add emptyIt" id="clearBtn">清空</button>
-                <button class="btn_add" onclick="history.go(-1)">+继续点菜</button>
+                <button class="btn_add" onclick="window.location.href='/oauth/meal/dishCatList.do?restaurantId=${restId}'">+继续点菜</button>
             </h2>
             <ul class="myorder" id="myorder">
 

@@ -42,7 +42,7 @@ import com.whotel.weixin.bean.Location;
 import com.whotel.weixin.service.LocationService;
 import com.whotel.weixin.service.WeixinMessageService;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -100,20 +100,23 @@ public class MealController extends FanBaseController {
     @Autowired
     private PayOrderService payOrderService;
 
-
-    @RequestMapping("/oauth/meal/login")
-    public String login(ServletRequest req, LoginParam param) {
-        logger.info("MealController login param = " + param.toString());
+    /**
+     * 登陆通用方法
+     *
+     * @param req
+     * @param param
+     */
+    private LoginParam doLogin(ServletRequest req, LoginParam param) {
+        logger.info("MealController doLogin param = " + param.toString());
         HttpServletRequest request = (HttpServletRequest) req;
         HttpSession session = request.getSession();
 
-        String tabId = param.getTabId();
-        MealTab mealTab = mealService.getMealTabById(tabId);
-        String companyId = mealTab.getCompanyId();
+        String companyId = param.getComid();
         PublicNo publicNo = publicNoService.getPublicNoByCompanyId(companyId);
 
         AccessToken token = TokenManager.getAccessToken(publicNo.getAppId(), publicNo.getAppSecret(), param.getCode());
         String openId = token.getOpenid();
+        param.setWxid(openId);
         Company company = companyService.getCompanyById(companyId);
         Theme theme = themeService.getEnableTheme(companyId);
 
@@ -130,8 +133,37 @@ public class MealController extends FanBaseController {
             member.setCompanyId(companyId);
             memberService.saveMember(member);
         }
-        String redirectUrl = "/oauth/meal/dishCatList.do?tabId=" + tabId;
-        return "redirect:" + redirectUrl;
+        return param;
+    }
+
+    /**
+     * 扫码点餐登陆
+     *
+     * @param req
+     * @param param
+     * @return
+     */
+    @RequestMapping("/oauth/meal/login")
+    public String login(ServletRequest req, LoginParam param) {
+        logger.info("MealController login param = " + param.toString());
+
+        String tabId = param.getTabId();
+        if(StringUtils.isNotBlank(tabId)){
+            MealTab mealTab = mealService.getMealTabById(tabId);
+            String companyId = mealTab.getCompanyId();
+            param.setComid(companyId);
+            param.setType(RedirectType.TAB);
+        }
+        RedirectType type = param.getType();
+        param = this.doLogin(req,param);
+        if(RedirectType.TAB.equals(type)){
+            String redirectUrl = "/oauth/meal/dishCatList.do?tabId=" + tabId + "&comid=" + param.getComid() + "&wxid" + param.getWxid();
+            return "redirect:" + redirectUrl;
+        }else if(RedirectType.ORDER.equals(type)){
+            return "redirect:/oauth/meal/orderList.do?comid=" + param.getComid() + "&wxid" + param.getWxid();
+        }else{
+            return "redirect:/oauth/meal/list.do?comid=" + param.getComid() + "&wxid" + param.getWxid();
+        }
     }
 
 
@@ -149,7 +181,7 @@ public class MealController extends FanBaseController {
         List<HotelCityVO> hotelCitys = hotelService.listHotelCityVO(companyId, new HotelCityQuery());
         req.setAttribute("cityList", hotelCitys);
 
-        param.setCompanyId(companyId);
+        param.setComid(companyId);
         req.setAttribute("hotelList", this.getHotelList(param));
         return "meal/webPage/restlist";
     }
@@ -367,7 +399,7 @@ public class MealController extends FanBaseController {
                 logger.error("MealController search", e);
             }
         }
-        param.setCompanyId(companyId);
+        param.setComid(companyId);
         param.setKeyword(word);
         List<Hotel> hotels = hotelService.findHotel(param);
         req.setAttribute("keywordList", list);
@@ -405,7 +437,7 @@ public class MealController extends FanBaseController {
     public String orderDetail(HttpServletRequest req, String orderId) {
         String companyId = getCurrentCompanyId(req);
         String openId = getCurrentOpenId(req);
-        MealOrder mealOrder = mealOrderService.find(companyId, openId, orderId);
+        MealOrder mealOrder = mealOrderService.getMealOrderById(orderId);
         Restaurant restaurant = mealOrder.getRestaurant();
         Hotel hotel = hotelService.getHotel(companyId, mealOrder.getHotelCode());
         req.setAttribute("order", mealOrder);
@@ -425,7 +457,9 @@ public class MealController extends FanBaseController {
     public String payCenter(HttpServletRequest req, String orderId) {
         String companyId = getCurrentCompanyId(req);
         String openId = getCurrentOpenId(req);
-        MealOrder mealOrder = mealOrderService.find(companyId, openId, orderId);
+        logger.info("payCenter orderId = " + orderId + ";companyId=" + companyId + ";openId=" + openId);
+        MealOrder mealOrder = mealOrderService.getMealOrderById(orderId);
+        logger.info("payCenter mealOrder = mealOrder");
         Restaurant restaurant = mealOrder.getRestaurant();
         req.setAttribute("order", mealOrder);
         req.setAttribute("rest", restaurant);
@@ -505,6 +539,7 @@ public class MealController extends FanBaseController {
         String time = DateUtil.format(date, "HH:mm");
         req.setAttribute("time", time);
 
+        req.setAttribute("restId", restId);
         req.setAttribute("hotel", hotel);
         req.setAttribute("mealType", mealType);
         req.setAttribute("payAfter", payAfter);

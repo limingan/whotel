@@ -36,7 +36,7 @@
     <input type="hidden" id="orderId" name="orderId" value="${order.id}"/>
 
     <div class="ddb-nav-header ng-scope" common-header="">
-        <div class="nav-left-item" onclick="javascript :history.back(-1);"><i class="fa fa-angle-left"></i></div>
+        <div class="nav-left-item" onclick="window.location.href='/oauth/meal/orderList.do'"><i class="fa fa-angle-left"></i></div>
         <div class="header-title ng-binding">我的订单</div>
     </div>
     <!-- ngInclude:  -->
