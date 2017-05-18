@@ -98,6 +98,10 @@ public  class Constants {
 		public static final String COMPANY_THEME = "COMPANY_THEME";
 		
 		public static final String WAITER_ID = "WAITER_ID";
+
+		public static final String TAB_ID = "TAB_ID";
+
+		public static final String RESTAURANT_ID = "RESTAURANT_ID";
 		
 	}
 	

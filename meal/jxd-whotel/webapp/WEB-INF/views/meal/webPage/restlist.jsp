@@ -17,7 +17,7 @@
 <body>
 <div style="height: 100%;" class="ng-scope">
     <div class="ddb-nav-header ng-scope">
-        <a class="nav-left-item" href="javascript:history.back(-1);"><i class="fa fa-angle-left"></i></a>
+        <%--<a class="nav-left-item" href="javascript:history.back(-1);"><i class="fa fa-angle-left"></i></a>--%>
         <div class="header-title ng-binding">门店列表</div>
         <a class="nav-right-item" href="/oauth/meal/search.do">
             <div class="operation-button gray"><i class="fa fa-search"></i>

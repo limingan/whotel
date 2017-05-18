@@ -84,12 +84,13 @@
 <div class="headerF">
     <input type="hidden" id="restId" value="${rest.id}">
     <input type="hidden" id="tabId" value="${tabId}">
+    <input type="hidden" id="hotelCode" value="${rest.hotelCode}">
     <input type="hidden" id="totalprice" value="{$totalprice}" name="totalprice">
     <input type="hidden" id="totalcount" value="{$totalcount}" name="totalcount">
     <input type="hidden" id="btnstatus" value="0" name="btnstatus">
 
     <div class="left">已选：<span id="cartN"><span id="totalcountshow">0</span>份　总计：￥<span id="totalpriceshow">0</span></span>元</div>
-    <div class="right"><a id="btnselect" class="xhlbtn disable" href="javascript:void(0)" onclick="btnSelectJump();">选好了</a></div>
+    <div class="right"><a id="btnselect" class="xhlbtn disable" href="javascript:void(0)" onclick="btnSelectJump();">去结算</a></div>
     <input type="hidden" id="limitprice" value="{$limitprice}" name="limitprice">
 </div>
 <script>

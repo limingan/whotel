@@ -26,6 +26,7 @@
 <script type="text/javascript" src="/static/meal/js/wei_dialog_v1.9.9.js"></script>
 <script type="text/javascript" src="/static/meal/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/static/meal/js/unslider.min.js"></script>
+<script src="/static/meal/js/jquery.fly.min.js"></script>
 </head>
 <body id="page_allMenu" style="background-color: #fff;height:100%">
 
@@ -149,7 +150,8 @@
  <div id="popContent"></div>
 </div>
 <jsp:include page="_header.jsp"/>
-<script type="text/javascript"> 
+<script type="text/javascript">
+   var offset = $("#cartN").offset(); 
    var totalPrice= 0;
    var totalCount = 0;
    var allDishObject = Array();
@@ -238,7 +240,7 @@
    }
 	for(var i=0;i<addBtnLength;i++)
 	{
-	addBtn[i].addEventListener(_moveendEvt,function(){
+	addBtn[i].addEventListener(_moveendEvt,function(event){
 	
 	 //load dish style
 	 var parentDl = this.parentNode.parentNode;
@@ -263,7 +265,7 @@
 	   localStorageObj['data'] = parentDl.getAttribute('setData').replace(/[\r\n]/g,"");
 	   var setData = eval('('+ parentDl.getAttribute('setData') + ')');
 	   var setDishLength = setData.length;
-	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="./images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="./images/right_right_arrow.png">{1}<div style="width:100%;height:40px;top:50%;"><img class="leftArrow middle" src="./images/right_left_arrow.png"><img class="rightArrow middle" src="./images/right_right_arrow.png"></div></div>';
+	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="/static/meal/images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="/static/meal/images/right_right_arrow.png">{1}<div style="width:100%;height:40px;top:50%;"><img class="leftArrow middle" src="/static/meal/images/right_left_arrow.png"><img class="rightArrow middle" src="/static/meal/images/right_right_arrow.png"></div></div>';
 	   
 	   $(setData).each(function(i,n){
 	      var baseHtml = '';
@@ -506,6 +508,29 @@
 	   allDishCategoryList[dishCategory] = undefined != allDishCategoryList[dishCategory]?allDishCategoryList[dishCategory]+1:1;
 	   localStorage.setItem(dishId,JSON.stringify(localStorageObj));
 	   refreshCategoryPrice(allDishCategoryList , allDishObject,totalCount ,totalPrice);
+	   var e=event||window.event;
+	   var addcar = $(this);
+		data.stop();
+		var img = addcar.attr('src');
+		var flyer = $('<img style="width:15px;height:15px;z-index:9999" class="u-flyer" src="'+img+'">');
+		flyer.fly({
+			start: {
+				left: $(this).offset().left-20,
+				top: $(this).offset().top-document.body.scrollTop-20
+			},
+			end: {
+				left: offset.left-20,
+				top: offset.top+10,
+				width: 10,
+				height: 10
+			},
+			onEnd: function(){
+				//$("#msg").show().animate({width: '250px'}, 200).fadeOut(1000);
+				//addcar.css("cursor","default").removeClass('orange').unbind('click');
+				this.destory();
+				data.start();
+			}
+		});
 	 }
 	 localStorage.setItem(dishId,JSON.stringify(localStorageObj));
 	})
@@ -588,7 +613,7 @@
     function setHeight(){
         var  cHeight;
         cHeight = document.documentElement.clientHeight;
-        cHeight = cHeight  -45 -$('.ddb-nav-header').height()+"px";
+        cHeight = cHeight  -65 -$('.ddb-nav-header').height()+"px";
         document.getElementById("navBar").style.height =  cHeight;
         document.getElementById("infoSection").style.height =  cHeight;
 		$('.shopInfoList').height(cHeight);
@@ -703,13 +728,13 @@
         if(_isIOS){
             _q("#page_allMenu section article").style.overflowY ="scroll";
             _q("#page_allMenu section article").style.minHeight ="85%";
-            _q("#page_allMenu section article").style.marginBottom="35px";
+            _q("#page_allMenu section article").style.marginBottom="20px";
         }
-		$('.banner').unslider({			
+		var slidey=$('.banner').unslider({			
 				keys: true,
 				dots: true
 			});
-		
+		data = slidey.data('unslider');
 	    (function()
         {
          
@@ -745,7 +770,7 @@
       $('.mDialog').attr('style',$('.mDialog').attr('style') + 'left:'+ left+ 'px' );		  
 	}
 	else
-     history.go(-1);	
+		window.location.href='/oauth/meal/restaurant.do?hotelCode='+$('#hotelCode').val();
 	}
 	function dishScroll()
 	{
@@ -770,6 +795,8 @@
 		}
 	 }
 	 
+	}
+</script>
 	}
 </script>
 </body>

@@ -18,7 +18,7 @@
 
 <div id="container">
     <div class="page_topbar">
-        <a href="javascript:;" class="back" onclick="history.back()"><i class="fa fa-angle-left"></i></a>
+        <a href="javascript:;" class="back" onclick="window.location.href='/oauth/meal/getAddrList.do'"><i class="fa fa-angle-left"></i></a>
 
         <div class="title">新增地址</div>
     </div>

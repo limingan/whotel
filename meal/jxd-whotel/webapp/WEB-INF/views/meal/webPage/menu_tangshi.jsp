@@ -32,7 +32,7 @@
 </head>
 <body id="page_intelOrder" class="myOrderCon">
 <div class="ddb-nav-header ng-scope">
-    <a class="nav-left-item" href="javascript:void(0)" onclick="history.go(-1)"><i class="fa fa-angle-left"></i></a>
+    <a class="nav-left-item" href="javascript:void(0)" onclick="window.location.href='/oauth/meal/dishCatList.do?tabId=${mealTab.id}'"><i class="fa fa-angle-left"></i></a>
     <div class="header-title ng-binding">我的菜单</div>
     <a class="nav-right-item" href="#"></a>
 </div>
@@ -724,7 +724,7 @@ function postmain() {
 	   
 	   var setData = eval('(' + dishInfo.data + ')');
 	   var setDishLength = setData.length;
-	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="/static/meal/images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="/static/meal/images/right_right_arrow.png">{1}</div>';
+	   var setTemplate = '<div class="setStyle"><img class="leftArrow" src="/static/meal/images/right_left_arrow.png"><span class="settitle">{0}</span><img class="rightArrow" src="/static/meal/images/right_right_arrow.png">{1}<div style="width:100%;height:40px;top:50%;"><img class="leftArrow middle" src="/static/meal/images/right_left_arrow.png"><img class="rightArrow middle" src="/static/meal/images/right_right_arrow.png"></div></div>';
 	   var dishSelectedData = allDishObject[liId][dishId];
 	   $(setData).each(function(i,n){
 	      var baseHtml = '';

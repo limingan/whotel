@@ -148,20 +148,20 @@ public class MealController extends FanBaseController {
         logger.info("MealController login param = " + param.toString());
 
         String tabId = param.getTabId();
-        if(StringUtils.isNotBlank(tabId)){
+        if (StringUtils.isNotBlank(tabId)) {
             MealTab mealTab = mealService.getMealTabById(tabId);
             String companyId = mealTab.getCompanyId();
             param.setComid(companyId);
             param.setType(RedirectType.TAB);
         }
         RedirectType type = param.getType();
-        param = this.doLogin(req,param);
-        if(RedirectType.TAB.equals(type)){
+        param = this.doLogin(req, param);
+        if (RedirectType.TAB.equals(type)) {
             String redirectUrl = "/oauth/meal/dishCatList.do?tabId=" + tabId + "&comid=" + param.getComid() + "&wxid" + param.getWxid();
             return "redirect:" + redirectUrl;
-        }else if(RedirectType.ORDER.equals(type)){
+        } else if (RedirectType.ORDER.equals(type)) {
             return "redirect:/oauth/meal/orderList.do?comid=" + param.getComid() + "&wxid" + param.getWxid();
-        }else{
+        } else {
             return "redirect:/oauth/meal/list.do?comid=" + param.getComid() + "&wxid" + param.getWxid();
         }
     }
@@ -319,6 +319,7 @@ public class MealController extends FanBaseController {
         param.setCompanyId(companyId);
         List<Restaurant> list = restaurantService.getByParam(param);
         req.setAttribute("restList", list);
+        req.setAttribute("companyId", companyId);
         return "meal/webPage/restaurantList";
     }
 
@@ -517,13 +518,25 @@ public class MealController extends FanBaseController {
 
     @RequestMapping("/oauth/meal/menu")
     public String menu(HttpServletRequest req, String tabId, String restId) {
+        HttpSession session = req.getSession();
+        if (StringUtils.isBlank(restId)) {
+            restId = (String) session.getAttribute(Constants.Session.RESTAURANT_ID);
+        } else {
+            session.setAttribute(Constants.Session.RESTAURANT_ID, restId);
+        }
+
+        if (StringUtils.isBlank(tabId)) {
+            tabId = (String) session.getAttribute(Constants.Session.TAB_ID);
+        } else {
+            session.setAttribute(Constants.Session.TAB_ID, tabId);
+        }
         String openId = getCurrentOpenId(req);
         String companyId = getCurrentCompanyId(req);
 
         int payAfter = 0;
         MealOrderType mealType = MealOrderType.OUT;
         MealTab mealTab = null;
-        if (StringUtils.isNotEmpty(tabId)) {
+        if (StringUtils.isNotBlank(tabId)) {
             mealTab = mealService.getMealTabById(tabId);
             mealType = MealOrderType.IN;
             if (null != mealTab && null != mealTab.getPayAfter() && mealTab.getPayAfter()) {
