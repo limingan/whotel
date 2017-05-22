@@ -839,12 +839,14 @@ figure[hidden] {
 	margin-left: 0;
 	font-size: 11px;
 	position: relative;
-	z-index: 1
+	z-index: 1;
+	
 }
 
 #page_allMenu section article dl dd:nth-of-type(2) {
 	margin-top: -8px;
-	height: 27px
+	height: 27px;
+
 }
 
 #page_allMenu section article dl dd b {
@@ -897,8 +899,8 @@ figure[hidden] {
 }
 
 #page_allMenu section article dl dd img {
-	height: 55px;
-	width: 55px;
+	height: 65px;
+	width: 65px;
 	position: absolute;
 	left: -60px;
 	top: -25px;
@@ -950,8 +952,9 @@ figure[hidden] {
 
 #page_allMenu section article dl dt h3 {
 	font-size: 18px;
-	margin-bottom: 10px;
-	margin-top: 8px
+	margin-bottom: 8px;
+	margin-top: 8px;
+	margin-left:10px;
 }
 
 #page_allMenu .footFix {
@@ -1044,12 +1047,12 @@ figure[hidden] {
 }
 
 #page_allMenu section article dl .btn button.minus strong {
-	background: url("../../images/typebtn1a.png") no-repeat;
+	background: url("../images/typebtn1a.png") no-repeat;
 	background-size: 22px 22px
 }
 
 #page_allMenu section article dl .btn button.add strong {
-	background: url("../../images/typebtn2a.png") no-repeat;
+	background: url("../images/typebtn2a.png") no-repeat;
 	background-size: 22px 22px
 }
 
@@ -1310,7 +1313,7 @@ figure[hidden] {
 #page_intelOrder h2 .btn_add.emptyIt {
 	margin-left: 15px;
 	padding-left: 20px;
-	background: #ecedef url("../../images/emptyit.png") no-repeat 7px 7px;
+	background: #ecedef url("/static/meal/images/emptyit.png") no-repeat 7px 7px;
 	background-size: 12px 12px;
 	color: #4c4c4d
 }
@@ -1397,13 +1400,13 @@ figure[hidden] {
 
 #page_intelOrder section article ul li section.bbox input[type=button].btn-reduce {
 	margin-right: -2px;
-	background: url("../../images/typebtn1a.png") no-repeat;
+	background: url("/static/meal/images/typebtn1a.png") no-repeat;
 	background-size: 22px 22px
 }
 
 #page_intelOrder section article ul li section.bbox input[type=button].btn-plus {
 	margin-left: -2px;
-	background: url("../../images/typebtn2a.png") no-repeat;
+	background: url("/static/meal/images/typebtn2a.png") no-repeat;
 	background-size: 22px 22px
 }
 

@@ -72,7 +72,7 @@
             <a class="list-item arrow-right ng-binding" href="/oauth/meal/dishCatList.do?restaurantId=${rest.id}">
                 <i class="fa fa-bookmark-o"></i> ${order.name}
             </a>
-            <a class="list-item arrow-right ng-binding" href="tel:{$store['tel']}">
+            <a class="list-item arrow-right ng-binding" href="tel:${rest.tel}">
                 <i class="fa fa-phone"></i> 商家客服：${rest.tel}
             </a>
             <!--<a class="list-item ng-scope" ng-click="deliveryman_location()" ng-if="can_track_deliveryman()">-->
@@ -230,7 +230,7 @@
             </c:forEach>
 
             <div class="list-item">合计：<span class="red ng-binding">${fn:length(order.items)}份</span>，<strong
-                    class="red ng-binding">￥${order.totalFee}</strong>
+                    class="red ng-binding">￥<script> var fee = ${order.totalFee};document.write(fee.toFixed(2));</script></strong>
 
                 <c:if test="${order.mealOrderType eq 'OUT'}">
                          <span class="ng-scope">

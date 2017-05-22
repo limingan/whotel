@@ -291,16 +291,17 @@
 }
 .myorder .btn-to-edit {
   position: absolute !important;
-  left: 65% !important;
+  right: 50px !important;
   top: 40% !important;
   background-color: orange !important;
+  width:50px;
 }
 .myorder .btn-to-default {
   position: absolute;
-  right: 55px !important;
+  right: 110px !important;
   width: 60px;
   top: 40%;
-  background-color: #00aa00;
+  background-color: #00aa00 !important;
 }
 .myorder .btn-to-delete {
   position: absolute;
@@ -320,7 +321,7 @@
 }
 #page_intelOrder h2 .btn_add {
   height: 20px;
-  line-height: 20px;
-  margin-top: 15px;
+  line-height: 22px;
+  margin-top: 0px;
   padding: 0;
 }

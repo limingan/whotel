@@ -51,6 +51,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
@@ -110,7 +111,6 @@ public class MealController extends FanBaseController {
         logger.info("MealController doLogin param = " + param.toString());
         HttpServletRequest request = (HttpServletRequest) req;
         HttpSession session = request.getSession();
-
         String companyId = param.getComid();
         PublicNo publicNo = publicNoService.getPublicNoByCompanyId(companyId);
 
@@ -125,6 +125,8 @@ public class MealController extends FanBaseController {
         session.setAttribute(Constants.Session.WEIXINFAN_LOGIN_COMPANYNAME, company.getName());
         session.setAttribute(Constants.Session.COMPANY_THEME, theme);
         session.setAttribute(Constants.Session.WEIXINFAN_LOGIN_OPENID, openId);
+        session.setAttribute("CLEARCOOKIE", 1);
+        session.removeAttribute(Constants.Session.TAB_ID);
 
         Member member = memberService.getByOpendId(openId);
         if (null == member) {
@@ -157,7 +159,8 @@ public class MealController extends FanBaseController {
         RedirectType type = param.getType();
         param = this.doLogin(req, param);
         if (RedirectType.TAB.equals(type)) {
-            String redirectUrl = "/oauth/meal/dishCatList.do?tabId=" + tabId + "&comid=" + param.getComid() + "&wxid" + param.getWxid();
+            String redirectUrl = "/oauth/meal/dishCatList.do?tabId=" + tabId + "&comid=" + param.getComid() + "&wxid"
+                    + param.getWxid();
             return "redirect:" + redirectUrl;
         } else if (RedirectType.ORDER.equals(type)) {
             return "redirect:/oauth/meal/orderList.do?comid=" + param.getComid() + "&wxid" + param.getWxid();
@@ -165,7 +168,6 @@ public class MealController extends FanBaseController {
             return "redirect:/oauth/meal/list.do?comid=" + param.getComid() + "&wxid" + param.getWxid();
         }
     }
-
 
     /**
      * 分店列表
@@ -182,6 +184,7 @@ public class MealController extends FanBaseController {
         req.setAttribute("cityList", hotelCitys);
 
         param.setComid(companyId);
+
         req.setAttribute("hotelList", this.getHotelList(param));
         return "meal/webPage/restlist";
     }
@@ -204,9 +207,8 @@ public class MealController extends FanBaseController {
         List<Hotel> result = Lists.newArrayList();
         List<Hotel> list = hotelService.findHotel(param);
         Date current = new Date();
-        Double lng = param.getLng();//经度
-        Double lat = param.getLat();//纬度
-
+        Double lng = param.getLng();// 经度
+        Double lat = param.getLat();// 纬度
 
         Map<Double, Hotel> map = Maps.newTreeMap();
         List<Hotel> blankList = Lists.newArrayList();
@@ -284,10 +286,14 @@ public class MealController extends FanBaseController {
     /**
      * 计算地球上任意两点(经纬度)距离
      *
-     * @param long1 第一点经度
-     * @param lat1  第一点纬度
-     * @param long2 第二点经度
-     * @param lat2  第二点纬度
+     * @param long1
+     *            第一点经度
+     * @param lat1
+     *            第一点纬度
+     * @param long2
+     *            第二点经度
+     * @param lat2
+     *            第二点纬度
      * @return 返回距离 单位：米
      */
     public static double getDistance(double long1, double lat1, double long2, double lat2) {
@@ -322,7 +328,6 @@ public class MealController extends FanBaseController {
         req.setAttribute("companyId", companyId);
         return "meal/webPage/restaurantList";
     }
-
 
     /**
      * 菜品分类列表
@@ -364,8 +369,17 @@ public class MealController extends FanBaseController {
         }
 
         long monthSale = restaurantService.countMonthSale(restaurant);
-
-
+        HttpSession session =  req.getSession();
+        int clearCookieFlag = 0;
+        try{
+            clearCookieFlag = (int)session.getAttribute("CLEARCOOKIE");
+            session.removeAttribute("CLEARCOOKIE");
+        }
+        catch(Exception ex)
+        {
+            ;
+        }
+        req.setAttribute("clearCookieFlag", clearCookieFlag);
         req.setAttribute("tabId", tabId);
         req.setAttribute("monthSale", monthSale);
         req.setAttribute("rest", restaurant);
@@ -407,7 +421,6 @@ public class MealController extends FanBaseController {
         req.setAttribute("list", hotels);
         return "meal/webPage/search";
     }
-
 
     /**
      * 订单列表查询
@@ -466,7 +479,6 @@ public class MealController extends FanBaseController {
         req.setAttribute("rest", restaurant);
         return "meal/webPage/paycenter";
     }
-
 
     /**
      * 取消订单
@@ -587,7 +599,6 @@ public class MealController extends FanBaseController {
         return resultData;
     }
 
-
     /**
      * 同步套餐信息
      *
@@ -606,7 +617,6 @@ public class MealController extends FanBaseController {
         return resultData;
     }
 
-
     /**
      * 获取地址列表
      *
@@ -621,7 +631,6 @@ public class MealController extends FanBaseController {
         req.setAttribute("list", list);
         return "/meal/webPage/addressList";
     }
-
 
     /**
      * 保存地址
@@ -764,7 +773,6 @@ public class MealController extends FanBaseController {
         return null;
     }
 
-
     @RequestMapping("/oauth/meal/memberPay")
     @ResponseBody
     public String memberPay(HttpServletRequest req, String password, String orderId, String mbrCardNo) {
@@ -805,12 +813,14 @@ public class MealController extends FanBaseController {
         payOrder.setPayMent(PayMent.BALANCEPAY);
         payOrderService.savePayOrder(payOrder);
         String tradeNo = payOrder.getOrderSn();
-        boolean memberTrade = memberTradeService.memberTrade(tradeNo, fan.getOpenId(), payOrder.getTotalFee(), TradeType.DEDUCT, payOrder.getRemark(), subProfileId);
+        boolean memberTrade = memberTradeService.memberTrade(tradeNo, fan.getOpenId(), payOrder.getTotalFee(),
+                TradeType.DEDUCT, payOrder.getRemark(), subProfileId);
         if (memberTrade) {
             boolean rs = payOrderService.handlePayOrder(tradeNo, tradeNo, PayMent.BALANCEPAY);
             if (rs) {
                 PayMode payMode = payOrder.getPayMode();
-                if (PayMode.BOOKHOTEL.equals(payMode) || PayMode.TICKETBOOK.equals(payMode) || PayMode.BOOKMEAL.equals(payMode) || PayMode.COMBOBOOK.equals(payMode)) {
+                if (PayMode.BOOKHOTEL.equals(payMode) || PayMode.TICKETBOOK.equals(payMode)
+                        || PayMode.BOOKMEAL.equals(payMode) || PayMode.COMBOBOOK.equals(payMode)) {
                     return "true";
                 }
             }
@@ -819,8 +829,7 @@ public class MealController extends FanBaseController {
         return "支付失败，请重新下单";
     }
 
-
-    /**---------------------------------------------------*/
+    /** --------------------------------------------------- */
     /**
      * 分店查询
      *
@@ -832,16 +841,18 @@ public class MealController extends FanBaseController {
         Company company = getCurrentCompany(req);
         HotelBranchQuery query = new HotelBranchQuery();
         query.setOpType("分店列表");
-//		Calendar cal = Calendar.getInstance();
-//		query.setBeginDate(DateUtil.format(cal.getTime(), "yyyy-MM-dd"));
-//		cal.add(Calendar.DATE, 1);
-//		query.setEndDate(DateUtil.format(cal.getTime(), "yyyy-MM-dd"));
+        // Calendar cal = Calendar.getInstance();
+        // query.setBeginDate(DateUtil.format(cal.getTime(), "yyyy-MM-dd"));
+        // cal.add(Calendar.DATE, 1);
+        // query.setEndDate(DateUtil.format(cal.getTime(), "yyyy-MM-dd"));
         List<HotelBranchVO> hotelBranchs = hotelService.listHotelBranchVO(company.getId(), query);
-        //判断是单店还是集团,多个分店为集团
-        if (company.getGroup() != null && company.getGroup()) {//集团
+        // 判断是单店还是集团,多个分店为集团
+        if (company.getGroup() != null && company.getGroup()) {// 集团
             req.setAttribute("hotelBranchs", hotelBranchs);
-//			List<HotelCityVO> hotelCitys = hotelService.listHotelCityVO(company.getId(), new HotelCityQuery());
-//			req.setAttribute("hotelCitys", hotelCitys);
+            // List<HotelCityVO> hotelCitys =
+            // hotelService.listHotelCityVO(company.getId(), new
+            // HotelCityQuery());
+            // req.setAttribute("hotelCitys", hotelCitys);
             return "front/meal/mealBranch_list";
         }
         return listRestaurant(hotelBranchs.get(0).getCode(), req);
@@ -865,7 +876,7 @@ public class MealController extends FanBaseController {
         page.addOrder("orderIndex", true);
         page.setPageSize(8);
         List<Restaurant> restaurantList = mealService.findRestaurantList(page).getResult();
-        //单个的餐厅直接进入，多个提供选择
+        // 单个的餐厅直接进入，多个提供选择
         if (restaurantList.size() == 1) {
             restaurantInfo(restaurantList.get(0).getId(), req);
         }
@@ -949,13 +960,13 @@ public class MealController extends FanBaseController {
         page.addFilter("companyId", FilterModel.EQ, restaurant.getCompanyId());
         page.addFilter("hotelCode", FilterModel.EQ, restaurant.getHotelCode());
         page.addFilter("restaurantId", FilterModel.EQ, restaurant.getId());
-//		page.addFilter("isEnable",FilterModel.EQ, true);//可预订的
+        // page.addFilter("isEnable",FilterModel.EQ, true);//可预订的
 
         if (mealOrder.getGuestNum() != null) {
             page.addFilter("seats", FilterModel.GE, mealOrder.getGuestNum());
         }
         page.addOrder("timeStamp", false);
-        //page.addOrder("orderIndex", false);
+        // page.addOrder("orderIndex", false);
         page.setPageSize(8);
         mealService.findMealTabList(page);
         req.setAttribute("page", page);
@@ -970,13 +981,13 @@ public class MealController extends FanBaseController {
         page.addFilter("companyId", FilterModel.EQ, restaurant.getCompanyId());
         page.addFilter("hotelCode", FilterModel.EQ, restaurant.getHotelCode());
         page.addFilter("restaurantId", FilterModel.EQ, restaurant.getId());
-//		page.addFilter("isEnable",FilterModel.EQ, true);//可预订的
+        // page.addFilter("isEnable",FilterModel.EQ, true);//可预订的
 
         if (mealOrder.getGuestNum() != null) {
             page.addFilter("seats", FilterModel.GE, mealOrder.getGuestNum());
         }
         page.addOrder("timeStamp", false);
-//		page.addOrder("orderIndex", false);
+        // page.addOrder("orderIndex", false);
         page.setPageSize(8);
         page.setPageNo(pageNo);
         mealService.findMealTabList(page);
@@ -1008,7 +1019,7 @@ public class MealController extends FanBaseController {
      */
     @RequestMapping("/oauth/meal/dishesList")
     public String dishesList(MealOrder mealOrder, HttpServletRequest req) {
-//		Company company = getCurrentCompany(req);
+        // Company company = getCurrentCompany(req);
         assignmentMealBook(mealOrder, req);
 
         MealOrder updateMealOrder = (MealOrder) req.getSession().getAttribute(Constants.Session.MEAL_BOOK);
@@ -1020,9 +1031,9 @@ public class MealController extends FanBaseController {
         page.addFilter("companyId", FilterModel.EQ, updateMealOrder.getCompanyId());
         page.addFilter("hotelCode", FilterModel.EQ, updateMealOrder.getHotelCode());
         page.addFilter("restaurantId", FilterModel.EQ, restaurantId);
-        page.addFilter("isEnable", FilterModel.EQ, true);//上架的
+        page.addFilter("isEnable", FilterModel.EQ, true);// 上架的
 
-        //判断之前选择的餐式在当前餐厅中是否存在
+        // 判断之前选择的餐式在当前餐厅中是否存在
         boolean isExist = true;
         if (StringUtils.isNotBlank(updateMealOrder.getShuffleNo())) {
             Shuffle shuffle = mealService.getShuffleById(updateMealOrder.getShuffleNo());
@@ -1032,7 +1043,7 @@ public class MealController extends FanBaseController {
         }
 
         if (isExist) {
-            //查找时间最接近的一个餐式
+            // 查找时间最接近的一个餐式
             for (Shuffle shuffle : shuffles) {
                 Integer end = Integer.valueOf(shuffle.getEndTime().replace(":", ""));
                 Integer now = Integer.valueOf(DateUtil.format(new Date(), "HH:mm").replace(":", ""));
@@ -1043,7 +1054,7 @@ public class MealController extends FanBaseController {
                 }
             }
 
-            //指定第一个餐式
+            // 指定第一个餐式
             if (StringUtils.isBlank(updateMealOrder.getShuffleNo())) {
                 updateMealOrder.setShuffleNo(shuffles.get(0).getId());
                 updateMealOrder.setShuffleName(shuffles.get(0).getShuffleName());
@@ -1062,11 +1073,11 @@ public class MealController extends FanBaseController {
         List<DishesCategory> dishesCategories = mealService.findDishCatByRestaurantId(null, restaurantId);
         req.setAttribute("dishesCategories", dishesCategories);
 
-        //可选时间
+        // 可选时间
         Calendar cal = Calendar.getInstance();
-        //cal.setTime(updateMealOrder.getArrDate());
-//		cal.add(Calendar.DATE, -1);
-//		req.setAttribute("startDate", cal.getTime());
+        // cal.setTime(updateMealOrder.getArrDate());
+        // cal.add(Calendar.DATE, -1);
+        // req.setAttribute("startDate", cal.getTime());
         cal.add(Calendar.YEAR, 10);
         req.setAttribute("endDate", cal.getTime());
         return "front/meal/dishes_list";
@@ -1085,7 +1096,7 @@ public class MealController extends FanBaseController {
         page.addFilter("companyId", FilterModel.EQ, mealOrder.getCompanyId());
         page.addFilter("hotelCode", FilterModel.EQ, mealOrder.getHotelCode());
         page.addFilter("restaurantId", FilterModel.EQ, mealOrder.getRestaurantId());
-        page.addFilter("isEnable", FilterModel.EQ, true);//上架的
+        page.addFilter("isEnable", FilterModel.EQ, true);// 上架的
 
         if (StringUtils.isNotBlank(shuffleNo)) {
             page.addFilter("shuffleNo", FilterModel.LIKE, shuffleNo);
@@ -1124,18 +1135,19 @@ public class MealController extends FanBaseController {
         List<MealOrderItem> items = new ArrayList<>();
         if (mealOrder.getItems() != null && mealOrder.getItems().size() > 0) {
             for (MealOrderItem item : mealOrder.getItems()) {
-                if (item != null && StringUtils.isNotBlank(item.getDishesId()) && item.getItemQuantity() != null && item.getItemQuantity() > 0) {
+                if (item != null && StringUtils.isNotBlank(item.getDishesId()) && item.getItemQuantity() != null
+                        && item.getItemQuantity() > 0) {
                     Dishes dishes = mealService.getDishesById(item.getDishesId());
-                    item.setItemCode(dishes.getDishNo());//菜式代码
-                    item.setName(dishes.getDishName());//菜式名称
-                    item.setUnit(dishes.getUnit());//单位
-                    item.setItemPrice(dishes.getPrice());//价格
+                    item.setItemCode(dishes.getDishNo());// 菜式代码
+                    item.setName(dishes.getDishName());// 菜式名称
+                    item.setUnit(dishes.getUnit());// 单位
+                    item.setItemPrice(dishes.getPrice());// 价格
 
                     Float itemAmount = item.getItemQuantity() * item.getItemPrice();
                     String formatAmount = new DecimalFormat("#.00").format(itemAmount);
                     itemAmount = Float.valueOf(formatAmount);
 
-                    item.setItemAmount(itemAmount);//消费项目金额
+                    item.setItemAmount(itemAmount);// 消费项目金额
                     items.add(item);
                     totalFee += itemAmount;
                 }
@@ -1158,8 +1170,7 @@ public class MealController extends FanBaseController {
      * @return
      */
     @RequestMapping("/oauth/meal/dishesBook")
-    public String dishesBook(MealOrder mealOrder, String isRoom,
-                             @RequestParam(required = false) String contactName,
+    public String dishesBook(MealOrder mealOrder, String isRoom, @RequestParam(required = false) String contactName,
                              @RequestParam(required = false) String contactMobile, HttpServletRequest req) {
 
         if (contactName != null && contactName.trim().length() > 0) {
@@ -1172,15 +1183,15 @@ public class MealController extends FanBaseController {
         Company company = getCurrentCompany(req);
         assignmentMealBook(mealOrder, req);
 
-        if (StringUtils.isBlank(isRoom)) {//只订餐
+        if (StringUtils.isBlank(isRoom)) {// 只订餐
             statisticalTotalPrice(mealOrder, req);
         }
 
         MealOrder updateMealOrder = (MealOrder) req.getSession().getAttribute(Constants.Session.MEAL_BOOK);
-        Float totalFee = updateMealOrder.getDishesPrice() == null ? 0f : updateMealOrder.getDishesPrice();//菜的总价
+        Float totalFee = updateMealOrder.getDishesPrice() == null ? 0f : updateMealOrder.getDishesPrice();// 菜的总价
 
         if (mealOrder.getItems() != null) {
-            if (updateMealOrder.getRestaurant() != null) {//服务费率
+            if (updateMealOrder.getRestaurant() != null) {// 服务费率
                 Float serviceFee = totalFee * updateMealOrder.getRestaurant().getServiceFee() / 100;
                 updateMealOrder.setServiceFee(serviceFee);
                 totalFee += serviceFee;
@@ -1195,7 +1206,7 @@ public class MealController extends FanBaseController {
         if (StringUtils.isNotBlank(mealOrder.getMealTabId())) {
             updateMealOrder.setMealTabId(mealOrder.getMealTabId());
             MealTab mealTab = updateMealOrder.getMealTab();
-            if (mealTab != null && mealTab.getDeposit() != null) {//包间价格
+            if (mealTab != null && mealTab.getDeposit() != null) {// 包间价格
                 totalFee += updateMealOrder.getMealTab().getDeposit();
             }
         }
@@ -1204,11 +1215,11 @@ public class MealController extends FanBaseController {
         totalFee = Float.valueOf(formatTotalFee);
         updateMealOrder.setTotalFee(totalFee);
 
-
         WeixinFan weixinFan = getCurrentFan(req);
         MemberVO memberVO = getCurrentMemberVO(req);
         if (memberVO != null) {
-            List<MemberCouponVO> memberCoupons = memberTradeService.findMemberUseAbleCouponVO(company.getId(), updateMealOrder.getTotalFee(), memberVO.getProfileId(), company.getCode(), ModuleType.MEAL);
+            List<MemberCouponVO> memberCoupons = memberTradeService.findMemberUseAbleCouponVO(company.getId(),
+                    updateMealOrder.getTotalFee(), memberVO.getProfileId(), company.getCode(), ModuleType.MEAL);
             req.setAttribute("memberCoupons", memberCoupons);
             updateMealOrder.setContactName(memberVO.getGuestCName());
             updateMealOrder.setContactMobile(memberVO.getMobile());
@@ -1225,11 +1236,11 @@ public class MealController extends FanBaseController {
         req.setAttribute("shuffles", shuffles);
 
         Calendar cal = Calendar.getInstance();
-//		cal.add(Calendar.DATE, 1);
-//		req.setAttribute("arrAfterDate", cal.getTime());
+        // cal.add(Calendar.DATE, 1);
+        // req.setAttribute("arrAfterDate", cal.getTime());
 
-//		cal.add(Calendar.DATE, -1);
-//		req.setAttribute("startDate", cal.getTime());
+        // cal.add(Calendar.DATE, -1);
+        // req.setAttribute("startDate", cal.getTime());
         cal.add(Calendar.YEAR, 10);
         req.setAttribute("endDate", cal.getTime());
         return "front/meal/meal_ordering";
@@ -1247,7 +1258,7 @@ public class MealController extends FanBaseController {
             Restaurant restaurant = mealService.getRestaurantById(restaurantId);
             if (updateMealOrder == null) {
                 updateMealOrder = new MealOrder();
-                updateMealOrder.setArrDate(new Date());//到店日期
+                updateMealOrder.setArrDate(new Date());// 到店日期
             }
             updateMealOrder.setCompanyId(restaurant.getCompanyId());
             updateMealOrder.setHotelCode(restaurant.getHotelCode());
@@ -1255,18 +1266,18 @@ public class MealController extends FanBaseController {
             updateMealOrder.setName(restaurant.getName());
         }
         if (StringUtils.isNotBlank(mealOrder.getShuffleNo())) {
-            updateMealOrder.setArriveTime(mealOrder.getArriveTime());//到店时间
-            updateMealOrder.setArrDate(mealOrder.getArrDate());//到店日期
-            updateMealOrder.setShuffleNo(mealOrder.getShuffleNo());//市别编码
-            updateMealOrder.setShuffleName(mealOrder.getShuffleName());//市别名称
-            updateMealOrder.setGuestNum(mealOrder.getGuestNum());//客人人数
+            updateMealOrder.setArriveTime(mealOrder.getArriveTime());// 到店时间
+            updateMealOrder.setArrDate(mealOrder.getArrDate());// 到店日期
+            updateMealOrder.setShuffleNo(mealOrder.getShuffleNo());// 市别编码
+            updateMealOrder.setShuffleName(mealOrder.getShuffleName());// 市别名称
+            updateMealOrder.setGuestNum(mealOrder.getGuestNum());// 客人人数
         }
-//		if(mealOrder.getChargeamt() != null){
-//			updateMealOrder.setChargeamt(mealOrder.getChargeamt());
-//			updateMealOrder.setChargeamtmodel(mealOrder.getChargeamtmodel());
-//			updateMealOrder.setCouponSeqid(mealOrder.getCouponSeqid());//优惠劵
-//			updateMealOrder.setCouponCode(mealOrder.getCouponCode());
-//		}
+        // if(mealOrder.getChargeamt() != null){
+        // updateMealOrder.setChargeamt(mealOrder.getChargeamt());
+        // updateMealOrder.setChargeamtmodel(mealOrder.getChargeamtmodel());
+        // updateMealOrder.setCouponSeqid(mealOrder.getCouponSeqid());//优惠劵
+        // updateMealOrder.setCouponCode(mealOrder.getCouponCode());
+        // }
         req.getSession().setAttribute(Constants.Session.MEAL_BOOK, updateMealOrder);
     }
 
@@ -1285,7 +1296,7 @@ public class MealController extends FanBaseController {
             }
             mealOrder.setItems(items);
 
-            if (updateMealOrder.getRestaurant() != null) {//服务费率
+            if (updateMealOrder.getRestaurant() != null) {// 服务费率
                 Float serviceFee = totalFee * updateMealOrder.getRestaurant().getServiceFee() / 100;
                 mealOrder.setServiceFee(serviceFee);
                 totalFee += serviceFee;
@@ -1293,7 +1304,7 @@ public class MealController extends FanBaseController {
         }
 
         MealTab mealTab = updateMealOrder.getMealTab();
-        if (mealTab != null && mealTab.getDeposit() != null) {//包间价格
+        if (mealTab != null && mealTab.getDeposit() != null) {// 包间价格
             totalFee += updateMealOrder.getMealTab().getDeposit();
         }
 
@@ -1302,7 +1313,7 @@ public class MealController extends FanBaseController {
 
             updateMealOrder.setChargeamt(mealOrder.getChargeamt());
             updateMealOrder.setChargeamtmodel(mealOrder.getChargeamtmodel());
-            updateMealOrder.setCouponSeqid(mealOrder.getCouponSeqid());//优惠劵
+            updateMealOrder.setCouponSeqid(mealOrder.getCouponSeqid());// 优惠劵
             updateMealOrder.setCouponCode(mealOrder.getCouponCode());
         }
 
@@ -1319,7 +1330,7 @@ public class MealController extends FanBaseController {
 
         String orderSn = saveMealOrder(PayMent.OFFLINEPAY, req);
         if (!StringUtils.equals(orderSn, "-1")) {
-            //sendMealBookMessage(orderSn, req);
+            // sendMealBookMessage(orderSn, req);
             return "redirect:/meal/showMealBookRs.do?orderSn=" + orderSn;
         }
         return "/errorpage";
@@ -1333,7 +1344,7 @@ public class MealController extends FanBaseController {
         MealOrder mealOrder = (MealOrder) req.getSession().getAttribute(Constants.Session.MEAL_ORDER);
         boolean isOk = true;
         if (mealOrder != null) {
-            if (StringUtils.isNotBlank(mealOrder.getMealTabId())) {//包间
+            if (StringUtils.isNotBlank(mealOrder.getMealTabId())) {// 包间
                 MealTabQuery query = new MealTabQuery();
                 query.setHotelCode(mealOrder.getHotelCode());
                 query.setRefeNo(mealOrder.getRestaurant().getRefeNo());
@@ -1356,14 +1367,15 @@ public class MealController extends FanBaseController {
             mealOrder.setCreateDate(new Date());
             if (PayMent.OFFLINEPAY.equals(payMent)) {
                 if (mealOrder.getTotalFee() <= 0) {
-                    mealOrder.setTradeStatus(TradeStatus.FINISHED);//0元的已支付？？？
+                    mealOrder.setTradeStatus(TradeStatus.FINISHED);// 0元的已支付？？？
                     mealOrder.setPayFee(0f);
                 }
                 mealOrder.setStatus(MealOrderStatus.NOARRIVE);
                 String couponSeqid = mealOrder.getCouponSeqid();
                 boolean rs = true;
                 if (StringUtils.isNotBlank(couponSeqid)) {
-                    rs = memberTradeService.useMemberCoupon(mealOrder.getCompanyId(), couponSeqid, "预订房型使用券", mealOrder.getOpenId(), company.getCode());  //核销券
+                    rs = memberTradeService.useMemberCoupon(mealOrder.getCompanyId(), couponSeqid, "预订房型使用券",
+                            mealOrder.getOpenId(), company.getCode()); // 核销券
                 }
                 if (Boolean.TRUE.equals(rs)) {
                     mealOrderService.saveMealOrder(mealOrder);
@@ -1429,7 +1441,7 @@ public class MealController extends FanBaseController {
      */
     @RequestMapping("/meal/sendMealBookMessage")
     public void sendMealBookMessage(String orderSn, HttpServletRequest req) {
-        weixinMessageService.sendMealOrderMsgToCompany(orderSn);//发送模板消息给商户
+        weixinMessageService.sendMealOrderMsgToCompany(orderSn);// 发送模板消息给商户
     }
 
     /**
@@ -1505,22 +1517,25 @@ public class MealController extends FanBaseController {
         return "redirect:/pay/toMealCashierDesk.do?showwxpaytitle=1";
     }
 
-//	/**
-//	 * 验证包间是否可预订
-//	 */
-//	@RequestMapping("/oauth/meal/ajaxCheckMealTabStatus")
-//	@ResponseBody
-//	public Boolean ajaxCheckMealTabStatus(HttpServletRequest req){
-//		MealOrder mealOrder = (MealOrder)req.getSession().getAttribute(Constants.Session.MEAL_BOOK);
-//		if(mealOrder!=null && StringUtils.isNotBlank(mealOrder.getMealTabId())){
-//			MealTabQuery query = new MealTabQuery();
-//			query.setHotelCode(mealOrder.getHotelCode());
-//			query.setBeginDate(DateUtil.format(mealOrder.getArrDate(), "yyyy-MM-dd"));
-//			query.setRefeNo(mealOrder.getRestaurant().getRefeNo());
-//			query.setShuffle(mealOrder.getShuffle().getShuffleNo());
-//			query.setTabNo(mealOrder.getMealTab().getTabNo());
-//			return mealOrderService.checkMealTabStatus(query, mealOrder.getCompanyId());
-//		}
-//		return true;
-//	}
+    // /**
+    // * 验证包间是否可预订
+    // */
+    // @RequestMapping("/oauth/meal/ajaxCheckMealTabStatus")
+    // @ResponseBody
+    // public Boolean ajaxCheckMealTabStatus(HttpServletRequest req){
+    // MealOrder mealOrder =
+    // (MealOrder)req.getSession().getAttribute(Constants.Session.MEAL_BOOK);
+    // if(mealOrder!=null && StringUtils.isNotBlank(mealOrder.getMealTabId())){
+    // MealTabQuery query = new MealTabQuery();
+    // query.setHotelCode(mealOrder.getHotelCode());
+    // query.setBeginDate(DateUtil.format(mealOrder.getArrDate(),
+    // "yyyy-MM-dd"));
+    // query.setRefeNo(mealOrder.getRestaurant().getRefeNo());
+    // query.setShuffle(mealOrder.getShuffle().getShuffleNo());
+    // query.setTabNo(mealOrder.getMealTab().getTabNo());
+    // return mealOrderService.checkMealTabStatus(query,
+    // mealOrder.getCompanyId());
+    // }
+    // return true;
+    // }
 }

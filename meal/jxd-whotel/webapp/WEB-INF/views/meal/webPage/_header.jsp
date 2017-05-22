@@ -80,23 +80,45 @@
     .right .disable{
         background-color:  #dbdbdb;
     }
+	#totalcountshow {
+	display: none;
+	-webkit-text-size-adjust: none;
+	font-size: 10px;
+	position: absolute;
+	left: 36px;
+	top: 1px;
+	background-color: #ef4437;
+	color: #fff;
+	font-family: Verdana;
+	font-weight: normal;
+	padding: 2px 4px;
+	border-radius: 15px;
+	line-height: 10px;
+	text-align: center;
+	opacity: 1
+}
 </style>
 <div class="headerF">
     <input type="hidden" id="restId" value="${rest.id}">
     <input type="hidden" id="tabId" value="${tabId}">
-    <input type="hidden" id="hotelCode" value="${rest.hotelCode}">
+	<input type="hidden" id="hotelCode" value="${rest.hotelCode}">
     <input type="hidden" id="totalprice" value="{$totalprice}" name="totalprice">
     <input type="hidden" id="totalcount" value="{$totalcount}" name="totalcount">
     <input type="hidden" id="btnstatus" value="0" name="btnstatus">
 
-    <div class="left">已选：<span id="cartN"><span id="totalcountshow">0</span>份　总计：￥<span id="totalpriceshow">0</span></span>元</div>
-    <div class="right"><a id="btnselect" class="xhlbtn disable" href="javascript:void(0)" onclick="btnSelectJump();">去结算</a></div>
+    <div class="left"><span id="cartN"></span><img style="float:left;width:30px;height:30px;margin-left:5px" src="/static/meal/images/cart.png"/><span id="totalcountshow">0</span>　总计：￥<span id="totalpriceshow">0</span></span>元</div>
+    <div class="right"><a id="btnselect" class="xhlbtn disable" href="javascript:void(0)" onclick="btnSelectJump();">去结算
+	</a></div>
     <input type="hidden" id="limitprice" value="{$limitprice}" name="limitprice">
 </div>
 <script>
 function changeBtnSelect() {
     var limitprice = parseFloat(_q("#limitprice").value);
     var totalprice = parseFloat(_q("#totalprice").value);
+	if(_q("#totalcountshow").innerHTML == '0' )
+		_q("#totalcountshow").style['display'] = 'none';
+	else
+		_q("#totalcountshow").style['display'] = 'inline-block';
     if (limitprice > 0) {
         if (totalprice > limitprice) {
             _removeClass(_q("#btnselect"),'disable');

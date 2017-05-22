@@ -18,7 +18,7 @@
         
     </div>
 
-    <div class="orders-index-page main-view ng-scope" id="delivery-orders-index" style="margin-bottom:45px">
+    <div class="orders-index-page main-view ng-scope" id="delivery-orders-index" style="padding-bottom:45px">
         
         <div class="space-12"></div>
         <c:forEach items="${orderPage.result}" var="order">
@@ -40,7 +40,7 @@
 				</span>
                 </a>
                 <div class="list-item">
-                    <div class="total-amount ng-binding"><span class="amount-label">金额：</span>${order.totalFee}</div>
+                    <div class="total-amount ng-binding"><span class="amount-label">金额：</span>￥<script> var fee = ${order.totalFee};document.write(fee.toFixed(2));</script></div>
                     <div class="operation">
                         <span class="button ng-binding ng-scope" style="">${order.status.label}</span>
                     </div>

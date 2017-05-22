@@ -28,7 +28,8 @@ ng\:form {
   height: 60px !important;
 }
 .main-view .branch-item .branch-info .branch-image img {
-  height: 60px !important;
+  height: 70px !important;
+  width: 70px !important;
 }
 .main-view .branch-item .fee,
 .main-view .branch-item .address {

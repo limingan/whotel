@@ -152,6 +152,8 @@
 	             totalCount = parseInt(get_cookie('totalCount'));
 	             allDishObject = eval('('+ get_cookie('dishList')+')');
 	             allDishCategoryList = eval('('+ get_cookie('categoryList')+')');
+				 $('#guestNum').val(get_cookie('guestNum'));
+				 $('#remark').val(get_cookie('remark'));
 	             refreshCategoryPrice(allDishCategoryList , allDishObject, totalCount ,totalPrice);
 				  var dishList = get_cookie('dishList');
 				  dishList = eval('('+dishList+')');
@@ -165,25 +167,18 @@
 				   
 				   switch(dishInfo['style'])
 				   {
-				     case 'set':document.write('<section class="bbox" style="left:-40px;top:10px" dishid="{0}" dishname="{1}">'.format(dishId,dishInfo['name']));
-					            document.write('<input class="btn-reduce" style="margin-top:5px" type="button" value="-">');
-					            document.write('<input class="numBox" name="numBox" type="hidden" value="1" price="{0}" disabled="disabled">'.format(dishInfo['price']));
-								document.write('<input class="setData" type="hidden" value="{0}" />'.format(dishInfo['data']));
-								document.write('</section>');
-								document.write('<div style="display:inline;position:absolute;left:50px">');
-								document.write('<span class="dishName">{0}</span>'.format(dishInfo['name']));
-								document.write('<div><i>{0}元/{1}</i></div></div>'.format(dishInfo['price'],dishInfo['unit']));
-								document.write('<h2><button class="btn_add editStyle" style="position:absolute;right:10%;top:30%" onclick=";">编辑</button></h2>');
-					            break;
-					 case 'multi':document.write('<section class="bbox" style="left:-40px;top:10px" dishid="{0}" dishname="{1}">'.format(dishId,dishInfo['name']));
-					              document.write('<input class="btn-reduce" style="margin-top:5px" type="button" value="-">');
+				     case 'set'  :
+					 case 'multi':document.write('<span class="dishName">{0}</span>'.format(dishInfo['name']));
+								  document.write('<i>{0}元/{1}</i>'.format(dishInfo['price'],dishInfo['unit']));
+					              document.write('<section class="bbox"  dishid="{0}" dishname="{1}">'.format(dishId,dishInfo['name']));
+					              document.write('<input class="btn-reduce"  type="button" style="margin-left:-54px" value="-">');
 					              document.write('<input class="numBox" name="numBox" type="hidden" value="1" price="{0}" disabled="disabled">'.format(dishInfo['price']));
-								  document.write('<input class="styleData" type="hidden" value="{0}" />'.format(dishInfo['data']));
+								  var className = (dishInfo['style'] == 'set') ? 'setData':'styleData';
+								  document.write('<input class="{1}" type="hidden" value="{0}" />'.format(dishInfo['data'],className));
+								  document.write('<h2><button class="btn_add editStyle"  style="position:absolute;top:3px;left:23px;" onclick=";">编辑</button></h2>');
 								  document.write('</section>');
-								  document.write('<div style="display:inline;position:absolute;left:50px">');
-								  document.write('<span class="dishName">{0}</span>'.format(dishInfo['name']));
-								  document.write('<div><i>{0}元/{1}</i></div></div>'.format(dishInfo['price'],dishInfo['unit']));
-								  document.write('<h2><button class="btn_add editStyle" style="position:absolute;right:10%;top:30%"onclick=";">编辑</button></h2>');
+								  
+								 
 					              break;
 					 case 'normal':
 					              document.write('<span class="dishName">{0}</span>'.format(dishInfo['name']));
@@ -207,7 +202,7 @@
 
     <input type="hidden" id="mode" value="{$mode}" name="mode">
     <input type="hidden" id="tables" value="{$tablesid}" name="tables">
-    <section style="margin-bottom: 0px;">
+    <section style="padding-bottom: 10px;">
         <article class="otherInfo">
 
                         <%--<div style="width: 120px;">打包费用:￥<span id="">5.3</span></span>元--%>
@@ -246,6 +241,12 @@
  <div id="popContent"></div>
 </div>
 <script>
+    $('#guestNum').change(function(){
+		document.cookie = "guestNum=" + $('#guestNum').val();	
+	})
+	$('#remark').change(function(){
+		document.cookie = "remark=" + $('#remark').val();	
+	})
    $('#guestNum').blur(function(){
 	   var num = 0;
 	   if($('#guestNum').val() == '')
@@ -479,7 +480,7 @@ _onPageLoaded(function(){
 				delCookie('dishList');
 				delCookie('totalCount');
 				delCookie('totalPrice');
-                history.go(-1)
+                window.location.href='/oauth/meal/dishCatList.do?restaurantId=${restId}'
             }, null,
             '取消', null, null,
             null, true, true
@@ -488,7 +489,7 @@ _onPageLoaded(function(){
     "{/if}"
 
     $("#btnselect").click(function () {
-        var bool = checkItem();
+        var bool = checkItem() && outCheck();
         if (bool) {
             MDialog.confirm(
                 '', '确认提交吗？', null,
@@ -510,6 +511,7 @@ _onPageLoaded(function(){
             alert('请输入验证码!');
             return false;
         }
+		
         MDialog.confirm(
             '', '确认提交吗？', null,
             '确定', function(){
@@ -574,10 +576,13 @@ function checkItem() {
 
     function outCheck(){
 
-        if ($("#guestNum").val() == "") {
-            alert("请输入您的用餐人数！");
+        var guestNumValue = $("#guestNum").val();
+		if(isNaN(parseInt(guestNumValue)) || parseInt(guestNumValue) <1)
+		{
+			alert("请输入正确的用餐人数！");
             return false;
-        }
+		}
+		return true;
     }
 
 function postmain() {
@@ -607,7 +612,7 @@ function postmain() {
 			}
 			var orderData = {};
 			orderData['remark'] = $("#remark").val();
-			orderData['guestNum'] = $("#guestNum").val();
+			orderData['guestNum'] = parseInt($("#guestNum").val());
 			orderData['mealOrderType'] = 'IN';
             orderData['payAfter'] = $("#payAfter").val();
 			if($('.couponSelect').val() !=0)
@@ -681,6 +686,8 @@ function postmain() {
 				        delCookie('dishList');
 				        delCookie('totalCount');
 				        delCookie('totalPrice');
+						delCookie('guestNum');
+				        delCookie('remark');
                         location.href = '/oauth/meal/payCenter.do?orderId='+orderId;
                     } else {
                         alert(data.message);
@@ -707,9 +714,9 @@ function postmain() {
 	
 	 //load dish style
 	 var liId = 0;
-	 var obj = $(this).parent().parent().prev('li');
+	 var obj = $(this).parent().parent().parent().prev('li');
 	 while(obj.length!=0){liId++;obj = obj.prev('li');}
-	 var dishId  = $(this.parentNode.parentNode).children('section').attr('dishId');
+	 var dishId  = $(this.parentNode.parentNode).attr('dishId');
 	 var dishInfo = eval( '(' + localStorage.getItem(dishId) + ')');
 	 var dPrice = dishInfo.price;
 	 var isMultiStyle = dishInfo.style == 'multi'; //是否多规格

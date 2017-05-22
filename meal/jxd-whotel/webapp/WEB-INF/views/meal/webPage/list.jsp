@@ -1,6 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglibs.jsp"%>
 <html lang="zh-CN"><head>
+<%
+response.setHeader("Cache-Control","no-cache,must-revalidate,no-store");
+response.setHeader("Pragrma","no-cache");
+response.setDateHeader("Expires",0);
+%>
+<script>
+ function delCookie(name){//为cookie name
+   var date = new Date();
+   date.setTime(date.getTime() - 10000);
+   document.cookie = name + "=a; expires=" + date.toGMTString();
+ }
+<c:if test="${clearCookieFlag == 1}">
+ delCookie('totalPrice');
+ delCookie('totalCount');
+ delCookie('dishList');
+ delCookie('categoryList');
+ delCookie('guestNum');
+ delCookie('remark');
+</c:if>
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <meta name="format-detection" content="telephone=no">
@@ -49,15 +69,15 @@
         <div class="">
          <div class="ddb-tab-bar ">
             <div class="ddb-tab-item ng-scope active">
-                <a style="font-size:16px;color:black;" href="javascript:;" class="" id="store_classify">点餐</a>
+                <a style="font-size:16px;color:black;line-height:40px" href="javascript:;" class="" id="store_classify">点餐</a>
                
             </div>
             <div class="ddb-tab-item ng-scope">
-                <a style="font-size:16px;color:black;"  href="javascript:;" class="ng-binding">评论</a>
+                <a style="font-size:16px;color:black;line-height:40px"  href="javascript:;" class="ng-binding">评论</a>
             </div>
             <div class="ddb-tab-item ng-scope" ng-repeat="pane in panes" ng-class="{active:pane.selected}"
                  ng-click="toggle(pane)">
-                <a  style="font-size:16px;color:black;" href="javascript:;" class="ng-binding">商家</a>
+                <a  style="font-size:16px;color:black;line-height:40px" href="javascript:;" class="ng-binding">商家</a>
             </div>
         </div>
 		</div>
@@ -139,10 +159,10 @@
 </div>
 
 <div class="shopInfoList dn">
- <div><img src="/static/meal/images/sales.png"/><span >月售 ${monthSale} 单</span></div>
- <div><img src="/static/meal/images/timer.png"/><span >${rest.businessTime}</span></div>
- <div><img src="/static/meal/images/position.png"/><span >${rest.address}</span></div>
- <div><img src="/static/meal/images/tel.png"/><span >${rest.tel}</span><a href="tel://${rest.tel}"><i class="fa fa-angle-right"></i></a></div>
+ <div><img src="/static/meal/images/sales.png"/><span >&nbsp;月售 ${monthSale} 单</span></div>
+ <div><img src="/static/meal/images/timer.png"/><span >&nbsp;${rest.businessTime}</span></div>
+ <div><img src="/static/meal/images/position.png"/><span >&nbsp;${rest.address}</span></div>
+ <div><img src="/static/meal/images/tel.png"/><span >&nbsp;${rest.tel}</span><a href="tel://${rest.tel}"><i class="fa fa-angle-right"></i></a></div>
 </div>
 <div class="mModal1" style="position:fixed;width:100%;z-index: 901;height:100%;display:none;top:0;background-color:rgba(0, 0, 0, .5)"><a href="javascript:void(0)" style="height: 736px;"></a></div>
 <div class="popupWindow" style="z-index:9999;display:none">
@@ -150,7 +170,9 @@
  <div id="popContent"></div>
 </div>
 <jsp:include page="_header.jsp"/>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <script type="text/javascript">
+   var isUserChangeCateogry = 0;
    var offset = $("#cartN").offset(); 
    var totalPrice= 0;
    var totalCount = 0;
@@ -191,6 +213,7 @@
 	 $('.shopInfoList').removeClass('dn');
    });
    $(".navOption").click(function() {
+	  isUserChangeCateogry = 1; 
       $('.navOption dd').removeClass("active");
 	  $(this).children('dd').addClass('active');
       $("#infoSection").animate({
@@ -238,9 +261,8 @@
      refreshCategoryPrice(allDishCategoryList , allDishObject,totalCount ,totalPrice);
 	 return currentDishCount;
    }
-	for(var i=0;i<addBtnLength;i++)
-	{
-	addBtn[i].addEventListener(_moveendEvt,function(event){
+
+	$('.addDish,.dishstyle').click(function(event){
 	
 	 //load dish style
 	 var parentDl = this.parentNode.parentNode;
@@ -269,12 +291,16 @@
 	   
 	   $(setData).each(function(i,n){
 	      var baseHtml = '';
+		  var liLength = $(n).length;
+		  var className = '';
+		  if(liLength == 1)
+			 className = 'redborder';
 		  
    	      $(n).each(function(ii,nn){
 		    if(typeof(nn.style) !='undefined')
-		    baseHtml += '<li attrid="{0}" grade="{3}" styleData=\'{2}\'>{1}</li>'.format(nn.id,nn.name,JSON.stringify(nn.style),nn.grade);
+		    baseHtml += '<li class="{4}" attrid="{0}" grade="{3}" styleData=\'{2}\'>{1}</li>'.format(nn.id,nn.name,JSON.stringify(nn.style),nn.grade,className);
 			else
-			baseHtml += '<li attrid="{0}" grade="{2}">{1}</li>'.format(nn.id,nn.name,nn.grade);
+			baseHtml += '<li class="{3}" attrid="{0}" grade="{2}">{1}</li>'.format(nn.id,nn.name,nn.grade,className);
 		 });
 		 baseHtml = '<ul>{0}</ul>'.format(baseHtml);
 		 
@@ -429,9 +455,12 @@
 	   var multiStyle = eval('('+ parentDl.getAttribute('multiStyle') + ')');
 	   $(multiStyle).each(function(i,n){
 	      var baseHtml = '';
-		  
+		  var className = '';
+		  var liLength = $(n.data).length;
+		  if(liLength == 1)
+			 className = 'redborder';
    	      $(n.data).each(function(ii,nn){
-		    baseHtml += '<li attrid="{0}"  >{1}</li>'.format(nn.id,nn.name);
+		    baseHtml += '<li class="{2}"attrid="{0}"  >{1}</li>'.format(nn.id,nn.name,className);
 		 });
 		 baseHtml = '<ul>{0}</ul>'.format(baseHtml);
 		 
@@ -519,8 +548,8 @@
 				top: $(this).offset().top-document.body.scrollTop-20
 			},
 			end: {
-				left: offset.left-20,
-				top: offset.top+10,
+				left: offset.left+25,
+				top: offset.top+20,
 				width: 10,
 				height: 10
 			},
@@ -528,6 +557,7 @@
 				//$("#msg").show().animate({width: '250px'}, 200).fadeOut(1000);
 				//addcar.css("cursor","default").removeClass('orange').unbind('click');
 				this.destory();
+				data.stop();
 				data.start();
 			}
 		});
@@ -535,7 +565,7 @@
 	 localStorage.setItem(dishId,JSON.stringify(localStorageObj));
 	})
 	
-	}
+	
 	var canMinus = true;
 	for(var i=0;i<minusLength;i++)
 	{
@@ -712,11 +742,7 @@
          } 
          return returnvalue;
         }	
-		function delCookie(name){//为cookie name
-          var date = new Date();
-          date.setTime(date.getTime() - 10000);
-          document.cookie = name + "=a; expires=" + date.toGMTString();
-        }
+		
 		
     _onPageLoaded(function(){
         //changeBtnSelect();
@@ -752,16 +778,18 @@
     })
 	function clearAndGoBack()
 	{
-	if(get_cookie('totalPrice') != '')
+	if(parseInt(get_cookie('totalCount')) != 0 && !isNaN(parseInt(get_cookie('totalCount'))))
 	{
 	 MDialog.confirm(
-                        '', '                       是否返回上一页？购物车将被清空。' , null,
+                        '', '                       确定返回上一页？购物车将被清空。' , null,
                         '  确定  ', function(){
                            delCookie('totalPrice');
 						   delCookie('totalCount');
 						   delCookie('dishList');
 						   delCookie('categoryList');
-						   history.go(-1);
+						   delCookie('guestNum');
+				           delCookie('remark');
+						   window.location.href='/oauth/meal/restaurant.do?hotelCode='+$('#hotelCode').val();
                         }, null,
                         '  取消  ', null, null,null, true, true
                     );
@@ -770,13 +798,16 @@
       $('.mDialog').attr('style',$('.mDialog').attr('style') + 'left:'+ left+ 'px' );		  
 	}
 	else
-		window.location.href='/oauth/meal/restaurant.do?hotelCode='+$('#hotelCode').val();
+     window.location.href='/oauth/meal/restaurant.do?hotelCode='+$('#hotelCode').val();
 	}
 	function dishScroll()
 	{
-	//get dock point 
+	//get dock point
+     if(1 == isUserChangeCateogry)
+	 {	 
+	  return;
+	 }
 	 var currentScrollTop = $('#infoSection').scrollTop();
-	 console.log(currentScrollTop);
 	 var topList=Array();
 	 $('#pInfo').children('.pTitle').each(function(i,n){
 	  if(i==0)
@@ -796,8 +827,14 @@
 	 }
 	 
 	}
+	$('#infoSection').bind('scrollstop', function(event) {
+       if(1 == isUserChangeCateogry)
+	    {
+	   	 isUserChangeCateogry = 0;	   	
+	    }	
+    });
 </script>
-	}
+	
 </script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <%@ include file="/common/taglibs.jsp"%>
 <div class="ddb-nav-footer ng-scope" common-footer="">
 
-    <a class="nav-item active" href="/oauth/meal/list.do"><i class="fa fa-home"></i>
+    <a class="nav-item" href="/oauth/meal/list.do"><i class="fa fa-home"></i>
         <div class="nav-text">首页</div>
     </a>
 

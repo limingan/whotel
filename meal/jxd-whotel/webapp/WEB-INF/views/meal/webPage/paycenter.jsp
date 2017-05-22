@@ -88,7 +88,7 @@
             商家名称<span class="mui-pull-right mui-text-muted">${rest.name}</span>
         </li>
 		<li class="mui-table-view-cell">
-			优惠券<select class="couponSelect mui-pull-right mui-text-muted" style="margin-top:-6px;width:70px;height:33px;padding:0;margin-bottom:-20px">
+			优惠券<select class="couponSelect mui-pull-right mui-text-muted" style="margin-top:-6px;width:80px;height:33px;padding:0;margin-bottom:-20px">
 				          <option prizeId="0" prizeValue="0">请选择</option>
                       <c:forEach items="${prizeList}" var="prize">
                           <option prizeId="${prize.id}" prizeValue="${prize.prizeValue}">${prize.prizeName}</option>
@@ -96,7 +96,10 @@
 			       </select>
 		</li>
         <li class="mui-table-view-cell">
-            您需要支付<span class="mui-pull-right mui-text-success mui-big mui-rmb">${order.totalFee} 元</span>
+            您需要支付<span class="mui-pull-right mui-text-success mui-big mui-rmb"><script>
+			var fee = ${order.totalFee};
+			document.write(fee.toFixed(2));
+			</script> 元</span>
         </li>
     </ul>
 
@@ -292,7 +295,7 @@
 
     $("#creditPay").click(function () {
         $.DialogByZ.Confirm({
-            Title: "请输入密码",
+            Title: "请输入卡号密码",
             Content: "卡号:<input id='cardNo' style='margin-top:10px' type='text' />" +
             "密码:<input id='password' style='margin-top:10px' type='password' />",
             FunL: confirmL,

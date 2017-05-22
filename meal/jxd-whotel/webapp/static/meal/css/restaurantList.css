@@ -40,7 +40,7 @@ ng\:form {
 }
 .main-view .branch-info {
   padding-left: 85px !important;
-  height: 86px;
+  height: 91px;
 }
 .main-view .branch-item .branch-image {
   height: 70px;
@@ -57,11 +57,15 @@ ng\:form {
 .main-view .branch-item .delivery-info .btn-dc {
   text-align: center;
   float: right;
-  margin-right: 20px;
+  margin-right: 0px;
   background-color: red;
   color: white;
   border-radius: 25px;
-  width: 50px;
+  width: 70px;
+  height:26px;
+  line-height:24px;
+  font-size:13px;
+  margin-top:-4px;
 }
 .main-view .branch-item .delivery-info .yy-time {
   display: inline-block;

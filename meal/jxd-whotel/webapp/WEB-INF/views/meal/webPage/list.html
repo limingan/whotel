@@ -21,7 +21,6 @@
 <script type="text/javascript" src="http://tiantianwutuo.top/addons/weisrc_dish/template/js/1/wei_dialog_v1.9.9.js"></script>
 <script type="text/javascript" src="http://tiantianwutuo.top/webpage/assets/diandanbao/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="./assets/diandanbao/unslider.min.js"></script>
-<script src="./assets/diandanbao/jquery.fly.min.js"></script>
 </head>
 <body id="page_allMenu" style="background-color: #fff;height:100%">
 
@@ -1193,33 +1192,6 @@
 	 }
 	 
 	}
-</script>
-<script>
-$(function() {
-	var offset = $("#cartN").offset();
-	$(".addDish").click(function(event){
-		var addcar = $(this);
-		var img = addcar.attr('src');
-		var flyer = $('<img class="u-flyer" src="'+img+'">');
-		flyer.fly({
-			start: {
-				left: event.pageX,
-				top: event.pageY
-			},
-			end: {
-				left: offset.left+10,
-				top: offset.top+10,
-				width: 0,
-				height: 0
-			},
-			onEnd: function(){
-				//$("#msg").show().animate({width: '250px'}, 200).fadeOut(1000);
-				//addcar.css("cursor","default").removeClass('orange').unbind('click');
-				//this.destory();
-			}
-		});
-	});
-});
 </script>
 </body>
 </html>
