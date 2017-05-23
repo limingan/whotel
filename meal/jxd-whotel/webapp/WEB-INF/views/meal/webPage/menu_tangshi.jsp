@@ -15,6 +15,8 @@
 <script type="text/javascript" src="/static/meal/js/mobiscroll.custom-2.6.2.min.js"></script>
 <!-- 新添加css -->
 <link rel="stylesheet" type="text/css" href="/static/meal/css/menu_tangshi.css">
+<link type="text/css" rel="stylesheet" href="/static/meal/css/zdialog.css"/>
+<script type="text/javascript" src="/static/meal/js/zdialog.js"></script>
 
 <script type="text/javascript">
     $(function () {
@@ -218,6 +220,7 @@
     </section>
 
     <div class="header">
+        <input type="hidden" id="tabId" value="${mealTab.id}" name="tabId">
         <input type="hidden" id="payAfter" value="${payAfter}" name="payAfter">
 	    <input type="hidden" id="packprice" value="0" name="packprice">
 		<input type="hidden" id="discount" value="0" name="discount">
@@ -611,6 +614,7 @@ function postmain() {
 				return;
 			}
 			var orderData = {};
+            orderData['tabId'] = $("#tabId").val();
 			orderData['remark'] = $("#remark").val();
 			orderData['guestNum'] = parseInt($("#guestNum").val());
 			orderData['mealOrderType'] = 'IN';
@@ -690,7 +694,11 @@ function postmain() {
 				        delCookie('remark');
                         location.href = '/oauth/meal/payCenter.do?orderId='+orderId;
                     } else {
-                        alert(data.message);
+                        $.DialogByZ.Alert({
+                            Title: "提示", Content: data.message, FunL: function () {
+                                $.DialogByZ.Close();
+                            }
+                        });
 						_removeClass(_q("#btnselect"),'disable');
                     }
                 }, error: function () {

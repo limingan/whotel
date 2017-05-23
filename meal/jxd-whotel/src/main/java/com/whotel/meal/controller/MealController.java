@@ -32,6 +32,7 @@ import com.whotel.meal.enums.MealOrderStatus;
 import com.whotel.meal.enums.MealOrderType;
 import com.whotel.meal.enums.MealType;
 import com.whotel.meal.service.*;
+import com.whotel.thirdparty.jxd.ApiException;
 import com.whotel.thirdparty.jxd.mode.HotelBranchQuery;
 import com.whotel.thirdparty.jxd.mode.HotelCityQuery;
 import com.whotel.thirdparty.jxd.mode.MealTabQuery;
@@ -734,7 +735,7 @@ public class MealController extends FanBaseController {
      */
     @RequestMapping("/oauth/meal/createOrder")
     @ResponseBody
-    public ResultData createOrder(HttpServletRequest req, String str) {
+    public ResultData createOrder(HttpServletRequest req, String str) throws Exception {
         CreateOrderReq param = JSONConvertFactory.getJacksonConverter().readValue(str, CreateOrderReq.class);
         String openId = getCurrentOpenId(req);
         String companyId = getCurrentCompanyId(req);
@@ -747,11 +748,19 @@ public class MealController extends FanBaseController {
             param.setMealOrderType(MealOrderType.IN);
         }
 
-        MealOrder mealOrder = mealOrderService.createMealOrder(param);
         ResultData resultData = new ResultData();
-        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
-        resultData.setMessage("操作成功");
-        resultData.setData(mealOrder.getId());
+        resultData.setCode(Constants.MessageCode.RESULT_ERROR);
+        try {
+            MealOrder mealOrder = mealOrderService.createMealOrder(param);
+            resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
+            resultData.setMessage("操作成功");
+            resultData.setData(mealOrder.getId());
+        } catch (ApiException e) {
+            resultData.setMessage(e.getMessage());
+        }catch (Exception e) {
+            e.printStackTrace();
+            resultData.setMessage("系统产生问题,请稍后再试");
+        }
         return resultData;
     }
 

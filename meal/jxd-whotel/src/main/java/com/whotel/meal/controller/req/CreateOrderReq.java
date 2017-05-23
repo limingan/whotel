@@ -28,6 +28,16 @@ public class CreateOrderReq {
 
     private Integer payAfter;//是否后付费 0-否 1-是
 
+    private String tabId;
+
+    public String getTabId() {
+        return tabId;
+    }
+
+    public void setTabId(String tabId) {
+        this.tabId = tabId;
+    }
+
     public Integer getPayAfter() {
         return payAfter;
     }

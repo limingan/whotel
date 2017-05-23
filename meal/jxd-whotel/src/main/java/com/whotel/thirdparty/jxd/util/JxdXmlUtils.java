@@ -80,6 +80,7 @@ public class JxdXmlUtils {
 					List<Field> fields2 = ReflectionUtil.findAllField(fieldType);
 					for (Field field2 : fields2) {
 						field2.setAccessible(true);
+						Class<?> fieldType2 = field2.getType();
 						String innerFieldName = StringUtils.capitalize(field2.getName());
 						Object innerFieldValue = null;
 						try {
@@ -87,7 +88,30 @@ public class JxdXmlUtils {
 						} catch (Exception ex) {
 							log.error("Error", ex);
 						}
-						if (innerFieldValue != null) {
+
+						if(List.class.isAssignableFrom(fieldType2)){
+							List<XmlBean> list = (List<XmlBean>) innerFieldValue;
+							Element ele3 = ele2.addElement(innerFieldName);
+							for(XmlBean xml : list){
+								Element ele4 = ele3.addElement(innerFieldName.substring(0, innerFieldName.length() - 1));
+								List<Field> fields3 = ReflectionUtil.findAllField(xml.getClass());
+								for(Field field3 : fields3){
+									field3.setAccessible(true);
+									String field3Name = StringUtils.capitalize(field3.getName());
+									Object field3Value = null;
+									try {
+										field3Value = field3.get(xml);
+									} catch (Exception ex) {
+										log.error("Error", ex);
+									}
+									Element child = ele4.addElement(field3Name);
+									if(null != field3Value){
+										child.setText(field3Value.toString());
+									}
+								}
+
+							}
+						}else if (innerFieldValue != null) {
 							Element child = ele2.addElement(innerFieldName);
 							child.setText(innerFieldValue.toString());
 						}

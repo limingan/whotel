@@ -17,6 +17,8 @@
     <script type="text/javascript" src="/static/meal/js/json2.js"></script>
     <!-- 新添加css -->
     <link rel="stylesheet" type="text/css" href="/static/meal/css/menu.css">
+    <link type="text/css" rel="stylesheet" href="/static/meal/css/zdialog.css"/>
+    <script type="text/javascript" src="/static/meal/js/zdialog.js"></script>
 
     <script type="text/javascript">
         $(function () {
@@ -718,7 +720,11 @@ function postmain() {
 				        delCookie('remark');
                         location.href = '/oauth/meal/payCenter.do?orderId='+orderId;
                     } else {
-                        alert(data.message);
+                        $.DialogByZ.Alert({
+                            Title: "提示", Content: data.message, FunL: function () {
+                                $.DialogByZ.Close();
+                            }
+                        });
 						_removeClass(_q("#btnselect"),'disable');
                     }
                 }, error: function () {

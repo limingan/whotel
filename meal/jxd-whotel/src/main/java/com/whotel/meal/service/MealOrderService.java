@@ -13,6 +13,7 @@ import com.whotel.common.enums.PayMent;
 import com.whotel.common.enums.PayMode;
 import com.whotel.common.enums.TradeStatus;
 import com.whotel.common.util.BeanUtil;
+import com.whotel.common.util.DateUtil;
 import com.whotel.company.entity.Company;
 import com.whotel.company.entity.InterfaceConfig;
 import com.whotel.company.entity.PayConfig;
@@ -30,14 +31,21 @@ import com.whotel.hotel.service.HotelService;
 import com.whotel.meal.controller.req.CreateOrderReq;
 import com.whotel.meal.controller.req.PageOrderReq;
 import com.whotel.meal.dao.MealOrderDao;
+import com.whotel.meal.dao.MealTabDao;
 import com.whotel.meal.entity.*;
 import com.whotel.meal.enums.MealOrderStatus;
 import com.whotel.meal.enums.MealOrderType;
+import com.whotel.thirdparty.jxd.api.JXDMealService;
 import com.whotel.thirdparty.jxd.api.JXDMemberService;
 import com.whotel.thirdparty.jxd.api.JXDOrderService;
-import com.whotel.thirdparty.jxd.mode.vo.MemberVO;
-import com.whotel.thirdparty.jxd.mode.vo.ReservationResult;
+import com.whotel.thirdparty.jxd.mode.CyReservation;
+import com.whotel.thirdparty.jxd.mode.CyReservationItem;
+import com.whotel.thirdparty.jxd.mode.CyReservationResult;
+import com.whotel.thirdparty.jxd.mode.RealOperate;
+import com.whotel.thirdparty.jxd.mode.vo.*;
 import com.whotel.weixin.service.WeixinMessageService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -74,6 +82,8 @@ public class MealOrderService {
     GuestService getDeliverPrice;
     @Autowired
     PayConfigService payConfigService;
+    @Autowired
+    MealTabDao mealTabDao;
 
 
     /**
@@ -337,11 +347,11 @@ public class MealOrderService {
         Map<String, Serializable> properties = new HashMap<>();
         properties.put("companyId", companyId);
         properties.put("openId", openId);
-        properties.put("id",id);
+        properties.put("id", id);
         return mealOrderDao.getByProperties(properties);
     }
 
-    public MealOrder createMealOrder(CreateOrderReq param) {
+    public MealOrder createMealOrder(CreateOrderReq param) throws Exception {
         JSONDataUtil jsonDataUtil = JSONConvertFactory.getJacksonConverter();
         String companyId = param.getCompanyId();
         String openId = param.getOpenId();
@@ -386,7 +396,7 @@ public class MealOrderService {
 
             List<DishProp> propList = item.getPropList();
             if (CollectionUtils.isNotEmpty(propList)) {
-                Map<String,Object> map = this.getPropMap(propList);
+                Map<String, Object> map = this.getPropMap(propList);
                 float tempTotal = (float) map.get("total");
                 String propData = (String) map.get("propData");
                 total += tempTotal;
@@ -425,11 +435,14 @@ public class MealOrderService {
             mealOrder.setContactMobile(guest.getMobile());
             mealOrder.setAddr(guest.getAddress());
         } else {
+            MealTab mealTab = mealTabDao.get(param.getTabId());
             Float teaFee = hotel.getTeaFee();
             Integer guestNum = param.getGuestNum();
             if (null != teaFee && null != guestNum) {
                 total += teaFee * guestNum;
             }
+            mealOrder.setTotalFee(total);
+            CyReservationResult result = this.createOrder(mealOrder, hotel, restaurant, mealTab);
         }
         mealOrder.setTotalFee(total);
 
@@ -462,6 +475,87 @@ public class MealOrderService {
         }
         mealOrderDao.save(mealOrder);
         return mealOrder;
+    }
+
+    private CyReservationResult createOrder(MealOrder order, Hotel hotel, Restaurant restaurant, MealTab mealTab) throws Exception {
+        JSONDataUtil jsonDataUtil = JSONConvertFactory.getJacksonConverter();
+
+        JXDMealService jxdMealService = new JXDMealService();
+        RealOperate operate = new RealOperate();
+        CyReservation c = new CyReservation();
+        c.setResStatus("G");
+        c.setHotelCode(hotel.getCode());
+        c.setRefe(restaurant.getRefeNo());
+        c.setTabNo(mealTab.getTabNo());
+        c.setRemark(order.getRemark());
+        c.setWxid(order.getOpenId());
+        c.setCreateDate(DateUtil.format(new Date(), DateUtil.DATETIME_PATTERN));
+        c.setConfirmationID(order.getOrderSn());
+        c.setGuestNum(order.getGuestNum());
+        c.setPrepay(order.getTotalFee());
+        c.setPrepayId(order.getOrderSn());
+        c.setTicketAmount(0F);
+
+        List<CyReservationItem> list = Lists.newArrayList();
+        List<MealOrderItem> itemList = order.getItems();
+        int size = itemList.size();
+        for (int j = 0; j < size; j++) {
+            MealOrderItem item = itemList.get(j);
+            CyReservationItem i = new CyReservationItem();
+            i.setItemCode(item.getItemCode());
+            i.setItemName(item.getName());
+            i.setItemQuantity(item.getItemQuantity());
+            i.setUnit(item.getUnit());
+            i.setItemPrice(item.getItemPrice());
+            i.setActionName(this.getPropValue(item.getPropData()));
+            i.setItemAmount(0);
+            if (null != item.getIsSuite() && item.getIsSuite().equals(1)) {//套餐特殊处理
+                i.setUpRowid(-1);
+                List<SuiteItem> suiteItems = jsonDataUtil.listFromString(item.getSuiteData(), SuiteItem.class);
+                int itemSize = suiteItems.size();
+                for (int k = 0; k < itemSize; k++) {
+                    SuiteItem suiteItem = suiteItems.get(k);
+                    CyReservationItem ii = new CyReservationItem();
+                    ii.setItemCode(item.getItemCode());
+                    ii.setItemName(item.getName());
+                    ii.setItemQuantity(item.getItemQuantity());
+                    ii.setUnit(item.getUnit());
+                    ii.setItemPrice(item.getItemPrice());
+                    ii.setActionName(this.getPropValue(suiteItem.getPropData()));
+                    ii.setUpRowid(0);
+                    ii.setRowid(size + k);
+                    ii.setItemAmount(0);
+                    list.add(ii);
+                }
+            } else {
+                i.setUpRowid(0);
+            }
+            i.setRowid(j);
+            list.add(i);
+        }
+        c.setItems(list);
+        operate.setCyReservation(c);
+        CyReservationResult result = jxdMealService.createOrder(operate, hotel.getMealUrl());
+        return result;
+    }
+
+    private String getPropValue(String propData) {
+        JSONDataUtil jsonDataUtil = JSONConvertFactory.getJacksonConverter();
+        StringBuffer sb = new StringBuffer("");
+        if (StringUtils.isNotBlank(propData)) {
+            List<JSONObject> list = jsonDataUtil.listFromString(propData, JSONObject.class);
+            JSONArray jsonArray = list.get(0).getJSONArray("propValue");
+            int size = jsonArray.size();
+            for (int i = 0; i < size; i++) {
+                JSONObject job = jsonArray.getJSONObject(i);
+                if (i == size - 1) {
+                    sb.append(job.get("name"));
+                } else {
+                    sb.append(job.get("name")).append(",");
+                }
+            }
+        }
+        return sb.toString();
     }
 
     private Map<String, Object> getPropMap(List<DishProp> propList) {
@@ -513,7 +607,7 @@ public class MealOrderService {
 
                 List<DishProp> propList = suiteItem.getPropList();
                 if (CollectionUtils.isNotEmpty(propList)) {
-                    Map<String,Object> propMap = this.getPropMap(propList);
+                    Map<String, Object> propMap = this.getPropMap(propList);
                     String propData = (String) propMap.get("propData");
                     suiteItem.setPropData(propData);
                     suiteItem.setPropList(null);

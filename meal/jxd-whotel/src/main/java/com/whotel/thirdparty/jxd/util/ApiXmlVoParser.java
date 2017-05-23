@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.whotel.thirdparty.jxd.mode.CyReservationResult;
+import com.whotel.thirdparty.jxd.mode.vo.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dom4j.DocumentException;
@@ -34,42 +36,6 @@ import com.whotel.meal.entity.Shuffle;
 import com.whotel.meal.entity.SuiteItem;
 import com.whotel.meal.enums.MealOrderStatus;
 import com.whotel.thirdparty.jxd.ApiException;
-import com.whotel.thirdparty.jxd.mode.vo.CategoryCodeVO;
-import com.whotel.thirdparty.jxd.mode.vo.ChargeMoneyVO;
-import com.whotel.thirdparty.jxd.mode.vo.ExchangeGiftVO;
-import com.whotel.thirdparty.jxd.mode.vo.FollowPolicyVO;
-import com.whotel.thirdparty.jxd.mode.vo.GeneralMsg;
-import com.whotel.thirdparty.jxd.mode.vo.HotelBranchVO;
-import com.whotel.thirdparty.jxd.mode.vo.HotelCityVO;
-import com.whotel.thirdparty.jxd.mode.vo.HotelOrderDetailVO;
-import com.whotel.thirdparty.jxd.mode.vo.HotelOrderVO;
-import com.whotel.thirdparty.jxd.mode.vo.HotelServiceVO;
-import com.whotel.thirdparty.jxd.mode.vo.HotelVO;
-import com.whotel.thirdparty.jxd.mode.vo.InterfaceListVO;
-import com.whotel.thirdparty.jxd.mode.vo.MbrCardTypeVO;
-import com.whotel.thirdparty.jxd.mode.vo.MbrCardUpgradeResult;
-import com.whotel.thirdparty.jxd.mode.vo.MbrCardUpgradeVO;
-import com.whotel.thirdparty.jxd.mode.vo.MbrCardVO;
-import com.whotel.thirdparty.jxd.mode.vo.MemberCouponVO;
-import com.whotel.thirdparty.jxd.mode.vo.MemberTradeVO;
-import com.whotel.thirdparty.jxd.mode.vo.MemberTypeVO;
-import com.whotel.thirdparty.jxd.mode.vo.MemberVO;
-import com.whotel.thirdparty.jxd.mode.vo.OccupancyManVO;
-import com.whotel.thirdparty.jxd.mode.vo.PWBTicketResult;
-import com.whotel.thirdparty.jxd.mode.vo.PointRecordVO;
-import com.whotel.thirdparty.jxd.mode.vo.ReservationResult;
-import com.whotel.thirdparty.jxd.mode.vo.RoomInfoVO;
-import com.whotel.thirdparty.jxd.mode.vo.RoomPriceVO;
-import com.whotel.thirdparty.jxd.mode.vo.RoomTypeVO;
-import com.whotel.thirdparty.jxd.mode.vo.TicketAccessoryVO;
-import com.whotel.thirdparty.jxd.mode.vo.TicketBranchVO;
-import com.whotel.thirdparty.jxd.mode.vo.TicketCityVO;
-import com.whotel.thirdparty.jxd.mode.vo.TicketInfoVO;
-import com.whotel.thirdparty.jxd.mode.vo.TicketOrderVO;
-import com.whotel.thirdparty.jxd.mode.vo.TicketPriceDateVO;
-import com.whotel.thirdparty.jxd.mode.vo.TicketPriceVO;
-import com.whotel.thirdparty.jxd.mode.vo.TicketServiceVO;
-import com.whotel.thirdparty.jxd.mode.vo.WaiterVO;
 
 /**
  * 将接口返回的值转换成公共的VO对象
@@ -1998,4 +1964,28 @@ public class ApiXmlVoParser {
  		return null;
 	}
 
+    public static CyReservationResult parseOrder(String html, String charset) throws Exception {
+        InputStream ins = new ByteArrayInputStream(html.getBytes(charset));
+        Dom4jHelper dom4jHelper = null;
+        try {
+            dom4jHelper = new Dom4jHelper(ins, charset);
+        } catch (DocumentException e) {
+            throw new ApiException(html);
+        }
+
+        try {
+            CyReservationResult result = new CyReservationResult();
+            Map<String, String> map = dom4jHelper.getAllElements("Row");
+            if(!CollectionUtils.isEmpty(map)){
+                result.setBillno(map.get("Billno"));
+                result.setConfirmationID(map.get("confirmationID"));
+                result.setHotelCode(map.get("HotelCode"));
+                result.setErrorMsg(map.get("HotelCode"));
+            }
+            return result;
+        } catch (Exception e) {
+            String message = dom4jHelper.getElementValue("Message");
+            throw new ApiException(message);
+        }
+    }
 }
