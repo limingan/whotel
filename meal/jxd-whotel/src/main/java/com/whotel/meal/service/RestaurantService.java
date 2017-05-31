@@ -4,6 +4,7 @@ import com.whotel.common.util.DateUtil;
 import com.whotel.meal.controller.req.ListRestaurantReq;
 import com.whotel.meal.dao.MealOrderDao;
 import com.whotel.meal.dao.RestaurantDao;
+import com.whotel.meal.entity.Dishes;
 import com.whotel.meal.entity.MealOrder;
 import com.whotel.meal.entity.Restaurant;
 
@@ -64,6 +65,21 @@ public class RestaurantService {
         query.field("hotelCode").equals(restaurant.getHotelCode());
         query.field("restaurantId").equal(restaurant.getId());
         query.field("createDate").greaterThanOrEq(DateUtil.getStartMonth(new Date()));
+        return mealOrderDao.count(query);
+    }
+
+    /**
+     * 统计餐厅月销量
+     * @param dishes
+     * @return
+     */
+    public Long countMonthSale(Dishes dishes){
+        Query query = mealOrderDao.createQuery();
+        query.field("companyId").equal(dishes.getCompanyId());
+        query.field("hotelCode").equals(dishes.getHotelCode());
+        query.field("restaurantId").equal(dishes.getRestaurantId());
+        query.field("createDate").greaterThanOrEq(DateUtil.getStartMonth(new Date()));
+        query.field("items.dishesId").equal(dishes.getId());
         return mealOrderDao.count(query);
     }
 

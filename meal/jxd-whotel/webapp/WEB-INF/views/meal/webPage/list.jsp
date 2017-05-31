@@ -152,7 +152,7 @@ response.setDateHeader("Expires",0);
 
                                 </a>
                             </dd>
-                            <span class="dishSecondTitle">月售 26 份 | 好评率 100%</span>
+                            <span class="dishSecondTitle">月售 ${dish.monthSale} 份 | 好评率 100%</span>
                             <dd class="dishDetailInfo">
                                 <em class="sale">￥${dish.price}</em><del>￥${dish.marketPrice}</del>  
 

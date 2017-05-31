@@ -365,11 +365,14 @@ public class MealController extends FanBaseController {
                 JSONDataUtil jacksonConverter = JSONConvertFactory.getJacksonConverter();
                 String json = jacksonConverter.jsonfromObject(select);
                 dishes.setMultiStyle(json);
+
+                long monthSale = restaurantService.countMonthSale(dishes);
+                dishes.setMonthSale(monthSale);
             }
             category.setDishesList(list);
         }
 
-        long monthSale = restaurantService.countMonthSale(restaurant);
+
         HttpSession session =  req.getSession();
         int clearCookieFlag = 0;
         try{
@@ -380,6 +383,7 @@ public class MealController extends FanBaseController {
         {
             ;
         }
+        long monthSale = restaurantService.countMonthSale(restaurant);
         req.setAttribute("clearCookieFlag", clearCookieFlag);
         req.setAttribute("tabId", tabId);
         req.setAttribute("monthSale", monthSale);

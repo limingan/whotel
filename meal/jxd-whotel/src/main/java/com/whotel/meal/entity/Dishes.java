@@ -80,6 +80,16 @@ public class Dishes extends UnDeletedEntity {
 
 	private List<SuiteItem> itemList;//套餐已选内容
 
+	private long monthSale;//月销量
+
+	public long getMonthSale() {
+		return monthSale;
+	}
+
+	public void setMonthSale(long monthSale) {
+		this.monthSale = monthSale;
+	}
+
 	public List<SuiteItem> getItemList() {
 		return itemList;
 	}
