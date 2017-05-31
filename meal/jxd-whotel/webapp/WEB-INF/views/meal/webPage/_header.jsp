@@ -106,7 +106,7 @@
     <input type="hidden" id="totalcount" value="{$totalcount}" name="totalcount">
     <input type="hidden" id="btnstatus" value="0" name="btnstatus">
 
-    <div class="left"><span id="cartN"></span><img style="float:left;width:30px;height:30px;margin-left:5px" src="/static/meal/images/cart.png"/><span id="totalcountshow">0</span>　总计：￥<span id="totalpriceshow">0</span></span>元</div>
+    <div class="left"><span id="cartN"></span><img style="float:left;width:30px;height:30px;margin-left:5px" src="/static/meal/images/cart.png"/><span id="totalcountshow" style="z-index:20">0</span>　总计：￥<span id="totalpriceshow">0</span></span>元</div>
     <div class="right"><a id="btnselect" class="xhlbtn disable" href="javascript:void(0)" onclick="btnSelectJump();">去结算
 	</a></div>
     <input type="hidden" id="limitprice" value="{$limitprice}" name="limitprice">
