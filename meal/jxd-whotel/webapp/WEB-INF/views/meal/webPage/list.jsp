@@ -40,6 +40,30 @@ response.setDateHeader("Expires",0);
     #page_allMenu section article, #pInfo {
         min-height: 100%;
     }
+	.point-outer{
+    position:absolute; 
+    z-index:20;
+    -webkit-transition:all 0.5s cubic-bezier(0.39,-0.4,0.83,0.23) 0s;
+}
+.point-inner{
+    width:10px;
+    height:10px; 
+    border-radius:50%;
+    background-color:#ff6326; 
+	z-index:20;
+	transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s; /* Firefox 4 */
+    -webkit-transition-duration: 0.5s; /* Safari 和 Chrome */
+    -o-transition-duration: 0.5s; /* Opera */
+    -webkit-transition:all 0.5s linear 0s;
+}
+.point-outer.point-pre{
+    display:none;
+}
+.ui-loader{
+	display:none !important;
+}
+
 </style>
 
 <script type="text/javascript" src="/static/meal/js/wei_webapp_v2_common_v1.9.4.js"></script>
@@ -445,6 +469,10 @@ response.setDateHeader("Expires",0);
 	    $('.setStyle').addClass('dn');
 		$('.setStyle').eq(index+1).removeClass('dn');
 	   });
+	   var modal = document.getElementByClass('mModal1')[0]; // 弹窗dom对象
+       modal.addEventListener('touchmove', function(e) {
+             e.preventDefault();
+            }, false);
 	 }
 	 else if(1 == isMultiStyle)
 	 {
@@ -509,7 +537,10 @@ response.setDateHeader("Expires",0);
 	    $(this).parent().children('li').removeClass('redborder');
 		$(this).addClass('redborder');
 	   });
-	   
+	   var modal = document.getElementByClass('mModal1')[0]; // 弹窗dom对象
+       modal.addEventListener('touchmove', function(e) {
+             e.preventDefault();
+            }, false);
 	 }
 	 else //normal dish
 	 {
@@ -537,30 +568,19 @@ response.setDateHeader("Expires",0);
 	   allDishCategoryList[dishCategory] = undefined != allDishCategoryList[dishCategory]?allDishCategoryList[dishCategory]+1:1;
 	   localStorage.setItem(dishId,JSON.stringify(localStorageObj));
 	   refreshCategoryPrice(allDishCategoryList , allDishObject,totalCount ,totalPrice);
-	   var e=event||window.event;
-	   var addcar = $(this);
-		data.stop();
-		var img = addcar.attr('src');
-		var flyer = $('<img style="width:15px;height:15px;z-index:9999" class="u-flyer" src="'+img+'">');
-		flyer.fly({
-			start: {
-				left: $(this).offset().left-20,
-				top: $(this).offset().top-document.body.scrollTop-20
-			},
-			end: {
-				left: offset.left+25,
-				top: offset.top+20,
-				width: 10,
-				height: 10
-			},
-			onEnd: function(){
-				//$("#msg").show().animate({width: '250px'}, 200).fadeOut(1000);
-				//addcar.css("cursor","default").removeClass('orange').unbind('click');
-				this.destory();
-				data.stop();
-				data.start();
-			}
-		});
+	   var startOffset = $(this).offset();
+		//获取结束点坐标
+		var endTop = $('#cartN').offset().top, endLeft = $('#cartN').offset().left + 35,left = startOffset.left+10,top = startOffset.top+10;
+		var outer = $('#pointDivs .point-pre').first().removeClass("point-pre").css({left:left+'px',top:top+'px'});
+		var inner = outer.find(".point-inner");
+		setTimeout(function(){
+			outer[0].style.webkitTransform = 'translate3d(0,'+(endTop - top)+'px,0)';
+			inner[0].style.webkitTransform = 'translate3d('+(endLeft - left)+'px,0,0)';
+			setTimeout(function(){
+				outer.removeAttr("style").addClass("point-pre");
+				inner.removeAttr("style");
+			},600);
+		},1);
 	 }
 	 localStorage.setItem(dishId,JSON.stringify(localStorageObj));
 	})
@@ -643,7 +663,7 @@ response.setDateHeader("Expires",0);
     function setHeight(){
         var  cHeight;
         cHeight = document.documentElement.clientHeight;
-        cHeight = cHeight  -65 -$('.ddb-nav-header').height()+"px";
+        cHeight = cHeight  -45 -$('.ddb-nav-header').height()+"px";
         document.getElementById("navBar").style.height =  cHeight;
         document.getElementById("infoSection").style.height =  cHeight;
 		$('.shopInfoList').height(cHeight);
@@ -654,6 +674,7 @@ response.setDateHeader("Expires",0);
     function showPicInfo(){
         var links = _qAll(".dataIn"), i=0;
         for(i;i<links.length;i++){
+			
             links[i].onclick=function(event){
                 event.stopPropagation();
                 // dl
@@ -685,6 +706,17 @@ response.setDateHeader("Expires",0);
     }
     //后台可自行扩展参数
     //调用自定义弹层
+	document.getElementByClass = function(n) { 
+            var el = [],
+                _el = document.getElementsByTagName('*');
+            for (var i=0; i<_el.length; i++ ) {
+ 
+                if (_el[i].className == n ) {
+                    el[el.length] = _el[i];
+                }
+            }
+            return el;
+        }
     function popPic(imgUrl,title,price, isSpecial, specialPrice, people,teast,assess,isHot,dmarkNum){
         var _title = title,
             _price = price,
@@ -723,6 +755,14 @@ response.setDateHeader("Expires",0);
 			}
             _tmpHtml += '</div>';
             MDialog.popupCustom(_tmpHtml,true, function(){}, true);
+			var modal = document.getElementByClass('mModal')[0]; // 弹窗dom对象
+            modal.addEventListener('touchmove', function(e) {
+             e.preventDefault();
+            }, false);
+		    modal = document.getElementByClass('mDialog freeSet')[0]; // 弹窗dom对象
+            modal.addEventListener('touchmove', function(e) {
+             e.preventDefault();
+            }, false);
     }
 
     
@@ -833,6 +873,10 @@ response.setDateHeader("Expires",0);
 	   	 isUserChangeCateogry = 0;	   	
 	    }	
     });
+	var $pointDiv = $('<div id="pointDivs">').appendTo('body');
+	for(var i = 0;i<5;i++){
+		$('<div class="point-outer point-pre"><div class="point-inner"/></div>').appendTo($pointDiv);
+	}
 </script>
 	
 </script>

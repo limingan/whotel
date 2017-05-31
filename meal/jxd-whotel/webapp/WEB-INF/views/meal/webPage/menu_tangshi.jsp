@@ -213,7 +213,7 @@
 
             <%--</div>--%>
             <c:if test="${!empty hotel.teaFee}">
-                <div style="width: 120px;">茶位费:￥<span id="teaFeePerPerson">${hotel.teaFee}</span></span>元/人
+                <div style="width: 130px;">茶位费:￥<span id="teaFeePerPerson">${hotel.teaFee}</span></span>元/人
 				</div>
             </c:if>
         </article>
@@ -580,7 +580,7 @@ function checkItem() {
     function outCheck(){
 
         var guestNumValue = $("#guestNum").val();
-		if(isNaN(parseInt(guestNumValue)) || parseInt(guestNumValue) <1)
+		if(isNaN(parseInt(guestNumValue)) || parseInt(guestNumValue) <1 || guestNumValue != parseInt(guestNumValue))
 		{
 			alert("请输入正确的用餐人数！");
             return false;

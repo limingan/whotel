@@ -494,7 +494,7 @@ _onPageLoaded(function(){
     doSelectBtn();
     "{/if}"
 
-    var url = "{php echo $this->createMobileUrl('clearmenu', array('storeid' => $storeid, 'from_user' => $from_user), true)}";
+    var url = "{php echo $this->createMobileUrl('clearmenu', array('storeid' => $storeid, 'from_user' => $ from_user), true)}";
     "{if $flag != true}"
     _q('#clearBtn').onclick = function() {
         MDialog.confirm(
@@ -604,7 +604,7 @@ function checkItem() {
             return false;
         }
 		var guestNumValue = $("#guestNum").val();
-		if(isNaN(parseInt(guestNumValue)) || parseInt(guestNumValue) <1)
+		if(isNaN(parseInt(guestNumValue)) || parseInt(guestNumValue) <1 || guestNumValue != parseInt(guestNumValue))
 		{
 			alert("请输入正确的用餐人数！");
             return false;
