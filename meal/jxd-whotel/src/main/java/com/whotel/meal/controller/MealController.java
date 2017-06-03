@@ -480,10 +480,17 @@ public class MealController extends FanBaseController {
         String openId = getCurrentOpenId(req);
         logger.info("payCenter orderId = " + orderId + ";companyId=" + companyId + ";openId=" + openId);
         MealOrder mealOrder = mealOrderService.getMealOrderById(orderId);
+        Company company = companyService.getCompanyById(mealOrder.getCompanyId());
         logger.info("payCenter mealOrder = mealOrder");
         Restaurant restaurant = mealOrder.getRestaurant();
         req.setAttribute("order", mealOrder);
         req.setAttribute("rest", restaurant);
+
+        MemberVO memberVO = getCurrentMemberVO(req);
+        List<MemberCouponVO> list = memberTradeService.findMemberUseAbleCouponVO(company.getId(),
+                mealOrder.getTotalFee(), memberVO.getProfileId(), company.getCode(), ModuleType.MEAL);
+
+        req.setAttribute("list", list);
         return "meal/webPage/paycenter";
     }
 
@@ -772,13 +779,26 @@ public class MealController extends FanBaseController {
 
     @RequestMapping("/oauth/meal/getWxPayData")
     @ResponseBody
-    public String getWxPayData(HttpServletRequest req, String orderId) {
+    public String getWxPayData(HttpServletRequest req, String orderId,String seqId) {
         ResultData resultData = new ResultData();
         resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
         resultData.setMessage("操作成功");
         String openId = getCurrentOpenId(req);
         String companyId = getCurrentCompanyId(req);
         MealOrder mealOrder = mealOrderService.getMealOrderById(orderId);
+        if(StringUtils.isNotBlank(seqId) && !"0".equals(seqId)){
+            MemberVO memberVO = getCurrentMemberVO(req);
+            MemberCouponVO vo = memberTradeService.getMemberCouponVOBySeqId(mealOrder.getCompanyId(),memberVO.getProfileId(),mealOrder.getHotelCode(),seqId);
+            if(null != vo){
+                Company company = companyService.getCompanyById(mealOrder.getCompanyId());
+                mealOrder.setCouponCode(vo.getCode());
+                mealOrder.setCouponSeqid(seqId);
+                mealOrder.setPayFee(mealOrder.getTotalFee() - vo.getChargeamt());
+                mealOrderService.saveMealOrder(mealOrder);
+
+                memberTradeService.useMemberCoupon(mealOrder.getCompanyId(), seqId, "支付餐饮订单使用券",mealOrder.getOpenId(), company.getCode()); // 核销券
+            }
+        }
         if (null != mealOrder && openId.equals(mealOrder.getOpenId()) && companyId.equals(mealOrder.getCompanyId())) {
             String ip = getRealIp(req);
             String jsApi = mealOrderService.genJsApi(mealOrder, ip);
@@ -790,7 +810,7 @@ public class MealController extends FanBaseController {
 
     @RequestMapping("/oauth/meal/memberPay")
     @ResponseBody
-    public String memberPay(HttpServletRequest req, String password, String orderId, String mbrCardNo) {
+    public String memberPay(HttpServletRequest req, String password, String orderId, String mbrCardNo) throws Exception {
         Member member = getCurrentMember(req);
         if (!StringUtils.equals(member.getPayPwd(), EncryptUtil.md5(password))) {
             return "支付密码不正确";

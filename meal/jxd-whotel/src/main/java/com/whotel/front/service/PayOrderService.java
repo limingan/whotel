@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.whotel.thirdparty.jxd.mode.CyReservationResult;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,7 +165,7 @@ public class PayOrderService {
 		return false;
 	}
 	
-	public boolean handlePayOrder(String orderSn, String tradeSn, PayMent payMent) {
+	public boolean handlePayOrder(String orderSn, String tradeSn, PayMent payMent) throws Exception {
 		boolean rs = false;
 		if(StringUtils.isNotBlank(orderSn)) {
 			PayOrder payOrder = getPayOrderByOrderSn(orderSn);
@@ -218,6 +219,7 @@ public class PayOrderService {
 						mealOrder.setPayMent(payMent);
 						mealOrder.setPayFee(MoneyUtil.round(payOrder.getTotalFee() / 100f));
 						mealOrderService.saveMealOrder(mealOrder);
+						CyReservationResult result = mealOrderService.createOrder(mealOrder);
 						rs = mealOrderService.synchronizeMealOrderToJXD(mealOrder);
 						
 						

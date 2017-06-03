@@ -88,12 +88,17 @@
             商家名称<span class="mui-pull-right mui-text-muted">${rest.name}</span>
         </li>
 		<li class="mui-table-view-cell">
-			优惠券<select class="couponSelect mui-pull-right mui-text-muted" style="margin-top:-6px;width:80px;height:33px;padding:0;margin-bottom:-20px">
-				          <option prizeId="0" prizeValue="0">请选择</option>
-                      <c:forEach items="${prizeList}" var="prize">
-                          <option prizeId="${prize.id}" prizeValue="${prize.prizeValue}">${prize.prizeName}</option>
-                      </c:forEach>
-			       </select>
+			优惠券<select id="couponSelect" class="couponSelect mui-pull-right mui-text-muted" style="margin-top:-6px;width:80px;height:33px;padding:0;margin-bottom:-20px">
+            <c:if test="${empty list}">
+                <option value="0" prizeValue="0">暂无可用券</option>
+            </c:if>
+            <c:if test="${!empty list}">
+                <option prizeId="0" prizeValue="0">请选择</option>
+                <c:forEach items="${list}" var="coupon">
+                    <option value="${coupon.seqid}" prizeValue="${coupon.chargeamt}">${coupon.ticketTypeCname}</option>
+                </c:forEach>
+            </c:if>
+        </select>
 		</li>
         <li class="mui-table-view-cell">
             您需要支付<span class="mui-pull-right mui-text-success mui-big mui-rmb"><script>
@@ -148,30 +153,30 @@
     <div class="mui-content">
         <div class="pay-select-coupon">
             <div class="js-coupon-show">
-                <c:forEach items="${prizeList}" var="prize">
+                <c:forEach items="${list}" var="coupon">
                     <div class="mui-input-row mui-radio">
                         <label>
                             <div class="coupon-panel">
                                 <div class="mui-row">
                                     <div class="mui-col-xs-4 mui-text-center">
                                         <div class="coupon-panel-left">
-                                                ${prize.pic}
+                                                ${coupon.picUrl}
                                         </div>
                                     </div>
                                     <div class="mui-col-xs-8">
-                                        <div class="store-title mui-ellipsis">${prize.prizeName}</div>
-                                        <div class="date">${prize.date}</div>
+                                        <div class="store-title mui-ellipsis">${coupon.ticketTypeCname}</div>
+                                        <div class="date">${coupon.limitdate}</div>
                                     </div>
                                 </div>
                             </div>
-                            <input type="radio" name="coupon" value="${prize.id}"/>
+                            <input type="radio" name="coupon" value="${coupon.seqid}"/>
                         </label>
                         <ol class="coupon-rules" style="display:none;">
-                            <c:if test="${empty prize.remark}">
+                            <c:if test="${empty coupon.remark}">
                                 暂无说明
                             </c:if>
-                            <c:if test="${!empty prize.remark}">
-                                ${prize.remark}
+                            <c:if test="${!empty coupon.remark}">
+                                ${coupon.remark}
                             </c:if>
                         </ol>
                         <div class="scan-rules js-scan-rules">折扣券使用规则<span class="fa fa-angle-up"></span></div>
@@ -271,7 +276,10 @@
         $.ajax({
             type: "POST",
             url: "/oauth/meal/getWxPayData.do",
-            data: {orderId: $("#orderId").val()},
+            data: {
+                orderId: $("#orderId").val(),
+                seqId:$('#couponSelect option:selected').val()
+            },
             cache: false,
             dataType: 'html',
             success: function (rs) {

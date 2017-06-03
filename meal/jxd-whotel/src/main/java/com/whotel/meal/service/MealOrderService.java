@@ -435,14 +435,13 @@ public class MealOrderService {
             mealOrder.setContactMobile(guest.getMobile());
             mealOrder.setAddr(guest.getAddress());
         } else {
-            MealTab mealTab = mealTabDao.get(param.getTabId());
             Float teaFee = hotel.getTeaFee();
             Integer guestNum = param.getGuestNum();
             if (null != teaFee && null != guestNum) {
                 total += teaFee * guestNum;
             }
             mealOrder.setTotalFee(total);
-            CyReservationResult result = this.createOrder(mealOrder, hotel, restaurant, mealTab);
+            mealOrder.setMealTabId(param.getTabId());
         }
         mealOrder.setTotalFee(total);
 
@@ -477,7 +476,10 @@ public class MealOrderService {
         return mealOrder;
     }
 
-    private CyReservationResult createOrder(MealOrder order, Hotel hotel, Restaurant restaurant, MealTab mealTab) throws Exception {
+    public CyReservationResult createOrder(MealOrder order) throws Exception {
+        Hotel hotel = hotelService.getHotel(order.getCompanyId(),order.getHotelCode());
+        Restaurant restaurant = restaurantService.getById(order.getRestaurantId());
+        MealTab mealTab = mealTabDao.get(order.getMealTabId());
         JSONDataUtil jsonDataUtil = JSONConvertFactory.getJacksonConverter();
 
         JXDMealService jxdMealService = new JXDMealService();
@@ -623,6 +625,7 @@ public class MealOrderService {
         payOrder.setOpenId(order.getOpenId());
         payOrder.setCompanyId(order.getCompanyId());
         payOrder.setPayMent(PayMent.WXPAY);
+        payOrder.setTotalFee((long) (order.getTotalFee() * 100));
         payOrderService.savePayOrder(payOrder);
 
         PayConfig payConfig = payConfigService.getPayConfigByType(payOrder.getCompanyId(), PayType.WX);
