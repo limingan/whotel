@@ -368,6 +368,8 @@ public class MealController extends FanBaseController {
 
                 long monthSale = restaurantService.countMonthSale(dishes);
                 dishes.setMonthSale(monthSale);
+                long openIdCount = restaurantService.countSaleOpenId(dishes);
+                dishes.setOpenIdCount(openIdCount);
             }
             category.setDishesList(list);
         }

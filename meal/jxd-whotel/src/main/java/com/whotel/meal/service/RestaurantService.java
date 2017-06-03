@@ -83,5 +83,21 @@ public class RestaurantService {
         return mealOrderDao.count(query);
     }
 
+    /**
+     * 统计总共多少人购买
+     * @param dishes
+     * @return
+     */
+    public Long countSaleOpenId(Dishes dishes){
+        Query query = mealOrderDao.createQuery();
+        query.field("companyId").equal(dishes.getCompanyId());
+        query.field("hotelCode").equals(dishes.getHotelCode());
+        query.field("restaurantId").equal(dishes.getRestaurantId());
+        query.field("createDate").greaterThanOrEq(DateUtil.getStartMonth(new Date()));
+        query.field("items.dishesId").equal(dishes.getId());
+        query.getCollection().distinct("openId");
+        return mealOrderDao.count(query);
+    }
+
 
 }

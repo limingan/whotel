@@ -141,7 +141,7 @@ response.setDateHeader("Expires",0);
                 <c:forEach items="${cateList}" var="cate">
                     <div class="pTitle" id="${cate.dishNo}">${cate.dishName}</div>
                     <c:forEach items="${cate.dishesList}" var="dish">
-                        <dl class="pContent" isMultiStyle="${dish.isMultiStyle}" multiStyle='${dish.multiStyle}' isSet='${dish.isSuite}' setData='${dish.suiteData}' dunitname="${dish.unit}" dsubcount="123" dishid="${dish.id}" dname="${dish.dishName}" dtaste="口味" ddescribe="${dish.brief}" dmarkNum="45" dprice="${dish.price}" dishot="2" dspecialprice="${dish.price}" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+                        <dl class="pContent" isMultiStyle="${dish.isMultiStyle}" multiStyle='${dish.multiStyle}' isSet='${dish.isSuite}' setData='${dish.suiteData}' dunitname="${dish.unit}" dsubcount="${dish.openIdCount}" dishid="${dish.id}" dname="${dish.dishName}" dtaste="口味" ddescribe="${dish.brief}" dmarkNum="45" dprice="${dish.price}" dishot="2" dspecialprice="${dish.price}" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                             <dt><h3>${dish.dishName}</h3></dt>
 
                             <dd>
@@ -458,14 +458,20 @@ response.setDateHeader("Expires",0);
 	   $('.setStyle .leftArrow').click(function(){
 		var index = getCurrentSetIndex()
 		if(index == 0)
-		 return;
+		 {
+		  alert('已经是第1道菜了');
+		  return;
+		 }
 	    $('.setStyle').addClass('dn');
 		$('.setStyle').eq(index-1).removeClass('dn');
 	   });
 	   $('.setStyle .rightArrow').click(function(){
 	    var index = getCurrentSetIndex()
 		if(index == $('.setStyle').length-1)
+		 {
+		 alert('已经是最后一道菜了');
 		 return;
+		 }
 	    $('.setStyle').addClass('dn');
 		$('.setStyle').eq(index+1).removeClass('dn');
 	   });
@@ -877,6 +883,14 @@ response.setDateHeader("Expires",0);
 	for(var i = 0;i<5;i++){
 		$('<div class="point-outer point-pre"><div class="point-inner"/></div>').appendTo($pointDiv);
 	}
+	window.alert = function(name){
+      var iframe = document.createElement("IFRAME");
+      iframe.style.display="none";
+      iframe.setAttribute("src", 'data:text/plain,');
+      document.documentElement.appendChild(iframe);
+      window.frames[0].window.alert(name);
+      iframe.parentNode.removeChild(iframe);
+     };
 </script>
 	
 </script>

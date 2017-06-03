@@ -82,6 +82,16 @@ public class Dishes extends UnDeletedEntity {
 
 	private long monthSale;//月销量
 
+	private long openIdCount;//购买人数
+
+	public long getOpenIdCount() {
+		return openIdCount;
+	}
+
+	public void setOpenIdCount(long openIdCount) {
+		this.openIdCount = openIdCount;
+	}
+
 	public long getMonthSale() {
 		return monthSale;
 	}

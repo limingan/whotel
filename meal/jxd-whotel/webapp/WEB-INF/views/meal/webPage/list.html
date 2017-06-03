@@ -93,7 +93,7 @@
         <article style="border: 0px">
             <div id="pInfo">
                 <div class="pTitle" id="page1">分类1</div>
-                <dl class="pContent" dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述<br/>TEST<br/>TEST2" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+                <dl class="pContent" dunitname="份" dsubcount="123" dishid="1" dname="鱼" dtaste="口味" ddescribe="菜品描述<br/>TEST<br/>TEST2<br/>TEST2<br/>TEST2<br/>TEST2<br/>TEST2<br/>TEST2<br/>TEST2<br/>TEST2<br/>TEST2<br/>TEST2<br/>TEST2" dmarkNum="45" dprice="123.4" dishot="2" dspecialprice="100.3" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                     <dt><h3>鱼鱼</h3></dt>
 					
                     <dd>
@@ -827,14 +827,20 @@
 	   $('.setStyle .leftArrow').click(function(){
 		var index = getCurrentSetIndex()
 		if(index == 0)
+		 {
+		  alert('已经是第1道菜了');
 		 return;
+		 }
 	    $('.setStyle').addClass('dn');
 		$('.setStyle').eq(index-1).removeClass('dn');
 	   });
 	   $('.setStyle .rightArrow').click(function(){
 	    var index = getCurrentSetIndex()
 		if(index == $('.setStyle').length-1)
+		 {
+		 alert('已经是最后一道菜了');
 		 return;
+		 }
 	    $('.setStyle').addClass('dn');
 		$('.setStyle').eq(index+1).removeClass('dn');
 	   });
@@ -1192,6 +1198,14 @@
 	 }
 	 
 	}
+	window.alert = function(name){
+      var iframe = document.createElement("IFRAME");
+      iframe.style.display="none";
+      iframe.setAttribute("src", 'data:text/plain,');
+      document.documentElement.appendChild(iframe);
+      window.frames[0].window.alert(name);
+      iframe.parentNode.removeChild(iframe);
+     };
 </script>
 </body>
 </html>

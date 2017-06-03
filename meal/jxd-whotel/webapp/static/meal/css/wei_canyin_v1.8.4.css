@@ -95,7 +95,7 @@ figure[hidden] {
 }
 
 #page_count {
-	background: url('/static/meal/images/pagecount_bottom_bk.jpg') repeat-x 50% bottom;
+	background: url('../../images/pagecount_bottom_bk.jpg') repeat-x 50% bottom;
 	-webkit-background-size: 100% 161px;
 	background-size: 100% 161px;
 	padding-bottom: 35px
@@ -108,7 +108,7 @@ figure[hidden] {
 
 #page_count .main {
 	padding-top: 35px;
-	background: url('/static/meal/images/pagecount_main_bk.jpg') no-repeat 50% 35px;
+	background: url('../../images/pagecount_main_bk.jpg') no-repeat 50% 35px;
 	-webkit-background-size: 173px 173px;
 	background-size: 173px 173px
 }
@@ -146,7 +146,7 @@ figure[hidden] {
 #page_count li.left {
 	padding-right: 58px;
 	width: 48px;
-	background: url('/static/meal/images/pagecount_main_arrow_l.png') no-repeat 42px 50%;
+	background: url('../../images/pagecount_main_arrow_l.png') no-repeat 42px 50%;
 	-webkit-background-size: 43px 23px;
 	background-size: 43px 23px
 }
@@ -154,7 +154,7 @@ figure[hidden] {
 #page_count li.right {
 	padding-left: 58px;
 	width: 48px;
-	background: url('/static/meal/images/pagecount_main_arrow_r.png') no-repeat 26px 50%;
+	background: url('../../images/pagecount_main_arrow_r.png') no-repeat 26px 50%;
 	-webkit-background-size: 43px 23px;
 	background-size: 43px 23px
 }
@@ -346,15 +346,15 @@ figure[hidden] {
 }
 
 #page_order section li a.order {
-	background-image: url('/static/meal/images/icon_order.png?v=1')
+	background-image: url('../../images/icon_order.png?v=1')
 }
 
 #page_order section li a.gps {
-	background-image: url('/static/meal/images/icon_gps2.png?v=1')
+	background-image: url('../../images/icon_gps2.png?v=1')
 }
 
 #page_order section li a.reality {
-	background-image: url('/static/meal/images/icon_reality.png?v=1')
+	background-image: url('../../images/icon_reality.png?v=1')
 }
 
 #page_order .noShop {
@@ -373,7 +373,7 @@ figure[hidden] {
 
 .topSearch,.topSearch div span {
 	height: 44px;
-	background: url("/static/meal/images/linebg.png") repeat-x bottom
+	background: url("../../images/linebg.png") repeat-x bottom
 }
 
 .topSearch div {
@@ -393,7 +393,7 @@ figure[hidden] {
 	padding-left: 15px;
 	left: 0;
 	top: 8px;
-	background: url('/static/meal/images/topsch_bk1.png') no-repeat 0 0,url('/static/meal/images/topsch_bk2.png') repeat-x 0 0;
+	background: url('../../images/topsch_bk1.png') no-repeat 0 0,url('../../images/topsch_bk2.png') repeat-x 0 0;
 	-webkit-background-size: 13px 28px,1px 28px;
 	background-size: 13px 28px,1px 28px
 }
@@ -438,7 +438,7 @@ figure[hidden] {
 	text-indent: -9999px;
 	border: 0;
 	float: left;
-	background: transparent url('/static/meal/images/topsch_bk3.png') repeat-x 0 0;
+	background: transparent url('../../images/topsch_bk3.png') repeat-x 0 0;
 	-webkit-background-size: 27px 28px;
 	background-size: 27px 28px;
 	-webkit-border-radius: 0;
@@ -497,7 +497,7 @@ figure[hidden] {
 	text-indent: 15px;
 	font-size: 13px;
 	color: #5f6060;
-	background: url('/static/meal/images/icon_gps.png') no-repeat right 13px;
+	background: url('../../images/icon_gps.png') no-repeat right 13px;
 	-webkit-background-size: 15px 16px;
 	background-size: 15px 16px
 }
@@ -1009,14 +1009,14 @@ figure[hidden] {
 	display: block;
 	height: 25px;
 	width: 25px;
-	background: url("/static/meal/images/unchoosen.png") no-repeat;
+	background: url("../../images/unchoosen.png") no-repeat;
 	background-size: cover;
 	left: -20px;
 	top: -2px
 }
 
 #page_allMenu section article dl.choosen .btn span {
-	background: url("/static/meal/images/choosen.png") no-repeat;
+	background: url("../../images/choosen.png") no-repeat;
 	background-size: cover
 }
 
@@ -1047,22 +1047,22 @@ figure[hidden] {
 }
 
 #page_allMenu section article dl .btn button.minus strong {
-	background: url("/static/meal/images/typebtn1a.png") no-repeat;
+	background: url("../images/typebtn1a.png") no-repeat;
 	background-size: 22px 22px
 }
 
 #page_allMenu section article dl .btn button.add strong {
-	background: url("/static/meal/images/typebtn2a.png") no-repeat;
+	background: url("../images/typebtn2a.png") no-repeat;
 	background-size: 22px 22px
 }
 
 #page_allMenu section article dl .btn button.minus:active strong {
-	background: url("/static/meal/images/typebtn1.png") no-repeat;
+	background: url("../../images/typebtn1.png") no-repeat;
 	background-size: 22px 22px
 }
 
 #page_allMenu section article dl .btn button.add:active strong {
-	background: url("/static/meal/images/typebtn2.png") no-repeat;
+	background: url("../../images/typebtn2.png") no-repeat;
 	background-size: 22px 22px
 }
 
@@ -1096,7 +1096,7 @@ figure[hidden] {
 	position: absolute;
 	width: 70px;
 	height: 70px;
-	background: url("/static/meal/images/pop.png") no-repeat;
+	background: url("../../images/pop.png") no-repeat;
 	background-size: cover;
 	top: 140px;
 	right: 20px;
@@ -1106,7 +1106,9 @@ figure[hidden] {
 }
 
 .content h3,.content p {
-	margin: 0 20px
+	margin: 0 20px;
+	max-height:100px;
+	overflow-y:scroll;
 }
 
 .content img {
@@ -1411,12 +1413,12 @@ figure[hidden] {
 }
 
 #page_intelOrder section article ul li section.bbox input[type=button].btn-reduce:active {
-	background: url("/static/meal/images/typebtn1.png") no-repeat;
+	background: url("../../images/typebtn1.png") no-repeat;
 	background-size: 22px 22px
 }
 
 #page_intelOrder section article ul li section.bbox input[type=button].btn-plus:active {
-	background: url("/static/meal/images/typebtn2.png") no-repeat;
+	background: url("../../images/typebtn2.png") no-repeat;
 	background-size: 22px 22px
 }
 
@@ -1479,7 +1481,7 @@ figure[hidden] {
 
 #introduction div {
 	padding: 15px 0 1px 0;
-	background: url("/static/meal/images/sharePage.png") no-repeat bottom center;
+	background: url("../../images/sharePage.png") no-repeat bottom center;
 	background-size: 300px 1px
 }
 
@@ -1558,7 +1560,7 @@ figure[hidden] {
 	display: inline-block;
 	height: 10px;
 	width: 10px;
-	background: url('/static/meal/images/logo.png');
+	background: url('../../images/logo.png');
 	background-size: 100% 100%;
 	vertical-align: bottom;
 	margin-right: 5px
