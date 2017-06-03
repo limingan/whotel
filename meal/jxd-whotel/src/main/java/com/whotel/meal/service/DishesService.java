@@ -42,7 +42,7 @@ public class DishesService {
         properties.put("companyId", cat.getCompanyId());
         properties.put("hotelCode",cat.getHotelCode());
         properties.put("restaurantId",cat.getRestaurantId());
-        properties.put("dishType",cat.getDishName());
+        properties.put("dishno1",cat.getId());
         return dishesDao.findByProperties(properties);
     }
 
