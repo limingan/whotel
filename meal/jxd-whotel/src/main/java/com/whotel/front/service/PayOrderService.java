@@ -165,7 +165,7 @@ public class PayOrderService {
 		return false;
 	}
 	
-	public boolean handlePayOrder(String orderSn, String tradeSn, PayMent payMent) throws Exception {
+	public boolean handlePayOrder(String orderSn, String tradeSn, PayMent payMent){
 		boolean rs = false;
 		if(StringUtils.isNotBlank(orderSn)) {
 			PayOrder payOrder = getPayOrderByOrderSn(orderSn);
@@ -219,7 +219,11 @@ public class PayOrderService {
 						mealOrder.setPayMent(payMent);
 						mealOrder.setPayFee(MoneyUtil.round(payOrder.getTotalFee() / 100f));
 						mealOrderService.saveMealOrder(mealOrder);
-						CyReservationResult result = mealOrderService.createOrder(mealOrder);
+						try {
+							CyReservationResult result = mealOrderService.createOrder(mealOrder);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 						rs = mealOrderService.synchronizeMealOrderToJXD(mealOrder);
 						
 						
