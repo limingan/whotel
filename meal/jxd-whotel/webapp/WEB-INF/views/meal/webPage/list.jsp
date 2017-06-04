@@ -81,15 +81,7 @@ response.setDateHeader("Expires",0);
 </div>
 
 
-<div class="notification-section">
-    <div class="banner">
-        <ul>
-            <c:forEach items="${bannerList}" var="baner">
-                <li><img style="width:100%;" src="${baner}"></li>
-            </c:forEach>
-        </ul>
-    </div>
-</div>
+
         <div class="">
          <div class="ddb-tab-bar ">
             <div class="ddb-tab-item ng-scope active">
@@ -183,6 +175,15 @@ response.setDateHeader("Expires",0);
 </div>
 
 <div class="shopInfoList dn">
+<div class="notification-section" style="width:100% !important;padding:0 0px;">
+    <div class="banner" style="padding:0 0px !important">
+        <ul>
+            <c:forEach items="${bannerList}" var="baner">
+                <li><img style="width:100%;" src="${baner}"></li>
+            </c:forEach>
+        </ul>
+    </div>
+</div>
  <div><img src="/static/meal/images/sales.png"/><span >&nbsp;月售 ${monthSale} 单</span></div>
  <div><img src="/static/meal/images/timer.png"/><span >&nbsp;${rest.businessTime}</span></div>
  <div><img src="/static/meal/images/position.png"/><span >&nbsp;${rest.address}</span></div>
@@ -230,11 +231,19 @@ response.setDateHeader("Expires",0);
      $('.main').removeClass('dn');
 	 $('.shopInfoList').addClass('dn');
    });
+   var isBannnerInit = 0;
    $('.ddb-tab-item').eq(2).click(function(){
      $('.ddb-tab-item').removeClass('active');
 	 $(this).addClass('active');
      $('.main').addClass('dn');
 	 $('.shopInfoList').removeClass('dn');
+	 if(0 == isBannnerInit)
+	 $('.banner').unslider({			
+				keys: true,
+				dots: true
+			});
+	isBannnerInit = 1;		
+	 
    });
    $(".navOption").click(function() {
 	  isUserChangeCateogry = 1; 

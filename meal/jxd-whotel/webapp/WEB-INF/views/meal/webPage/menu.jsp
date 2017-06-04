@@ -216,6 +216,20 @@
 				     case 'set'  :
 					 case 'multi':document.write('<span class="dishName">{0}</span>'.format(dishInfo['name']));
 								  document.write('<i>{0}元/{1}</i>'.format(dishInfo['price'],dishInfo['unit']));
+								  document.write('<span style="color: #ccc;position:absolute;line-height: 21px;margin-left: 35px;font-size: 12px;">');
+								  var dishData = eval('('+ dishInfo['data'] + ')');
+								  $(dishData).each(function(ii,n){
+								   var name = n.name;
+								   var styleName = '';
+								   var subId = dishList[i][dishId][dishData[ii].id];
+								   for(var j=0;j<n.data.length;j++)
+								   {
+								    if(n.data[j].id == subId)
+									  {styleName = n.data[j].name;break}
+								   }
+								    document.write(' '+name+":"+styleName+' ');
+								  })
+								  document.write('</span>');
 					              document.write('<section class="bbox"  dishid="{0}" dishname="{1}">'.format(dishId,dishInfo['name']));
 					              document.write('<input class="btn-reduce"  type="button" style="margin-left:-54px" value="-">');
 					              document.write('<input class="numBox" name="numBox" type="hidden" value="1" price="{0}" disabled="disabled">'.format(dishInfo['price']));
@@ -989,6 +1003,7 @@ function postmain() {
 		   
 		   refreshCategoryPrice(allDishCategoryList , allDishObject,totalCount ,totalPrice);
 		   $('.popupWindow .close').click();
+		   location.reload();
 	   })
 	   //TODO:addListener
 	   $('.mModal1,.popupWindow').show();

@@ -30,17 +30,8 @@
     
 </div>
 
-<div class="notification-section">
-    <div class="banner">
-	  <ul>
-	    <li><img style="width:100%;" src="http://www.jq22.com/demo/jquery-lunbotu-150202204549/images/pic_01.jpg"/></li>
-		<li><img style="width:100%;" src="http://www.jq22.com/demo/jquery-lunbotu-150202204549/images/pic_02.jpg"/></li>
-		<li><img style="width:100%;" src="http://www.jq22.com/demo/jquery-lunbotu-150202204549/images/pic_03.jpg"/></li>
-	  </ul>
-      
-    </div>
-</div>
-         <div class="">
+
+         <div class="" style="padding-top:48px">
          <div class="ddb-tab-bar ">
             <div class="ddb-tab-item ng-scope active">
                 <a style="font-size:18px" href="javascript:;" class="" id="store_classify">点餐</a>
@@ -558,6 +549,16 @@
 </div>
 
 <div class="shopInfoList dn">
+<div class="notification-section" style="width:100% !important;padding:0 0px;">
+    <div class="banner" style="padding:0 0px !important">
+	  <ul>
+	    <li><img style="width:100%;" src="http://www.jq22.com/demo/jquery-lunbotu-150202204549/images/pic_01.jpg"/></li>
+		<li><img style="width:100%;" src="http://www.jq22.com/demo/jquery-lunbotu-150202204549/images/pic_02.jpg"/></li>
+		<li><img style="width:100%;" src="http://www.jq22.com/demo/jquery-lunbotu-150202204549/images/pic_03.jpg"/></li>
+	  </ul>
+      
+    </div>
+</div>
  <div><img src="./images/sales.png"/><span >月售 811 份</span></div>
  <div><img src="./images/timer.png"/><span >09:30-21:00</span></div>
  <div><img src="./images/position.png"/><span >深圳市南山区</span></div>
@@ -603,11 +604,19 @@
      $('.main').removeClass('dn');
 	 $('.shopInfoList').addClass('dn');
    });
+   var isBannnerInit = 0;
    $('.ddb-tab-item').eq(2).click(function(){
      $('.ddb-tab-item').removeClass('active');
 	 $(this).addClass('active');
      $('.main').addClass('dn');
 	 $('.shopInfoList').removeClass('dn');
+	 if(0 == isBannnerInit)
+	 $('.banner').unslider({			
+				keys: true,
+				dots: true
+			});
+	isBannnerInit = 1;		
+	 
    });
    $(".navOption").click(function() {
       $('.navOption dd').removeClass("active");
@@ -829,7 +838,7 @@
 		if(index == 0)
 		 {
 		  alert('已经是第1道菜了');
-		 return;
+		  return;
 		 }
 	    $('.setStyle').addClass('dn');
 		$('.setStyle').eq(index-1).removeClass('dn');
@@ -1132,10 +1141,7 @@
             _q("#page_allMenu section article").style.minHeight ="85%";
             _q("#page_allMenu section article").style.marginBottom="35px";
         }
-		$('.banner').unslider({			
-				keys: true,
-				dots: true
-			});
+		
 		
 	    (function()
         {

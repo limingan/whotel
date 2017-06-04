@@ -193,6 +193,20 @@
 					              document.write('<input class="numBox" name="numBox" type="hidden" value="1" price="{0}" disabled="disabled">'.format(dishInfo['price']));
 								  document.write('<input class="styleData" type="hidden" value="{0}" />'.format(dishInfo['data']));
 								  document.write('</section>');
+								  document.write('<span style="color: #ccc;line-height: 40px;margin-left: 40px;font-size: 12px;">');
+								  var dishData = eval('('+ dishInfo['data'] + ')');
+								  $(dishData).each(function(ii,n){
+								   var name = n.name;
+								   var styleName = '';
+								   var subId = dishList[i][dishId][ii+1];
+								   for(var j=0;j<n.data.length;j++)
+								   {
+								    if(n.data[j].id == subId)
+									  {styleName = n.data[j].name;break}
+								   }
+								    document.write(' '+name+":"+styleName+' ');
+								  })
+								  document.write('</span>');
 								  document.write('<div style="display:inline;position:absolute;left:50px">');
 								  document.write('<span class="dishName">{0}</span>'.format(dishInfo['name']));
 								  document.write('<div><i>{0}元/{1}</i></div></div>'.format(dishInfo['price'],dishInfo['unit']));
@@ -933,6 +947,7 @@ function postmain() {
 		   
 		   refreshCategoryPrice(allDishCategoryList , allDishObject,totalCount ,totalPrice);
 		   $('.popupWindow .close').click();
+		   location.reload();
 	   })
 	   //TODO:addListener
 	   $('.mModal1,.popupWindow').show();

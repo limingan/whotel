@@ -61,7 +61,7 @@
 .notification-section {
   opacity: 0.9;
   top: 45px;
-  margin-top: 45px;
+  width:100%;
   background-color: #fff9df;
   padding: 0;
   border-bottom: 0px solid #dbdbdb;
@@ -128,7 +128,6 @@
   height: 14px;
 }
 .shopInfoList span {
-  display: inline-block;
   vertical-align: middle;
   margin-left: 12px;
 }
@@ -296,7 +295,7 @@
 }
 .pContent {
   border-bottom: none !important;
-  height: 60px !important;
+  height: 64px !important;
   margin-bottom: 12px !important;
 }
 .pContent:last-child {
