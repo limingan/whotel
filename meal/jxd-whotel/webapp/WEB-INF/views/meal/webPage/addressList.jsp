@@ -20,7 +20,9 @@
 </head>
 <body id="page_intelOrder" class="myOrderCon">
 <div class="ddb-nav-header ng-scope">
-    <a class="nav-left-item" href="javascript:void(0)" onclick="/oauth/meal/menu.do"><i class="fa fa-angle-left"></i></a>
+
+    <a class="nav-left-item" href="javascript:history.go(-1)"><i class="fa fa-angle-left"></i>
+	</a>
 
     <div class="header-title ng-binding">地址列表</div>
     <a class="nav-right-item" href="#"></a>

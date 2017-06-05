@@ -82,7 +82,7 @@ response.setDateHeader("Expires",0);
 
 
 
-        <div class="">
+        <div class="" style="padding-top:48px">
          <div class="ddb-tab-bar ">
             <div class="ddb-tab-item ng-scope active">
                 <a style="font-size:16px;color:black;line-height:40px" href="javascript:;" class="" id="store_classify">点餐</a>

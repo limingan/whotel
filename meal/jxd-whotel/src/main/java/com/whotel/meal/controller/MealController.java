@@ -135,6 +135,7 @@ public class MealController extends FanBaseController {
             member.setOpenId(openId);
             member.setCompanyId(companyId);
             memberService.saveMember(member);
+            memberService.saveMemberAndSyncToJXD(member,null);
         }
         return param;
     }
@@ -486,9 +487,9 @@ public class MealController extends FanBaseController {
         req.setAttribute("order", mealOrder);
         req.setAttribute("rest", restaurant);
 
-        MemberVO memberVO = getCurrentMemberVO(req);
+        Member member = getCurrentMember(req);
         List<MemberCouponVO> list = memberTradeService.findMemberUseAbleCouponVO(company.getId(),
-                mealOrder.getTotalFee(), memberVO.getProfileId(), company.getCode(), ModuleType.MEAL);
+                mealOrder.getTotalFee(), member.getProfileId(), company.getCode(), ModuleType.MEAL);
 
         req.setAttribute("list", list);
         return "meal/webPage/paycenter";
