@@ -1,46 +1,27 @@
 package com.whotel.meal.entity;
 
 import com.whotel.common.entity.BaseEntity;
+import com.whotel.thirdparty.jxd.util.AbstractInputParam;
 import org.mongodb.morphia.annotations.Entity;
 
 /**
  *
  * Created by limingan on 2017/4/24.
  */
-@Entity(noClassnameStored=true)
-public class DishesUnit extends BaseEntity {
+public class DishesUnit extends AbstractInputParam {
 
-    private String companyId;//公司ID
-
-    private String hotelCode;//hotelCode
-
-    private String dishNo;//dishNo
+    private Integer id;//dishNo
 
     private String unit;//单位
+
     private Float price;//价格
 
-    public String getCompanyId() {
-        return companyId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
-    }
-
-    public String getHotelCode() {
-        return hotelCode;
-    }
-
-    public void setHotelCode(String hotelCode) {
-        this.hotelCode = hotelCode;
-    }
-
-    public String getDishNo() {
-        return dishNo;
-    }
-
-    public void setDishNo(String dishNo) {
-        this.dishNo = dishNo;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUnit() {
@@ -57,5 +38,10 @@ public class DishesUnit extends BaseEntity {
 
     public void setPrice(Float price) {
         this.price = price;
+    }
+
+    @Override
+    public String getRoot() {
+        return "unit";
     }
 }

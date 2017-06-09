@@ -8,7 +8,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.whotel.common.base.Constants;
+import com.whotel.common.dto.ResultData;
 import com.whotel.common.util.QrcodeUtil;
+import com.whotel.meal.entity.*;
+import com.whotel.meal.service.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,17 +29,6 @@ import com.whotel.company.entity.CompanyAdmin;
 import com.whotel.company.service.CompanyService;
 import com.whotel.hotel.entity.Hotel;
 import com.whotel.hotel.service.HotelService;
-import com.whotel.meal.entity.Dishes;
-import com.whotel.meal.entity.DishesCategory;
-import com.whotel.meal.entity.Shuffle;
-import com.whotel.meal.entity.MealBranch;
-import com.whotel.meal.entity.MealConfig;
-import com.whotel.meal.entity.MealOrder;
-import com.whotel.meal.entity.MealTab;
-import com.whotel.meal.entity.Restaurant;
-import com.whotel.meal.service.MealManageService;
-import com.whotel.meal.service.MealOrderService;
-import com.whotel.meal.service.MealService;
 
 @Controller
 @RequestMapping("/company/meal")
@@ -55,6 +48,14 @@ public class MealManageController extends BaseCompanyController {
 
     @Autowired
     private HotelService hotelService;
+
+    @Autowired
+    private DishesService dishesService;
+
+    @Autowired
+    private DishesActionService dishesActionService;
+    @Autowired
+    private RestaurantService restaurantService;
 
     /**
      * 生成桌台二维码
@@ -841,6 +842,54 @@ public class MealManageController extends BaseCompanyController {
         Company company = companyService.getCompanyById(companyAdmin.getCompanyId());
         mealManageService.synchronizeDishesCategoryByJXD(company);
         return "redirect:/company/meal/listDishesCategory.do";
+    }
+
+
+    @RequestMapping("/oauth/meal/syncDishesAction")
+    @ResponseBody
+    public ResultData syncDishesAction(String hotelId) {
+        ResultData resultData = new ResultData();
+        Hotel hotel = hotelService.getHotelById(hotelId);
+        List<DishesAction> actionList = dishesActionService.getDishesAction(hotel);
+        dishesActionService.saveDishesAction(actionList);
+
+        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
+        resultData.setMessage("操作成功");
+        return resultData;
+    }
+
+    /**
+     * 同步套餐信息
+     *
+     * @param restId
+     * @return
+     */
+    @RequestMapping("/oauth/meal/syncDishesSuite")
+    @ResponseBody
+    public ResultData syncDishesSuite(String restId) {
+        ResultData resultData = new ResultData();
+        Restaurant restaurant = restaurantService.getById(restId);
+        List<Dishes> list = dishesService.syncSuite(restaurant);
+        resultData.setData(list);
+        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
+        resultData.setMessage("操作成功");
+        return resultData;
+    }
+
+    /**
+     * 同步套餐信息
+     *
+     * @param dishesId
+     * @return
+     */
+    @RequestMapping("/oauth/meal/syncDishesUnit")
+    @ResponseBody
+    public ResultData syncDishesUnit(String dishesId) throws Exception {
+        ResultData resultData = new ResultData();
+        dishesService.syncDishesUnit(dishesId);
+        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
+        resultData.setMessage("操作成功");
+        return resultData;
     }
 
 }

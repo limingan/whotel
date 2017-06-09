@@ -2,19 +2,13 @@ package com.whotel.thirdparty.jxd.api;
 
 import java.util.List;
 
+import com.whotel.meal.entity.*;
 import com.whotel.thirdparty.jxd.mode.*;
 import org.apache.log4j.Logger;
 
 import com.whotel.common.http.HttpHelper;
 import com.whotel.common.http.HttpHelper.Response;
 import com.whotel.hotel.entity.Hotel;
-import com.whotel.meal.entity.Dishes;
-import com.whotel.meal.entity.DishesAction;
-import com.whotel.meal.entity.DishesCategory;
-import com.whotel.meal.entity.MealBranch;
-import com.whotel.meal.entity.MealTab;
-import com.whotel.meal.entity.Restaurant;
-import com.whotel.meal.entity.Shuffle;
 import com.whotel.thirdparty.jxd.JXDConstants;
 import com.whotel.thirdparty.jxd.mode.vo.WaiterVO;
 import com.whotel.thirdparty.jxd.util.ApiXmlVoParser;
@@ -207,6 +201,24 @@ public class JXDMealService {
 				"text/xml").timeout(JXDConstants.TIMEOUT).post(param);
 		ApiXmlVoParser.checkReturnContent(res);
 		return ApiXmlVoParser.parseOrder(res.html(), res.charset());
+	}
+
+	/**
+	 * 服务员列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<DishesUnit> loadDishesUnit(MealDishesUnitQuery query,String mealUrl) throws Exception {
+
+		String param = JxdXmlUtils.toXml(query);
+		if(log.isDebugEnabled()) {
+			log.debug("param: \n" + param);
+		}
+		// 请求接口并获得响应
+		Response res = HttpHelper.connect(mealUrl).header("Content-Type",
+				"text/xml").timeout(JXDConstants.TIMEOUT).post(param);
+		ApiXmlVoParser.checkReturnContent(res);
+		return ApiXmlVoParser.parseDishesUnit(res.html(), res.charset());
 	}
 
 

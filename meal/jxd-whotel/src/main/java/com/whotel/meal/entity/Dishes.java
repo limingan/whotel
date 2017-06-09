@@ -84,6 +84,17 @@ public class Dishes extends UnDeletedEntity {
 
 	private long openIdCount;//购买人数
 
+	@Embedded
+	private List<DishesUnit> unitList;
+
+	public List<DishesUnit> getUnitList() {
+		return unitList;
+	}
+
+	public void setUnitList(List<DishesUnit> unitList) {
+		this.unitList = unitList;
+	}
+
 	public long getOpenIdCount() {
 		return openIdCount;
 	}

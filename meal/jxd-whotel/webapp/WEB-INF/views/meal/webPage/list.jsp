@@ -184,10 +184,15 @@ response.setDateHeader("Expires",0);
         </ul>
     </div>
 </div>
- <div><img src="/static/meal/images/sales.png"/><span >&nbsp;月售 ${monthSale} 单</span></div>
- <div><img src="/static/meal/images/timer.png"/><span >&nbsp;${rest.businessTime}</span></div>
- <div><img src="/static/meal/images/position.png"/><span >&nbsp;${rest.address}</span></div>
- <div><img src="/static/meal/images/tel.png"/><span >&nbsp;${rest.tel}</span><a href="tel://${rest.tel}"><i class="fa fa-angle-right"></i></a></div>
+<ul style="margin-left:28px;width:100%">
+ <li style="list-style-type:none;"><img src="/static/meal/images/sales.png"/><span >&nbsp;月售 ${monthSale} 份</span></li>
+ <li style="list-style-type:none;"><img src="/static/meal/images/timer.png"/><span >&nbsp;${rest.businessTime}</span></li>
+ <li style="list-style-type:none;height:41px"><img style="float:left;margin-top:14px" src="/static/meal/images/position.png"/>
+ <script>var width= window.innerWidth-54;document.write('<span style="margin-left:16px;float:left;width:'+ width+'px">');</script>
+ ${rest.address}</span></li>
+ <li style="list-style-type:none;clear:both"><img style="margin-left:0px" src="/static/meal/images/tel.png"/><span >&nbsp;${rest.tel}</span><a href="tel://${rest.tel}"><i class="fa fa-angle-right"></i></a></li>
+</ul>
+
 </div>
 <div class="mModal1" style="position:fixed;width:100%;z-index: 901;height:100%;display:none;top:0;background-color:rgba(0, 0, 0, .5)"><a href="javascript:void(0)" style="height: 736px;"></a></div>
 <div class="popupWindow" style="z-index:9999;display:none">

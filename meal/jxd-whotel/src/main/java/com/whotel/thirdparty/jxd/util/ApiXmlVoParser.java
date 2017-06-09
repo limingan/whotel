@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.whotel.meal.entity.*;
 import com.whotel.thirdparty.jxd.mode.CyReservationResult;
 import com.whotel.thirdparty.jxd.mode.vo.*;
 import org.apache.commons.lang.StringUtils;
@@ -25,15 +26,6 @@ import com.whotel.common.util.MD5Util;
 import com.whotel.ext.json.JSONConvertFactory;
 import com.whotel.ext.json.JSONDataUtil;
 import com.whotel.hotel.entity.Hotel;
-import com.whotel.meal.entity.Dishes;
-import com.whotel.meal.entity.DishesAction;
-import com.whotel.meal.entity.DishesCategory;
-import com.whotel.meal.entity.MealBranch;
-import com.whotel.meal.entity.MealOrder;
-import com.whotel.meal.entity.MealTab;
-import com.whotel.meal.entity.Restaurant;
-import com.whotel.meal.entity.Shuffle;
-import com.whotel.meal.entity.SuiteItem;
 import com.whotel.meal.enums.MealOrderStatus;
 import com.whotel.thirdparty.jxd.ApiException;
 
@@ -1872,7 +1864,7 @@ public class ApiXmlVoParser {
             String hotelCode = restaurant.getHotelCode();
             String restaurantId = restaurant.getId();
             Map<String, Dishes> dishesMap = Maps.newHashMap();
-            Map<String,Map<Integer,List<SuiteItem>>> itemMap = Maps.newHashMap();
+            Map<String, Map<Integer, List<SuiteItem>>> itemMap = Maps.newHashMap();
 
             for (Map<String, String> map : list) {
                 String dishNo = map.get("SuiteNo");
@@ -1881,7 +1873,7 @@ public class ApiXmlVoParser {
                 Float price = Float.valueOf(map.get("SuitePrice"));
 
                 Dishes dishes = dishesMap.get(dishNo);
-                Map<Integer,List<SuiteItem>> suiteItemMap = itemMap.get(dishNo);
+                Map<Integer, List<SuiteItem>> suiteItemMap = itemMap.get(dishNo);
 
                 if (null == dishes) {
                     dishes = new Dishes();
@@ -1898,7 +1890,7 @@ public class ApiXmlVoParser {
 
                 Integer grade = Integer.valueOf(map.get("Grade"));
                 List<SuiteItem> suiteItems = suiteItemMap.get(grade);
-                if(CollectionUtils.isEmpty(suiteItems)){
+                if (CollectionUtils.isEmpty(suiteItems)) {
                     suiteItems = Lists.newArrayList();
                 }
 
@@ -1918,16 +1910,16 @@ public class ApiXmlVoParser {
 
                 suiteItems.add(item);
                 suiteItemMap.put(grade, suiteItems);
-                itemMap.put(dishNo,suiteItemMap);
-                dishesMap.put(dishNo,dishes);
+                itemMap.put(dishNo, suiteItemMap);
+                dishesMap.put(dishNo, dishes);
             }
             List<Dishes> dishesList = Lists.newArrayList();
-            for(Dishes dishes : dishesMap.values()){
+            for (Dishes dishes : dishesMap.values()) {
                 String dishNo = dishes.getDishNo();
 
                 List<List<SuiteItem>> lists = Lists.newArrayList();
-                Map<Integer,List<SuiteItem>> suiteItemMap = itemMap.get(dishNo);
-                for(List<SuiteItem> items : suiteItemMap.values()){
+                Map<Integer, List<SuiteItem>> suiteItemMap = itemMap.get(dishNo);
+                for (List<SuiteItem> items : suiteItemMap.values()) {
                     lists.add(items);
                 }
                 JSONDataUtil jacksonConverter = JSONConvertFactory.getJacksonConverter();
@@ -1939,30 +1931,30 @@ public class ApiXmlVoParser {
         }
         return null;
     }
-    
-	public static List<WaiterVO> parseWaiterList(String html, String charset) throws Exception {
-		 InputStream ins = new ByteArrayInputStream(html.getBytes(charset));
-         Dom4jHelper dom4jHelper = new Dom4jHelper(ins, charset);
-         List<Map<String, String>> list = dom4jHelper.getListElements("Row");
-         if (list != null && !list.isEmpty()) {
- 			List<WaiterVO> mealTabList = new ArrayList<WaiterVO>();
- 			String pwd = null;
- 			for(Map<String, String> map : list){
- 				WaiterVO vo = new WaiterVO();
- 				pwd = map.get("Pwd");
- 				if(StringUtils.isNotBlank(pwd)) {
- 					vo.setPwd(MD5Util.MD5(pwd));
- 				}
- 				vo.setUserName(map.get("UserName"));
- 				vo.setUserNo(map.get("UserNo"));
- 				vo.setStatus(map.get("Status"));
- 				vo.setiCCard(map.get("ICCard"));
- 				mealTabList.add(vo);
- 			}
- 			return mealTabList;
- 		}
- 		return null;
-	}
+
+    public static List<WaiterVO> parseWaiterList(String html, String charset) throws Exception {
+        InputStream ins = new ByteArrayInputStream(html.getBytes(charset));
+        Dom4jHelper dom4jHelper = new Dom4jHelper(ins, charset);
+        List<Map<String, String>> list = dom4jHelper.getListElements("Row");
+        if (list != null && !list.isEmpty()) {
+            List<WaiterVO> mealTabList = new ArrayList<WaiterVO>();
+            String pwd = null;
+            for (Map<String, String> map : list) {
+                WaiterVO vo = new WaiterVO();
+                pwd = map.get("Pwd");
+                if (StringUtils.isNotBlank(pwd)) {
+                    vo.setPwd(MD5Util.MD5(pwd));
+                }
+                vo.setUserName(map.get("UserName"));
+                vo.setUserNo(map.get("UserNo"));
+                vo.setStatus(map.get("Status"));
+                vo.setiCCard(map.get("ICCard"));
+                mealTabList.add(vo);
+            }
+            return mealTabList;
+        }
+        return null;
+    }
 
     public static CyReservationResult parseOrder(String html, String charset) throws Exception {
         InputStream ins = new ByteArrayInputStream(html.getBytes(charset));
@@ -1976,7 +1968,7 @@ public class ApiXmlVoParser {
         try {
             CyReservationResult result = new CyReservationResult();
             Map<String, String> map = dom4jHelper.getAllElements("Row");
-            if(!CollectionUtils.isEmpty(map)){
+            if (!CollectionUtils.isEmpty(map)) {
                 result.setBillno(map.get("Billno"));
                 result.setConfirmationID(map.get("confirmationID"));
                 result.setHotelCode(map.get("HotelCode"));
@@ -1987,5 +1979,26 @@ public class ApiXmlVoParser {
             String message = dom4jHelper.getElementValue("Message");
             throw new ApiException(message);
         }
+    }
+
+    public static List<DishesUnit> parseDishesUnit(String html, String charset) throws Exception {
+        InputStream ins = new ByteArrayInputStream(html.getBytes(charset));
+        Dom4jHelper dom4jHelper = new Dom4jHelper(ins, charset);
+        List<Map<String, String>> list = dom4jHelper.getListElements("Row");
+        if (list != null && !list.isEmpty()) {
+            List<DishesUnit> mealTabList = Lists.newArrayList();
+
+            int size = list.size();
+            for (int i = 0; i < size; i++) {
+                Map<String, String> map = list.get(i);
+                DishesUnit unit = new DishesUnit();
+                unit.setId(i + 1);
+                unit.setPrice(Float.valueOf(map.get("Price")));
+                unit.setUnit(map.get("Unit"));
+                mealTabList.add(unit);
+            }
+            return mealTabList;
+        }
+        return null;
     }
 }

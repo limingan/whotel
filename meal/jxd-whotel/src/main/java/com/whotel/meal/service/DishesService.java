@@ -4,13 +4,11 @@ import com.google.common.collect.Lists;
 import com.whotel.hotel.entity.Hotel;
 import com.whotel.hotel.service.HotelService;
 import com.whotel.meal.dao.DishesDao;
-import com.whotel.meal.entity.Dishes;
-import com.whotel.meal.entity.DishesAction;
-import com.whotel.meal.entity.DishesCategory;
-import com.whotel.meal.entity.Restaurant;
+import com.whotel.meal.entity.*;
 import com.whotel.thirdparty.jxd.api.JXDMealService;
 import com.whotel.thirdparty.jxd.mode.MealDishesActionQuery;
 import com.whotel.thirdparty.jxd.mode.MealDishesSuiteQuery;
+import com.whotel.thirdparty.jxd.mode.MealDishesUnitQuery;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,4 +78,21 @@ public class DishesService {
     }
 
 
+    public void syncDishesUnit(String dishesId) throws Exception {
+        JXDMealService jxdMealService = new JXDMealService();
+        Dishes dishes = dishesDao.get(dishesId);
+        String dishNo = dishes.getDishNo();
+        String hotelCode = dishes.getHotelCode();
+
+        MealDishesUnitQuery query = new MealDishesUnitQuery();
+        query.setDishNo(dishNo);
+        query.setHotelCode(hotelCode);
+        query.setLastQueryTime("2010-01-01");
+        Hotel hotel = hotelService.getHotel(dishes.getCompanyId(),hotelCode);
+
+        List<DishesUnit> list = jxdMealService.loadDishesUnit(query,hotel.getMealUrl());
+
+
+
+    }
 }

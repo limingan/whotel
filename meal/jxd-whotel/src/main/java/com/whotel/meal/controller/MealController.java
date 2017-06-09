@@ -360,7 +360,14 @@ public class MealController extends FanBaseController {
                     dishes.setIsMultiStyle(1);
 
                     select.add(actionMap);
-                } else {
+                }else if (CollectionUtils.isNotEmpty(dishes.getUnitList())) {
+                    Map<String, Object> actionMap = Maps.newHashMap();
+                    actionMap.put("id", "unit");
+                    actionMap.put("name", "规格");
+                    actionMap.put("data", dishes.getUnitList());
+                    dishes.setIsMultiStyle(1);
+                    select.add(actionMap);
+                }else {
                     dishes.setIsMultiStyle(0);
                 }
                 JSONDataUtil jacksonConverter = JSONConvertFactory.getJacksonConverter();
@@ -601,37 +608,6 @@ public class MealController extends FanBaseController {
         }
     }
 
-    @RequestMapping("/oauth/meal/syncDishesAction")
-    @ResponseBody
-    public ResultData syncDishesAction(String hotelId) {
-        ResultData resultData = new ResultData();
-        Hotel hotel = hotelService.getHotelById(hotelId);
-        List<DishesAction> actionList = dishesActionService.getDishesAction(hotel);
-        dishesActionService.saveDishesAction(actionList);
-
-        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
-        resultData.setMessage("操作成功");
-        return resultData;
-    }
-
-    /**
-     * 同步套餐信息
-     *
-     * @param restId
-     * @return
-     */
-    @RequestMapping("/oauth/meal/syncDishesSuite")
-    @ResponseBody
-    public ResultData syncDishesSuite(String restId) {
-        ResultData resultData = new ResultData();
-        Restaurant restaurant = restaurantService.getById(restId);
-        List<Dishes> list = dishesService.syncSuite(restaurant);
-        resultData.setData(list);
-        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
-        resultData.setMessage("操作成功");
-        return resultData;
-    }
-
     /**
      * 获取地址列表
      *
@@ -811,7 +787,7 @@ public class MealController extends FanBaseController {
 
     @RequestMapping("/oauth/meal/memberPay")
     @ResponseBody
-    public String memberPay(HttpServletRequest req, String password, String orderId, String mbrCardNo) throws Exception {
+    public String memberPay(HttpServletRequest req, String password, String orderId) throws Exception {
         Member member = getCurrentMember(req);
         if (!StringUtils.equals(member.getPayPwd(), EncryptUtil.md5(password))) {
             return "支付密码不正确";
@@ -827,8 +803,8 @@ public class MealController extends FanBaseController {
         MemberVO memberVO = getCurrentMemberVO(req);
         Company company = getCurrentCompany(req);
         String subProfileId = null;
-        if (StringUtils.isNotBlank(mbrCardNo)) {
-            MbrCardVO mbrCardVO = memberTradeService.getMbrCardVO(company, memberVO.getProfileId(), mbrCardNo);
+        if (null != memberVO && StringUtils.isNotBlank(memberVO.getMbrCardNo())) {
+            MbrCardVO mbrCardVO = memberTradeService.getMbrCardVO(company, memberVO.getProfileId(), memberVO.getMbrCardNo());
             if (mbrCardVO == null) {
                 return "订单数据错误，卡号找不到，请重新下单！";
             } else if (mbrCardVO.getBalance() < (payOrder.getTotalFee() / 100)) {
@@ -845,7 +821,7 @@ public class MealController extends FanBaseController {
 
         payOrder.setOpenId(fan.getOpenId());
         payOrder.setCompanyId(company.getId());
-        payOrder.setMbrCardNo(mbrCardNo);
+        payOrder.setMbrCardNo(memberVO.getMbrCardNo());
         payOrder.setPayMent(PayMent.BALANCEPAY);
         payOrderService.savePayOrder(payOrder);
         String tradeNo = payOrder.getOrderSn();

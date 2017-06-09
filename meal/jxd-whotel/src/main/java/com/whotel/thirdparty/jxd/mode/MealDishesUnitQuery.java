@@ -4,13 +4,13 @@ import com.whotel.thirdparty.jxd.util.AbstractInputParam;
 
 public class MealDishesUnitQuery extends AbstractInputParam {
 	
-	private String opType = "餐饮食品作法查询";
+	private String opType = "餐饮菜式单位价格";
 	
 	private String hotelCode;//酒店代码
 	
 	private String lastQueryTime;//
 
-	private String refeNo;
+	private String dishNo;
 
 	public String getOpType() {
 		return opType;
@@ -36,12 +36,12 @@ public class MealDishesUnitQuery extends AbstractInputParam {
 		this.lastQueryTime = lastQueryTime;
 	}
 
-	public String getRefeNo() {
-		return refeNo;
+	public String getDishNo() {
+		return dishNo;
 	}
 
-	public void setRefeNo(String refeNo) {
-		this.refeNo = refeNo;
+	public void setDishNo(String dishNo) {
+		this.dishNo = dishNo;
 	}
 
 	@Override
