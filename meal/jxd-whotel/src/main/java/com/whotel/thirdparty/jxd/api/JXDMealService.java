@@ -208,7 +208,7 @@ public class JXDMealService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<DishesUnit> loadDishesUnit(MealDishesUnitQuery query,String mealUrl) throws Exception {
+	public List<DishesUnit> loadDishesUnit(MealDishesUnitQuery query,String mealUrl,float price) throws Exception {
 
 		String param = JxdXmlUtils.toXml(query);
 		if(log.isDebugEnabled()) {
@@ -218,8 +218,19 @@ public class JXDMealService {
 		Response res = HttpHelper.connect(mealUrl).header("Content-Type",
 				"text/xml").timeout(JXDConstants.TIMEOUT).post(param);
 		ApiXmlVoParser.checkReturnContent(res);
-		return ApiXmlVoParser.parseDishesUnit(res.html(), res.charset());
+		return ApiXmlVoParser.parseDishesUnit(res.html(), res.charset(), price);
 	}
 
 
+	public List<DishesRequest> loadDishesRequest(MealDishesRequestQuery query, String mealUrl) throws Exception {
+		String param = JxdXmlUtils.toXml(query);
+		if(log.isDebugEnabled()) {
+			log.debug("param: \n" + param);
+		}
+		// 请求接口并获得响应
+		Response res = HttpHelper.connect(mealUrl).header("Content-Type",
+				"text/xml").timeout(JXDConstants.TIMEOUT).post(param);
+		ApiXmlVoParser.checkReturnContent(res);
+		return ApiXmlVoParser.parseDishesRequest(res.html(), res.charset());
+	}
 }

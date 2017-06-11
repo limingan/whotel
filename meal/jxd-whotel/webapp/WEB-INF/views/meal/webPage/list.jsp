@@ -508,13 +508,14 @@ response.setDateHeader("Expires",0);
 		  if(liLength == 1)
 			 className = 'redborder';
    	      $(n.data).each(function(ii,nn){
-		    baseHtml += '<li class="{2}"attrid="{0}"  >{1}</li>'.format(nn.id,nn.name,className);
+		    baseHtml += '<li class="{2}" attrid="{0}" addPrice="{3}" >{1}</li>'.format(nn.id,nn.name,className,nn.addPrice);
 		 });
 		 baseHtml = '<ul>{0}</ul>'.format(baseHtml);
 		 
 		 html += multiStyleBaseTemplate.format(n.name, baseHtml,n.id);
 	   });
 	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
+	   html += '<input id="orgPrice" type="hidden" value="{0}">'.format(dPrice);
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
 	   html += '<img class="bottomright-button addToList" src="/static/meal/images/dish_addMenu.png"/>';
 	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
@@ -541,7 +542,7 @@ response.setDateHeader("Expires",0);
 		   }
 		   var dishId = $(this).parent().children('#dishId').val();
 		   totalCount += 1;
-		   totalPrice += parseFloat(dPrice);
+		   totalPrice += parseFloat($('.bottom-price').text());
 		   allDishCategoryList[dishCategory] = undefined != allDishCategoryList[dishCategory]?allDishCategoryList[dishCategory]+1:1;
 		   
 		   var obj = {};
@@ -553,9 +554,19 @@ response.setDateHeader("Expires",0);
 	   })
 	   //TODO:addListener
 	   $('.mModal1,.popupWindow').show();
+	   function refreshBottomPrice()
+	   {
+		var orgPrice = parseFloat($('#orgPrice').val());
+		var accAddPrice = 0.0;
+		$('.multiStyle ul').find('.redborder').each(function(i,n){
+			accAddPrice += parseFloat($(n).attr('addPrice'));
+		})
+		$('.bottom-price').text((orgPrice +accAddPrice).toFixed(2)) 
+	   }
 	   $('.multiStyle ul li').click(function(){
 	    $(this).parent().children('li').removeClass('redborder');
 		$(this).addClass('redborder');
+		refreshBottomPrice();
 	   });
 	   var modal = document.getElementByClass('mModal1')[0]; // 弹窗dom对象
        modal.addEventListener('touchmove', function(e) {

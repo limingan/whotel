@@ -6,7 +6,7 @@ import com.whotel.hotel.service.HotelService;
 import com.whotel.meal.dao.DishesDao;
 import com.whotel.meal.entity.*;
 import com.whotel.thirdparty.jxd.api.JXDMealService;
-import com.whotel.thirdparty.jxd.mode.MealDishesActionQuery;
+import com.whotel.thirdparty.jxd.mode.MealDishesRequestQuery;
 import com.whotel.thirdparty.jxd.mode.MealDishesSuiteQuery;
 import com.whotel.thirdparty.jxd.mode.MealDishesUnitQuery;
 import org.apache.log4j.Logger;
@@ -30,31 +30,33 @@ public class DishesService {
     private DishesDao dishesDao;
     @Autowired
     private HotelService hotelService;
+    @Autowired
+    private DishesRequestService dishesRequestService;
 
-    public Dishes getDishesById(String id){
+    public Dishes getDishesById(String id) {
         return dishesDao.get(id);
     }
 
-    public List<Dishes> getByCate(DishesCategory cat){
+    public List<Dishes> getByCate(DishesCategory cat) {
         Map<String, Serializable> properties = new HashMap<>();
         properties.put("companyId", cat.getCompanyId());
-        properties.put("hotelCode",cat.getHotelCode());
-        properties.put("restaurantId",cat.getRestaurantId());
-        properties.put("dishno1",cat.getId());
+        properties.put("hotelCode", cat.getHotelCode());
+        properties.put("restaurantId", cat.getRestaurantId());
+        properties.put("dishno1", cat.getId());
         return dishesDao.findByProperties(properties);
     }
 
-    public List<Dishes> syncSuite(Restaurant restaurant){
+    public List<Dishes> syncSuite(Restaurant restaurant) {
         List<Dishes> dishesList = this.getSuite(restaurant);
         this.saveDishesList(dishesList);
         return dishesList;
     }
 
 
-    public List<Dishes> getSuite(Restaurant restaurant){
+    public List<Dishes> getSuite(Restaurant restaurant) {
         List<Dishes> result = Lists.newArrayList();
         try {
-            Hotel hotel = hotelService.getHotel(restaurant.getCompanyId(),restaurant.getHotelCode());
+            Hotel hotel = hotelService.getHotel(restaurant.getCompanyId(), restaurant.getHotelCode());
             JXDMealService jxdMealService = new JXDMealService();
             MealDishesSuiteQuery query = new MealDishesSuiteQuery();
             query.setHotelCode(restaurant.getHotelCode());
@@ -62,17 +64,17 @@ public class DishesService {
             result = jxdMealService.loadSuiteItem(query, restaurant, hotel.getMealUrl());
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("DishesActionService getDishesAction" ,e);
+            logger.error("DishesActionService getDishesAction", e);
         }
         return result;
     }
 
-    public void saveDishes(Dishes dishes){
+    public void saveDishes(Dishes dishes) {
         dishesDao.save(dishes);
     }
 
-    public void saveDishesList(List<Dishes> dishesList){
-        for(Dishes dishes : dishesList){
+    public void saveDishesList(List<Dishes> dishesList) {
+        for (Dishes dishes : dishesList) {
             this.saveDishes(dishes);
         }
     }
@@ -88,11 +90,35 @@ public class DishesService {
         query.setDishNo(dishNo);
         query.setHotelCode(hotelCode);
         query.setLastQueryTime("2010-01-01");
-        Hotel hotel = hotelService.getHotel(dishes.getCompanyId(),hotelCode);
+        Hotel hotel = hotelService.getHotel(dishes.getCompanyId(), hotelCode);
 
-        List<DishesUnit> list = jxdMealService.loadDishesUnit(query,hotel.getMealUrl());
+        Float price = dishes.getPrice();
+        if (null == price) {
+            price = 0F;
+        }
 
+        List<DishesUnit> list = jxdMealService.loadDishesUnit(query, hotel.getMealUrl(), price);
+        dishes.setUnitList(list);
+        dishesDao.save(dishes);
+    }
 
+    public void syncDishesRequest(String hotelId) throws Exception {
+        Hotel hotel = hotelService.getHotelById(hotelId);
+
+        MealDishesRequestQuery query = new MealDishesRequestQuery();
+        query.setHotelCode(hotel.getCode());
+        JXDMealService jxdMealService = new JXDMealService();
+        List<DishesRequest> list = jxdMealService.loadDishesRequest(query, hotel.getMealUrl());
+
+        HotelDishesRequest request = dishesRequestService.getByHotelId(hotelId);
+        if (null == request) {
+            request = new HotelDishesRequest();
+            request.setCompanyId(hotel.getCompanyId());
+            request.setHotelId(hotelId);
+            request.setHotelCode(hotel.getCode());
+        }
+        request.setList(list);
+        dishesRequestService.save(request);
 
     }
 }

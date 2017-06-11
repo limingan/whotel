@@ -171,7 +171,7 @@
 				   {
 				     case 'set'  :
 					 case 'multi':document.write('<span class="dishName">{0}</span>'.format(dishInfo['name']));
-								  document.write('<i>{0}元/{1}</i>'.format(dishInfo['price'],dishInfo['unit']));
+								  document.write('<i id="dish{0}" ></i>'.format(i));
 								  if(dishInfo['style'] == 'multi'){
 								  document.write('<span style="color: #ccc;position:absolute;line-height: 21px;margin-left: 35px;font-size: 12px;">');
 								  var dishData = eval('('+ dishInfo['data'] + ')');
@@ -182,7 +182,7 @@
 								   for(var j=0;j<n.data.length;j++)
 								   {
 								    if(n.data[j].id == subId)
-									  {styleName = n.data[j].name;break}
+									  {styleName = n.data[j].name;addPrice+=parseFloat(n.data[j].addPrice);break}
 								   }
 								    document.write(' '+name+":"+styleName+' ');
 								  })
@@ -190,7 +190,9 @@
 								  }
 					              document.write('<section class="bbox"  dishid="{0}" dishname="{1}">'.format(dishId,dishInfo['name']));
 					              document.write('<input class="btn-reduce"  type="button" style="margin-left:-54px" value="-">');
-					              document.write('<input class="numBox" name="numBox" type="hidden" value="1" price="{0}" disabled="disabled">'.format(dishInfo['price']));
+					              var realPrice = (parseFloat(dishInfo['price'])+addPrice).toFixed(2);
+					              document.write('<input class="numBox" name="numBox" type="hidden" value="1" price="{0}" disabled="disabled">'.format(realPrice));
+								  $('#dish'+i).text('{0}元/{1}'.format(realPrice,dishInfo['unit']));
 								  var className = (dishInfo['style'] == 'set') ? 'setData':'styleData';
 								  document.write('<input class="{1}" type="hidden" value="{0}" />'.format(dishInfo['data'],className));
 								  document.write('<h2><button class="btn_add editStyle"  style="position:absolute;top:3px;left:23px;" onclick=";">编辑</button></h2>');
@@ -361,7 +363,7 @@ function tototal(){
     return endTotal;
 }
 tototal();//初始化金额
-function addMinusNormalDish(dishId,sign)
+function addMinusNormalDish(dishId,sign,dishPrice=0)
 {
  var dishInfo = eval('('+ localStorage.getItem(dishId) + ')');	 
  for(var i in allDishObject)
@@ -384,7 +386,10 @@ function addMinusNormalDish(dishId,sign)
   if(allDishCategoryList[dishCategory]  == 0)
     delete allDishCategoryList[dishCategory];
   totalCount+=sign;
+  if(0 == dishPrice)
   totalPrice += sign*(dishInfo['price']);
+  else
+  totalPrice += sign*(dishPrice);	  
   refreshCategoryPrice(allDishCategoryList , allDishObject,totalCount ,totalPrice);
 }
 function doSelectBtn(){
@@ -449,13 +454,13 @@ function doSelectBtn(){
             var dishid = _self.parentNode.getAttribute('dishid');
             var dishName = _self.parentNode.getAttribute('dishName');
             var countNumText =  parseInt(_self.parentNode.children[1].value, 10);
-
+            var price = parseFloat(_self.parentNode.children[1].getAttribute('price'));
             if(beforeRemoveDish){
                 setTimeout(function(){
                     MDialog.confirm(
                         '', '是否删除' + dishName +'？', null,
                         '确定', function(){
-                           addMinusNormalDish(dishid,-1);
+                           addMinusNormalDish(dishid,-1,price);
 						   var li = _self.parentNode.parentNode;
                            li.parentNode.removeChild(li);
 						   tototal();
@@ -932,6 +937,7 @@ function postmain() {
 	   var multiStyleBaseTemplate = '<div class="subtitle" attrid="{2}">{0}</div>{1}';
 	   var multiStyle = eval('('+ dishInfo.data + ')');
 	   var selectedStyle =  allDishObject[liId][dishId];
+	   var oldPrice;
 	   $(multiStyle).each(function(i,n){
 	      var baseHtml = '';
 		  var currentStyle = i;
@@ -939,9 +945,9 @@ function postmain() {
 		  
    	      $(n.data).each(function(ii,nn){
 		    if(nn.id == selectedStyleId)
-		    baseHtml += '<li class="redborder" attrid="{0}"  >{1}</li>'.format(nn.id,nn.name);
+		    baseHtml += '<li class="redborder" attrid="{0}" addPrice="{2}" >{1}</li>'.format(nn.id,nn.name,nn.addPrice);
 			else
-			baseHtml += '<li attrid="{0}"  >{1}</li>'.format(nn.id,nn.name);
+			baseHtml += '<li attrid="{0}"  addPrice="{2}">{1}</li>'.format(nn.id,nn.name,nn.addPrice);
 		 });
 		 baseHtml = '<ul>{0}</ul>'.format(baseHtml);
 		 
@@ -949,6 +955,7 @@ function postmain() {
 	   });
 	   html += '<img class="bottom-rmb" src="/static/meal/images/rmb.png"/>';
 	   html += '<span class="bottom-price">{0}</span>'.format(dPrice);
+	   html += '<input id="orgPrice" type="hidden" value="{0}">'.format(dPrice);
 	   html += '<button class="bottomright-button addToList" src="./images/dish_addMenu.png">确定</button>';
 	   html += '<input id="dishId" type="hidden" value="{0}" />'.format(dishId);
 	   html += '<input id="dishCategory" type="hidden" value="{0}" />'.format(dishCategory);
@@ -976,16 +983,28 @@ function postmain() {
 		   var obj = {};
 		   obj[dishId] = dishStyleList;
 		   allDishObject[liId] = obj;
-		   
+		   totalPrice = totalPrice - parseFloat(oldPrice) + parseFloat($('.bottom-price').text());
 		   refreshCategoryPrice(allDishCategoryList , allDishObject,totalCount ,totalPrice);
 		   $('.popupWindow .close').click();
 		   location.reload();
 	   })
 	   //TODO:addListener
 	   $('.mModal1,.popupWindow').show();
+	   function refreshBottomPrice()
+	   {
+		var orgPrice = parseFloat($('#orgPrice').val());
+		var accAddPrice = 0.0;
+		$('.multiStyle ul').find('.redborder').each(function(i,n){
+			accAddPrice += parseFloat($(n).attr('addPrice'));
+		})
+		$('.bottom-price').text((orgPrice +accAddPrice).toFixed(2)) 
+	   }
+	   refreshBottomPrice();
+	   oldPrice = $('.bottom-price').text();
 	   $('.multiStyle ul li').click(function(){
 	    $(this).parent().children('li').removeClass('redborder');
 		$(this).addClass('redborder');
+		refreshBottomPrice();
 	   });
 	   
 	 }

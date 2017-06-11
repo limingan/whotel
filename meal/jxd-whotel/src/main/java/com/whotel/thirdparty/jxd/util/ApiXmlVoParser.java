@@ -1981,7 +1981,7 @@ public class ApiXmlVoParser {
         }
     }
 
-    public static List<DishesUnit> parseDishesUnit(String html, String charset) throws Exception {
+    public static List<DishesUnit> parseDishesUnit(String html, String charset,float price) throws Exception {
         InputStream ins = new ByteArrayInputStream(html.getBytes(charset));
         Dom4jHelper dom4jHelper = new Dom4jHelper(ins, charset);
         List<Map<String, String>> list = dom4jHelper.getListElements("Row");
@@ -1992,9 +1992,30 @@ public class ApiXmlVoParser {
             for (int i = 0; i < size; i++) {
                 Map<String, String> map = list.get(i);
                 DishesUnit unit = new DishesUnit();
-                unit.setId(i + 1);
-                unit.setPrice(Float.valueOf(map.get("Price")));
-                unit.setUnit(map.get("Unit"));
+                unit.setId((i + 1) + "");
+                unit.setAddPrice(Float.valueOf(map.get("Price")) - price);
+                unit.setName(map.get("Unit"));
+                mealTabList.add(unit);
+            }
+            return mealTabList;
+        }
+        return null;
+    }
+
+    public static List<DishesRequest> parseDishesRequest(String html, String charset) throws Exception {
+        InputStream ins = new ByteArrayInputStream(html.getBytes(charset));
+        Dom4jHelper dom4jHelper = new Dom4jHelper(ins, charset);
+        List<Map<String, String>> list = dom4jHelper.getListElements("Row");
+        if (list != null && !list.isEmpty()) {
+            List<DishesRequest> mealTabList = Lists.newArrayList();
+
+            int size = list.size();
+            for (int i = 0; i < size; i++) {
+                Map<String, String> map = list.get(i);
+                DishesRequest unit = new DishesRequest();
+                unit.setId(map.get("Requestno"));
+                unit.setAddPrice(0F);
+                unit.setName(map.get("RequestName"));
                 mealTabList.add(unit);
             }
             return mealTabList;

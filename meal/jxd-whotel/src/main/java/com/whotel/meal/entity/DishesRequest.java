@@ -1,14 +1,13 @@
 package com.whotel.meal.entity;
 
+import com.whotel.thirdparty.jxd.util.AbstractInputParam;
 import org.mongodb.morphia.annotations.Embedded;
 
 /**
- *
- * Created by limingan on 2017/4/24.
+ * Created by limingan on 2017/6/10.
  */
 @Embedded
-public class DishesUnit{
-
+public class DishesRequest {
     private String id;//dishNo
 
     private String name;//单位
@@ -38,4 +37,5 @@ public class DishesUnit{
     public void setName(String name) {
         this.name = name;
     }
+
 }

@@ -8,10 +8,7 @@ import com.whotel.card.entity.Member;
 import com.whotel.card.service.MemberService;
 import com.whotel.common.dao.mongo.Order;
 import com.whotel.common.dao.mongo.Page;
-import com.whotel.common.enums.FilterModel;
-import com.whotel.common.enums.PayMent;
-import com.whotel.common.enums.PayMode;
-import com.whotel.common.enums.TradeStatus;
+import com.whotel.common.enums.*;
 import com.whotel.common.util.BeanUtil;
 import com.whotel.common.util.DateUtil;
 import com.whotel.company.entity.Company;
@@ -84,6 +81,9 @@ public class MealOrderService {
     PayConfigService payConfigService;
     @Autowired
     MealTabDao mealTabDao;
+    @Autowired
+    DishesRequestService dishesRequestService;
+
 
 
     /**
@@ -396,7 +396,7 @@ public class MealOrderService {
 
             List<DishProp> propList = item.getPropList();
             if (CollectionUtils.isNotEmpty(propList)) {
-                Map<String, Object> map = this.getPropMap(propList);
+                Map<String, Object> map = this.getPropMap(propList,dishes);
                 float tempTotal = (float) map.get("total");
                 String propData = (String) map.get("propData");
                 total += tempTotal;
@@ -477,7 +477,7 @@ public class MealOrderService {
     }
 
     public CyReservationResult createOrder(MealOrder order) throws Exception {
-        Hotel hotel = hotelService.getHotel(order.getCompanyId(),order.getHotelCode());
+        Hotel hotel = hotelService.getHotel(order.getCompanyId(), order.getHotelCode());
         Restaurant restaurant = restaurantService.getById(order.getRestaurantId());
         MealTab mealTab = mealTabDao.get(order.getMealTabId());
         JSONDataUtil jsonDataUtil = JSONConvertFactory.getJacksonConverter();
@@ -546,28 +546,38 @@ public class MealOrderService {
         StringBuffer sb = new StringBuffer("");
         if (StringUtils.isNotBlank(propData)) {
             List<JSONObject> list = jsonDataUtil.listFromString(propData, JSONObject.class);
-            JSONArray jsonArray = list.get(0).getJSONArray("propValue");
-            int size = jsonArray.size();
-            for (int i = 0; i < size; i++) {
-                JSONObject job = jsonArray.getJSONObject(i);
-                if (i == size - 1) {
-                    sb.append(job.get("name"));
-                } else {
-                    sb.append(job.get("name")).append(",");
+            int outSize = list.size();
+            for(int i = 0; i < outSize; i++){
+                JSONObject object = list.get(i);
+                sb.append(object.optString("propName")).append(":");
+
+                JSONArray jsonArray = object.getJSONArray("propValue");
+                int size = jsonArray.size();
+                for (int j = 0; j < size; j++) {
+                    JSONObject job = jsonArray.getJSONObject(j);
+                    if(j == size - 1){
+                        if(i == outSize - 1){
+                            sb.append(job.get("name"));
+                        }else{
+                            sb.append(job.get("name")).append(";");
+                        }
+                    }else {
+                        sb.append(job.get("name")).append(",");
+                    }
                 }
             }
         }
         return sb.toString();
     }
 
-    private Map<String, Object> getPropMap(List<DishProp> propList) {
+    private Map<String, Object> getPropMap(List<DishProp> propList,Dishes dishes) {
         JSONDataUtil jsonDataUtil = JSONConvertFactory.getJacksonConverter();
         float total = 0F;
         List<Map<String, Object>> propResult = Lists.newArrayList();
         for (DishProp prop : propList) {
-            if (prop.getPropId().equals("action")) {
+            if (prop.getPropId().equals(DishesProperties.action.name())) {
                 Map<String, Object> actionMap = Maps.newHashMap();
-                actionMap.put("propName", "做法");
+                actionMap.put("propName", DishesProperties.action.getLabel());
                 List<Map<String, String>> propValue = Lists.newArrayList();
                 List<String> values = prop.getValueList();
                 for (String value : values) {
@@ -579,6 +589,58 @@ public class MealOrderService {
                         propValue.add(map);
 
                         total += dishesAction.getAddPrice();
+                    }
+                }
+                actionMap.put("propValue", propValue);
+                propResult.add(actionMap);
+            }
+
+            if (prop.getPropId().equals(DishesProperties.unit.name())) {
+                Map<String, Object> actionMap = Maps.newHashMap();
+                actionMap.put("propName", DishesProperties.unit.getLabel());
+                List<Map<String, String>> propValue = Lists.newArrayList();
+                List<String> values = prop.getValueList();
+
+                List<DishesUnit> unitList = dishes.getUnitList();
+                Map<String,DishesUnit> unitMap = Maps.newHashMap();
+                for(DishesUnit unit : unitList){
+                    unitMap.put(unit.getId(),unit);
+                }
+                for (String value : values) {
+                    if (StringUtils.isNotEmpty(value)) {
+                        DishesUnit unit = unitMap.get(value);
+                        Map<String, String> map = Maps.newHashMap();
+                        map.put("id", unit.getId());
+                        map.put("name", unit.getName());
+                        propValue.add(map);
+
+                        total += unit.getAddPrice();
+                    }
+                }
+                actionMap.put("propValue", propValue);
+                propResult.add(actionMap);
+            }
+
+            if (prop.getPropId().equals(DishesProperties.request.name())) {
+                Map<String, Object> actionMap = Maps.newHashMap();
+                actionMap.put("propName", DishesProperties.request.getLabel());
+                List<Map<String, String>> propValue = Lists.newArrayList();
+                List<String> values = prop.getValueList();
+
+                HotelDishesRequest request = dishesRequestService.getByHotelCode(dishes.getCompanyId(), dishes.getHotelCode());
+                List<DishesRequest> unitList = request.getList();
+                Map<String,DishesRequest> unitMap = Maps.newHashMap();
+                for(DishesRequest req : unitList){
+                    unitMap.put(req.getId(),req);
+                }
+                for (String value : values) {
+                    if (StringUtils.isNotEmpty(value)) {
+                        DishesRequest req = unitMap.get(value);
+                        Map<String, String> map = Maps.newHashMap();
+                        map.put("id", req.getId());
+                        map.put("name", req.getName());
+                        propValue.add(map);
+                        total += req.getAddPrice();
                     }
                 }
                 actionMap.put("propValue", propValue);
@@ -609,7 +671,7 @@ public class MealOrderService {
 
                 List<DishProp> propList = suiteItem.getPropList();
                 if (CollectionUtils.isNotEmpty(propList)) {
-                    Map<String, Object> propMap = this.getPropMap(propList);
+                    Map<String, Object> propMap = this.getPropMap(propList,dishes);
                     String propData = (String) propMap.get("propData");
                     suiteItem.setPropData(propData);
                     suiteItem.setPropList(null);

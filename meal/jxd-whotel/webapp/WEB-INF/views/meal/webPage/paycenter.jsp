@@ -304,7 +304,7 @@
     $("#creditPay").click(function () {
         $.DialogByZ.Confirm({
             Title: "请输入卡号密码",
-            Content: "卡号:<input id='cardNo' style='margin-top:10px' type='text' />" +
+            Content:
             "密码:<input id='password' style='margin-top:10px' type='password' />",
             FunL: confirmL,
             FunR: Immediate
@@ -316,7 +316,7 @@
         var orderId = $('#orderId').val();
         if (password == '' || mbrCardNo == '') {
             $.DialogByZ.Alert({
-                Title: "提示", Content: "请输入有效卡号密码", BtnL: "确定", FunL: function () {
+                Title: "提示", Content: "请输入有效密码", BtnL: "确定", FunL: function () {
                     $.DialogByZ.Close();
                 }
             });
@@ -329,7 +329,6 @@
                 cache: false,
                 data: {
                     password: password,
-                    mbrCardNo: mbrCardNo,
                     orderId: orderId
                 },
                 dataType: "text",

@@ -845,7 +845,7 @@ public class MealManageController extends BaseCompanyController {
     }
 
 
-    @RequestMapping("/oauth/meal/syncDishesAction")
+    @RequestMapping("/syncDishesAction")
     @ResponseBody
     public ResultData syncDishesAction(String hotelId) {
         ResultData resultData = new ResultData();
@@ -864,7 +864,7 @@ public class MealManageController extends BaseCompanyController {
      * @param restId
      * @return
      */
-    @RequestMapping("/oauth/meal/syncDishesSuite")
+    @RequestMapping("/syncDishesSuite")
     @ResponseBody
     public ResultData syncDishesSuite(String restId) {
         ResultData resultData = new ResultData();
@@ -877,16 +877,32 @@ public class MealManageController extends BaseCompanyController {
     }
 
     /**
-     * 同步套餐信息
+     * 同步规格信息
      *
      * @param dishesId
      * @return
      */
-    @RequestMapping("/oauth/meal/syncDishesUnit")
+    @RequestMapping("/syncDishesUnit")
     @ResponseBody
     public ResultData syncDishesUnit(String dishesId) throws Exception {
         ResultData resultData = new ResultData();
         dishesService.syncDishesUnit(dishesId);
+        resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
+        resultData.setMessage("操作成功");
+        return resultData;
+    }
+
+    /**
+     * 同步套餐信息
+     *
+     * @param hotelId
+     * @return
+     */
+    @RequestMapping("/syncDishesRequest")
+    @ResponseBody
+    public ResultData syncDishesRequest(String hotelId) throws Exception {
+        ResultData resultData = new ResultData();
+        dishesService.syncDishesRequest(hotelId);
         resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
         resultData.setMessage("操作成功");
         return resultData;

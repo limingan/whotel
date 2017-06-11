@@ -52,7 +52,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletRequest;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
@@ -101,6 +100,8 @@ public class MealController extends FanBaseController {
     PrizeService prizeService;
     @Autowired
     private PayOrderService payOrderService;
+    @Autowired
+    DishesRequestService dishesRequestService;
 
     /**
      * 登陆通用方法
@@ -135,7 +136,7 @@ public class MealController extends FanBaseController {
             member.setOpenId(openId);
             member.setCompanyId(companyId);
             memberService.saveMember(member);
-            memberService.saveMemberAndSyncToJXD(member,null);
+            memberService.saveMemberAndSyncToJXD(member, null);
         }
         return param;
     }
@@ -288,14 +289,10 @@ public class MealController extends FanBaseController {
     /**
      * 计算地球上任意两点(经纬度)距离
      *
-     * @param long1
-     *            第一点经度
-     * @param lat1
-     *            第一点纬度
-     * @param long2
-     *            第二点经度
-     * @param lat2
-     *            第二点纬度
+     * @param long1 第一点经度
+     * @param lat1  第一点纬度
+     * @param long2 第二点经度
+     * @param lat2  第二点纬度
      * @return 返回距离 单位：米
      */
     public static double getDistance(double long1, double lat1, double long2, double lat2) {
@@ -347,29 +344,54 @@ public class MealController extends FanBaseController {
 
         Restaurant restaurant = restaurantService.getById(restaurantId);
         List<DishesCategory> cateList = dishesCategoryService.getByRestaurant(restaurant);
+
+        Hotel hotel = hotelService.getHotel(restaurant.getCompanyId(), restaurant.getHotelCode());
+        HotelDishesRequest request = dishesRequestService.getByHotelId(hotel.getId());
+        List<DishesRequest> requestList = Lists.newArrayList();
+        if(null != request){
+            requestList = request.getList();
+        }
+
         for (DishesCategory category : cateList) {
             List<Dishes> list = dishesService.getByCate(category);
             for (Dishes dishes : list) {
                 List<Map<String, Object>> select = Lists.newArrayList();
                 List<DishesAction> actionList = dishesActionService.getByDishes(dishes);
+                int isMultiStyle = 0;
                 if (CollectionUtils.isNotEmpty(actionList)) {
                     Map<String, Object> actionMap = Maps.newHashMap();
-                    actionMap.put("id", "action");
-                    actionMap.put("name", "做法");
+                    DishesProperties properties = DishesProperties.action;
+                    actionMap.put("id", properties.name());
+                    actionMap.put("name", properties.getLabel());
                     actionMap.put("data", actionList);
-                    dishes.setIsMultiStyle(1);
+                    actionMap.put("multiselect", false);
+                    select.add(actionMap);
 
-                    select.add(actionMap);
-                }else if (CollectionUtils.isNotEmpty(dishes.getUnitList())) {
-                    Map<String, Object> actionMap = Maps.newHashMap();
-                    actionMap.put("id", "unit");
-                    actionMap.put("name", "规格");
-                    actionMap.put("data", dishes.getUnitList());
-                    dishes.setIsMultiStyle(1);
-                    select.add(actionMap);
-                }else {
-                    dishes.setIsMultiStyle(0);
+                    isMultiStyle = 1;
                 }
+                if (CollectionUtils.isNotEmpty(dishes.getUnitList())) {
+                    DishesProperties properties = DishesProperties.unit;
+                    Map<String, Object> unitMap = Maps.newHashMap();
+                    unitMap.put("id", properties.name());
+                    unitMap.put("name", properties.getLabel());
+                    unitMap.put("data", dishes.getUnitList());
+                    unitMap.put("multiselect", false);
+                    select.add(unitMap);
+
+                    isMultiStyle = 1;
+                }
+                if (CollectionUtils.isNotEmpty(requestList)) {
+                    Map<String, Object> requestMap = Maps.newHashMap();
+                    DishesProperties properties = DishesProperties.request;
+                    requestMap.put("id", properties.name());
+                    requestMap.put("name", properties.getLabel());
+                    requestMap.put("data", requestList);
+                    requestMap.put("multiselect", true);
+                    select.add(requestMap);
+                    isMultiStyle = 1;
+                }
+                dishes.setIsMultiStyle(isMultiStyle);
+
                 JSONDataUtil jacksonConverter = JSONConvertFactory.getJacksonConverter();
                 String json = jacksonConverter.jsonfromObject(select);
                 dishes.setMultiStyle(json);
@@ -383,14 +405,12 @@ public class MealController extends FanBaseController {
         }
 
 
-        HttpSession session =  req.getSession();
+        HttpSession session = req.getSession();
         int clearCookieFlag = 0;
-        try{
-            clearCookieFlag = (int)session.getAttribute("CLEARCOOKIE");
+        try {
+            clearCookieFlag = (int) session.getAttribute("CLEARCOOKIE");
             session.removeAttribute("CLEARCOOKIE");
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ;
         }
         long monthSale = restaurantService.countMonthSale(restaurant);
@@ -747,7 +767,7 @@ public class MealController extends FanBaseController {
             resultData.setData(mealOrder.getId());
         } catch (ApiException e) {
             resultData.setMessage(e.getMessage());
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             resultData.setMessage("系统产生问题,请稍后再试");
         }
@@ -756,24 +776,24 @@ public class MealController extends FanBaseController {
 
     @RequestMapping("/oauth/meal/getWxPayData")
     @ResponseBody
-    public String getWxPayData(HttpServletRequest req, String orderId,String seqId) {
+    public String getWxPayData(HttpServletRequest req, String orderId, String seqId) {
         ResultData resultData = new ResultData();
         resultData.setCode(Constants.MessageCode.RESULT_SUCCESS);
         resultData.setMessage("操作成功");
         String openId = getCurrentOpenId(req);
         String companyId = getCurrentCompanyId(req);
         MealOrder mealOrder = mealOrderService.getMealOrderById(orderId);
-        if(StringUtils.isNotBlank(seqId) && !"0".equals(seqId)){
+        if (StringUtils.isNotBlank(seqId) && !"0".equals(seqId)) {
             MemberVO memberVO = getCurrentMemberVO(req);
-            MemberCouponVO vo = memberTradeService.getMemberCouponVOBySeqId(mealOrder.getCompanyId(),memberVO.getProfileId(),mealOrder.getHotelCode(),seqId);
-            if(null != vo){
+            MemberCouponVO vo = memberTradeService.getMemberCouponVOBySeqId(mealOrder.getCompanyId(), memberVO.getProfileId(), mealOrder.getHotelCode(), seqId);
+            if (null != vo) {
                 Company company = companyService.getCompanyById(mealOrder.getCompanyId());
                 mealOrder.setCouponCode(vo.getCode());
                 mealOrder.setCouponSeqid(seqId);
                 mealOrder.setPayFee(mealOrder.getTotalFee() - vo.getChargeamt());
                 mealOrderService.saveMealOrder(mealOrder);
 
-                memberTradeService.useMemberCoupon(mealOrder.getCompanyId(), seqId, "支付餐饮订单使用券",mealOrder.getOpenId(), company.getCode()); // 核销券
+                memberTradeService.useMemberCoupon(mealOrder.getCompanyId(), seqId, "支付餐饮订单使用券", mealOrder.getOpenId(), company.getCode()); // 核销券
             }
         }
         if (null != mealOrder && openId.equals(mealOrder.getOpenId()) && companyId.equals(mealOrder.getCompanyId())) {
