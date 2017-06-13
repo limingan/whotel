@@ -72,7 +72,7 @@ response.setDateHeader("Expires",0);
 <script type="text/javascript" src="/static/meal/js/unslider.min.js"></script>
 <script src="/static/meal/js/jquery.fly.min.js"></script>
 </head>
-<body id="page_allMenu" style="background-color: #fff;height:100%;overflow-x:hidden">
+<body id="page_allMenu" style="background-color: #fff;height:100%;width:100%;overflow-x:hidden;margin-right:0px;padding-right:0px">
 
 <div class="ddb-nav-header ng-scope">
     <a class="nav-left-item" href="javascript:void(0)" onclick="clearAndGoBack()"><i class="fa fa-angle-left"></i></a>
@@ -184,7 +184,7 @@ response.setDateHeader("Expires",0);
         </ul>
     </div>
 </div>
-<ul style="margin-left:28px;width:100%">
+<ul style="margin-left:28px;">
  <li style="list-style-type:none;"><img src="/static/meal/images/sales.png"/><span >&nbsp;月售 ${monthSale} 份</span></li>
  <li style="list-style-type:none;"><img src="/static/meal/images/timer.png"/><span >&nbsp;${rest.businessTime}</span></li>
  <li style="list-style-type:none;height:41px"><img style="float:left;margin-top:14px" src="/static/meal/images/position.png"/>
