@@ -403,6 +403,12 @@ public class MealOrderService {
                 item.setPropData(propData);
                 item.setPropList(null);
             }
+            String unit = this.getUnit(propList,dishes);
+            if(StringUtils.isNotBlank(unit)){
+                item.setUnit(unit);
+            }else{
+                item.setUnit(dishes.getUnit());
+            }
 
             int itemQuantity = item.getItemQuantity();
             total += (dishes.getPrice() * itemQuantity);
@@ -549,20 +555,46 @@ public class MealOrderService {
             int outSize = list.size();
             for(int i = 0; i < outSize; i++){
                 JSONObject object = list.get(i);
-                sb.append(object.optString("propName")).append(":");
+                if(!object.optString("propId").equals(DishesProperties.unit.name())){
+                    sb.append(object.optString("propName")).append(":");
 
-                JSONArray jsonArray = object.getJSONArray("propValue");
-                int size = jsonArray.size();
-                for (int j = 0; j < size; j++) {
-                    JSONObject job = jsonArray.getJSONObject(j);
-                    if(j == size - 1){
-                        if(i == outSize - 1){
-                            sb.append(job.get("name"));
-                        }else{
-                            sb.append(job.get("name")).append(";");
+                    JSONArray jsonArray = object.getJSONArray("propValue");
+                    int size = jsonArray.size();
+                    for (int j = 0; j < size; j++) {
+                        JSONObject job = jsonArray.getJSONObject(j);
+                        if(j == size - 1){
+                            if(i == outSize - 1){
+                                sb.append(job.get("name"));
+                            }else{
+                                sb.append(job.get("name")).append(";");
+                            }
+                        }else {
+                            sb.append(job.get("name")).append(",");
                         }
-                    }else {
-                        sb.append(job.get("name")).append(",");
+                    }
+                }
+            }
+        }
+        return sb.toString();
+    }
+
+    private String getUnit(List<DishProp> propList,Dishes dishes){
+        StringBuffer sb = new StringBuffer();
+        for (DishProp prop : propList) {
+            if (prop.getPropId().equals(DishesProperties.unit.name())) {
+                List<String> values = prop.getValueList();
+
+                List<DishesUnit> unitList = dishes.getUnitList();
+                if(CollectionUtils.isNotEmpty(unitList)){
+                    Map<String,DishesUnit> unitMap = Maps.newHashMap();
+                    for(DishesUnit unit : unitList){
+                        unitMap.put(unit.getId(),unit);
+                    }
+                    for (String value : values) {
+                        if (StringUtils.isNotEmpty(value)) {
+                            DishesUnit unit = unitMap.get(value);
+                            sb.append(unit.getName());
+                        }
                     }
                 }
             }
@@ -577,6 +609,7 @@ public class MealOrderService {
         for (DishProp prop : propList) {
             if (prop.getPropId().equals(DishesProperties.action.name())) {
                 Map<String, Object> actionMap = Maps.newHashMap();
+                actionMap.put("propId",DishesProperties.action.name());
                 actionMap.put("propName", DishesProperties.action.getLabel());
                 List<Map<String, String>> propValue = Lists.newArrayList();
                 List<String> values = prop.getValueList();
@@ -597,6 +630,7 @@ public class MealOrderService {
 
             if (prop.getPropId().equals(DishesProperties.unit.name())) {
                 Map<String, Object> actionMap = Maps.newHashMap();
+                actionMap.put("propId",DishesProperties.unit.name());
                 actionMap.put("propName", DishesProperties.unit.getLabel());
                 List<Map<String, String>> propValue = Lists.newArrayList();
                 List<String> values = prop.getValueList();
@@ -623,6 +657,7 @@ public class MealOrderService {
 
             if (prop.getPropId().equals(DishesProperties.request.name())) {
                 Map<String, Object> actionMap = Maps.newHashMap();
+                actionMap.put("propId",DishesProperties.request.name());
                 actionMap.put("propName", DishesProperties.request.getLabel());
                 List<Map<String, String>> propValue = Lists.newArrayList();
                 List<String> values = prop.getValueList();
