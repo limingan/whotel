@@ -218,7 +218,7 @@
 								  document.write('<i id="dish{0}" ></i>'.format(i));
 								  var addPrice = 0.0;
 								  if(dishInfo['style'] == 'multi'){
-								  document.write('<span style="color: #ccc;position:absolute;line-height: 21px;margin-left: 35px;font-size: 12px;">');
+								  document.write('<span style="color: #ccc;left:100px;position:absolute;max-height:40px;overflow-y:scroll;width:30%;margin-top:-22px;line-height: 13px;margin-left: 35px;font-size: 12px;">');
 								  var dishData = eval('('+ dishInfo['data'] + ')');
 								  $(dishData).each(function(ii,n){
 								   var name = n.name;
@@ -226,10 +226,10 @@
 								   var subId = dishList[i][dishId][dishData[ii].id];
 								   for(var j=0;j<n.data.length;j++)
 								   {
-								    if(n.data[j].id == subId)
-									  {styleName = n.data[j].name;addPrice+=parseFloat(n.data[j].addPrice);break}
+								    if(subId.indexOf(n.data[j].id.trim()) != -1)
+									  {styleName += n.data[j].name + ' ';addPrice+=parseFloat(n.data[j].addPrice);}
 								   }
-								    document.write(' '+name+":"+styleName+' ');
+								    document.write(' '+name+":"+styleName+'<br/>');
 								  })
 								  document.write('</span>');
 								  }
@@ -689,7 +689,7 @@ function postmain() {
 					   var innerObj = {};
 					   innerObj['propId'] = key;
 					   innerObj['valueList'] = Array();
-					   innerObj['valueList'].push(allDishObject[i][dishId][key]);
+					   innerObj['valueList'] = allDishObject[i][dishId][key];
 					   obj['propList'].push(innerObj);
 					 }
 					break;
@@ -758,6 +758,32 @@ function postmain() {
             $("#btnselect").show();
         }
     }
+   	var in_array = function(arr){
+     // 判断参数是不是数组
+     var isArr = arr && console.log(
+         typeof arr==='object' ? arr.constructor===Array ? arr.length ? arr.length===1 ? arr[0]:arr.join(','):'an empty array': arr.constructor: typeof arr 
+       );
+     
+     // 不是数组则抛出异常
+     if(!isArr){
+       throw "arguments is not Array"; 
+     }
+     
+     // 遍历是否在数组中
+     for(var i=0,k=arr.length;i<k;i++){
+       if(this==arr[i]){
+         return true;  
+       }
+     }
+     
+     // 如果不在数组中就会返回false
+     return false;
+   }
+     
+   // 给字符串添加原型
+   String.prototype.in_array = in_array;
+   // 给数字类型添加原型
+   Number.prototype.in_array = in_array;
 //edit dish set and style
     $('.popupWindow .close').click(function(){
 	 $('#popContent').html('');
@@ -959,7 +985,17 @@ function postmain() {
 	 }
 	 else if(1 == isMultiStyle)
 	 {
-	   
+	   function objOfValueToArr(object) {
+        	var arr = Array();
+        	 
+            for (var item in object) {
+            	arr.push(object[item]);
+            	 
+        	}
+			arr.push('');
+        	return arr;
+        }
+
 	   var multiStyleTemplate = '<div class="multiStyle"><div class="stitle"><span>{0}</span></div>{1}</div>';
 	   var multiStyleBaseTemplate = '<div class="subtitle" attrid="{2}">{0}</div>{1}';
 	   var multiStyle = eval('('+ dishInfo.data + ')');
@@ -971,12 +1007,12 @@ function postmain() {
 		  var selectedStyleId = selectedStyle[n.id];
 		  
    	      $(n.data).each(function(ii,nn){
-		    if(nn.id == selectedStyleId)
+		    if((selectedStyleId).indexOf(nn.id.trim()) != -1)
 		    baseHtml += '<li class="redborder" attrid="{0}" addPrice="{2}" >{1}</li>'.format(nn.id,nn.name,nn.addPrice);
 			else
 			baseHtml += '<li attrid="{0}"  addPrice="{2}">{1}</li>'.format(nn.id,nn.name,nn.addPrice);
 		 });
-		 baseHtml = '<ul>{0}</ul>'.format(baseHtml);
+		 baseHtml = '<ul multiselect="{1}">{0}</ul>'.format(baseHtml,$(n).attr('multiselect'));
 		 
 		 html += multiStyleBaseTemplate.format(n.name, baseHtml,n.id);
 	   });
@@ -1001,7 +1037,9 @@ function postmain() {
 			 }
 			 else
 			 {
-			  var subStyle = parentNode.children('ul').eq(i).children('.redborder').attr('attrid');
+			   var subStyle = [];  parentNode.children('ul').eq(i).children('.redborder').each(function(ii,nn){
+				subStyle.push($(nn).attr('attrid').trim());  
+			  })
 			  var styleId = parentNode.children('.subtitle').eq(i).attr('attrid');
 			  dishStyleList[styleId] = subStyle;
 			 }
@@ -1029,8 +1067,18 @@ function postmain() {
 	   refreshBottomPrice();
 	   oldPrice = $('.bottom-price').text();
 	   $('.multiStyle ul li').click(function(){
+	    if($(this).parent().attr('multiselect') == "true")
+		{
+			if($(this).hasClass('redborder'))
+				$(this).removeClass('redborder');
+			else
+				$(this).addClass('redborder')
+		}	
+        else
+        {			
 	    $(this).parent().children('li').removeClass('redborder');
 		$(this).addClass('redborder');
+		}
 		refreshBottomPrice();
 	   });
 	   

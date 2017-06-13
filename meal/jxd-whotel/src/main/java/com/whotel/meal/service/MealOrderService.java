@@ -631,7 +631,7 @@ public class MealOrderService {
                 List<DishesRequest> unitList = request.getList();
                 Map<String,DishesRequest> unitMap = Maps.newHashMap();
                 for(DishesRequest req : unitList){
-                    unitMap.put(req.getId(),req);
+                    unitMap.put(req.getId().trim(),req);
                 }
                 for (String value : values) {
                     if (StringUtils.isNotEmpty(value)) {

@@ -133,7 +133,7 @@ response.setDateHeader("Expires",0);
                 <c:forEach items="${cateList}" var="cate">
                     <div class="pTitle" id="${cate.dishNo}">${cate.dishName}</div>
                     <c:forEach items="${cate.dishesList}" var="dish">
-                        <dl class="pContent" isMultiStyle="${dish.isMultiStyle}" multiStyle='${dish.multiStyle}' isSet='${dish.isSuite}' setData='${dish.suiteData}' dunitname="${dish.unit}" dsubcount="${dish.openIdCount}" dishid="${dish.id}" dname="${dish.dishName}" dtaste="口味" ddescribe="${dish.brief}" dmarkNum="45" dprice="${dish.price}" dishot="2" dspecialprice="${dish.price}" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
+                        <dl class="pContent" isMultiStyle="${dish.isMultiStyle}" multiStyle='${dish.multiStyle}' isSet='${dish.isSuite}' setData='${dish.suiteData}' dunitname="${dish.unit}" dsubcount="${dish.openIdCount}" dishid="${dish.id}" dname="${dish.dishName}" dtaste="口味" ddescribe='${dish.brief}' dmarkNum="45" dprice="${dish.price}" dishot="2" dspecialprice="${dish.price}" disspecial="是否特价" shopinfo="" style="padding-left:60px;">
                             <dt><h3>${dish.dishName}</h3></dt>
 
                             <dd>
@@ -188,7 +188,7 @@ response.setDateHeader("Expires",0);
  <li style="list-style-type:none;"><img src="/static/meal/images/sales.png"/><span >&nbsp;月售 ${monthSale} 份</span></li>
  <li style="list-style-type:none;"><img src="/static/meal/images/timer.png"/><span >&nbsp;${rest.businessTime}</span></li>
  <li style="list-style-type:none;height:41px"><img style="float:left;margin-top:14px" src="/static/meal/images/position.png"/>
- <script>var width= window.innerWidth-54;document.write('<span style="margin-left:16px;float:left;width:'+ width+'px">');</script>
+ <script>var width= window.innerWidth-74;document.write('<span style="margin-left:16px;float:left;width:'+ width+'px">');</script>
  ${rest.address}</span></li>
  <li style="list-style-type:none;clear:both"><img style="margin-left:0px" src="/static/meal/images/tel.png"/><span >&nbsp;${rest.tel}</span><a href="tel://${rest.tel}"><i class="fa fa-angle-right"></i></a></li>
 </ul>
@@ -510,7 +510,7 @@ response.setDateHeader("Expires",0);
    	      $(n.data).each(function(ii,nn){
 		    baseHtml += '<li class="{2}" attrid="{0}" addPrice="{3}" >{1}</li>'.format(nn.id,nn.name,className,nn.addPrice);
 		 });
-		 baseHtml = '<ul>{0}</ul>'.format(baseHtml);
+		 baseHtml = '<ul multiselect="{1}">{0}</ul>'.format(baseHtml,$(n).attr('multiselect'));
 		 
 		 html += multiStyleBaseTemplate.format(n.name, baseHtml,n.id);
 	   });
@@ -535,7 +535,9 @@ response.setDateHeader("Expires",0);
 			 }
 			 else
 			 {
-			  var subStyle = parentNode.children('ul').eq(i).children('.redborder').attr('attrid');
+			  var subStyle = [];  parentNode.children('ul').eq(i).children('.redborder').each(function(ii,nn){
+				subStyle.push($(nn).attr('attrid').trim());  
+			  })
 			  var styleId = parentNode.children('.subtitle').eq(i).attr('attrid');
 			  dishStyleList[styleId] = subStyle;
 			 }
@@ -564,8 +566,18 @@ response.setDateHeader("Expires",0);
 		$('.bottom-price').text((orgPrice +accAddPrice).toFixed(2)) 
 	   }
 	   $('.multiStyle ul li').click(function(){
+		if($(this).parent().attr('multiselect') == "true")
+		{
+			if($(this).hasClass('redborder'))
+				$(this).removeClass('redborder');
+			else
+				$(this).addClass('redborder')
+		}	
+        else
+        {			
 	    $(this).parent().children('li').removeClass('redborder');
 		$(this).addClass('redborder');
+		}
 		refreshBottomPrice();
 	   });
 	   var modal = document.getElementByClass('mModal1')[0]; // 弹窗dom对象
