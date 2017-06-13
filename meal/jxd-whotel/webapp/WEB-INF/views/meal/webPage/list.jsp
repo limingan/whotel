@@ -72,7 +72,7 @@ response.setDateHeader("Expires",0);
 <script type="text/javascript" src="/static/meal/js/unslider.min.js"></script>
 <script src="/static/meal/js/jquery.fly.min.js"></script>
 </head>
-<body id="page_allMenu" style="background-color: #fff;height:100%">
+<body id="page_allMenu" style="background-color: #fff;height:100%;overflow-x:hidden">
 
 <div class="ddb-nav-header ng-scope">
     <a class="nav-left-item" href="javascript:void(0)" onclick="clearAndGoBack()"><i class="fa fa-angle-left"></i></a>
