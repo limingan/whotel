@@ -130,7 +130,7 @@
                        if (end == -1)
                         end = document.cookie.length;
                         //unescape() 函数可对通过 escape() 编码的字符串进行解码。
-                       returnvalue=unescape(document.cookie.substring(sd, end))
+                       returnvalue=decodeURI(document.cookie.substring(sd, end))
                      }
                   } 
                   return returnvalue;
@@ -155,7 +155,7 @@
 	             allDishObject = eval('('+ get_cookie('dishList')+')');
 	             allDishCategoryList = eval('('+ get_cookie('categoryList')+')');
 				 $('#guestNum').val(get_cookie('guestNum'));
-				 $('#remark').val(get_cookie('remark'));
+				 $('#remark').val(decodeURI(get_cookie('remark')));
 	             refreshCategoryPrice(allDishCategoryList , allDishObject, totalCount ,totalPrice);
 				  var dishList = get_cookie('dishList');
 				  dishList = eval('('+dishList+')');
@@ -267,7 +267,7 @@
 		document.cookie = "guestNum=" + $('#guestNum').val();	
 	})
 	$('#remark').change(function(){
-		document.cookie = "remark=" + $('#remark').val();	
+		document.cookie = "remark=" + encodeURI($('#remark').val());	
 	})
    $('#guestNum').blur(function(){
 	   var num = 0;
@@ -637,7 +637,7 @@ function postmain() {
 			}
 			var orderData = {};
             orderData['tabId'] = $("#tabId").val();
-			orderData['remark'] = $("#remark").val();
+			orderData['remark'] = encodeURI($("#remark").val());
 			orderData['guestNum'] = parseInt($("#guestNum").val());
 			orderData['mealOrderType'] = 'IN';
             orderData['payAfter'] = $("#payAfter").val();

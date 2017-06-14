@@ -15,6 +15,7 @@ import com.whotel.common.enums.*;
 import com.whotel.common.util.BeanUtil;
 import com.whotel.common.util.DateUtil;
 import com.whotel.common.util.EncryptUtil;
+import com.whotel.common.util.URLUtil;
 import com.whotel.company.entity.Company;
 import com.whotel.company.entity.PublicNo;
 import com.whotel.company.enums.ModuleType;
@@ -55,7 +56,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -756,6 +759,9 @@ public class MealController extends FanBaseController {
         }
         if (null == param.getMealOrderType()) {
             param.setMealOrderType(MealOrderType.IN);
+        }
+        if(StringUtils.isNotBlank(param.getRemark())){
+            param.setRemark(URLUtil.decode(param.getRemark()));
         }
 
         ResultData resultData = new ResultData();
